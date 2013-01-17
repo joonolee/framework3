@@ -389,6 +389,18 @@ public class RDUtil {
 	}
 
 	/**
+	 * 캐리지리턴, 라인피드 문자들을 변환하여준다.
+	 * 
+	 * @param str 변환할 문자열
+	 */
+	private static String _escapeRD(String str) {
+		if (str == null) {
+			return "";
+		}
+		return str.replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n");
+	}
+
+	/**
 	 * RD(리포트디자이너) 용 Row 문자열 생성
 	 */
 	private static String _rdRowStr(Map<String, Object> map, String colSep) {
@@ -396,7 +408,7 @@ public class RDUtil {
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object value = entry.getValue();
 			if (value != null) {
-				buffer.append(value.toString());
+				buffer.append(_escapeRD(value.toString()));
 			}
 			buffer.append(colSep);
 		}
@@ -410,7 +422,7 @@ public class RDUtil {
 		StringBuilder buffer = new StringBuilder();
 		for (int c = 0; c < colNms.length; c++) {
 			if (rs.get(colNms[c]) != null) {
-				buffer.append(rs.getString(colNms[c]));
+				buffer.append(_escapeRD(rs.getString(colNms[c])));
 			}
 			buffer.append(colSep);
 		}
@@ -422,7 +434,7 @@ public class RDUtil {
 		try {
 			for (int c = 0; c < colNms.length; c++) {
 				if (rs.getObject(colNms[c]) != null) {
-					buffer.append(rs.getString(colNms[c]));
+					buffer.append(_escapeRD(rs.getString(colNms[c])));
 				}
 				buffer.append(colSep);
 			}
