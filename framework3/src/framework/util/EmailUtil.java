@@ -18,6 +18,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 /**
  * JavaMail을 이용해 메일을 발송하는 유틸리티 클래스이다.
@@ -302,7 +303,7 @@ public class EmailUtil {
 					BodyPart fileBodyPart = new MimeBodyPart();
 					FileDataSource fds = new FileDataSource(f);
 					fileBodyPart.setDataHandler(new DataHandler(fds));
-					fileBodyPart.setFileName(f.getName());
+					fileBodyPart.setFileName(MimeUtility.encodeText(f.getName(), charset, "B"));
 					multipart.addBodyPart(fileBodyPart);
 				}
 				message.setContent(multipart);
