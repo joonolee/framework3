@@ -393,8 +393,8 @@ public abstract class Controller {
 	 * 생성된 컨넥션의 autoCommit 속성은 false 로 셋팅된다.
 	 * @return 연결관리자(컨넥션 매니저) 객체
 	 */
-	protected ConnectionManager getConnection() {
-		return getConnection("default");
+	protected ConnectionManager getConnectionManager() {
+		return getConnectionManager("default");
 	}
 
 	/** 
@@ -407,7 +407,7 @@ public abstract class Controller {
 	 * @param serviceName 서비스명(업무명)
 	 * @return 연결관리자(컨넥션 매니저) 객체
 	 */
-	protected ConnectionManager getConnection(String serviceName) {
+	protected ConnectionManager getConnectionManager(String serviceName) {
 		if (!_connMgrMap.containsKey(serviceName)) {
 			String dsName = null;
 			String jdbcDriver = null;
