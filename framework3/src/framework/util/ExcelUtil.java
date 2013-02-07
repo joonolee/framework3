@@ -26,8 +26,11 @@ import java.util.Set;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.crypt.Decryptor;
+import org.apache.poi.poifs.crypt.EncryptionInfo;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -75,6 +78,30 @@ public class ExcelUtil {
 	}
 
 	/**
+	 * 암호화된 엑셀파일을 파싱한다.
+	 * @param fileItem 파일아이템
+	 * @param password 비밀번호
+	 * @return 데이터의 리스트
+	 * @throws Exception
+	 */
+	public static List<Map<String, String>> parse(FileItem fileItem, String password) {
+		String ext = FileUtil.getFileExtension(fileItem.getName());
+		InputStream is;
+		try {
+			is = fileItem.getInputStream();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		if ("xls".equalsIgnoreCase(ext)) {
+			return _parseExcel2003(is, password);
+		} else if ("xlsx".equalsIgnoreCase(ext)) {
+			return _parseExcel2007(is, password);
+		} else {
+			throw new RuntimeException("지원하지 않는 파일포맷입니다.");
+		}
+	}
+
+	/**
 	 * 확장자에 의해서 엑셀파일을 파싱한다.
 	 * @param file 파일
 	 * @return 데이터의 리스트
@@ -93,6 +120,35 @@ public class ExcelUtil {
 					return _parseExcel2003(fis);
 				} else if ("xlsx".equalsIgnoreCase(ext)) {
 					return _parseExcel2007(fis);
+				} else {
+					throw new RuntimeException("지원하지 않는 파일포맷입니다.");
+				}
+			} finally {
+				if (fis != null) {
+					fis.close();
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 암호화된 엑셀파일을 파싱한다.
+	 * @param file 파일
+	 * @return 데이터의 리스트
+	 * @throws Exception
+	 */
+	public static List<Map<String, String>> parse(File file, String password) {
+		FileInputStream fis = null;
+		try {
+			try {
+				String ext = FileUtil.getFileExtension(file);
+				fis = new FileInputStream(file);
+				if ("xls".equalsIgnoreCase(ext)) {
+					return _parseExcel2003(fis, password);
+				} else if ("xlsx".equalsIgnoreCase(ext)) {
+					return _parseExcel2007(fis, password);
 				} else {
 					throw new RuntimeException("지원하지 않는 파일포맷입니다.");
 				}
@@ -1016,11 +1072,40 @@ public class ExcelUtil {
 		return _parseSheet(sheet);
 	}
 
+	private static List<Map<String, String>> _parseExcel2003(InputStream is, String password) {
+		POIFSFileSystem poiFileSystem;
+		HSSFSheet sheet;
+		try {
+			poiFileSystem = new POIFSFileSystem(is);
+			Biff8EncryptionKey.setCurrentUserPassword(password);
+			HSSFWorkbook workbook = new HSSFWorkbook(poiFileSystem);
+			Biff8EncryptionKey.setCurrentUserPassword(null);
+			sheet = workbook.getSheetAt(0);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return _parseSheet(sheet);
+	}
+
 	private static List<Map<String, String>> _parseExcel2007(InputStream is) {
 		XSSFWorkbook workbook;
 		try {
 			workbook = new XSSFWorkbook(is);
 		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return _parseSheet(workbook.getSheetAt(0));
+	}
+
+	private static List<Map<String, String>> _parseExcel2007(InputStream is, String password) {
+		XSSFWorkbook workbook;
+		try {
+			POIFSFileSystem fs = new POIFSFileSystem(is);
+			EncryptionInfo info = new EncryptionInfo(fs);
+			Decryptor d = new Decryptor(info);
+			d.verifyPassword(password);
+			workbook = new XSSFWorkbook(d.getDataStream(fs));
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		return _parseSheet(workbook.getSheetAt(0));
