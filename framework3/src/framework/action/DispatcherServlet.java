@@ -102,29 +102,27 @@ public class DispatcherServlet extends HttpServlet {
 
 	private void _processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String pgm = _getPgmName(request);
-			if (pgm == null)
-				throw new RuntimeException("controllerName are null!");
-			String[] controllerAndAction = _getControllerAndAction(pgm);
-			if (controllerAndAction == null) {
+			String controllerKey = _getControllerKey(request);
+			if (controllerKey == null)
+				throw new RuntimeException("controllerKey are null!");
+			String controllerClassName = _getControllerClassName(controllerKey);
+			if (controllerClassName == null) {
 				if (_404Page != null && !"".equals(_404Page)) {
 					getServletContext().getRequestDispatcher(response.encodeURL(_404Page)).forward(request, response);
 				} else {
 					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				}
 			} else {
-				String controller = controllerAndAction[0];
-				String action = controllerAndAction[1];
-				Class<?> controllerClass = Class.forName(controller);
-				Controller clazz = (Controller) controllerClass.newInstance();
+				Class<?> controllerClass = Class.forName(controllerClassName);
+				Controller controller = (Controller) controllerClass.newInstance();
 				long currTime = 0;
 				if (_getLogger().isDebugEnabled()) {
 					currTime = System.currentTimeMillis();
-					_getLogger().debug("Start [ Pgm : " + pgm + " | Controller : " + controller + " | Action : " + action + " ]");
+					_getLogger().debug("Start [ Pgm : " + controllerKey + " | Controller : " + controller + " ]");
 				}
-				clazz.execute(this, request, response, action);
+				controller.execute(this, request, response);
 				if (_getLogger().isDebugEnabled()) {
-					_getLogger().debug("End [ Pgm : " + pgm + " | Controller : " + controller + " | Action : " + action + " ] TIME : " + (System.currentTimeMillis() - currTime) + "msec");
+					_getLogger().debug("End [ Pgm : " + controllerKey + " | Controller : " + controller + " ] TIME : " + (System.currentTimeMillis() - currTime) + "msec");
 				}
 			}
 		} catch (Exception e) {
@@ -136,19 +134,8 @@ public class DispatcherServlet extends HttpServlet {
 			}
 		}
 	}
-
-	private String[] _getControllerAndAction(String controllerKey) {
-		try {
-			ResourceBundle bundle = (ResourceBundle) getServletContext().getAttribute("routes-mapping");
-			String value = ((String) bundle.getObject(controllerKey)).trim();
-			int period = value.lastIndexOf(".");
-			return new String[] { value.substring(0, period), value.substring(period + 1) };
-		} catch (MissingResourceException e) {
-			return null;
-		}
-	}
-
-	private String _getPgmName(HttpServletRequest request) {
+	
+	private String _getControllerKey(HttpServletRequest request) {
 		String path = request.getServletPath();
 		int slash = path.lastIndexOf("/");
 		int period = path.lastIndexOf(".");
@@ -157,6 +144,15 @@ public class DispatcherServlet extends HttpServlet {
 			return path;
 		}
 		return null;
+	}
+
+	private String _getControllerClassName(String controllerKey) {
+		try {
+			ResourceBundle bundle = (ResourceBundle) getServletContext().getAttribute("routes-mapping");
+			return ((String) bundle.getObject(controllerKey)).trim();
+		} catch (MissingResourceException e) {
+			return null;
+		}
 	}
 
 	private Log _getLogger() {

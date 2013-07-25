@@ -78,9 +78,8 @@ public abstract class Controller {
 	 * @param servlet 서블릿 객체
 	 * @param request 클라이언트에서 요청된 Request객체
 	 * @param response 클라이언트로 응답할 Response객체
-	 * @param methodName 호출할 메소드명
 	 */
-	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, String methodName) {
+	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) {
 		_setServlet(servlet);
 		_setRequest(request);
 		_setParams(request);
@@ -88,8 +87,10 @@ public abstract class Controller {
 		_setResponse(response);
 		_setOut(response);
 		try {
-			Method method = _getMethod(methodName);
+			Method method = _getMethod(params.getString("action"));
+			before();
 			method.invoke(this, (Object[]) null);
+			after();
 		} catch (Exception e) {
 			logger.error("Controller execute error!", e);
 			throw new RuntimeException(e);
@@ -97,6 +98,18 @@ public abstract class Controller {
 			_destroy();
 		}
 	}
+	
+	/**
+	 * 액션메소드가 호출되기 직전에 호출된다.
+	 * 컨트롤러 클래스에서 오버라이드 하면 자동 호출된다.
+	 */
+	protected void before() {}
+	
+	/**
+	 * 액션메소드가 호출되고난 직후에 호출된다.
+	 * 컨트롤러 클래스에서 오버라이드 하면 자동 호출된다.
+	 */
+	protected void after() {}
 
 	/**
 	 * 요청을 JSP페이지로 포워드(Forward) 한다.
@@ -546,6 +559,12 @@ public abstract class Controller {
 	}
 
 	private Method _getMethod(String methodName) {
+		if (methodName == null || "".equals(methodName.trim())) {
+			methodName = "index";
+		}
+		if (methodName.startsWith("_")) { // 언더바로 시작하는 함수는 호출 불가
+			throw new IllegalArgumentException("Can not find method named '" + methodName + "' ");
+		}
 		Method m = _getMethod(getClass(), methodName);
 		if (m == null) {
 			throw new IllegalArgumentException("Can not find method named '" + methodName + "' ");
