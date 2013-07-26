@@ -104,11 +104,11 @@ public class DispatcherServlet extends HttpServlet {
 		try {
 			String controllerKey = _getControllerKey(request);
 			if (controllerKey == null) {
-				throw new NotFoundException();
+				throw new NotFoundException("controller key");
 			}
 			String controllerClassName = _getControllerClassName(controllerKey);
 			if (controllerClassName == null) {
-				throw new NotFoundException();
+				throw new NotFoundException("controller class");
 			} else {
 				Class<?> controllerClass = Class.forName(controllerClassName);
 				Controller controller = (Controller) controllerClass.newInstance();
@@ -123,13 +123,14 @@ public class DispatcherServlet extends HttpServlet {
 				}
 			}
 		} catch (NotFoundException e) {
+			_getLogger().error("Not Found Error [ " + e.getMessage() + " ]");
 			if (_404Page != null && !"".equals(_404Page)) {
 				getServletContext().getRequestDispatcher(response.encodeURL(_404Page)).forward(request, response);
 			} else {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			}
 		} catch (Exception e) {
-			_getLogger().error(e.getMessage());
+			_getLogger().error("Server Error [ " + e.getMessage() + " ]");
 			if (_500Page != null && !"".equals(_500Page)) {
 				getServletContext().getRequestDispatcher(response.encodeURL(_500Page)).forward(request, response);
 			} else {
