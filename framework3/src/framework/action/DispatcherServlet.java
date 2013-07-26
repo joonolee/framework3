@@ -103,15 +103,12 @@ public class DispatcherServlet extends HttpServlet {
 	private void _processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String controllerKey = _getControllerKey(request);
-			if (controllerKey == null)
-				throw new RuntimeException("controllerKey are null!");
+			if (controllerKey == null) {
+				throw new NotFoundException();
+			}
 			String controllerClassName = _getControllerClassName(controllerKey);
 			if (controllerClassName == null) {
-				if (_404Page != null && !"".equals(_404Page)) {
-					getServletContext().getRequestDispatcher(response.encodeURL(_404Page)).forward(request, response);
-				} else {
-					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				}
+				throw new NotFoundException();
 			} else {
 				Class<?> controllerClass = Class.forName(controllerClassName);
 				Controller controller = (Controller) controllerClass.newInstance();
@@ -125,6 +122,12 @@ public class DispatcherServlet extends HttpServlet {
 					_getLogger().debug("End [ Pgm : " + controllerKey + " | Controller : " + controller + " ] TIME : " + (System.currentTimeMillis() - currTime) + "msec");
 				}
 			}
+		} catch (NotFoundException e) {
+			if (_404Page != null && !"".equals(_404Page)) {
+				getServletContext().getRequestDispatcher(response.encodeURL(_404Page)).forward(request, response);
+			} else {
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			}
 		} catch (Exception e) {
 			_getLogger().error(e.getMessage());
 			if (_500Page != null && !"".equals(_500Page)) {
@@ -134,7 +137,7 @@ public class DispatcherServlet extends HttpServlet {
 			}
 		}
 	}
-	
+
 	private String _getControllerKey(HttpServletRequest request) {
 		String path = request.getServletPath();
 		int slash = path.lastIndexOf("/");

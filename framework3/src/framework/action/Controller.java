@@ -98,18 +98,20 @@ public abstract class Controller {
 			_destroy();
 		}
 	}
-	
+
 	/**
 	 * 액션메소드가 호출되기 직전에 호출된다.
 	 * 컨트롤러 클래스에서 오버라이드 하면 자동 호출된다.
 	 */
-	protected void before() {}
-	
+	protected void before() {
+	}
+
 	/**
 	 * 액션메소드가 호출되고난 직후에 호출된다.
 	 * 컨트롤러 클래스에서 오버라이드 하면 자동 호출된다.
 	 */
-	protected void after() {}
+	protected void after() {
+	}
 
 	/**
 	 * 요청을 JSP페이지로 포워드(Forward) 한다.
@@ -559,24 +561,23 @@ public abstract class Controller {
 	}
 
 	private Method _getMethod(String methodName) {
-		if (methodName == null || "".equals(methodName.trim())) {
-			methodName = "index";
-		}
-		if (methodName.startsWith("_")) { // 언더바로 시작하는 함수는 호출 불가
-			throw new IllegalArgumentException("Can not find method named '" + methodName + "' ");
-		}
 		Method m = _getMethod(getClass(), methodName);
 		if (m == null) {
-			throw new IllegalArgumentException("Can not find method named '" + methodName + "' ");
+			throw new NotFoundException();
 		}
 		return m;
 	}
 
 	private static Method _getMethod(Class<?> clazz, String methodName) {
-		Method method[] = clazz.getMethods();
-		for (int i = 0; i < method.length; i++) {
-			if (method[i].getName().equals(methodName)) {
-				return method[i];
+		if (methodName == null || "".equals(methodName.trim())) {
+			methodName = "index";
+		}
+		if (!methodName.startsWith("_")) { // 언더바로 시작하는 함수는 호출 불가
+			Method method[] = clazz.getMethods();
+			for (int i = 0; i < method.length; i++) {
+				if (method[i].getName().equals(methodName)) {
+					return method[i];
+				}
 			}
 		}
 		return null;
