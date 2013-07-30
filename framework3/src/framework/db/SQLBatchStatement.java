@@ -37,7 +37,7 @@ public class SQLBatchStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("getStatement Error!");
-			throw new RuntimeException(e);
+			throw new DBException(e);
 		}
 		return _stmt;
 	}
@@ -50,7 +50,7 @@ public class SQLBatchStatement extends DBStatement {
 				_sqlList.clear();
 			} catch (SQLException e) {
 				getLogger().error("close Error!");
-				throw new RuntimeException(e);
+				throw new DBException(e);
 			}
 		}
 	}
@@ -78,7 +78,7 @@ public class SQLBatchStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("executeBatch Error!");
-			throw new RuntimeException(e.getMessage() + "\nSQL : \n" + getSQL());
+			throw new DBException(e.getMessage() + "\nSQL : \n" + getSQL());
 		}
 		return _upCnts;
 	}

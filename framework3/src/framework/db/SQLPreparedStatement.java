@@ -43,7 +43,7 @@ public class SQLPreparedStatement extends DBStatement {
 			clearParam();
 		} catch (SQLException e) {
 			getLogger().error("close Error!");
-			throw new RuntimeException(e);
+			throw new DBException(e);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class SQLPreparedStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("executeQuery Error!");
-			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
+			throw new DBException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
 		return _rs;
 	}
@@ -137,7 +137,7 @@ public class SQLPreparedStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("executeUpdate Error!");
-			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
+			throw new DBException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
 		return _upCnt;
 	}
@@ -173,7 +173,7 @@ public class SQLPreparedStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("getPrepareStatment Error!");
-			throw new RuntimeException(e);
+			throw new DBException(e);
 		}
 		return _pstmt;
 	}
