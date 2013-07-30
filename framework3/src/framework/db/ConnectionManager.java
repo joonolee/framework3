@@ -41,7 +41,7 @@ public class ConnectionManager {
 					InitialContext ctx = new InitialContext();
 					ds = (DataSource) ctx.lookup(dsName);
 				} catch (NamingException e) {
-					throw new DBException(e);
+					throw new RuntimeException(e);
 				}
 				_dsMap.put(dsName, ds);
 			}
@@ -76,7 +76,7 @@ public class ConnectionManager {
 		try {
 			getRawConnection().commit();
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -84,7 +84,7 @@ public class ConnectionManager {
 		try {
 			setConnection(_dsMap.get(_dsName).getConnection());
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new RuntimeException(e);
 		}
 		if (_getLogger().isDebugEnabled()) {
 			_getLogger().debug("DB연결 성공! => " + _dsName);
@@ -96,7 +96,7 @@ public class ConnectionManager {
 			DriverManager.registerDriver((Driver) Class.forName(jdbcDriver).newInstance());
 			setConnection(DriverManager.getConnection(url, userID, userPW));
 		} catch (Exception e) {
-			throw new DBException(e);
+			throw new RuntimeException(e);
 		}
 		if (_getLogger().isDebugEnabled()) {
 			_getLogger().debug("DB연결 성공! => " + url);

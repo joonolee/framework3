@@ -15,7 +15,6 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 
-import framework.db.DBException;
 import framework.db.RecordSet;
 
 /**
@@ -415,7 +414,7 @@ public class XmlUtil {
 			try {
 				value = rs.getObject(colNms[c]);
 			} catch (SQLException e) {
-				throw new DBException(e);
+				throw new RuntimeException(e);
 			}
 			if (value == null) {
 				buffer.append("<" + colNms[c].toLowerCase() + ">" + "</" + colNms[c].toLowerCase() + ">");

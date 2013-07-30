@@ -51,7 +51,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("getPrepareStatment Error!");
-			throw new DBException(e);
+			throw new RuntimeException(e);
 		}
 		return _pstmt;
 	}
@@ -66,7 +66,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 			clearParamList();
 		} catch (SQLException e) {
 			getLogger().error("close Error!");
-			throw new DBException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("executeQuery Error!");
-			throw new DBException(e.getMessage() + "\nSQL : " + getQueryString());
+			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
 		return _upCnts;
 	}

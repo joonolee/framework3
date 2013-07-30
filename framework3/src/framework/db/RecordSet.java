@@ -100,7 +100,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 				rs.close();
 			}
 		} catch (SQLException e) {
-			throw new DBException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -557,7 +557,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	 */
 	public int findColumn(String name) {
 		if (name == null || _colNms == null) {
-			throw new DBException("name or column_keys is null ");
+			throw new RuntimeException("name or column_keys is null ");
 		}
 		int count = _colNms.length;
 		for (int i = 0; i < count; i++) {
@@ -565,7 +565,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 				return i + 1;
 			}
 		}
-		throw new DBException("name : " + name + " is not found ");
+		throw new RuntimeException("name : " + name + " is not found ");
 	}
 
 	/**

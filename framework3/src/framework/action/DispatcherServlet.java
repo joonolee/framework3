@@ -104,11 +104,11 @@ public class DispatcherServlet extends HttpServlet {
 		try {
 			String controllerKey = _getControllerKey(request);
 			if (controllerKey == null) {
-				throw new NotFoundException("controller key");
+				throw new _404Exception("controller key");
 			}
 			String controllerClassName = _getControllerClassName(controllerKey);
 			if (controllerClassName == null) {
-				throw new NotFoundException("controller class");
+				throw new _404Exception("controller class");
 			} else {
 				Class<?> controllerClass = Class.forName(controllerClassName);
 				Controller controller = (Controller) controllerClass.newInstance();
@@ -122,7 +122,7 @@ public class DispatcherServlet extends HttpServlet {
 					_getLogger().debug("End [ Controller : " + controllerKey + " | ClassName : " + controllerClassName + " ] TIME : " + (System.currentTimeMillis() - currTime) + "msec");
 				}
 			}
-		} catch (NotFoundException e) {
+		} catch (_404Exception e) {
 			_getLogger().error("Not Found Error [ " + e.getMessage() + " ]");
 			if (_404Page != null && !"".equals(_404Page)) {
 				getServletContext().getRequestDispatcher(response.encodeURL(_404Page)).forward(request, response);

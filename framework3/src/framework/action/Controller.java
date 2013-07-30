@@ -90,7 +90,7 @@ public abstract class Controller {
 		try {
 			Method method = _getMethod(params.getString("action"));
 			if (method == null) {
-				throw new NotFoundException("action");
+				throw new _404Exception("action");
 			}
 			before();
 			method.invoke(this, (Object[]) null);

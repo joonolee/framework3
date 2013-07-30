@@ -39,7 +39,7 @@ public class HttpUtil {
 	/**
 	 * url 을 Get 방식으로 호출하고 결과를 리턴한다.
 	 * @param url
-	 * @return 괄과문자열
+	 * @return 결과문자열
 	 */
 	public static String GET(String url) {
 		try {
@@ -59,7 +59,7 @@ public class HttpUtil {
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
 	 * @param url
-	 * @return 괄과문자열
+	 * @return 결과문자열
 	 */
 	public static String POST(String url) {
 		return POST(url, null);
@@ -93,7 +93,7 @@ public class HttpUtil {
 	 * @param url
 	 * @param paramMap
 	 * @param fileList
-	 * @return 괄과문자열
+	 * @return 결과문자열
 	 */
 	public static String POST(String url, Map<String, String> paramMap, List<File> fileList) {
 		try {

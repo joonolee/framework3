@@ -34,7 +34,7 @@ public class SQLStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("getStatement Error!");
-			throw new DBException(e);
+			throw new RuntimeException(e);
 		}
 		return _stmt;
 	}
@@ -46,7 +46,7 @@ public class SQLStatement extends DBStatement {
 				_stmt.close();
 			} catch (SQLException e) {
 				getLogger().error("close Error!");
-				throw new DBException(e);
+				throw new RuntimeException(e);
 			}
 		}
 	}
@@ -70,7 +70,7 @@ public class SQLStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("executeQuery Error!");
-			throw new DBException(e.getMessage() + "\nSQL : " + getSQL());
+			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
 		}
 		return _rs;
 	}
@@ -108,7 +108,7 @@ public class SQLStatement extends DBStatement {
 			}
 		} catch (SQLException e) {
 			getLogger().error("executeUpdate Error!");
-			throw new DBException(e.getMessage() + "\nSQL : " + getSQL());
+			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
 		}
 		return _upCnt;
 	}
