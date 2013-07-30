@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
+import framework.db.DBException;
 import framework.db.RecordSet;
 
 /**
@@ -433,7 +434,7 @@ public class RssUtil {
 			category = rs.getString("CATEGORY");
 			pubDate = rs.getTimestamp("PUBDATE");
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			throw new DBException(e);
 		}
 		return _rssItemStr(makeRssItem(title, link, description, author, category, pubDate));
 	}

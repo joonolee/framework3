@@ -38,6 +38,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import framework.db.DBException;
 import framework.db.RecordSet;
 
 /**
@@ -995,7 +996,7 @@ public class ExcelUtil {
 			try {
 				value = rs.getObject(colNms[c]);
 			} catch (SQLException e) {
-				throw new RuntimeException(e);
+				throw new DBException(e);
 			}
 			if (rowCount++ > 0) {
 				buffer.append(sep);

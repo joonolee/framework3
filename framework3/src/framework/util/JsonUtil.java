@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.stringtree.json.JSONReader;
 import org.stringtree.json.JSONWriter;
 
+import framework.db.DBException;
 import framework.db.RecordSet;
 
 /**
@@ -417,7 +418,7 @@ public class JsonUtil {
 				try {
 					value = rs.getObject(colNms[c]);
 				} catch (SQLException e) {
-					throw new RuntimeException(e);
+					throw new DBException(e);
 				}
 				String key = "\"" + escapeJS(colNms[c].toLowerCase()) + "\"";
 
