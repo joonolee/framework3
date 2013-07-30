@@ -297,7 +297,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(String xml, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
+		setContentType("application/xml; charset=" + encoding);
 		out.write(xml);
 	}
 
@@ -319,7 +319,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(RecordSet rs, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
+		setContentType("application/xml; charset=" + encoding);
 		out.write(XmlUtil.render(rs, encoding));
 	}
 
@@ -341,7 +341,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(ResultSet rs, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
+		setContentType("application/xml; charset=" + encoding);
 		out.write(XmlUtil.render(rs, encoding));
 	}
 
@@ -363,7 +363,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(Map<String, Object> map, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
+		setContentType("application/xml; charset=" + encoding);
 		out.write(XmlUtil.render(map, encoding));
 	}
 
@@ -385,7 +385,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(List<Map<String, Object>> list, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
+		setContentType("application/xml; charset=" + encoding);
 		out.write(XmlUtil.render(list, encoding));
 	}
 
