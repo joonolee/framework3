@@ -123,14 +123,14 @@ public class DispatcherServlet extends HttpServlet {
 				}
 			}
 		} catch (_404Exception e) {
-			_getLogger().error("Not Found Error [ " + e.getMessage() + " ]");
+			_getLogger().error("404 not found [ " + e.getMessage() + " ]");
 			if (_404Page != null && !"".equals(_404Page)) {
 				getServletContext().getRequestDispatcher(response.encodeURL(_404Page)).forward(request, response);
 			} else {
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			}
 		} catch (Exception e) {
-			_getLogger().error("Server Error [ " + e.getMessage() + " ]");
+			_getLogger().error(e);
 			if (_500Page != null && !"".equals(_500Page)) {
 				getServletContext().getRequestDispatcher(response.encodeURL(_500Page)).forward(request, response);
 			} else {
