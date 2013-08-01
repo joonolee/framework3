@@ -51,6 +51,11 @@ public abstract class Controller {
 	protected Params params = null;
 
 	/**
+	 * 쿠키값을 담는 해시테이블
+	 */
+	protected Params cookies = null;
+
+	/**
 	 * 클라이언트의 세션 객체
 	 */
 	protected HttpSession session = null;
@@ -84,6 +89,7 @@ public abstract class Controller {
 		_setServlet(servlet);
 		_setRequest(request);
 		_setParams(request);
+		_setCookies(request);
 		_setSession(request.getSession());
 		_setResponse(response);
 		_setOut(response);
@@ -525,6 +531,10 @@ public abstract class Controller {
 
 	private void _setParams(HttpServletRequest req) {
 		params = Params.getParams(request);
+	}
+
+	private void _setCookies(HttpServletRequest req) {
+		cookies = Params.getParamsFromCookie(request);
 	}
 
 	private void _route(String key, boolean isForward) {
