@@ -47,7 +47,7 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
-		return _setRecordSet(response, rs);
+		return render(response, rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
@@ -61,148 +61,6 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, String colSep, String lineSep) {
-		return _setRecordSet(response, rs, colSep, lineSep);
-	}
-
-	/**
-	 * RecordSet을 RD 파일 형식으로 변환한다.
-	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
-	 * <br>
-	 * ex) rs를 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(rs)
-	 * @param rs 변환할 RecordSet 객체
-	 * @return RD 파일 형식으로 변환된 문자열
-	 */
-	public static String render(RecordSet rs) {
-		return _format(rs);
-	}
-
-	/**
-	 * RecordSet을 RD 파일 형식으로 변환한다. 
-	 * <br>
-	 * ex) rs를 열구분자 ##, 행구분자 !! 인 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(rs, "##", "!!")
-	 * @param rs 변환할 RecordSet 객체
-	 * @param colSep 열 구분자로 쓰일 문자열
-	 * @param lineSep 행 구분자로 쓰일 문자열
-	 * @return RD 파일 형식으로 변환된 문자열
-	 */
-	public static String render(RecordSet rs, String colSep, String lineSep) {
-		return _format(rs, colSep, lineSep);
-	}
-
-	/**
-	 * ResultSet을 RD 파일 형식으로 출력한다.
-	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
-	 * <br>
-	 * ex) response로 rs를 RD 파일 형식으로 출력하는 경우 => RDUtil.render(response, rs)
-	 * @param response 클라이언트로 응답할 Response 객체
-	 * @param rs RD 파일 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @return 처리건수 
-	 */
-	public static int render(HttpServletResponse response, ResultSet rs) {
-		return _setResultSet(response, rs);
-	}
-
-	/**
-	 * ResultSet을 RD 파일 형식으로 출력한다. 
-	 * <br>
-	 * ex) response로 rs를 RD 파일 형식으로 출력하는 경우 => RDUtil.render(response, rs)
-	 * @param response 클라이언트로 응답할 Response 객체
-	 * @param rs RD 파일 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @param colSep 열 구분자로 쓰일 문자열
-	 * @param lineSep 행 구분자로 쓰일 문자열
-	 * @return 처리건수
-	 */
-	public static int render(HttpServletResponse response, ResultSet rs, String colSep, String lineSep) {
-		return _setResultSet(response, rs, colSep, lineSep);
-	}
-
-	/**
-	 * ResultSet을 RD 파일 형식으로 변환한다.
-	 * 행, 열 구분자로 디폴트 구분자를 사용한다. 
-	 * <br>
-	 * ex) rs를 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(rs)
-	 * @param rs 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @return RD 파일 형식으로 변환된 문자열
-	 */
-	public static String render(ResultSet rs) {
-		return _format(rs);
-	}
-
-	/**
-	 * ResultSet을 RD 파일 형식으로 변환한다. 
-	 * <br>
-	 * ex) rs를 열구분자 ##, 행구분자 !! 인 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(rs, "##", "!!")
-	 * @param rs 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @param colSep 열 구분자로 쓰일 문자열
-	 * @param lineSep 행 구분자로 쓰일 문자열
-	 * @return RD 파일 형식으로 변환된 문자열
-	 */
-	public static String render(ResultSet rs, String colSep, String lineSep) {
-		return _format(rs, colSep, lineSep);
-	}
-
-	/**
-	 * Map객체를 RD 파일 형식으로 변환한다.
-	 * 열 구분자로 디폴트 구분자를 사용한다. 
-	 * <br>
-	 * ex) map을 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(map)
-	 * @param map 변환할 Map객체
-	 * @return RD 파일 형식으로 변환된 문자열
-	 */
-	public static String render(Map<String, Object> map) {
-		return _format(map);
-	}
-
-	/**
-	 * Map객체를 RD 파일 형식으로 변환한다. 
-	 * <br>
-	 * ex) map을 열구분자 ## 인 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(map, "##")
-	 * @param map 변환할 Map객체
-	 * @param colSep 열 구분자로 쓰일 문자열
-	 * @return RD 파일 형식으로 변환된 문자열
-	 */
-	public static String render(Map<String, Object> map, String colSep) {
-		return _format(map, colSep);
-	}
-
-	/**
-	 * List객체를 RD 파일 형식으로 변환한다.
-	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
-	 * <br>
-	 * ex1) mapList를 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(mapList)
-	 * @param mapList 변환할 List객체
-	 * @return RD 파일 형식으로 변환된 문자열
-	 */
-	public static String render(List<Map<String, Object>> mapList) {
-		return _format(mapList);
-	}
-
-	/**
-	 * List객체를 RD 파일 형식으로 변환한다. 
-	 * <br>
-	 * ex1) mapList를 열구분자 ##, 행구분자 !! 인 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(mapList, "##", "!!")
-	 * @param mapList 변환할 List객체
-	 * @param colSep 열 구분자로 쓰일 문자열
-	 * @param lineSep 행 구분자로 쓰일 문자열
-	 * @return RD 파일 형식으로 변환된 문자열
-	 */
-	public static String render(List<Map<String, Object>> mapList, String colSep, String lineSep) {
-		return _format(mapList, colSep, lineSep);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
-	/**
-	 * RecordSet을 RD 파일 형식으로 출력한다.
-	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, RecordSet rs) {
-		return _setRecordSet(response, rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
-	}
-
-	/**
-	 * RecordSet을 RD 파일 형식으로 출력한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, RecordSet rs, String colSep, String lineSep) {
 		if (rs == null) {
 			return 0;
 		}
@@ -227,15 +85,25 @@ public class RDUtil {
 	/**
 	 * RecordSet을 RD 파일 형식으로 변환한다.
 	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
+	 * <br>
+	 * ex) rs를 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(rs)
+	 * @param rs 변환할 RecordSet 객체
+	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	private static String _format(RecordSet rs) {
-		return _format(rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
+	public static String render(RecordSet rs) {
+		return render(rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
-	 * RecordSet을 RD 파일 형식으로 변환한다.
+	 * RecordSet을 RD 파일 형식으로 변환한다. 
+	 * <br>
+	 * ex) rs를 열구분자 ##, 행구분자 !! 인 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(rs, "##", "!!")
+	 * @param rs 변환할 RecordSet 객체
+	 * @param colSep 열 구분자로 쓰일 문자열
+	 * @param lineSep 행 구분자로 쓰일 문자열
+	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	private static String _format(RecordSet rs, String colSep, String lineSep) {
+	public static String render(RecordSet rs, String colSep, String lineSep) {
 		if (rs == null) {
 			return null;
 		}
@@ -255,15 +123,27 @@ public class RDUtil {
 	/**
 	 * ResultSet을 RD 파일 형식으로 출력한다.
 	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
+	 * <br>
+	 * ex) response로 rs를 RD 파일 형식으로 출력하는 경우 => RDUtil.render(response, rs)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param rs RD 파일 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @return 처리건수 
 	 */
-	private static int _setResultSet(HttpServletResponse response, ResultSet rs) {
-		return _setResultSet(response, rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
+	public static int render(HttpServletResponse response, ResultSet rs) {
+		return render(response, rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
-	 * ResultSet을 RD 파일 형식으로 출력한다.
+	 * ResultSet을 RD 파일 형식으로 출력한다. 
+	 * <br>
+	 * ex) response로 rs를 RD 파일 형식으로 출력하는 경우 => RDUtil.render(response, rs)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param rs RD 파일 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @param colSep 열 구분자로 쓰일 문자열
+	 * @param lineSep 행 구분자로 쓰일 문자열
+	 * @return 처리건수
 	 */
-	private static int _setResultSet(HttpServletResponse response, ResultSet rs, String colSep, String lineSep) {
+	public static int render(HttpServletResponse response, ResultSet rs, String colSep, String lineSep) {
 		if (rs == null) {
 			return 0;
 		}
@@ -299,16 +179,26 @@ public class RDUtil {
 
 	/**
 	 * ResultSet을 RD 파일 형식으로 변환한다.
-	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
+	 * 행, 열 구분자로 디폴트 구분자를 사용한다. 
+	 * <br>
+	 * ex) rs를 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(rs)
+	 * @param rs 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	private static String _format(ResultSet rs) {
-		return _format(rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
+	public static String render(ResultSet rs) {
+		return render(rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
-	 * ResultSet을 RD 파일 형식으로 변환한다.
+	 * ResultSet을 RD 파일 형식으로 변환한다. 
+	 * <br>
+	 * ex) rs를 열구분자 ##, 행구분자 !! 인 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(rs, "##", "!!")
+	 * @param rs 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @param colSep 열 구분자로 쓰일 문자열
+	 * @param lineSep 행 구분자로 쓰일 문자열
+	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	private static String _format(ResultSet rs, String colSep, String lineSep) {
+	public static String render(ResultSet rs, String colSep, String lineSep) {
 		if (rs == null) {
 			return null;
 		}
@@ -344,16 +234,25 @@ public class RDUtil {
 
 	/**
 	 * Map객체를 RD 파일 형식으로 변환한다.
-	 * 열 구분자로 디폴트 구분자를 사용한다.
+	 * 열 구분자로 디폴트 구분자를 사용한다. 
+	 * <br>
+	 * ex) map을 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(map)
+	 * @param map 변환할 Map객체
+	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	private static String _format(Map<String, Object> map) {
-		return _format(map, DEFAULT_COLSEP);
+	public static String render(Map<String, Object> map) {
+		return render(map, DEFAULT_COLSEP);
 	}
 
 	/**
-	 * Map객체를 RD 파일 형식으로 변환한다.
+	 * Map객체를 RD 파일 형식으로 변환한다. 
+	 * <br>
+	 * ex) map을 열구분자 ## 인 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(map, "##")
+	 * @param map 변환할 Map객체
+	 * @param colSep 열 구분자로 쓰일 문자열
+	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	private static String _format(Map<String, Object> map, String colSep) {
+	public static String render(Map<String, Object> map, String colSep) {
 		if (map == null) {
 			return null;
 		}
@@ -365,15 +264,25 @@ public class RDUtil {
 	/**
 	 * List객체를 RD 파일 형식으로 변환한다.
 	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
+	 * <br>
+	 * ex1) mapList를 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(mapList)
+	 * @param mapList 변환할 List객체
+	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	private static String _format(List<Map<String, Object>> mapList) {
-		return _format(mapList, DEFAULT_COLSEP, DEFAULT_LINESEP);
+	public static String render(List<Map<String, Object>> mapList) {
+		return render(mapList, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
-	 * List객체를 RD 파일 형식으로 변환한다.
+	 * List객체를 RD 파일 형식으로 변환한다. 
+	 * <br>
+	 * ex1) mapList를 열구분자 ##, 행구분자 !! 인 RD 파일 형식으로 변환하는 경우 => String rd = RDUtil.render(mapList, "##", "!!")
+	 * @param mapList 변환할 List객체
+	 * @param colSep 열 구분자로 쓰일 문자열
+	 * @param lineSep 행 구분자로 쓰일 문자열
+	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	private static String _format(List<Map<String, Object>> mapList, String colSep, String lineSep) {
+	public static String render(List<Map<String, Object>> mapList, String colSep, String lineSep) {
 		if (mapList == null) {
 			return null;
 		}
@@ -387,6 +296,8 @@ public class RDUtil {
 		}
 		return buffer.toString();
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	/**
 	 * 캐리지리턴, 라인피드 문자들을 변환하여준다.

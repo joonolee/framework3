@@ -43,7 +43,7 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
-		return _setRecordSet(response, rs);
+		return render(response, "", rs);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String datasetName, RecordSet rs) {
-		return _setRecordSet(response, datasetName, rs);
+		return render(response, new String[] { datasetName }, new RecordSet[] { rs });
 	}
 
 	/**
@@ -69,7 +69,21 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray) {
-		return _setRecordSet(response, datasetNameArray, rsArray);
+		if (datasetNameArray.length != rsArray.length)
+			throw new IllegalArgumentException("DataSet이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		int rowCount = 0;
+		try {
+			GauceOutputStream gos = getGOS(response);
+			for (int i = 0, len = rsArray.length; i < len; i++) {
+				GauceDataSet dSet = new GauceDataSet(datasetNameArray[i]);
+				gos.fragment(dSet);
+				rowCount += _appendDataSet(dSet, rsArray[i]);
+				gos.write(dSet);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
 	}
 
 	/**
@@ -82,7 +96,7 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet dSet, RecordSet rs) {
-		return _setRecordSet(response, dSet, rs);
+		return render(response, new GauceDataSet[] { dSet }, new RecordSet[] { rs });
 	}
 
 	/**
@@ -95,7 +109,21 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet[] dSetArray, RecordSet[] rsArray) {
-		return _setRecordSet(response, dSetArray, rsArray);
+		if (dSetArray.length != rsArray.length)
+			throw new IllegalArgumentException("DataSet 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		int rowCount = 0;
+		try {
+			GauceOutputStream gos = getGOS(response);
+			for (int i = 0, len = rsArray.length; i < len; i++) {
+				GauceDataSet dSet = dSetArray[i];
+				gos.fragment(dSet);
+				rowCount += _appendDataSet(dSet, rsArray[i]);
+				gos.write(dSet);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
 	}
 
 	/**
@@ -107,7 +135,7 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
-		return _setResultSet(response, rs);
+		return render(response, "", rs);
 	}
 
 	/**
@@ -120,7 +148,7 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String datasetName, ResultSet rs) {
-		return _setResultSet(response, datasetName, rs);
+		return render(response, new String[] { datasetName }, new ResultSet[] { rs });
 	}
 
 	/**
@@ -133,7 +161,21 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray) {
-		return _setResultSet(response, datasetNameArray, rsArray);
+		if (datasetNameArray.length != rsArray.length)
+			throw new IllegalArgumentException("DataSet이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		int rowCount = 0;
+		try {
+			GauceOutputStream gos = getGOS(response);
+			for (int i = 0, len = rsArray.length; i < len; i++) {
+				GauceDataSet dSet = new GauceDataSet(datasetNameArray[i]);
+				gos.fragment(dSet);
+				rowCount += _appendDataSet(dSet, rsArray[i]);
+				gos.write(dSet);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
 	}
 
 	/**
@@ -146,7 +188,7 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet dSet, ResultSet rs) {
-		return _setResultSet(response, dSet, rs);
+		return render(response, new GauceDataSet[] { dSet }, new ResultSet[] { rs });
 	}
 
 	/**
@@ -159,7 +201,21 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet[] dSetArray, ResultSet[] rsArray) {
-		return _setResultSet(response, dSetArray, rsArray);
+		if (dSetArray.length != rsArray.length)
+			throw new IllegalArgumentException("DataSet 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		int rowCount = 0;
+		try {
+			GauceOutputStream gos = getGOS(response);
+			for (int i = 0, len = rsArray.length; i < len; i++) {
+				GauceDataSet dSet = dSetArray[i];
+				gos.fragment(dSet);
+				rowCount += _appendDataSet(dSet, rsArray[i]);
+				gos.write(dSet);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
 	}
 
 	/**
@@ -246,68 +302,6 @@ public class GauceUtil {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////// Private 메소드
-	/**
-	 * RecordSet을 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, RecordSet rs) {
-		return _setRecordSet(response, "", rs);
-	}
-
-	/**
-	 * RecordSet을 가우스 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, String datasetName, RecordSet rs) {
-		return _setRecordSet(response, new String[] { datasetName }, new RecordSet[] { rs });
-	}
-
-	/**
-	 * RecordSet을 가우스 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray) {
-		if (datasetNameArray.length != rsArray.length)
-			throw new IllegalArgumentException("DataSet이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
-		int rowCount = 0;
-		try {
-			GauceOutputStream gos = getGOS(response);
-			for (int i = 0, len = rsArray.length; i < len; i++) {
-				GauceDataSet dSet = new GauceDataSet(datasetNameArray[i]);
-				gos.fragment(dSet);
-				rowCount += _appendDataSet(dSet, rsArray[i]);
-				gos.write(dSet);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return rowCount;
-	}
-
-	/**
-	 * RecordSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, GauceDataSet dSet, RecordSet rs) {
-		return _setRecordSet(response, new GauceDataSet[] { dSet }, new RecordSet[] { rs });
-	}
-
-	/**
-	 * RecordSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, GauceDataSet[] dSetArray, RecordSet[] rsArray) {
-		if (dSetArray.length != rsArray.length)
-			throw new IllegalArgumentException("DataSet 갯수와 RecordSet갯수가 일치하지 않습니다.");
-		int rowCount = 0;
-		try {
-			GauceOutputStream gos = getGOS(response);
-			for (int i = 0, len = rsArray.length; i < len; i++) {
-				GauceDataSet dSet = dSetArray[i];
-				gos.fragment(dSet);
-				rowCount += _appendDataSet(dSet, rsArray[i]);
-				gos.write(dSet);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return rowCount;
-	}
 
 	/**
 	 * RecordSet을 가우스 데이타셋으로 변환한다.
@@ -326,69 +320,6 @@ public class GauceUtil {
 		while (rs.nextRow()) {
 			rowCount++;
 			_appendRow(dSet, rs, colNms, colInfo, colSize, colSizeReal, colScale);
-		}
-		return rowCount;
-	}
-
-	/**
-	 * ResultSet을 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSet(HttpServletResponse response, ResultSet rs) {
-		return _setResultSet(response, "", rs);
-	}
-
-	/**
-	 * ResultSet을 가우스 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSet(HttpServletResponse response, String datasetName, ResultSet rs) {
-		return _setResultSet(response, new String[] { datasetName }, new ResultSet[] { rs });
-	}
-
-	/**
-	 * ResultSet을 가우스 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSet(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray) {
-		if (datasetNameArray.length != rsArray.length)
-			throw new IllegalArgumentException("DataSet이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
-		int rowCount = 0;
-		try {
-			GauceOutputStream gos = getGOS(response);
-			for (int i = 0, len = rsArray.length; i < len; i++) {
-				GauceDataSet dSet = new GauceDataSet(datasetNameArray[i]);
-				gos.fragment(dSet);
-				rowCount += _appendDataSet(dSet, rsArray[i]);
-				gos.write(dSet);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return rowCount;
-	}
-
-	/**
-	 * ResultSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSet(HttpServletResponse response, GauceDataSet dSet, ResultSet rs) {
-		return _setResultSet(response, new GauceDataSet[] { dSet }, new ResultSet[] { rs });
-	}
-
-	/**
-	 * ResultSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSet(HttpServletResponse response, GauceDataSet[] dSetArray, ResultSet[] rsArray) {
-		if (dSetArray.length != rsArray.length)
-			throw new IllegalArgumentException("DataSet 갯수와 RecordSet갯수가 일치하지 않습니다.");
-		int rowCount = 0;
-		try {
-			GauceOutputStream gos = getGOS(response);
-			for (int i = 0, len = rsArray.length; i < len; i++) {
-				GauceDataSet dSet = dSetArray[i];
-				gos.fragment(dSet);
-				rowCount += _appendDataSet(dSet, rsArray[i]);
-				gos.write(dSet);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
 		return rowCount;
 	}

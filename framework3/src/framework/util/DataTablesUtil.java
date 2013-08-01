@@ -37,121 +37,6 @@ public class DataTablesUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
-		return _setRecordSet(response, rs);
-	}
-
-	/**
-	 * RecordSet을 DataTables 형식으로 출력한다.
-	 * <br>
-	 * ex) response로 rs를 DataTables 형식으로 출력하는 경우 => DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
-	 * @param response 클라이언트로 응답할 Response 객체
-	 * @param rs DataTables 형식으로 변환할 RecordSet 객체
-	 * @param colNames 컬럼이름 배열
-	 * @return 처리건수
-	 */
-	public static int render(HttpServletResponse response, RecordSet rs, String[] colNames) {
-		return _setRecordSet(response, rs, colNames);
-	}
-
-	/**
-	 * RecordSet을 DataTables 형식으로 변환한다.
-	 * <br>
-	 * ex) rs를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(rs)
-	 * @param rs DataTables 형식으로 변환할 RecordSet 객체
-	 * @return DataTables 형식으로 변환된 문자열
-	 */
-	public static String render(RecordSet rs) {
-		return _format(rs);
-	}
-
-	/**
-	 * RecordSet을 DataTables 형식으로 변환한다.
-	 * <br>
-	 * ex) rs를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
-	 * @param rs DataTables 형식으로 변환할 RecordSet 객체
-	 * @param colNames 컬럼이름 배열
-	 * @return DataTables 형식으로 변환된 문자열
-	 */
-	public static String render(RecordSet rs, String[] colNames) {
-		return _format(rs, colNames);
-	}
-
-	/**
-	 * ResultSet을 DataTables 형식으로 출력한다. 
-	 * <br>
-	 * ex) response로 rs를 DataTables 형식으로 출력하는 경우 => DataTablesUtil.render(response, rs)
-	 * @param response 클라이언트로 응답할 Response 객체
-	 * @param rs DataTables 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @return 처리건수
-	 */
-	public static int render(HttpServletResponse response, ResultSet rs) {
-		return _setResultSet(response, rs);
-	}
-
-	/**
-	 * ResultSet을 DataTables 형식으로 출력한다.
-	 * <br>
-	 * ex) response로 rs를 DataTables 형식으로 출력하는 경우 => DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
-	 * @param response 클라이언트로 응답할 Response 객체
-	 * @param rs DataTables 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @param colNames 컬럼이름 배열
-	 * @return 처리건수
-	 */
-	public static int render(HttpServletResponse response, ResultSet rs, String[] colNames) {
-		return _setResultSet(response, rs, colNames);
-	}
-
-	/**
-	 * ResultSet을 DataTables 형식으로 변환한다.
-	 * <br>
-	 * ex) rs를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(rs)
-	 * @param rs DataTables 형식으로 변환할 ResultSet 객체
-	 * @return DataTables 형식으로 변환된 문자열
-	 */
-	public static String render(ResultSet rs) {
-		return _format(rs);
-	}
-
-	/**
-	 * ResultSet을 DataTables 형식으로 변환한다. 
-	 * <br>
-	 * ex) rs를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
-	 * @param rs DataTables 형식으로 변환할 ResultSet 객체
-	 * @param colNames 컬럼이름 배열
-	 * @return DataTables 형식으로 변환된 문자열
-	 */
-	public static String render(ResultSet rs, String[] colNames) {
-		return _format(rs, colNames);
-	}
-
-	/**
-	 * List객체를 DataTables 형식으로 변환한다. DataTablesUtil.format과 동일
-	 * <br>
-	 * ex1) mapList를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(mapList)
-	 * @param mapList 변환할 List객체
-	 * @return DataTables 형식으로 변환된 문자열
-	 */
-	public static String render(List<Map<String, Object>> mapList) {
-		return _format(mapList);
-	}
-
-	/**
-	 * 자바스크립트상에 특수하게 인식되는 문자들을 JSON등에 사용하기 위해 변환하여준다.
-	 * @param str 변환할 문자열
-	 */
-	public static String escapeJS(String str) {
-		if (str == null) {
-			return "";
-		}
-		return str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"").replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n");
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
-
-	/**
-	 * RecordSet을 DataTables 형식으로 출력한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, RecordSet rs) {
 		if (rs == null) {
 			return 0;
 		}
@@ -179,8 +64,14 @@ public class DataTablesUtil {
 
 	/**
 	 * RecordSet을 DataTables 형식으로 출력한다.
+	 * <br>
+	 * ex) response로 rs를 DataTables 형식으로 출력하는 경우 => DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param rs DataTables 형식으로 변환할 RecordSet 객체
+	 * @param colNames 컬럼이름 배열
+	 * @return 처리건수
 	 */
-	private static int _setRecordSet(HttpServletResponse response, RecordSet rs, String[] colNames) {
+	public static int render(HttpServletResponse response, RecordSet rs, String[] colNames) {
 		if (rs == null) {
 			return 0;
 		}
@@ -207,8 +98,12 @@ public class DataTablesUtil {
 
 	/**
 	 * RecordSet을 DataTables 형식으로 변환한다.
+	 * <br>
+	 * ex) rs를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(rs)
+	 * @param rs DataTables 형식으로 변환할 RecordSet 객체
+	 * @return DataTables 형식으로 변환된 문자열
 	 */
-	private static String _format(RecordSet rs) {
+	public static String render(RecordSet rs) {
 		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
 			return null;
@@ -231,8 +126,13 @@ public class DataTablesUtil {
 
 	/**
 	 * RecordSet을 DataTables 형식으로 변환한다.
+	 * <br>
+	 * ex) rs를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
+	 * @param rs DataTables 형식으로 변환할 RecordSet 객체
+	 * @param colNames 컬럼이름 배열
+	 * @return DataTables 형식으로 변환된 문자열
 	 */
-	private static String _format(RecordSet rs, String[] colNames) {
+	public static String render(RecordSet rs, String[] colNames) {
 		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
 			return null;
@@ -253,9 +153,14 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * ResultSet을 DataTables 형식으로 출력한다.
+	 * ResultSet을 DataTables 형식으로 출력한다. 
+	 * <br>
+	 * ex) response로 rs를 DataTables 형식으로 출력하는 경우 => DataTablesUtil.render(response, rs)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param rs DataTables 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @return 처리건수
 	 */
-	private static int _setResultSet(HttpServletResponse response, ResultSet rs) {
+	public static int render(HttpServletResponse response, ResultSet rs) {
 		if (rs == null) {
 			return 0;
 		}
@@ -291,8 +196,14 @@ public class DataTablesUtil {
 
 	/**
 	 * ResultSet을 DataTables 형식으로 출력한다.
+	 * <br>
+	 * ex) response로 rs를 DataTables 형식으로 출력하는 경우 => DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param rs DataTables 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @param colNames 컬럼이름 배열
+	 * @return 처리건수
 	 */
-	private static int _setResultSet(HttpServletResponse response, ResultSet rs, String[] colNames) {
+	public static int render(HttpServletResponse response, ResultSet rs, String[] colNames) {
 		if (rs == null) {
 			return 0;
 		}
@@ -325,8 +236,12 @@ public class DataTablesUtil {
 
 	/**
 	 * ResultSet을 DataTables 형식으로 변환한다.
+	 * <br>
+	 * ex) rs를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(rs)
+	 * @param rs DataTables 형식으로 변환할 ResultSet 객체
+	 * @return DataTables 형식으로 변환된 문자열
 	 */
-	private static String _format(ResultSet rs) {
+	public static String render(ResultSet rs) {
 		if (rs == null) {
 			return null;
 		}
@@ -361,9 +276,14 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * ResultSet을 DataTables 형식으로 변환한다.
+	 * ResultSet을 DataTables 형식으로 변환한다. 
+	 * <br>
+	 * ex) rs를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
+	 * @param rs DataTables 형식으로 변환할 ResultSet 객체
+	 * @param colNames 컬럼이름 배열
+	 * @return DataTables 형식으로 변환된 문자열
 	 */
-	private static String _format(ResultSet rs, String[] colNames) {
+	public static String render(ResultSet rs, String[] colNames) {
 		if (rs == null) {
 			return null;
 		}
@@ -395,9 +315,13 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * List객체를 DataTables 형식으로 변환한다.
+	 * List객체를 DataTables 형식으로 변환한다. DataTablesUtil.format과 동일
+	 * <br>
+	 * ex1) mapList를 DataTables 형식으로 변환하는 경우 => String json = DataTablesUtil.render(mapList)
+	 * @param mapList 변환할 List객체
+	 * @return DataTables 형식으로 변환된 문자열
 	 */
-	private static String _format(List<Map<String, Object>> mapList) {
+	public static String render(List<Map<String, Object>> mapList) {
 		if (mapList == null) {
 			return null;
 		}
@@ -418,6 +342,19 @@ public class DataTablesUtil {
 		buffer.append("}");
 		return buffer.toString();
 	}
+
+	/**
+	 * 자바스크립트상에 특수하게 인식되는 문자들을 JSON등에 사용하기 위해 변환하여준다.
+	 * @param str 변환할 문자열
+	 */
+	public static String escapeJS(String str) {
+		if (str == null) {
+			return "";
+		}
+		return str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"").replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	/**
 	 * DataTables 용 Row 문자열 생성

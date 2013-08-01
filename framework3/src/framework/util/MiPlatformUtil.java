@@ -59,7 +59,7 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String datasetName, RecordSet rs, int dataFormat) {
-		return _setRecordSet(response, datasetName, rs, dataFormat);
+		return render(response, new String[] { datasetName }, new RecordSet[] { rs }, dataFormat);
 	}
 
 	/**
@@ -73,7 +73,31 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray, int dataFormat) {
-		return _setRecordSet(response, datasetNameArray, rsArray, dataFormat);
+		if (datasetNameArray.length != rsArray.length)
+			throw new IllegalArgumentException("Dataset이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		int rowCount = 0;
+		VariableList vl = new VariableList();
+		DatasetList dl = new DatasetList();
+		try {
+			try {
+				for (int i = 0, len = rsArray.length; i < len; i++) {
+					Dataset dSet = new Dataset(datasetNameArray[i], "euc-kr", false, false);
+					rowCount += _appendDataset(dSet, rsArray[i]);
+					dl.addDataset(dSet);
+				}
+				vl.addStr("ErrorCode", "0");
+				vl.addStr("ErrorMsg", "SUCC");
+			} catch (Exception e) {
+				vl.addStr("ErrorCode", "-1");
+				vl.addStr("ErrorMsg", e.getMessage());
+				throw e;
+			} finally {
+				sendData(response, vl, dl, dataFormat);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
 	}
 
 	/**
@@ -87,7 +111,7 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String datasetName, ResultSet rs, int dataFormat) {
-		return _setResultSet(response, datasetName, rs, dataFormat);
+		return render(response, new String[] { datasetName }, new ResultSet[] { rs }, dataFormat);
 	}
 
 	/**
@@ -101,7 +125,31 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray, int dataFormat) {
-		return _setResultSet(response, datasetNameArray, rsArray, dataFormat);
+		if (datasetNameArray.length != rsArray.length)
+			throw new IllegalArgumentException("Dataset이름 갯수와 ResultSet갯수가 일치하지 않습니다.");
+		int rowCount = 0;
+		try {
+			VariableList vl = new VariableList();
+			DatasetList dl = new DatasetList();
+			try {
+				for (int i = 0, len = rsArray.length; i < len; i++) {
+					Dataset dSet = new Dataset(datasetNameArray[i], "euc-kr", false, false);
+					rowCount += _appendDataset(dSet, rsArray[i]);
+					dl.addDataset(dSet);
+				}
+				vl.addStr("ErrorCode", "0");
+				vl.addStr("ErrorMsg", "SUCC");
+			} catch (Exception e) {
+				vl.addStr("ErrorCode", "-1");
+				vl.addStr("ErrorMsg", e.getMessage());
+				throw e;
+			} finally {
+				sendData(response, vl, dl, dataFormat);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
 	}
 
 	/**
@@ -308,44 +356,6 @@ public class MiPlatformUtil {
 	//////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	/**
-	 * RecordSet을 마이플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, String datasetName, RecordSet rs, int dataFormat) {
-		return _setRecordSet(response, new String[] { datasetName }, new RecordSet[] { rs }, dataFormat);
-	}
-
-	/**
-	 * RecordSet을 마이플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray, int dataFormat) {
-		if (datasetNameArray.length != rsArray.length)
-			throw new IllegalArgumentException("Dataset이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
-		int rowCount = 0;
-		VariableList vl = new VariableList();
-		DatasetList dl = new DatasetList();
-		try {
-			try {
-				for (int i = 0, len = rsArray.length; i < len; i++) {
-					Dataset dSet = new Dataset(datasetNameArray[i], "euc-kr", false, false);
-					rowCount += _appendDataset(dSet, rsArray[i]);
-					dl.addDataset(dSet);
-				}
-				vl.addStr("ErrorCode", "0");
-				vl.addStr("ErrorMsg", "SUCC");
-			} catch (Exception e) {
-				vl.addStr("ErrorCode", "-1");
-				vl.addStr("ErrorMsg", e.getMessage());
-				throw e;
-			} finally {
-				sendData(response, vl, dl, dataFormat);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return rowCount;
-	}
-
-	/**
 	 * RecordSet을 마이플랫폼 데이타셋으로 변환한다.
 	 */
 	private static int _appendDataset(Dataset dSet, RecordSet rs) {
@@ -368,44 +378,6 @@ public class MiPlatformUtil {
 		while (rs.nextRow()) {
 			rowCount++;
 			_appendRow(dSet, rs, colNms);
-		}
-		return rowCount;
-	}
-
-	/**
-	 * ResultSet을 마이플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSet(HttpServletResponse response, String datasetName, ResultSet rs, int dataFormat) {
-		return _setResultSet(response, new String[] { datasetName }, new ResultSet[] { rs }, dataFormat);
-	}
-
-	/**
-	 * ResultSet을 마이플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSet(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray, int dataFormat) {
-		if (datasetNameArray.length != rsArray.length)
-			throw new IllegalArgumentException("Dataset이름 갯수와 ResultSet갯수가 일치하지 않습니다.");
-		int rowCount = 0;
-		try {
-			VariableList vl = new VariableList();
-			DatasetList dl = new DatasetList();
-			try {
-				for (int i = 0, len = rsArray.length; i < len; i++) {
-					Dataset dSet = new Dataset(datasetNameArray[i], "euc-kr", false, false);
-					rowCount += _appendDataset(dSet, rsArray[i]);
-					dl.addDataset(dSet);
-				}
-				vl.addStr("ErrorCode", "0");
-				vl.addStr("ErrorMsg", "SUCC");
-			} catch (Exception e) {
-				vl.addStr("ErrorCode", "-1");
-				vl.addStr("ErrorMsg", e.getMessage());
-				throw e;
-			} finally {
-				sendData(response, vl, dl, dataFormat);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
 		return rowCount;
 	}

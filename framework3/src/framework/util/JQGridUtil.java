@@ -40,146 +40,6 @@ public class JQGridUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage) {
-		return _setRecordSet(response, rs, totalCount, currentPage, rowsPerPage);
-	}
-
-	/**
-	 * RecordSet을 jqGrid 형식으로 출력한다. 
-	 * <br>
-	 * ex) response로 rs를 jqGrid 형식으로 출력하는 경우 => JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
-	 * @param response 클라이언트로 응답할 Response 객체
-	 * @param rs jqGrid 형식으로 변환할 RecordSet 객체
-	 * @param totalCount 전체페이지수
-	 * @param currentPage 현재페이지수
-	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @param colNames 컬럼이름 배열
-	 * @return 처리건수
-	 */
-	public static int render(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
-		return _setRecordSet(response, rs, totalCount, currentPage, rowsPerPage, colNames);
-	}
-
-	/**
-	 * RecordSet을 jqGrid 형식으로 변환한다. 
-	 * <br>
-	 * ex) rs를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage)
-	 * @param rs jqGrid 형식으로 변환할 RecordSet 객체
-	 * @param totalCount 전체페이지수
-	 * @param currentPage 현재페이지수
-	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @return jqGrid 형식으로 변환된 문자열
-	 */
-	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage) {
-		return _format(rs, totalCount, currentPage, rowsPerPage);
-	}
-
-	/**
-	 * RecordSet을 jqGrid 형식으로 변환한다. 
-	 * <br>
-	 * ex) rs를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
-	 * @param rs jqGrid 형식으로 변환할 RecordSet 객체
-	 * @param totalCount 전체페이지수
-	 * @param currentPage 현재페이지수
-	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @param colNames 컬럼이름 배열
-	 * @return jqGrid 형식으로 변환된 문자열
-	 */
-	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
-		return _format(rs, totalCount, currentPage, rowsPerPage, colNames);
-	}
-
-	/**
-	 * ResultSet을 jqGrid 형식으로 출력한다.
-	 * <br>
-	 * ex) response로 rs를 jqGrid 형식으로 출력하는 경우 => JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage)
-	 * @param response 클라이언트로 응답할 Response 객체
-	 * @param rs jqGrid 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @param totalCount 전체페이지수
-	 * @param currentPage 현재페이지수
-	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @return 처리건수
-	 */
-	public static int render(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
-		return _setResultSet(response, rs, totalCount, currentPage, rowsPerPage);
-	}
-
-	/**
-	 * ResultSet을 jqGrid 형식으로 출력한다. 
-	 * <br>
-	 * ex) response로 rs를 jqGrid 형식으로 출력하는 경우 => JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
-	 * @param response 클라이언트로 응답할 Response 객체
-	 * @param rs jqGrid 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @param totalCount 전체페이지수
-	 * @param currentPage 현재페이지수
-	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @param colNames 컬럼이름 배열
-	 * @return 처리건수
-	 */
-	public static int render(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
-		return _setResultSet(response, rs, totalCount, currentPage, rowsPerPage, colNames);
-	}
-
-	/**
-	 * ResultSet을 jqGrid 형식으로 변환한다.
-	 * <br>
-	 * ex) rs를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage)
-	 * @param rs jqGrid 형식으로 변환할 ResultSet 객체
-	 * @param totalCount 전체페이지수
-	 * @param currentPage 현재페이지수
-	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @return jqGrid 형식으로 변환된 문자열
-	 */
-	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
-		return _format(rs, totalCount, currentPage, rowsPerPage);
-	}
-
-	/**
-	 * ResultSet을 jqGrid 형식으로 변환한다. 
-	 * <br>
-	 * ex) rs를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
-	 * @param rs jqGrid 형식으로 변환할 ResultSet 객체
-	 * @param totalCount 전체페이지수
-	 * @param currentPage 현재페이지수
-	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @param colNames 컬럼이름 배열
-	 * @return jqGrid 형식으로 변환된 문자열
-	 */
-	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
-		return _format(rs, totalCount, currentPage, rowsPerPage, colNames);
-	}
-
-	/**
-	 * List객체를 jqGrid 형식으로 변환한다. 
-	 * <br>
-	 * ex1) mapList를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(mapList, totalCount, currentPage, rowsPerPage)
-	 * @param mapList 변환할 List객체
-	 * @param totalCount 전체페이지수
-	 * @param currentPage 현재페이지수
-	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @return jqGrid 형식으로 변환된 문자열
-	 */
-	public static String render(List<Map<String, Object>> mapList, int totalCount, int currentPage, int rowsPerPage) {
-		return _format(mapList, totalCount, currentPage, rowsPerPage);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////// 유틸리티
-
-	/**
-	 * 자바스크립트상에 특수하게 인식되는 문자들을 JSON등에 사용하기 위해 변환하여준다.
-	 * @param str 변환할 문자열
-	 */
-	public static String escapeJS(String str) {
-		if (str == null) {
-			return "";
-		}
-		return str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"").replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n");
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
-	/**
-	 * RecordSet을 jqGrid 형식으로 출력한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage) {
 		if (rs == null) {
 			return 0;
 		}
@@ -216,9 +76,18 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * RecordSet을 jqGrid 형식으로 출력한다.
+	 * RecordSet을 jqGrid 형식으로 출력한다. 
+	 * <br>
+	 * ex) response로 rs를 jqGrid 형식으로 출력하는 경우 => JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param rs jqGrid 형식으로 변환할 RecordSet 객체
+	 * @param totalCount 전체페이지수
+	 * @param currentPage 현재페이지수
+	 * @param rowsPerPage 한페이지에 표시할 로우수
+	 * @param colNames 컬럼이름 배열
+	 * @return 처리건수
 	 */
-	private static int _setRecordSet(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
+	public static int render(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
 		if (rs == null) {
 			return 0;
 		}
@@ -254,9 +123,16 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * RecordSet을 jqGrid 형식으로 변환한다.
+	 * RecordSet을 jqGrid 형식으로 변환한다. 
+	 * <br>
+	 * ex) rs를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage)
+	 * @param rs jqGrid 형식으로 변환할 RecordSet 객체
+	 * @param totalCount 전체페이지수
+	 * @param currentPage 현재페이지수
+	 * @param rowsPerPage 한페이지에 표시할 로우수
+	 * @return jqGrid 형식으로 변환된 문자열
 	 */
-	private static String _format(RecordSet rs, int totalCount, int currentPage, int rowsPerPage) {
+	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage) {
 		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
 			return null;
@@ -288,9 +164,17 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * RecordSet을 jqGrid 형식으로 변환한다.
+	 * RecordSet을 jqGrid 형식으로 변환한다. 
+	 * <br>
+	 * ex) rs를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
+	 * @param rs jqGrid 형식으로 변환할 RecordSet 객체
+	 * @param totalCount 전체페이지수
+	 * @param currentPage 현재페이지수
+	 * @param rowsPerPage 한페이지에 표시할 로우수
+	 * @param colNames 컬럼이름 배열
+	 * @return jqGrid 형식으로 변환된 문자열
 	 */
-	private static String _format(RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
+	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
 		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
 			return null;
@@ -322,8 +206,16 @@ public class JQGridUtil {
 
 	/**
 	 * ResultSet을 jqGrid 형식으로 출력한다.
+	 * <br>
+	 * ex) response로 rs를 jqGrid 형식으로 출력하는 경우 => JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param rs jqGrid 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @param totalCount 전체페이지수
+	 * @param currentPage 현재페이지수
+	 * @param rowsPerPage 한페이지에 표시할 로우수
+	 * @return 처리건수
 	 */
-	private static int _setResultSet(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
+	public static int render(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
 		if (rs == null) {
 			return 0;
 		}
@@ -368,9 +260,18 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * ResultSet을 jqGrid 형식으로 출력한다.
+	 * ResultSet을 jqGrid 형식으로 출력한다. 
+	 * <br>
+	 * ex) response로 rs를 jqGrid 형식으로 출력하는 경우 => JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param rs jqGrid 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @param totalCount 전체페이지수
+	 * @param currentPage 현재페이지수
+	 * @param rowsPerPage 한페이지에 표시할 로우수
+	 * @param colNames 컬럼이름 배열
+	 * @return 처리건수
 	 */
-	private static int _setResultSet(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
+	public static int render(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
 		if (rs == null) {
 			return 0;
 		}
@@ -413,8 +314,15 @@ public class JQGridUtil {
 
 	/**
 	 * ResultSet을 jqGrid 형식으로 변환한다.
+	 * <br>
+	 * ex) rs를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage)
+	 * @param rs jqGrid 형식으로 변환할 ResultSet 객체
+	 * @param totalCount 전체페이지수
+	 * @param currentPage 현재페이지수
+	 * @param rowsPerPage 한페이지에 표시할 로우수
+	 * @return jqGrid 형식으로 변환된 문자열
 	 */
-	private static String _format(ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
+	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
 		if (rs == null) {
 			return null;
 		}
@@ -459,9 +367,17 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * ResultSet을 jqGrid 형식으로 변환한다.
+	 * ResultSet을 jqGrid 형식으로 변환한다. 
+	 * <br>
+	 * ex) rs를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
+	 * @param rs jqGrid 형식으로 변환할 ResultSet 객체
+	 * @param totalCount 전체페이지수
+	 * @param currentPage 현재페이지수
+	 * @param rowsPerPage 한페이지에 표시할 로우수
+	 * @param colNames 컬럼이름 배열
+	 * @return jqGrid 형식으로 변환된 문자열
 	 */
-	private static String _format(ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
+	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
 		if (rs == null) {
 			return null;
 		}
@@ -503,9 +419,16 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * List객체를 jqGrid 형식으로 변환한다.
+	 * List객체를 jqGrid 형식으로 변환한다. 
+	 * <br>
+	 * ex1) mapList를 jqGrid 형식으로 변환하는 경우 => String json = JQGridUtil.render(mapList, totalCount, currentPage, rowsPerPage)
+	 * @param mapList 변환할 List객체
+	 * @param totalCount 전체페이지수
+	 * @param currentPage 현재페이지수
+	 * @param rowsPerPage 한페이지에 표시할 로우수
+	 * @return jqGrid 형식으로 변환된 문자열
 	 */
-	private static String _format(List<Map<String, Object>> mapList, int totalCount, int currentPage, int rowsPerPage) {
+	public static String render(List<Map<String, Object>> mapList, int totalCount, int currentPage, int rowsPerPage) {
 		if (mapList == null) {
 			return null;
 		}
@@ -538,6 +461,21 @@ public class JQGridUtil {
 		buffer.append("}");
 		return buffer.toString();
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////// 유틸리티
+
+	/**
+	 * 자바스크립트상에 특수하게 인식되는 문자들을 JSON등에 사용하기 위해 변환하여준다.
+	 * @param str 변환할 문자열
+	 */
+	public static String escapeJS(String str) {
+		if (str == null) {
+			return "";
+		}
+		return str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"").replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	/**
 	 * jqGrid 용 Row 문자열 생성

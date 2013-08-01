@@ -40,7 +40,27 @@ public class JsonUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
-		return _setRecordSet(response, rs);
+		if (rs == null) {
+			return 0;
+		}
+		PrintWriter pw;
+		try {
+			pw = response.getWriter();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		String[] colNms = rs.getColumns();
+		rs.moveRow(0);
+		pw.print("[");
+		int rowCount = 0;
+		while (rs.nextRow()) {
+			if (rowCount++ > 0) {
+				pw.print(",");
+			}
+			pw.print(_jsonRowStr(rs, colNms));
+		}
+		pw.print("]");
+		return rowCount;
 	}
 
 	/**
@@ -51,7 +71,22 @@ public class JsonUtil {
 	 * @return JSON 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs) {
-		return _format(rs);
+		StringBuilder buffer = new StringBuilder();
+		if (rs == null) {
+			return null;
+		}
+		String[] colNms = rs.getColumns();
+		rs.moveRow(0);
+		buffer.append("[");
+		int rowCount = 0;
+		while (rs.nextRow()) {
+			if (rowCount++ > 0) {
+				buffer.append(",");
+			}
+			buffer.append(_jsonRowStr(rs, colNms));
+		}
+		buffer.append("]");
+		return buffer.toString();
 	}
 
 	/**
@@ -63,7 +98,39 @@ public class JsonUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
-		return _setResultSet(response, rs);
+		if (rs == null) {
+			return 0;
+		}
+		try {
+			PrintWriter pw = response.getWriter();
+			try {
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int count = rsmd.getColumnCount();
+				String[] colNms = new String[count];
+				for (int i = 1; i <= count; i++) {
+					//Table의 Field 가 소문자 인것은 대문자로 변경처리
+					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+				}
+				pw.print("[");
+				int rowCount = 0;
+				while (rs.next()) {
+					if (rowCount++ > 0) {
+						pw.print(",");
+					}
+					pw.print(_jsonRowStr(rs, colNms));
+				}
+				pw.print("]");
+				return rowCount;
+			} finally {
+				Statement stmt = rs.getStatement();
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -74,7 +141,39 @@ public class JsonUtil {
 	 * @return JSON 형식으로 변환된 문자열
 	 */
 	public static String render(ResultSet rs) {
-		return _format(rs);
+		if (rs == null) {
+			return null;
+		}
+		StringBuilder buffer = new StringBuilder();
+		try {
+			try {
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int count = rsmd.getColumnCount();
+				String[] colNms = new String[count];
+				for (int i = 1; i <= count; i++) {
+					//Table의 Field 가 소문자 인것은 대문자로 변경처리
+					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+				}
+				buffer.append("[");
+				int rowCount = 0;
+				while (rs.next()) {
+					if (rowCount++ > 0) {
+						buffer.append(",");
+					}
+					buffer.append(_jsonRowStr(rs, colNms));
+				}
+				buffer.append("]");
+			} finally {
+				Statement stmt = rs.getStatement();
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return buffer.toString();
 	}
 
 	/**
@@ -85,7 +184,12 @@ public class JsonUtil {
 	 * @return JSON 형식으로 변환된 문자열
 	 */
 	public static String render(Map<String, Object> map) {
-		return _format(map);
+		if (map == null) {
+			return null;
+		}
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(_jsonRowStr(map));
+		return buffer.toString();
 	}
 
 	/**
@@ -96,7 +200,22 @@ public class JsonUtil {
 	 * @return JSON 형식으로 변환된 문자열
 	 */
 	public static String render(List<Map<String, Object>> mapList) {
-		return _format(mapList);
+		if (mapList == null) {
+			return null;
+		}
+		StringBuilder buffer = new StringBuilder();
+		if (mapList.size() > 0) {
+			buffer.append("[");
+			for (Map<String, Object> map : mapList) {
+				buffer.append(_jsonRowStr(map));
+				buffer.append(",");
+			}
+			buffer.delete(buffer.length() - 1, buffer.length());
+			buffer.append("]");
+		} else {
+			buffer.append("[]");
+		}
+		return buffer.toString();
 	}
 
 	/**
@@ -184,167 +303,6 @@ public class JsonUtil {
 	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	/**
-	 * RecordSet을 JSON 형식으로 출력한다.
-	 */
-	private static int _setRecordSet(HttpServletResponse response, RecordSet rs) {
-		if (rs == null) {
-			return 0;
-		}
-		PrintWriter pw;
-		try {
-			pw = response.getWriter();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		String[] colNms = rs.getColumns();
-		rs.moveRow(0);
-		pw.print("[");
-		int rowCount = 0;
-		while (rs.nextRow()) {
-			if (rowCount++ > 0) {
-				pw.print(",");
-			}
-			pw.print(_jsonRowStr(rs, colNms));
-		}
-		pw.print("]");
-		return rowCount;
-	}
-
-	/**
-	 * ResultSet을 JSON 형식으로 출력한다.
-	 */
-	private static int _setResultSet(HttpServletResponse response, ResultSet rs) {
-		if (rs == null) {
-			return 0;
-		}
-		try {
-			PrintWriter pw = response.getWriter();
-			try {
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-				}
-				pw.print("[");
-				int rowCount = 0;
-				while (rs.next()) {
-					if (rowCount++ > 0) {
-						pw.print(",");
-					}
-					pw.print(_jsonRowStr(rs, colNms));
-				}
-				pw.print("]");
-				return rowCount;
-			} finally {
-				Statement stmt = rs.getStatement();
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
-	 * RecordSet을 Json 배열 형태로 변환한다.
-	 */
-	private static String _format(RecordSet rs) {
-		StringBuilder buffer = new StringBuilder();
-		if (rs == null) {
-			return null;
-		}
-		String[] colNms = rs.getColumns();
-		rs.moveRow(0);
-		buffer.append("[");
-		int rowCount = 0;
-		while (rs.nextRow()) {
-			if (rowCount++ > 0) {
-				buffer.append(",");
-			}
-			buffer.append(_jsonRowStr(rs, colNms));
-		}
-		buffer.append("]");
-		return buffer.toString();
-	}
-
-	/**
-	 * ResultSet을 Json 배열 형태로 변환한다.
-	 */
-	private static String _format(ResultSet rs) {
-		if (rs == null) {
-			return null;
-		}
-		StringBuilder buffer = new StringBuilder();
-		try {
-			try {
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-				}
-				buffer.append("[");
-				int rowCount = 0;
-				while (rs.next()) {
-					if (rowCount++ > 0) {
-						buffer.append(",");
-					}
-					buffer.append(_jsonRowStr(rs, colNms));
-				}
-				buffer.append("]");
-			} finally {
-				Statement stmt = rs.getStatement();
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return buffer.toString();
-	}
-
-	/**
-	 * Map객체를 JSON 형식으로 변환한다.
-	 */
-	private static String _format(Map<String, Object> map) {
-		if (map == null) {
-			return null;
-		}
-		StringBuilder buffer = new StringBuilder();
-		buffer.append(_jsonRowStr(map));
-		return buffer.toString();
-	}
-
-	/**
-	 * List객체를 JSON 형식으로 변환한다.
-	 */
-	private static String _format(List<Map<String, Object>> mapList) {
-		if (mapList == null) {
-			return null;
-		}
-		StringBuilder buffer = new StringBuilder();
-		if (mapList.size() > 0) {
-			buffer.append("[");
-			for (Map<String, Object> map : mapList) {
-				buffer.append(_jsonRowStr(map));
-				buffer.append(",");
-			}
-			buffer.delete(buffer.length() - 1, buffer.length());
-			buffer.append("]");
-		} else {
-			buffer.append("[]");
-		}
-		return buffer.toString();
-	}
-
-	/**
 	 * JSON 용 Row 문자열 생성
 	 */
 	@SuppressWarnings("unchecked")
@@ -361,9 +319,9 @@ public class JsonUtil {
 					if (value instanceof Number) {
 						buffer.append(key + ":" + value.toString());
 					} else if (value instanceof Map) {
-						buffer.append(key + ":" + _format((Map<String, Object>) value));
+						buffer.append(key + ":" + render((Map<String, Object>) value));
 					} else if (value instanceof List) {
-						buffer.append(key + ":" + _format((List<Map<String, Object>>) value));
+						buffer.append(key + ":" + render((List<Map<String, Object>>) value));
 					} else {
 						buffer.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
 					}

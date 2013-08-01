@@ -170,7 +170,30 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, RecordSet rs, String fileName) {
-		return _setRecordSetExcel2003(response, rs, fileName);
+		if (rs == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		try {
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			Workbook workbook = new HSSFWorkbook();
+			Sheet sheet = workbook.createSheet();
+			OutputStream os = response.getOutputStream();
+			String[] colNms = rs.getColumns();
+			rs.moveRow(0);
+			while (rs.nextRow()) {
+				Row row = sheet.createRow(rowCount);
+				_appendRow(row, rs, colNms);
+				rowCount++;
+			}
+			workbook.write(os);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
 	}
 
 	/**
@@ -211,7 +234,30 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName) {
-		return _setRecordSetExcel2007(response, rs, fileName);
+		if (rs == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		try {
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			Workbook workbook = new XSSFWorkbook();
+			Sheet sheet = workbook.createSheet();
+			OutputStream os = response.getOutputStream();
+			String[] colNms = rs.getColumns();
+			rs.moveRow(0);
+			while (rs.nextRow()) {
+				Row row = sheet.createRow(rowCount);
+				_appendRow(row, rs, colNms);
+				rowCount++;
+			}
+			workbook.write(os);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
 	}
 
 	/**
@@ -252,7 +298,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderCSV(HttpServletResponse response, RecordSet rs, String fileName) {
-		return _setRecordSetCSV(response, rs, fileName);
+		return renderSep(response, rs, fileName, ",");
 	}
 
 	/**
@@ -273,7 +319,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderTSV(HttpServletResponse response, RecordSet rs, String fileName) {
-		return _setRecordSetTSV(response, rs, fileName);
+		return renderSep(response, rs, fileName, "\t");
 	}
 
 	/**
@@ -297,7 +343,28 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderSep(HttpServletResponse response, RecordSet rs, String fileName, String sep) {
-		return _setRecordSetSep(response, rs, fileName, sep);
+		if (rs == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		try {
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			PrintWriter pw = response.getWriter();
+			String[] colNms = rs.getColumns();
+			rs.moveRow(0);
+			while (rs.nextRow()) {
+				if (rowCount++ > 0) {
+					pw.print("\n");
+				}
+				pw.print(_sepRowStr(rs, colNms, sep));
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
 	}
 
 	/**
@@ -340,7 +407,20 @@ public class ExcelUtil {
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
 	public static String renderSep(RecordSet rs, String sep) {
-		return _formatSep(rs, sep);
+		if (rs == null) {
+			return null;
+		}
+		StringBuilder buffer = new StringBuilder();
+		String[] colNms = rs.getColumns();
+		rs.moveRow(0);
+		int rowCount = 0;
+		while (rs.nextRow()) {
+			if (rowCount++ > 0) {
+				buffer.append("\n");
+			}
+			buffer.append(_sepRowStr(rs, colNms, sep));
+		}
+		return buffer.toString();
 	}
 
 	/**
@@ -351,7 +431,43 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, ResultSet rs, String fileName) {
-		return _setResultSetExcel2003(response, rs, fileName);
+		if (rs == null) {
+			return 0;
+		}
+		try {
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			Workbook workbook = new HSSFWorkbook();
+			Sheet sheet = workbook.createSheet();
+			OutputStream os = response.getOutputStream();
+			try {
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int count = rsmd.getColumnCount();
+				String[] colNms = new String[count];
+				for (int i = 1; i <= count; i++) {
+					//Table의 Field 가 소문자 인것은 대문자로 변경처리
+					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+				}
+				int rowCount = 0;
+				while (rs.next()) {
+					Row row = sheet.createRow(rowCount);
+					_appendRow(row, rs, colNms);
+					rowCount++;
+				}
+				workbook.write(os);
+				return rowCount;
+			} finally {
+				Statement stmt = rs.getStatement();
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -406,7 +522,43 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName) {
-		return _setResultSetExcel2007(response, rs, fileName);
+		if (rs == null) {
+			return 0;
+		}
+		try {
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			Workbook workbook = new XSSFWorkbook();
+			Sheet sheet = workbook.createSheet();
+			OutputStream os = response.getOutputStream();
+			try {
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int count = rsmd.getColumnCount();
+				String[] colNms = new String[count];
+				for (int i = 1; i <= count; i++) {
+					//Table의 Field 가 소문자 인것은 대문자로 변경처리
+					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+				}
+				int rowCount = 0;
+				while (rs.next()) {
+					Row row = sheet.createRow(rowCount);
+					_appendRow(row, rs, colNms);
+					rowCount++;
+				}
+				workbook.write(os);
+				return rowCount;
+			} finally {
+				Statement stmt = rs.getStatement();
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -461,7 +613,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderCSV(HttpServletResponse response, ResultSet rs, String fileName) {
-		return _setResultSetCSV(response, rs, fileName);
+		return renderSep(response, rs, fileName, ",");
 	}
 
 	/**
@@ -482,7 +634,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderTSV(HttpServletResponse response, ResultSet rs, String fileName) {
-		return _setResultSetTSV(response, rs, fileName);
+		return renderSep(response, rs, fileName, "\t");
 	}
 
 	/**
@@ -506,7 +658,41 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderSep(HttpServletResponse response, ResultSet rs, String fileName, String sep) {
-		return _setResultSetSep(response, rs, fileName, sep);
+		if (rs == null) {
+			return 0;
+		}
+		try {
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			PrintWriter pw = response.getWriter();
+			try {
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int count = rsmd.getColumnCount();
+				String[] colNms = new String[count];
+				for (int i = 1; i <= count; i++) {
+					//Table의 Field 가 소문자 인것은 대문자로 변경처리
+					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+				}
+				int rowCount = 0;
+				while (rs.next()) {
+					if (rowCount++ > 0) {
+						pw.print("\n");
+					}
+					pw.print(_sepRowStr(rs, colNms, sep));
+				}
+				return rowCount;
+			} finally {
+				Statement stmt = rs.getStatement();
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -561,314 +747,6 @@ public class ExcelUtil {
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
 	public static String renderSep(ResultSet rs, String sep) {
-		return _formatSep(rs, sep);
-	}
-
-	/**
-	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
-	 * <br>
-	 * ex) map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 => String csv = ExcelUtil.renderSep(map, ",")
-	 * @param map 변환할 Map객체
-	 * @param sep 열 구분자로 쓰일 문자열
-	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
-	 */
-	public static String renderSep(Map<String, Object> map, String sep) {
-		return _formatSep(map, sep);
-	}
-
-	/**
-	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
-	 * <br>
-	 * ex1) mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 => String csv = ExcelUtil.renderSep(mapList, ",")
-	 * @param mapList 변환할 List객체
-	 * @param sep 열 구분자로 쓰일 문자열
-	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
-	 */
-	public static String renderSep(List<Map<String, Object>> mapList, String sep) {
-		return _formatSep(mapList, sep);
-	}
-
-	/**
-	 * 구분자로 쓰이는 문자열 또는 개행문자가 값에 포함되어 있을 경우 값을 쌍따옴표로 둘러싸도록 변환한다.
-	 * @param str 변환할 문자열
-	 * @param sep 열 구분자로 쓰일 문자열
-	 */
-	public static String escapeSep(String str, String sep) {
-		if (str == null) {
-			return "";
-		}
-		return (str.contains(sep) || str.contains("\n")) ? "\"" + str + "\"" : str;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
-
-	/**
-	 * RecordSet을 엑셀2003 형식으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSetExcel2003(HttpServletResponse response, RecordSet rs, String fileName) {
-		if (rs == null) {
-			return 0;
-		}
-		int rowCount = 0;
-		try {
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
-			Workbook workbook = new HSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
-			String[] colNms = rs.getColumns();
-			rs.moveRow(0);
-			while (rs.nextRow()) {
-				Row row = sheet.createRow(rowCount);
-				_appendRow(row, rs, colNms);
-				rowCount++;
-			}
-			workbook.write(os);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return rowCount;
-	}
-
-	/**
-	 * RecordSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSetExcel2007(HttpServletResponse response, RecordSet rs, String fileName) {
-		if (rs == null) {
-			return 0;
-		}
-		int rowCount = 0;
-		try {
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
-			Workbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
-			String[] colNms = rs.getColumns();
-			rs.moveRow(0);
-			while (rs.nextRow()) {
-				Row row = sheet.createRow(rowCount);
-				_appendRow(row, rs, colNms);
-				rowCount++;
-			}
-			workbook.write(os);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return rowCount;
-	}
-
-	/**
-	 * RecordSet을 CSV 형식으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSetCSV(HttpServletResponse response, RecordSet rs, String fileName) {
-		return _setRecordSetSep(response, rs, fileName, ",");
-	}
-
-	/**
-	 * RecordSet을 TSV 형식으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setRecordSetTSV(HttpServletResponse response, RecordSet rs, String fileName) {
-		return _setRecordSetSep(response, rs, fileName, "\t");
-	}
-
-	/**
-	 * RecordSet을 구분자(CSV, TSV 등)파일 형식으로 출력한다.
-	 */
-	private static int _setRecordSetSep(HttpServletResponse response, RecordSet rs, String fileName, String sep) {
-		if (rs == null) {
-			return 0;
-		}
-		int rowCount = 0;
-		try {
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
-			PrintWriter pw = response.getWriter();
-			String[] colNms = rs.getColumns();
-			rs.moveRow(0);
-			while (rs.nextRow()) {
-				if (rowCount++ > 0) {
-					pw.print("\n");
-				}
-				pw.print(_sepRowStr(rs, colNms, sep));
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return rowCount;
-	}
-
-	/**
-	 * RecordSet을 구분자(CSV, TSV 등)파일 형식으로 변환한다.
-	 */
-	private static String _formatSep(RecordSet rs, String sep) {
-		if (rs == null) {
-			return null;
-		}
-		StringBuilder buffer = new StringBuilder();
-		String[] colNms = rs.getColumns();
-		rs.moveRow(0);
-		int rowCount = 0;
-		while (rs.nextRow()) {
-			if (rowCount++ > 0) {
-				buffer.append("\n");
-			}
-			buffer.append(_sepRowStr(rs, colNms, sep));
-		}
-		return buffer.toString();
-	}
-
-	/**
-	 * ResultSet을 엑셀2003 형식으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSetExcel2003(HttpServletResponse response, ResultSet rs, String fileName) {
-		if (rs == null) {
-			return 0;
-		}
-		try {
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
-			Workbook workbook = new HSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
-			try {
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-				}
-				int rowCount = 0;
-				while (rs.next()) {
-					Row row = sheet.createRow(rowCount);
-					_appendRow(row, rs, colNms);
-					rowCount++;
-				}
-				workbook.write(os);
-				return rowCount;
-			} finally {
-				Statement stmt = rs.getStatement();
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
-	 * ResultSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSetExcel2007(HttpServletResponse response, ResultSet rs, String fileName) {
-		if (rs == null) {
-			return 0;
-		}
-		try {
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
-			Workbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
-			try {
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-				}
-				int rowCount = 0;
-				while (rs.next()) {
-					Row row = sheet.createRow(rowCount);
-					_appendRow(row, rs, colNms);
-					rowCount++;
-				}
-				workbook.write(os);
-				return rowCount;
-			} finally {
-				Statement stmt = rs.getStatement();
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
-	 * ResultSet을 CSV 형식으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSetCSV(HttpServletResponse response, ResultSet rs, String fileName) {
-		return _setResultSetSep(response, rs, fileName, ",");
-	}
-
-	/**
-	 * ResultSet을 TSV 형식으로 변환하여 응답객체로 전송한다.
-	 */
-	private static int _setResultSetTSV(HttpServletResponse response, ResultSet rs, String fileName) {
-		return _setResultSetSep(response, rs, fileName, "\t");
-	}
-
-	/**
-	 * ResultSet을 구분자(CSV, TSV 등)파일 형식으로 출력한다.
-	 */
-	private static int _setResultSetSep(HttpServletResponse response, ResultSet rs, String fileName, String sep) {
-		if (rs == null) {
-			return 0;
-		}
-		try {
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
-			PrintWriter pw = response.getWriter();
-			try {
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-				}
-				int rowCount = 0;
-				while (rs.next()) {
-					if (rowCount++ > 0) {
-						pw.print("\n");
-					}
-					pw.print(_sepRowStr(rs, colNms, sep));
-				}
-				return rowCount;
-			} finally {
-				Statement stmt = rs.getStatement();
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	/**
-	 * ResultSet을 구분자(CSV, TSV 등)파일 형식으로 변환한다.
-	 */
-	private static String _formatSep(ResultSet rs, String sep) {
 		if (rs == null) {
 			return null;
 		}
@@ -903,9 +781,14 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다.
+	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
+	 * <br>
+	 * ex) map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 => String csv = ExcelUtil.renderSep(map, ",")
+	 * @param map 변환할 Map객체
+	 * @param sep 열 구분자로 쓰일 문자열
+	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
-	private static String _formatSep(Map<String, Object> map, String sep) {
+	public static String renderSep(Map<String, Object> map, String sep) {
 		if (map == null) {
 			return null;
 		}
@@ -915,9 +798,14 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다.
+	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
+	 * <br>
+	 * ex1) mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 => String csv = ExcelUtil.renderSep(mapList, ",")
+	 * @param mapList 변환할 List객체
+	 * @param sep 열 구분자로 쓰일 문자열
+	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
-	private static String _formatSep(List<Map<String, Object>> mapList, String sep) {
+	public static String renderSep(List<Map<String, Object>> mapList, String sep) {
 		if (mapList == null) {
 			return null;
 		}
@@ -931,6 +819,20 @@ public class ExcelUtil {
 		}
 		return buffer.toString();
 	}
+
+	/**
+	 * 구분자로 쓰이는 문자열 또는 개행문자가 값에 포함되어 있을 경우 값을 쌍따옴표로 둘러싸도록 변환한다.
+	 * @param str 변환할 문자열
+	 * @param sep 열 구분자로 쓰일 문자열
+	 */
+	public static String escapeSep(String str, String sep) {
+		if (str == null) {
+			return "";
+		}
+		return (str.contains(sep) || str.contains("\n")) ? "\"" + str + "\"" : str;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	/**
 	 * 구분자(CSV, TSV 등)파일 생성용 Row 문자열 생성
