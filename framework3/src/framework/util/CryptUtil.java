@@ -104,7 +104,7 @@ public class CryptUtil {
 			SecretKeySpec skeySpec = new SecretKeySpec(privateKey.getBytes(), "AES");
 			Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-			return String.valueOf(Hex.encodeHex(cipher.doFinal(message.getBytes()))).toUpperCase();
+			return String.valueOf(Hex.encodeHex(cipher.doFinal(message.getBytes())));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -138,7 +138,7 @@ public class CryptUtil {
 			SecretKeySpec skeySpec = new SecretKeySpec(privateKey.getBytes(), "DES");
 			Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-			return String.valueOf(Hex.encodeHex(cipher.doFinal(message.getBytes()))).toUpperCase();
+			return String.valueOf(Hex.encodeHex(cipher.doFinal(message.getBytes())));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -169,7 +169,7 @@ public class CryptUtil {
 		SecureRandom r = new SecureRandom();
 		byte[] salt = new byte[10];
 		r.nextBytes(salt);
-		return new String(Hex.encodeHex(salt)).toUpperCase();
+		return new String(Hex.encodeHex(salt));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////Private ¸Þ¼Òµå
@@ -184,7 +184,7 @@ public class CryptUtil {
 		try {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
 			md.reset();
-			return new String(Hex.encodeHex(md.digest(message.getBytes()))).toUpperCase();
+			return new String(Hex.encodeHex(md.digest(message.getBytes())));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -202,7 +202,7 @@ public class CryptUtil {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
 			md.reset();
 			md.update(salt.getBytes());
-			return new String(Hex.encodeHex(md.digest(message.getBytes()))).toUpperCase();
+			return new String(Hex.encodeHex(md.digest(message.getBytes())));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
