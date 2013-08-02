@@ -23,39 +23,37 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import framework.util.StringUtil;
 
 public class JuminMaskFilter implements Filter {
-	private static final String _JUMIN_PATTERN = "(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])";
 
-	private static Pattern _juminPattern;
+	private Pattern _juminPattern = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])", Pattern.MULTILINE);
 
-	static {
-		_juminPattern = Pattern.compile(_JUMIN_PATTERN, Pattern.MULTILINE);
-	}
-
-	public void doFilter(ServletRequest p_req, ServletResponse p_res, FilterChain p_chain) throws IOException, ServletException {
-		MyResponseWrapper l_resWrapper = null;
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+		MyResponseWrapper resWrapper = null;
 		try {
-			l_resWrapper = new MyResponseWrapper((HttpServletResponse) p_res);
-			p_chain.doFilter(p_req, l_resWrapper);
-			String l_contentType = StringUtil.nullToBlankString(p_res.getContentType());
-			if (l_contentType.contains("text") || l_contentType.contains("json")) {
-				String l_juminMaskData = _juminPattern.matcher(l_resWrapper.toString()).replaceAll("$1******");
-				PrintWriter l_writer = p_res.getWriter();
-				l_writer.print(l_juminMaskData);
-				l_writer.flush();
-				l_writer.close();
+			resWrapper = new MyResponseWrapper((HttpServletResponse) response);
+			filterChain.doFilter(request, resWrapper);
+			String contentType = StringUtil.nullToBlankString(response.getContentType()).toLowerCase();
+			if (contentType.contains("text") || contentType.contains("json")) {
+				String juminMaskData = _juminPattern.matcher(resWrapper.toString()).replaceAll("$1******");
+				PrintWriter writer = response.getWriter();
+				writer.print(juminMaskData);
+				writer.flush();
+				writer.close();
 			} else {
-				l_resWrapper.writeTo(p_res.getOutputStream());
+				resWrapper.writeTo(response.getOutputStream());
 			}
 		} finally {
-			if (l_resWrapper != null) {
-				l_resWrapper.close();
+			if (resWrapper != null) {
+				resWrapper.close();
 			}
 		}
 	}
 
-	public void init(FilterConfig config) throws ServletException {
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 
+	@Override
 	public void destroy() {
 	}
 

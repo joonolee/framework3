@@ -17,17 +17,46 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 public class XSSFilter implements Filter {
+
+	// Avoid anything between script tags
+	private Pattern _scriptPattern1 = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
+
+	// Avoid anything in a src='...' type of expression
+	private Pattern _scriptPattern2 = Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private Pattern _scriptPattern3 = Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+
+	// Remove any lonesome </script> tag
+	private Pattern _scriptPattern4 = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
+
+	// Remove any lonesome <script ...> tag
+	private Pattern _scriptPattern5 = Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+
+	// Avoid eval(...) expressions
+	private Pattern _scriptPattern6 = Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+
+	// Avoid expression(...) expressions
+	private Pattern _scriptPattern7 = Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+
+	// Avoid javascript:... expressions
+	private Pattern _scriptPattern8 = Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE);
+
+	// Avoid vbscript:... expressions
+	private Pattern _scriptPattern9 = Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE);
+
+	// Avoid onload= expressions
+	private Pattern _scriptPattern10 = Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+		filterChain.doFilter(new XSSRequestWrapper((HttpServletRequest) request), response);
+	}
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 
 	@Override
 	public void destroy() {
-	}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		chain.doFilter(new XSSRequestWrapper((HttpServletRequest) request), response);
 	}
 
 	class XSSRequestWrapper extends HttpServletRequestWrapper {
@@ -70,35 +99,16 @@ public class XSSFilter implements Filter {
 			if (value != null) {
 				// Avoid null characters
 				value = value.replaceAll("\0", "");
-				// Avoid anything between script tags
-				Pattern scriptPattern = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
-				value = scriptPattern.matcher(value).replaceAll("");
-				// Avoid anything in a src='...' type of expression
-				scriptPattern = Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-				value = scriptPattern.matcher(value).replaceAll("");
-				scriptPattern = Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-				value = scriptPattern.matcher(value).replaceAll("");
-				// Remove any lonesome </script> tag
-				scriptPattern = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
-				value = scriptPattern.matcher(value).replaceAll("");
-				// Remove any lonesome <script ...> tag
-				scriptPattern = Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-				value = scriptPattern.matcher(value).replaceAll("");
-				// Avoid eval(...) expressions
-				scriptPattern = Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-				value = scriptPattern.matcher(value).replaceAll("");
-				// Avoid expression(...) expressions
-				scriptPattern = Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-				value = scriptPattern.matcher(value).replaceAll("");
-				// Avoid javascript:... expressions
-				scriptPattern = Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE);
-				value = scriptPattern.matcher(value).replaceAll("");
-				// Avoid vbscript:... expressions
-				scriptPattern = Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE);
-				value = scriptPattern.matcher(value).replaceAll("");
-				// Avoid onload= expressions
-				scriptPattern = Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-				value = scriptPattern.matcher(value).replaceAll("");
+				value = _scriptPattern1.matcher(value).replaceAll("");
+				value = _scriptPattern2.matcher(value).replaceAll("");
+				value = _scriptPattern3.matcher(value).replaceAll("");
+				value = _scriptPattern4.matcher(value).replaceAll("");
+				value = _scriptPattern5.matcher(value).replaceAll("");
+				value = _scriptPattern6.matcher(value).replaceAll("");
+				value = _scriptPattern7.matcher(value).replaceAll("");
+				value = _scriptPattern8.matcher(value).replaceAll("");
+				value = _scriptPattern9.matcher(value).replaceAll("");
+				value = _scriptPattern10.matcher(value).replaceAll("");
 			}
 			return value;
 		}

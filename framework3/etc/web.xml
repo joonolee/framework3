@@ -4,6 +4,43 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name></display-name>
+
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>framework.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>	
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>XSSFilter</filter-name>
+		<filter-class>framework.filter.XSSFilter</filter-class>
+	</filter>	
+	<filter-mapping>
+		<filter-name>XSSFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>JuminMaskFilter</filter-name>
+		<filter-class>framework.filter.JuminMaskFilter</filter-class>
+	</filter>	
+	<filter-mapping>
+		<filter-name>JuminMaskFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	
 	<filter>
 		<filter-name>AccessLogFilter</filter-name>
 		<filter-class>framework.filter.AccessLogFilter</filter-class>

@@ -19,38 +19,38 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class AccessLogFilter implements Filter {
-	private static Log _logger = LogFactory.getLog(framework.filter.AccessLogFilter.class);
+	private Log _logger = LogFactory.getLog(framework.filter.AccessLogFilter.class);
 
 	@Override
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest httpReq = (HttpServletRequest) req;
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+		HttpServletRequest httpReq = (HttpServletRequest) request;
 		if (_getLogger().isDebugEnabled()) {
 			_getLogger().debug("★★★ " + httpReq.getRemoteAddr() + " 로 부터 \"" + httpReq.getMethod() + " " + httpReq.getRequestURI() + "\" 요청이 시작되었습니다");
 			_getLogger().debug(_getParamString(httpReq));
 			_getLogger().debug("ContentLength : " + httpReq.getContentLength() + "bytes");
 		}
-		chain.doFilter(req, res);
+		filterChain.doFilter(request, response);
 		if (_getLogger().isDebugEnabled()) {
 			_getLogger().debug("★★★ " + httpReq.getRemoteAddr() + " 로 부터 \"" + httpReq.getMethod() + " " + httpReq.getRequestURI() + "\" 요청이 종료되었습니다\n");
 		}
 	}
 
 	@Override
-	public void init(FilterConfig config) throws ServletException {
+	public void init(FilterConfig filterConfig) throws ServletException {
 	}
 
 	@Override
 	public void destroy() {
 	}
 
-	private String _getParamString(HttpServletRequest req) {
+	private String _getParamString(HttpServletRequest request) {
 		StringBuilder buf = new StringBuilder();
 		buf.append("{ ");
 		long currentRow = 0;
-		for (Object obj : req.getParameterMap().keySet()) {
+		for (Object obj : request.getParameterMap().keySet()) {
 			String key = (String) obj;
 			String value = null;
-			Object o = req.getParameterValues(key);
+			Object o = request.getParameterValues(key);
 			if (o == null) {
 				value = "";
 			} else {
@@ -90,6 +90,6 @@ public class AccessLogFilter implements Filter {
 	}
 
 	private Log _getLogger() {
-		return AccessLogFilter._logger;
+		return this._logger;
 	}
 }
