@@ -261,7 +261,7 @@ public class CryptUtil {
 	 * @param message 원본메시지
 	 * @return 인코딩된 문자열
 	 */
-	public static String encodeBase64(String message) {
+	public static String encodeBase64String(String message) {
 		return Base64.encodeBase64String(message.getBytes());
 	}
 
@@ -270,7 +270,7 @@ public class CryptUtil {
 	 * @param message 원본 메시지
 	 * @return 디코딩된 문자열
 	 */
-	public static String decodeBase64(String message) {
+	public static String decodeBase64String(String message) {
 		return new String(Base64.decodeBase64(message.getBytes()));
 	}
 
@@ -319,7 +319,7 @@ public class CryptUtil {
 			SecretKeySpec skeySpec = new SecretKeySpec(privateKey.getBytes(), "DES");
 			Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-			return String.valueOf(Hex.encodeHex(cipher.doFinal(message.getBytes())));
+			return Hex.encodeHexString(cipher.doFinal(message.getBytes()));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -350,7 +350,7 @@ public class CryptUtil {
 		SecureRandom r = new SecureRandom();
 		byte[] salt = new byte[10];
 		r.nextBytes(salt);
-		return new String(Hex.encodeHex(salt));
+		return Hex.encodeHexString(salt);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
