@@ -7,6 +7,7 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
+import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
@@ -26,53 +27,349 @@ public class CryptUtil {
 	/**
 	 * 메시지를 MD5 알고리즘으로 해쉬한다.
 	 * @param message 원본메시지
-	 * @return 해쉬된 문자열
+	 * @return 해쉬결과 바이트 배열
 	 */
-	public static String hashMD5(String message) {
+	public static byte[] hashMD5(String message) {
 		return _hash(message, "MD5");
 	}
 
-	public static String hashMD5(String message, String salt) {
+	/**
+	 * 메시지를 MD5 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashMD5HexString(String message) {
+		return _hashHexString(message, "MD5");
+	}
+
+	/**
+	 * 메시지를 MD5 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashMD5Base64String(String message) {
+		return _hashBase64String(message, "MD5");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 MD5 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 바이트 배열
+	 */
+	public static byte[] hashMD5(String message, String salt) {
 		return _hash(message, salt, "MD5");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 MD5 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashMD5HexString(String message, String salt) {
+		return _hashHexString(message, salt, "MD5");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 MD5 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashMD5Base64String(String message, String salt) {
+		return _hashBase64String(message, salt, "MD5");
 	}
 
 	/**
 	 * 메시지를 SHA-1 알고리즘으로 해쉬한다.
 	 * @param message 원본메시지
-	 * @return 해쉬된 문자열
+	 * @return 해쉬결과 바이트 배열
 	 */
-	public static String hashSHA1(String message) {
+	public static byte[] hashSHA1(String message) {
 		return _hash(message, "SHA-1");
 	}
 
-	public static String hashSHA1(String message, String salt) {
+	/**
+	 * 메시지를 SHA-1 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashSHA1HexString(String message) {
+		return _hashHexString(message, "SHA-1");
+	}
+
+	/**
+	 * 메시지를 SHA-1 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashSHA1Base64String(String message) {
+		return _hashBase64String(message, "SHA-1");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 SHA-1 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 바이트 배열
+	 */
+	public static byte[] hashSHA1(String message, String salt) {
 		return _hash(message, salt, "SHA-1");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 SHA-1 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashSHA1HexString(String message, String salt) {
+		return _hashHexString(message, salt, "SHA-1");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 SHA-1 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashSHA1Base64String(String message, String salt) {
+		return _hashBase64String(message, salt, "SHA-1");
 	}
 
 	/**
 	 * 메시지를 SHA-256 알고리즘으로 해쉬한다.
 	 * @param message 원본메시지
-	 * @return 해쉬된 문자열
+	 * @return 해쉬결과 바이트 배열
 	 */
-	public static String hashSHA256(String message) {
+	public static byte[] hashSHA256(String message) {
 		return _hash(message, "SHA-256");
 	}
 
-	public static String hashSHA256(String message, String salt) {
+	/**
+	 * 메시지를 SHA-256 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashSHA256HexString(String message) {
+		return _hashHexString(message, "SHA-256");
+	}
+
+	/**
+	 * 메시지를 SHA-256 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @return 해쉬결과  Base64 문자열
+	 */
+	public static String hashSHA256Base64String(String message) {
+		return _hashBase64String(message, "SHA-256");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 SHA-256 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 바이트 배열
+	 */
+	public static byte[] hashSHA256(String message, String salt) {
 		return _hash(message, salt, "SHA-256");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 SHA-256 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashSHA256HexString(String message, String salt) {
+		return _hashHexString(message, salt, "SHA-256");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 SHA-256 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과  Base64 문자열
+	 */
+	public static String hashSHA256Base64String(String message, String salt) {
+		return _hashBase64String(message, salt, "SHA-256");
 	}
 
 	/**
 	 * 메시지를 SHA-512 알고리즘으로 해쉬한다.
 	 * @param message 원본메시지
-	 * @return 해쉬된 문자열
+	 * @return 해쉬결과 바이트 배열
 	 */
-	public static String hashSHA512(String message) {
+	public static byte[] hashSHA512(String message) {
 		return _hash(message, "SHA-512");
 	}
 
-	public static String hashSHA512(String message, String salt) {
+	/**
+	 * 메시지를 SHA-512 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashSHA512HexString(String message) {
+		return _hashHexString(message, "SHA-512");
+	}
+
+	/**
+	 * 메시지를 SHA-512 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashSHA512Base64String(String message) {
+		return _hashBase64String(message, "SHA-512");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 SHA-512 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 바이트 배열
+	 */
+	public static byte[] hashSHA512(String message, String salt) {
 		return _hash(message, salt, "SHA-512");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 SHA-512 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashSHA512HexString(String message, String salt) {
+		return _hashHexString(message, salt, "SHA-512");
+	}
+
+	/**
+	 * salt를 적용하여 메시지를 SHA-512 알고리즘으로 해쉬한다.
+	 * @param message 원본메시지
+	 * @param salt 솔트값
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashSHA512Base64String(String message, String salt) {
+		return _hashBase64String(message, salt, "SHA-512");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacMD5 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 바이트 배열
+	 */
+	public static byte[] hashHmacMD5(String message, String secretKey) {
+		return _hashHmac(message, secretKey, "HmacMD5");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacMD5 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashHmacMD5HexString(String message, String secretKey) {
+		return _hashHmacHexString(message, secretKey, "HmacMD5");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacMD5 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashHmacMD5Base64String(String message, String secretKey) {
+		return _hashHmacBase64String(message, secretKey, "HmacMD5");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacSHA1 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 바이트 배열
+	 */
+	public static byte[] hashHmacSHA1(String message, String secretKey) {
+		return _hashHmac(message, secretKey, "HmacSHA1");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacSHA1 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashHmacSHA1HexString(String message, String secretKey) {
+		return _hashHmacHexString(message, secretKey, "HmacSHA1");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacSHA1 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashHmacSHA1Base64String(String message, String secretKey) {
+		return _hashHmacBase64String(message, secretKey, "HmacSHA1");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacSHA256 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 바이트 배열
+	 */
+	public static byte[] hashHmacSHA256(String message, String secretKey) {
+		return _hashHmac(message, secretKey, "HmacSHA256");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacSHA256 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashHmacSHA256HexString(String message, String secretKey) {
+		return _hashHmacHexString(message, secretKey, "HmacSHA256");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacSHA256 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashHmacSHA256Base64String(String message, String secretKey) {
+		return _hashHmacBase64String(message, secretKey, "HmacSHA256");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacSHA512 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 바이트 배열
+	 */
+	public static byte[] hashHmacSHA512(String message, String secretKey) {
+		return _hashHmac(message, secretKey, "HmacSHA512");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacSHA512 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 Hex 문자열
+	 */
+	public static String hashHmacSHA512HexString(String message, String secretKey) {
+		return _hashHmacHexString(message, secretKey, "HmacSHA512");
+	}
+
+	/**
+	 * 메시지를 secretKey를 이용하여 HmacSHA512 알고리즘으로 해시한다.
+	 * @param message 원본메시지
+	 * @param secretKey 키
+	 * @return 해쉬결과 Base64 문자열
+	 */
+	public static String hashHmacSHA512Base64String(String message, String secretKey) {
+		return _hashHmacBase64String(message, secretKey, "HmacSHA512");
 	}
 
 	/**
@@ -81,7 +378,7 @@ public class CryptUtil {
 	 * @return 인코딩된 문자열
 	 */
 	public static String encodeBase64(String message) {
-		return new String(Base64.encodeBase64(message.getBytes()));
+		return Base64.encodeBase64String(message.getBytes());
 	}
 
 	/**
@@ -104,7 +401,7 @@ public class CryptUtil {
 			SecretKeySpec skeySpec = new SecretKeySpec(privateKey.getBytes(), "AES");
 			Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-			return String.valueOf(Hex.encodeHex(cipher.doFinal(message.getBytes())));
+			return new String(Hex.encodeHex(cipher.doFinal(message.getBytes())));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -174,37 +471,86 @@ public class CryptUtil {
 
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
 
-	/**
-	 * 메시지를 주어진 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
-	 * @param algorithm 해쉬 알고리즘
-	 * @return 해쉬된 문자열
+	/*
+	 * 해시결과 바이트 배열
 	 */
-	private static String _hash(String message, String algorithm) {
+	private static byte[] _hash(String message, String algorithm) {
 		try {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
 			md.reset();
-			return new String(Hex.encodeHex(md.digest(message.getBytes())));
+			return md.digest(message.getBytes());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	/**
-	 * 메시지를 솔트를 사용하여 주어진 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
-	 * @param salt 솔트값 
-	 * @param algorithm 해쉬 알고리즘
-	 * @return 해쉬된 문자열
+	/*
+	 * 해시결과 Hex 문자열
 	 */
-	private static String _hash(String message, String salt, String algorithm) {
+	private static String _hashHexString(String message, String algorithm) {
+		return Hex.encodeHexString(_hash(message, algorithm));
+	}
+
+	/*
+	 * 해시결과 Base64 문자열
+	 */
+	private static String _hashBase64String(String message, String algorithm) {
+		return Base64.encodeBase64String((_hash(message, algorithm)));
+	}
+
+	/*
+	 * Hmac 해시결과 바이트 배열
+	 */
+	private static byte[] _hashHmac(String message, String secretKey, String algorithm) {
+		try {
+			SecretKeySpec skeySpec = new SecretKeySpec(secretKey.getBytes(), algorithm);
+			Mac mac = Mac.getInstance(algorithm);
+			mac.init(skeySpec);
+			return mac.doFinal((message.getBytes()));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/*
+	 * Hmac 해시결과 Hex 문자열
+	 */
+	private static String _hashHmacHexString(String message, String secretKey, String algorithm) {
+		return Hex.encodeHexString(_hashHmac(message, secretKey, algorithm));
+	}
+
+	/*
+	 * Hmac 해시결과 Base64 문자열
+	 */
+	private static String _hashHmacBase64String(String message, String secretKey, String algorithm) {
+		return Base64.encodeBase64String(_hashHmac(message, secretKey, algorithm));
+	}
+
+	/*
+	 * salt 적용 해시결과 바이트 배열
+	 */
+	private static byte[] _hash(String message, String salt, String algorithm) {
 		try {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
 			md.reset();
 			md.update(salt.getBytes());
-			return new String(Hex.encodeHex(md.digest(message.getBytes())));
+			return md.digest(message.getBytes());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	/*
+	 * salt 적용 해시결과 Hex 문자열
+	 */
+	private static String _hashHexString(String message, String salt, String algorithm) {
+		return Hex.encodeHexString(_hash(message, salt, algorithm));
+	}
+
+	/*
+	 * salt 적용 해시결과 Base64 문자열
+	 */
+	private static String _hashBase64String(String message, String salt, String algorithm) {
+		return Base64.encodeBase64String(_hash(message, salt, algorithm));
 	}
 }
