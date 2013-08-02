@@ -27,15 +27,6 @@ public class CryptUtil {
 	/**
 	 * 메시지를 MD5 알고리즘으로 해쉬한다.
 	 * @param message 원본메시지
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashMD5(String message) {
-		return _hash(message, "MD5");
-	}
-
-	/**
-	 * 메시지를 MD5 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashMD5HexString(String message) {
@@ -49,16 +40,6 @@ public class CryptUtil {
 	 */
 	public static String hashMD5Base64String(String message) {
 		return _hashBase64String(message, "MD5");
-	}
-
-	/**
-	 * salt를 적용하여 메시지를 MD5 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
-	 * @param salt 솔트값
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashMD5(String message, String salt) {
-		return _hash(message, salt, "MD5");
 	}
 
 	/**
@@ -84,15 +65,6 @@ public class CryptUtil {
 	/**
 	 * 메시지를 SHA-1 알고리즘으로 해쉬한다.
 	 * @param message 원본메시지
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashSHA1(String message) {
-		return _hash(message, "SHA-1");
-	}
-
-	/**
-	 * 메시지를 SHA-1 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashSHA1HexString(String message) {
@@ -106,16 +78,6 @@ public class CryptUtil {
 	 */
 	public static String hashSHA1Base64String(String message) {
 		return _hashBase64String(message, "SHA-1");
-	}
-
-	/**
-	 * salt를 적용하여 메시지를 SHA-1 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
-	 * @param salt 솔트값
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashSHA1(String message, String salt) {
-		return _hash(message, salt, "SHA-1");
 	}
 
 	/**
@@ -141,15 +103,6 @@ public class CryptUtil {
 	/**
 	 * 메시지를 SHA-256 알고리즘으로 해쉬한다.
 	 * @param message 원본메시지
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashSHA256(String message) {
-		return _hash(message, "SHA-256");
-	}
-
-	/**
-	 * 메시지를 SHA-256 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashSHA256HexString(String message) {
@@ -163,16 +116,6 @@ public class CryptUtil {
 	 */
 	public static String hashSHA256Base64String(String message) {
 		return _hashBase64String(message, "SHA-256");
-	}
-
-	/**
-	 * salt를 적용하여 메시지를 SHA-256 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
-	 * @param salt 솔트값
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashSHA256(String message, String salt) {
-		return _hash(message, salt, "SHA-256");
 	}
 
 	/**
@@ -198,15 +141,6 @@ public class CryptUtil {
 	/**
 	 * 메시지를 SHA-512 알고리즘으로 해쉬한다.
 	 * @param message 원본메시지
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashSHA512(String message) {
-		return _hash(message, "SHA-512");
-	}
-
-	/**
-	 * 메시지를 SHA-512 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashSHA512HexString(String message) {
@@ -220,16 +154,6 @@ public class CryptUtil {
 	 */
 	public static String hashSHA512Base64String(String message) {
 		return _hashBase64String(message, "SHA-512");
-	}
-
-	/**
-	 * salt를 적용하여 메시지를 SHA-512 알고리즘으로 해쉬한다.
-	 * @param message 원본메시지
-	 * @param salt 솔트값
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashSHA512(String message, String salt) {
-		return _hash(message, salt, "SHA-512");
 	}
 
 	/**
@@ -256,16 +180,6 @@ public class CryptUtil {
 	 * 메시지를 secretKey를 이용하여 HmacMD5 알고리즘으로 해시한다.
 	 * @param message 원본메시지
 	 * @param secretKey 키
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashHmacMD5(String message, String secretKey) {
-		return _hashHmac(message, secretKey, "HmacMD5");
-	}
-
-	/**
-	 * 메시지를 secretKey를 이용하여 HmacMD5 알고리즘으로 해시한다.
-	 * @param message 원본메시지
-	 * @param secretKey 키
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashHmacMD5HexString(String message, String secretKey) {
@@ -280,16 +194,6 @@ public class CryptUtil {
 	 */
 	public static String hashHmacMD5Base64String(String message, String secretKey) {
 		return _hashHmacBase64String(message, secretKey, "HmacMD5");
-	}
-
-	/**
-	 * 메시지를 secretKey를 이용하여 HmacSHA1 알고리즘으로 해시한다.
-	 * @param message 원본메시지
-	 * @param secretKey 키
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashHmacSHA1(String message, String secretKey) {
-		return _hashHmac(message, secretKey, "HmacSHA1");
 	}
 
 	/**
@@ -316,16 +220,6 @@ public class CryptUtil {
 	 * 메시지를 secretKey를 이용하여 HmacSHA256 알고리즘으로 해시한다.
 	 * @param message 원본메시지
 	 * @param secretKey 키
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashHmacSHA256(String message, String secretKey) {
-		return _hashHmac(message, secretKey, "HmacSHA256");
-	}
-
-	/**
-	 * 메시지를 secretKey를 이용하여 HmacSHA256 알고리즘으로 해시한다.
-	 * @param message 원본메시지
-	 * @param secretKey 키
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashHmacSHA256HexString(String message, String secretKey) {
@@ -340,16 +234,6 @@ public class CryptUtil {
 	 */
 	public static String hashHmacSHA256Base64String(String message, String secretKey) {
 		return _hashHmacBase64String(message, secretKey, "HmacSHA256");
-	}
-
-	/**
-	 * 메시지를 secretKey를 이용하여 HmacSHA512 알고리즘으로 해시한다.
-	 * @param message 원본메시지
-	 * @param secretKey 키
-	 * @return 해쉬결과 바이트 배열
-	 */
-	public static byte[] hashHmacSHA512(String message, String secretKey) {
-		return _hashHmac(message, secretKey, "HmacSHA512");
 	}
 
 	/**
