@@ -141,8 +141,14 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	private String _getControllerKey(HttpServletRequest request) {
-		String path = request.getServletPath() + StringUtil.nullToBlankString(request.getPathInfo());
-		return path;
+		String path = request.getServletPath();
+		int slash = path.lastIndexOf("/");
+		int period = path.lastIndexOf(".");
+		if (period > 0 && period > slash) {
+			path = path.substring(0, period);
+			return path;
+		}
+		return null;
 	}
 
 	private String _getControllerClassName(String controllerKey) {
