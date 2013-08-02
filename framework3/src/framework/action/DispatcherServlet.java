@@ -17,6 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import framework.cache.Cache;
+import framework.util.StringUtil;
 
 /** 
  * 컨트롤러 역할을 하는 서블릿으로 모든 클라이언트의 요청을 받아 해당 액션을 실행한다.
@@ -140,14 +141,8 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	private String _getControllerKey(HttpServletRequest request) {
-		String path = request.getServletPath();
-		int slash = path.lastIndexOf("/");
-		int period = path.lastIndexOf(".");
-		if (period > 0 && period > slash) {
-			path = path.substring(0, period);
-			return path;
-		}
-		return null;
+		String path = request.getServletPath() + StringUtil.nullToBlankString(request.getPathInfo());
+		return path;
 	}
 
 	private String _getControllerClassName(String controllerKey) {
