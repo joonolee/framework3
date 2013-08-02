@@ -316,7 +316,7 @@ public class JsonUtil {
 				if (value == null) {
 					buffer.append(key + ":" + "\"\"");
 				} else {
-					if (value instanceof Number) {
+					if (value instanceof Number || value instanceof Boolean) {
 						buffer.append(key + ":" + value.toString());
 					} else if (value instanceof Map) {
 						buffer.append(key + ":" + render((Map<String, Object>) value));
@@ -350,7 +350,7 @@ public class JsonUtil {
 				if (value == null) {
 					buffer.append(key + ":" + "\"\"");
 				} else {
-					if (value instanceof Number) {
+					if (value instanceof Number || value instanceof Boolean) {
 						buffer.append(key + ":" + value.toString());
 					} else {
 						buffer.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
@@ -382,7 +382,7 @@ public class JsonUtil {
 				if (value == null) {
 					buffer.append(key + ":" + "\"\"");
 				} else {
-					if (value instanceof Number) {
+					if (value instanceof Number || value instanceof Boolean) {
 						buffer.append(key + ":" + value.toString());
 					} else {
 						buffer.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
