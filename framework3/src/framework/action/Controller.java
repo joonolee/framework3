@@ -86,13 +86,16 @@ public abstract class Controller {
 	 * @throws Exception
 	 */
 	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		_setServlet(servlet);
-		_setRequest(request);
-		_setParams(request);
-		_setCookies(request);
-		_setSession(request.getSession());
-		_setResponse(response);
-		_setOut(response);
+		this.servlet = servlet;
+		this.request = request;
+		this.params = Params.getParams(request);
+		this.cookies = Params.getParamsFromCookie(request);
+		this.session = request.getSession();
+		this.response = response;
+		try {
+			this.out = response.getWriter();
+		} catch (IOException e) {
+		}
 		try {
 			Method method = _getMethod(params.getString("action"));
 			if (method == null) {
@@ -128,7 +131,12 @@ public abstract class Controller {
 	 * @param jsp routes.properties 파일에 등록된 JSP 페이지의 키
 	 */
 	protected void render(String jsp) {
-		_route(jsp, true);
+		try {
+			Router router = new Router(jsp, true);
+			router.route(servlet, request, response);
+		} catch (Exception e) {
+			logger.error("Router Error!", e);
+		}
 	}
 
 	/**
@@ -303,7 +311,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(String xml, String encoding) {
-		setContentType("application/xml; charset=" + encoding);
+		setContentType("text/xml; charset=" + encoding);
 		out.write(xml);
 	}
 
@@ -325,7 +333,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(RecordSet rs, String encoding) {
-		setContentType("application/xml; charset=" + encoding);
+		setContentType("text/xml; charset=" + encoding);
 		out.write(XmlUtil.render(rs, encoding));
 	}
 
@@ -347,7 +355,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(ResultSet rs, String encoding) {
-		setContentType("application/xml; charset=" + encoding);
+		setContentType("text/xml; charset=" + encoding);
 		out.write(XmlUtil.render(rs, encoding));
 	}
 
@@ -369,7 +377,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(Map<String, Object> map, String encoding) {
-		setContentType("application/xml; charset=" + encoding);
+		setContentType("text/xml; charset=" + encoding);
 		out.write(XmlUtil.render(map, encoding));
 	}
 
@@ -391,7 +399,7 @@ public abstract class Controller {
 	 * @param encoding 인코딩
 	 */
 	protected void renderXML(List<Map<String, Object>> list, String encoding) {
-		setContentType("application/xml; charset=" + encoding);
+		setContentType("text/xml; charset=" + encoding);
 		out.write(XmlUtil.render(list, encoding));
 	}
 
@@ -403,7 +411,12 @@ public abstract class Controller {
 	 * @param key routes.properties 파일에 등록된 JSP 페이지의 키
 	 */
 	protected void redirect(String key) {
-		_route(key, false);
+		try {
+			Router router = new Router(key, false);
+			router.route(servlet, request, response);
+		} catch (Exception e) {
+			logger.error("Redirect Error!", e);
+		}
 	}
 
 	/** 
@@ -517,45 +530,6 @@ public abstract class Controller {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
-	private void _setServlet(HttpServlet ser) {
-		servlet = ser;
-	}
-
-	private void _setRequest(HttpServletRequest req) {
-		request = req;
-	}
-
-	private void _setSession(HttpSession ses) {
-		session = ses;
-	}
-
-	private void _setParams(HttpServletRequest req) {
-		params = Params.getParams(request);
-	}
-
-	private void _setCookies(HttpServletRequest req) {
-		cookies = Params.getParamsFromCookie(request);
-	}
-
-	private void _route(String key, boolean isForward) {
-		try {
-			Router router = new Router(key, isForward);
-			router.route(servlet, request, response);
-		} catch (Exception e) {
-			logger.error("Router Error!", e);
-		}
-	}
-
-	private void _setResponse(HttpServletResponse res) {
-		response = res;
-	}
-
-	private void _setOut(HttpServletResponse response) {
-		try {
-			out = response.getWriter();
-		} catch (IOException e) {
-		}
-	}
 
 	private void _destroy() {
 		ConnectionManager connMgr = null;
