@@ -36,6 +36,7 @@ public class DispatcherServlet extends HttpServlet {
 	 * web.xml에 초기화 파라미터로 등록되어 있는 routes-mapping 값을 찾아 리소스 번들을 생성하는 역할을 한다.
 	 * @param config ServletConfig 객체
 	 */
+	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		ResourceBundle bundle = null;

@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
@@ -20,32 +21,44 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import framework.util.StringUtil;
 
 public class JuminMaskFilter implements Filter {
-
+	private Log _logger = LogFactory.getLog(framework.filter.JuminMaskFilter.class);
 	private Pattern _juminPattern = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])", Pattern.MULTILINE);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		MyResponseWrapper resWrapper = null;
+		if (_getLogger().isDebugEnabled()) {
+			_getLogger().debug("Start");
+		}
 		try {
 			resWrapper = new MyResponseWrapper((HttpServletResponse) response);
 			filterChain.doFilter(request, resWrapper);
-			String contentType = StringUtil.nullToBlankString(response.getContentType()).toLowerCase();
-			if (contentType.contains("text") || contentType.contains("json")) {
-				String juminMaskData = _juminPattern.matcher(resWrapper.toString()).replaceAll("$1******");
+			String contentType = StringUtil.nullToBlankString(resWrapper.getContentType()).toLowerCase();
+			if ("".equals(contentType) || contentType.contains("text") || contentType.contains("json") || contentType.contains("xml")) {
+				Matcher matcher = _juminPattern.matcher(resWrapper.toString());
+				String juminMaskData = matcher.replaceAll("$1******");
 				PrintWriter writer = response.getWriter();
 				writer.print(juminMaskData);
 				writer.flush();
 				writer.close();
+				writer = null;
 			} else {
 				resWrapper.writeTo(response.getOutputStream());
 			}
 		} finally {
 			if (resWrapper != null) {
 				resWrapper.close();
+				resWrapper = null;
 			}
+		}
+		if (_getLogger().isDebugEnabled()) {
+			_getLogger().debug("End");
 		}
 	}
 
@@ -90,10 +103,13 @@ public class JuminMaskFilter implements Filter {
 		public void close() throws IOException {
 			_bytes.close();
 			_writer.close();
+			_bytes = null;
+			_bytes = null;
 		}
 	}
 
 	public class MyOutputStream extends ServletOutputStream {
+
 		private ByteArrayOutputStream _bytes;
 
 		public MyOutputStream(ByteArrayOutputStream p_bytes) {
@@ -114,5 +130,16 @@ public class JuminMaskFilter implements Filter {
 		public void write(byte[] b, int off, int len) throws IOException {
 			_bytes.write(b, off, len);
 		}
+
+		@Override
+		public void close() throws IOException {
+			_bytes.close();
+			super.close();
+			_bytes = null;
+		}
+	}
+
+	private Log _getLogger() {
+		return this._logger;
 	}
 }

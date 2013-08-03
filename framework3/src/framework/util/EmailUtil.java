@@ -326,6 +326,7 @@ public class EmailUtil {
 			_pw = pw;
 		}
 
+		@Override
 		protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
 			return new javax.mail.PasswordAuthentication(_id, _pw);
 		}

@@ -91,6 +91,7 @@ public class SQLBatchStatement extends DBStatement {
 		return str.toString();
 	}
 
+	@Override
 	public String toString() {
 		return "SQL : " + getSQL();
 	}

@@ -47,7 +47,7 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Params getParams(HttpServletRequest request) {
-		Params params = new Params("request");
+		Params params = new Params("Request");
 		for (Object obj : request.getParameterMap().keySet()) {
 			String key = (String) obj;
 			params.put(key, request.getParameterValues(key));
@@ -104,7 +104,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return 쿠키Params 객체
 	 */
 	public static Params getParamsFromCookie(HttpServletRequest request) {
-		Params cookieparams = new Params("cookie");
+		Params cookieparams = new Params("Cookie");
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
 			return cookieparams;
@@ -143,7 +143,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 문자열 배열
 	 */
 	public String[] getArray(String key) {
-		return (String[]) super.get(key);
+		return super.get(key);
 	}
 
 	/** 
@@ -327,6 +327,7 @@ public class Params extends HashMap<String, String[]> {
 	 * Param 객체가 가지고 있는 값들을 화면 출력을 위해 문자열로 변환한다.
 	 * @return 화면에 출력하기 위해 변환된 문자열
 	 */
+	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder();
 		buf.append("{ ");
@@ -373,7 +374,7 @@ public class Params extends HashMap<String, String[]> {
 			buf.append(key + "=" + value);
 		}
 		buf.append(" }");
-		return "Params[" + _name + "]=" + buf.toString();
+		return _name + "=" + buf.toString();
 	}
 
 	/** 

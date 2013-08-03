@@ -13,28 +13,55 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class CharacterEncodingFilter implements Filter {
+	private Log _logger = LogFactory.getLog(framework.filter.CharacterEncodingFilter.class);
 	private String _encoding = null;
-	private boolean _forceEncoding = false;
+	private boolean _force = true;
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-		if (this._encoding != null && (this._forceEncoding || request.getCharacterEncoding() == null)) {
-			request.setCharacterEncoding(this._encoding);
-			if (this._forceEncoding) {
+		if (_getLogger().isDebugEnabled()) {
+			_getLogger().debug("Start [ encoding=" + this._encoding + ", force=" + this._force + " ]");
+		}
+		if (this._force || (request.getCharacterEncoding() == null)) {
+			if (this._encoding != null) {
+				request.setCharacterEncoding(this._encoding);
+			}
+		}
+		if (this._force || (response.getCharacterEncoding() == null)) {
+			if (this._encoding != null) {
 				response.setCharacterEncoding(this._encoding);
 			}
 		}
 		filterChain.doFilter(request, response);
+		if (_getLogger().isDebugEnabled()) {
+			_getLogger().debug("End");
+		}
 	}
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this._encoding = filterConfig.getInitParameter("encoding");
-		this._forceEncoding = Boolean.valueOf(filterConfig.getInitParameter("forceEncoding"));
+		String force = filterConfig.getInitParameter("force");
+		if (force == null) {
+			this._force = true;
+		} else if (force.equalsIgnoreCase("true")) {
+			this._force = true;
+		} else if (force.equalsIgnoreCase("yes")) {
+			this._force = true;
+		} else {
+			this._force = false;
+		}
 	}
 
 	@Override
 	public void destroy() {
+	}
+
+	private Log _getLogger() {
+		return this._logger;
 	}
 }

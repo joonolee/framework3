@@ -46,7 +46,7 @@ public class ValueObjectArray {
 		}
 		ValueObject[] voArray = new ValueObject[list.size()];
 		for (int i = 0; i < voArray.length; i++) {
-			voArray[i] = (ValueObject) list.get(i);
+			voArray[i] = list.get(i);
 		}
 		return voArray;
 	}

@@ -16,7 +16,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class XSSFilter implements Filter {
+	private Log _logger = LogFactory.getLog(framework.filter.XSSFilter.class);
 
 	// Avoid anything between script tags
 	private Pattern _scriptPattern1 = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
@@ -48,7 +52,13 @@ public class XSSFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+		if (_getLogger().isDebugEnabled()) {
+			_getLogger().debug("Start");
+		}
 		filterChain.doFilter(new XSSRequestWrapper((HttpServletRequest) request), response);
+		if (_getLogger().isDebugEnabled()) {
+			_getLogger().debug("End");
+		}
 	}
 
 	@Override
@@ -60,7 +70,6 @@ public class XSSFilter implements Filter {
 	}
 
 	class XSSRequestWrapper extends HttpServletRequestWrapper {
-
 		public XSSRequestWrapper(HttpServletRequest servletRequest) {
 			super(servletRequest);
 		}
@@ -68,24 +77,20 @@ public class XSSFilter implements Filter {
 		@Override
 		public String[] getParameterValues(String parameter) {
 			String[] values = super.getParameterValues(parameter);
-
 			if (values == null) {
 				return null;
 			}
-
 			int count = values.length;
 			String[] encodedValues = new String[count];
 			for (int i = 0; i < count; i++) {
 				encodedValues[i] = stripXSS(values[i]);
 			}
-
 			return encodedValues;
 		}
 
 		@Override
 		public String getParameter(String parameter) {
 			String value = super.getParameter(parameter);
-
 			return stripXSS(value);
 		}
 
@@ -97,8 +102,7 @@ public class XSSFilter implements Filter {
 
 		private String stripXSS(String value) {
 			if (value != null) {
-				// Avoid null characters
-				value = value.replaceAll("\0", "");
+				value = value.replaceAll("\0", ""); // Avoid null characters
 				value = _scriptPattern1.matcher(value).replaceAll("");
 				value = _scriptPattern2.matcher(value).replaceAll("");
 				value = _scriptPattern3.matcher(value).replaceAll("");
@@ -112,5 +116,9 @@ public class XSSFilter implements Filter {
 			}
 			return value;
 		}
+	}
+
+	private Log _getLogger() {
+		return this._logger;
 	}
 }

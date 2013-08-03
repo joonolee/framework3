@@ -583,6 +583,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	/**
 	 * 이터레이터를 반환한다.
 	 */
+	@Override
 	public Iterator<Map<String, Object>> iterator() {
 		return getRows().iterator();
 	}

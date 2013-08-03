@@ -88,7 +88,7 @@ public class ImageUtil {
 		AffineTransform ax = new AffineTransform();
 		ax.setToScale(1, 1);
 		g2d.drawImage(image, ax, null);
-		Image resizedImg = bufImg.getScaledInstance(scaleWidth, scaleHeight, BufferedImage.SCALE_SMOOTH);
+		Image resizedImg = bufImg.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
 		writePNG(resizedImg, destFile);
 	}
 

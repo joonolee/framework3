@@ -3,7 +3,6 @@
  */
 package framework.action;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
@@ -92,20 +91,25 @@ public abstract class Controller {
 		this.cookies = Params.getParamsFromCookie(request);
 		this.session = request.getSession();
 		this.response = response;
-		try {
-			this.out = response.getWriter();
-		} catch (IOException e) {
+		this.out = response.getWriter();
+		if (logger.isDebugEnabled()) {
+			logger.debug("Start");
+			logger.debug(this.params.toString());
+			logger.debug(this.cookies.toString());
+		}
+		Method method = _getMethod(params.getString("action"));
+		if (method == null) {
+			throw new _404Exception("action");
 		}
 		try {
-			Method method = _getMethod(params.getString("action"));
-			if (method == null) {
-				throw new _404Exception("action");
-			}
 			before();
 			method.invoke(this, (Object[]) null);
 			after();
 		} finally {
 			_destroy();
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("End");
 		}
 	}
 

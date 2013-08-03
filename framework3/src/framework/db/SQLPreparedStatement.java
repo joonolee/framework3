@@ -226,6 +226,7 @@ public class SQLPreparedStatement extends DBStatement {
 		_sql = newSql;
 	}
 
+	@Override
 	public String toString() {
 		return "SQL : " + getSQL();
 	}

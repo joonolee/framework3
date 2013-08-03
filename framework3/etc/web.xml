@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <web-app id="WebApp_ID" version="2.4"
-	xmlns="http://java.sun.com/xml/ns/j2ee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
 	<display-name></display-name>
+
+	<filter>
+		<filter-name>AccessLogFilter</filter-name>
+		<filter-class>framework.filter.AccessLogFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessLogFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
 
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
@@ -13,43 +22,33 @@
 			<param-value>utf-8</param-value>
 		</init-param>
 		<init-param>
-			<param-name>forceEncoding</param-name>
+			<param-name>force</param-name>
 			<param-value>true</param-value>
 		</init-param>
-	</filter>	
+	</filter>
 	<filter-mapping>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>XSSFilter</filter-name>
 		<filter-class>framework.filter.XSSFilter</filter-class>
-	</filter>	
+	</filter>
 	<filter-mapping>
 		<filter-name>XSSFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>JuminMaskFilter</filter-name>
 		<filter-class>framework.filter.JuminMaskFilter</filter-class>
-	</filter>	
+	</filter>
 	<filter-mapping>
 		<filter-name>JuminMaskFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	
-	
-	<filter>
-		<filter-name>AccessLogFilter</filter-name>
-		<filter-class>framework.filter.AccessLogFilter</filter-class>
-	</filter>	
-	<filter-mapping>
-		<filter-name>AccessLogFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
-	</filter-mapping>
-	
+
 	<servlet>
 		<servlet-name>DispatcherServlet</servlet-name>
 		<servlet-class>framework.action.DispatcherServlet</servlet-class>
@@ -66,15 +65,16 @@
 			<param-value></param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-	</servlet>	
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>DispatcherServlet</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+
 </web-app>
