@@ -47,7 +47,7 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Params getParams(HttpServletRequest request) {
-		Params params = new Params("Request");
+		Params params = new Params("Params");
 		for (Object obj : request.getParameterMap().keySet()) {
 			String key = (String) obj;
 			params.put(key, request.getParameterValues(key));
