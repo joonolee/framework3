@@ -41,10 +41,25 @@ public class HttpUtil {
 	 * @param url
 	 * @return 결과문자열
 	 */
-	public static String GET(String url) {
+	public static String get(String url) {
+		return get(url, null);
+	}
+
+	/**
+	 * url 을 Get 방식으로 호출하고 결과를 리턴한다.
+	 * @param url
+	 * @param headerMap
+	 * @return 결과문자열
+	 */
+	public static String get(String url, Map<String, String> headerMap) {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet get = new HttpGet(url);
+			if (headerMap != null) {
+				for (Entry<String, String> entry : headerMap.entrySet()) {
+					get.addHeader(entry.getKey(), entry.getValue());
+				}
+			}
 			HttpResponse responseGet = client.execute(get);
 			HttpEntity resEntityGet = responseGet.getEntity();
 			if (resEntityGet != null) {
@@ -61,14 +76,36 @@ public class HttpUtil {
 	 * @param url
 	 * @return 결과문자열
 	 */
-	public static String POST(String url) {
-		return POST(url, null);
+	public static String post(String url) {
+		return post(url, null, (Map<String, String>) null);
 	}
 
-	public static String POST(String url, Map<String, String> paramMap) {
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
+	 * @param url
+	 * @param paramMap
+	 * @return 결과문자열
+	 */
+	public static String post(String url, Map<String, String> paramMap) {
+		return post(url, paramMap, (Map<String, String>) null);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
+	 * @param url
+	 * @param paramMap
+	 * @param headerMap
+	 * @return 결과문자열
+	 */
+	public static String post(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(url);
+			if (headerMap != null) {
+				for (Entry<String, String> entry : headerMap.entrySet()) {
+					post.addHeader(entry.getKey(), entry.getValue());
+				}
+			}
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			if (paramMap != null) {
 				for (Entry<String, String> entry : paramMap.entrySet()) {
@@ -95,10 +132,27 @@ public class HttpUtil {
 	 * @param fileList
 	 * @return 결과문자열
 	 */
-	public static String POST(String url, Map<String, String> paramMap, List<File> fileList) {
+	public static String post(String url, Map<String, String> paramMap, List<File> fileList) {
+		return post(url, paramMap, fileList, null);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다. (첨부파일 포함)
+	 * @param url
+	 * @param paramMap
+	 * @param fileList
+	 * @param headerMap
+	 * @return 결과문자열
+	 */
+	public static String post(String url, Map<String, String> paramMap, List<File> fileList, Map<String, String> headerMap) {
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(url);
+			if (headerMap != null) {
+				for (Entry<String, String> entry : headerMap.entrySet()) {
+					post.addHeader(entry.getKey(), entry.getValue());
+				}
+			}
 			MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 			if (paramMap != null) {
 				for (Entry<String, String> entry : paramMap.entrySet()) {
