@@ -216,7 +216,7 @@ public abstract class Controller {
 	 * @param rs 출력할 RecordSet 데이터(기본 인코딩으로 utf-8 사용)
 	 */
 	protected void renderJSON(RecordSet rs) {
-		renderJSON(rs);
+		renderJSON(rs, _DEFAULT_ENCODING);
 	}
 
 	/**
@@ -238,7 +238,7 @@ public abstract class Controller {
 	 * @param rs 출력할 ResultSet 데이터(기본 인코딩으로 utf-8 사용)
 	 */
 	protected void renderJSON(ResultSet rs) {
-		renderJSON(rs);
+		renderJSON(rs, _DEFAULT_ENCODING);
 	}
 
 	/**
@@ -260,7 +260,7 @@ public abstract class Controller {
 	 * @param map 출력할 Map 데이터(기본 인코딩으로 utf-8 사용)
 	 */
 	protected void renderJSON(Map<String, Object> map) {
-		renderJSON(map);
+		renderJSON(map, _DEFAULT_ENCODING);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public abstract class Controller {
 	 * @param list 출력할 List 데이터(기본 인코딩으로 utf-8 사용)
 	 */
 	protected void renderJSON(List<Map<String, Object>> list) {
-		renderJSON(list);
+		renderJSON(list, _DEFAULT_ENCODING);
 	}
 
 	/**
