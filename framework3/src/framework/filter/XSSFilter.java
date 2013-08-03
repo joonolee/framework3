@@ -52,12 +52,14 @@ public class XSSFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+		long currTime = 0;
 		if (_getLogger().isDebugEnabled()) {
+			currTime = System.currentTimeMillis();
 			_getLogger().debug("Start");
 		}
 		filterChain.doFilter(new XSSRequestWrapper((HttpServletRequest) request), response);
 		if (_getLogger().isDebugEnabled()) {
-			_getLogger().debug("End");
+			_getLogger().debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 		}
 	}
 

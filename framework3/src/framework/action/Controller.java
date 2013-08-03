@@ -92,7 +92,9 @@ public abstract class Controller {
 		this.session = request.getSession();
 		this.response = response;
 		this.out = response.getWriter();
+		long currTime = 0;
 		if (logger.isDebugEnabled()) {
+			currTime = System.currentTimeMillis();
 			logger.debug("Start");
 			logger.debug(this.params.toString());
 			logger.debug(this.cookies.toString());
@@ -109,7 +111,7 @@ public abstract class Controller {
 			_destroy();
 		}
 		if (logger.isDebugEnabled()) {
-			logger.debug("End");
+			logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 		}
 	}
 

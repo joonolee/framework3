@@ -33,7 +33,9 @@ public class JuminMaskFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		MyResponseWrapper resWrapper = null;
+		long currTime = 0;
 		if (_getLogger().isDebugEnabled()) {
+			currTime = System.currentTimeMillis();
 			_getLogger().debug("Start");
 		}
 		try {
@@ -58,7 +60,7 @@ public class JuminMaskFilter implements Filter {
 			}
 		}
 		if (_getLogger().isDebugEnabled()) {
-			_getLogger().debug("End");
+			_getLogger().debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 		}
 	}
 

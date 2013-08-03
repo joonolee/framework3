@@ -23,7 +23,9 @@ public class CharacterEncodingFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+		long currTime = 0;
 		if (_getLogger().isDebugEnabled()) {
+			currTime = System.currentTimeMillis();
 			_getLogger().debug("Start [ encoding=" + this._encoding + ", force=" + this._force + " ]");
 		}
 		if (this._force || (request.getCharacterEncoding() == null)) {
@@ -38,7 +40,7 @@ public class CharacterEncodingFilter implements Filter {
 		}
 		filterChain.doFilter(request, response);
 		if (_getLogger().isDebugEnabled()) {
-			_getLogger().debug("End");
+			_getLogger().debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 		}
 	}
 

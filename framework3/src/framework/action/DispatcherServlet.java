@@ -111,12 +111,14 @@ public class DispatcherServlet extends HttpServlet {
 			} else {
 				Class<?> controllerClass = Class.forName(controllerClassName);
 				Controller controller = (Controller) controllerClass.newInstance();
+				long currTime = 0;
 				if (_getLogger().isDebugEnabled()) {
+					currTime = System.currentTimeMillis();
 					_getLogger().debug("Start [ Controller : " + controllerKey + " | ClassName : " + controllerClassName + " ]");
 				}
 				controller.execute(this, request, response);
 				if (_getLogger().isDebugEnabled()) {
-					_getLogger().debug("End");
+					_getLogger().debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 				}
 			}
 		} catch (_404Exception e) {
