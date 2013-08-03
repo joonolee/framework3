@@ -23,13 +23,15 @@ public class AccessLogFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest httpReq = (HttpServletRequest) request;
+		long currTime = 0;
 		if (_getLogger().isDebugEnabled()) {
+			currTime = System.currentTimeMillis();
 			_getLogger().debug("★★★ " + httpReq.getRemoteAddr() + " 로 부터 \"" + httpReq.getMethod() + " " + httpReq.getRequestURI() + "\" 요청이 시작되었습니다");
 			_getLogger().debug("ContentLength : " + httpReq.getContentLength() + "bytes");
 		}
 		filterChain.doFilter(request, response);
 		if (_getLogger().isDebugEnabled()) {
-			_getLogger().debug("☆☆☆ " + httpReq.getRemoteAddr() + " 로 부터 \"" + httpReq.getMethod() + " " + httpReq.getRequestURI() + "\" 요청이 종료되었습니다\n");
+			_getLogger().debug("☆☆☆ " + httpReq.getRemoteAddr() + " 로 부터 \"" + httpReq.getMethod() + " " + httpReq.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.currentTimeMillis() - currTime) + " msec\n");
 		}
 	}
 
