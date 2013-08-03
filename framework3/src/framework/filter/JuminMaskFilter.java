@@ -28,7 +28,7 @@ import framework.util.StringUtil;
 
 public class JuminMaskFilter implements Filter {
 	private Log _logger = LogFactory.getLog(framework.filter.JuminMaskFilter.class);
-	private Pattern _juminPattern = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])", Pattern.MULTILINE);
+	private Pattern _juminPattern = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])?", Pattern.MULTILINE);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -76,7 +76,7 @@ public class JuminMaskFilter implements Filter {
 
 		public MyResponseWrapper(HttpServletResponse p_res) {
 			super(p_res);
-			_bytes = new ByteArrayOutputStream();
+			_bytes = new ByteArrayOutputStream(8192);
 			_writer = new PrintWriter(_bytes);
 		}
 
