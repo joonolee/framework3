@@ -37,11 +37,37 @@ public class HttpUtil {
 	}
 
 	/**
+	 * Result 객체
+	 */
+	public static class Result {
+		private int _statusCode;
+		private String _content;
+
+		public Result() {
+			super();
+		}
+
+		public Result(int statusCode, String content) {
+			super();
+			this._statusCode = statusCode;
+			this._content = content;
+		}
+
+		public int getStatusCode() {
+			return _statusCode;
+		}
+
+		public String getContent() {
+			return _content;
+		}
+	}
+
+	/**
 	 * url 을 Get 방식으로 호출하고 결과를 리턴한다.
 	 * @param url
-	 * @return 결과문자열
+	 * @return Result 객체
 	 */
-	public static String get(String url) {
+	public static Result get(String url) {
 		return get(url, null);
 	}
 
@@ -49,9 +75,11 @@ public class HttpUtil {
 	 * url 을 Get 방식으로 호출하고 결과를 리턴한다.
 	 * @param url
 	 * @param headerMap
-	 * @return 결과문자열
+	 * @return Result 객체
 	 */
-	public static String get(String url, Map<String, String> headerMap) {
+	public static Result get(String url, Map<String, String> headerMap) {
+		int statusCode = 0;
+		String content = "";
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet get = new HttpGet(url);
@@ -61,22 +89,23 @@ public class HttpUtil {
 				}
 			}
 			HttpResponse responseGet = client.execute(get);
+			statusCode = responseGet.getStatusLine().getStatusCode();
 			HttpEntity resEntityGet = responseGet.getEntity();
 			if (resEntityGet != null) {
-				return EntityUtils.toString(resEntityGet);
+				content = EntityUtils.toString(resEntityGet);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "";
+		return new Result(statusCode, content);
 	}
 
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
 	 * @param url
-	 * @return 결과문자열
+	 * @return Result 객체
 	 */
-	public static String post(String url) {
+	public static Result post(String url) {
 		return post(url, null, (Map<String, String>) null);
 	}
 
@@ -84,9 +113,9 @@ public class HttpUtil {
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
 	 * @param url
 	 * @param paramMap
-	 * @return 결과문자열
+	 * @return Result 객체
 	 */
-	public static String post(String url, Map<String, String> paramMap) {
+	public static Result post(String url, Map<String, String> paramMap) {
 		return post(url, paramMap, (Map<String, String>) null);
 	}
 
@@ -95,9 +124,11 @@ public class HttpUtil {
 	 * @param url
 	 * @param paramMap
 	 * @param headerMap
-	 * @return 결과문자열
+	 * @return Result 객체
 	 */
-	public static String post(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
+	public static Result post(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
+		int statusCode = 0;
+		String content = "";
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(url);
@@ -115,14 +146,15 @@ public class HttpUtil {
 			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, "UTF-8");
 			post.setEntity(ent);
 			HttpResponse responsePOST = client.execute(post);
+			statusCode = responsePOST.getStatusLine().getStatusCode();
 			HttpEntity resEntity = responsePOST.getEntity();
 			if (resEntity != null) {
-				return EntityUtils.toString(resEntity);
+				content = EntityUtils.toString(resEntity);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "";
+		return new Result(statusCode, content);
 	}
 
 	/**
@@ -130,9 +162,9 @@ public class HttpUtil {
 	 * @param url
 	 * @param paramMap
 	 * @param fileList
-	 * @return 결과문자열
+	 * @return Result 객체
 	 */
-	public static String post(String url, Map<String, String> paramMap, List<File> fileList) {
+	public static Result post(String url, Map<String, String> paramMap, List<File> fileList) {
 		return post(url, paramMap, fileList, null);
 	}
 
@@ -142,9 +174,11 @@ public class HttpUtil {
 	 * @param paramMap
 	 * @param fileList
 	 * @param headerMap
-	 * @return 결과문자열
+	 * @return Result 객체
 	 */
-	public static String post(String url, Map<String, String> paramMap, List<File> fileList, Map<String, String> headerMap) {
+	public static Result post(String url, Map<String, String> paramMap, List<File> fileList, Map<String, String> headerMap) {
+		int statusCode = 0;
+		String content = "";
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(url);
@@ -167,13 +201,14 @@ public class HttpUtil {
 			}
 			post.setEntity(reqEntity);
 			HttpResponse response = client.execute(post);
+			statusCode = response.getStatusLine().getStatusCode();
 			HttpEntity resEntity = response.getEntity();
 			if (resEntity != null) {
-				return EntityUtils.toString(resEntity);
+				content = EntityUtils.toString(resEntity);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "";
+		return new Result(statusCode, content);
 	}
 }
