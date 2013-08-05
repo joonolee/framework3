@@ -63,6 +63,10 @@ public class OAuth10aUtil {
 		public String getContent() {
 			return _content;
 		}
+
+		public String toString() {
+			return String.format("Result={ statusCode : %d, content : %s }", getStatusCode(), getContent());
+		}
 	}
 
 	/**
