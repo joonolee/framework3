@@ -56,14 +56,6 @@
 			<param-name>routes-mapping</param-name>
 			<param-value>routes</param-value>
 		</init-param>
-		<init-param>
-			<param-name>404-page</param-name>
-			<param-value></param-value>
-		</init-param>
-		<init-param>
-			<param-name>500-page</param-name>
-			<param-value></param-value>
-		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>

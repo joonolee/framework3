@@ -28,8 +28,8 @@ import framework.util.StringUtil;
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
 	private static Log _logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
-	private String _404Page = null;
-	private String _500Page = null;
+	private static String _defaultServletName = null;
+	private static final String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
 
 	/**
 	 * 서블릿 객체를 초기화 한다.
@@ -42,8 +42,18 @@ public class DispatcherServlet extends HttpServlet {
 		ResourceBundle bundle = null;
 		try {
 			bundle = ResourceBundle.getBundle(config.getInitParameter("routes-mapping"));
-			_404Page = config.getInitParameter("404-page");
-			_500Page = config.getInitParameter("500-page");
+			_defaultServletName = StringUtil.nullToBlankString(config.getInitParameter("default-servlet-name"));
+			if ("".equals(_defaultServletName)) {
+				for (String servletName : _DEFAULT_SERVLET_NAMES) {
+					if (getServletContext().getNamedDispatcher(servletName) != null) {
+						_defaultServletName = servletName;
+						break;
+					}
+				}
+			}
+			if (getServletContext().getNamedDispatcher(_defaultServletName) == null) {
+				throw new IllegalStateException("defaultServletName Error!");
+			}
 		} catch (MissingResourceException e) {
 			throw new ServletException(e);
 		}
@@ -107,7 +117,7 @@ public class DispatcherServlet extends HttpServlet {
 			String controllerKey = _getControllerKey(request);
 			String controllerClassName = _getControllerClassName(controllerKey);
 			if (controllerClassName == null) {
-				throw new _404Exception("controller class");
+				throw new PageNotFoundExeption("controller class");
 			} else {
 				Class<?> controllerClass = Class.forName(controllerClassName);
 				Controller controller = (Controller) controllerClass.newInstance();
@@ -121,35 +131,17 @@ public class DispatcherServlet extends HttpServlet {
 					_getLogger().debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 				}
 			}
-		} catch (_404Exception e) {
-			_getLogger().error("404 not found [ " + e.getMessage() + " ]");
-			if (_404Page != null && !"".equals(_404Page)) {
-				getServletContext().getRequestDispatcher(response.encodeURL(_404Page)).forward(request, response);
-			} else {
-				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			}
+		} catch (PageNotFoundExeption e) {
+			this.getServletContext().getNamedDispatcher(_defaultServletName).forward(request, response);
 		} catch (Exception e) {
 			_getLogger().error(e);
-			if (_500Page != null && !"".equals(_500Page)) {
-				getServletContext().getRequestDispatcher(response.encodeURL(_500Page)).forward(request, response);
-			} else {
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			}
+			throw new RuntimeException(e);
 		}
 	}
 
 	private String _getControllerKey(HttpServletRequest request) {
 		String path = request.getServletPath() + StringUtil.nullToBlankString(request.getPathInfo());
-		int period = path.lastIndexOf(".");
-		if (period < 0) {
-			return path;
-		}
-		int slash = path.lastIndexOf("/");
-		if (period > 0 && period > slash) {
-			path = path.substring(0, period);
-			return path;
-		}
-		return null;
+		return path;
 	}
 
 	private String _getControllerClassName(String controllerKey) {

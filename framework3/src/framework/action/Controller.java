@@ -101,7 +101,7 @@ public abstract class Controller {
 		}
 		Method method = _getMethod(params.getString("action"));
 		if (method == null) {
-			throw new _404Exception("action");
+			throw new PageNotFoundExeption("action");
 		}
 		try {
 			before();
