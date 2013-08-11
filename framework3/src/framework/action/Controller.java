@@ -5,9 +5,7 @@ package framework.action;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
-import java.sql.ResultSet;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
@@ -20,9 +18,6 @@ import org.apache.commons.logging.LogFactory;
 
 import framework.config.Config;
 import framework.db.ConnectionManager;
-import framework.db.RecordSet;
-import framework.util.JsonUtil;
-import framework.util.XmlUtil;
 
 /** 
  * 비지니스 로직을 처리하는 클래스가 상속받아야 할 추상클래스이다.
@@ -32,7 +27,6 @@ import framework.util.XmlUtil;
  */
 public abstract class Controller {
 	private Map<String, ConnectionManager> _connMgrMap = new HashMap<String, ConnectionManager>();
-	private String _DEFAULT_ENCODING = "utf-8";
 
 	/**
 	 * Controller를 호출한 서블릿 객체
@@ -133,280 +127,16 @@ public abstract class Controller {
 	 * 요청을 JSP페이지로 포워드(Forward) 한다.
 	 * 작성된 JSP페이지는 routes.properties에 등록한다.
 	 * <br>
-	 * ex) 키가 search-jsp 인 JSP페이지로 포워딩 할 경우 => render("search-jsp")
+	 * ex) 키가 search-jsp 인 JSP페이지로 포워딩 할 경우 => route("search-jsp")
 	 * @param jsp routes.properties 파일에 등록된 JSP 페이지의 키
 	 */
-	protected void render(String jsp) {
+	protected void route(String jsp) {
 		try {
 			Router router = new Router(jsp, true);
 			router.route(servlet, request, response);
 		} catch (Exception e) {
 			logger.error("Router Error!", e);
 		}
-	}
-
-	/**
-	 * 텍스트를 클라이언트에 출력한다.
-	 * <br>
-	 * ex) hello world!를 출력할 경우 => renderText("hello world!")
-	 * @param text 출력할 텍스트(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderText(String text) {
-		renderText(text, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * 텍스트를 클라이언트에 출력한다.
-	 * <br>
-	 * ex) hello world!를 출력할 경우 => renderText("hello world!", "utf-8")
-	 * @param text 출력할 텍스트
-	 * @param encoding 인코딩
-	 */
-	protected void renderText(String text, String encoding) {
-		setContentType("text/plain; charset=" + encoding);
-		out.write(text);
-	}
-
-	/**
-	 * HTML형식의 텍스트를 클라이언트에 출력한다.
-	 * <br>
-	 * ex) hello world!를 출력할 경우 => renderHTML("<h1>hello world!<h1>")
-	 * @param html 출력할 HTML형식의 텍스트(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderHTML(String html) {
-		renderHTML(html, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * HTML형식의 텍스트를 클라이언트에 출력한다.
-	 * <br>
-	 * ex) hello world!를 출력할 경우 => renderHTML("<h1>hello world!<h1>", "utf-8")
-	 * @param html 출력할 HTML형식의 텍스트
-	 * @param encoding 인코딩
-	 */
-	protected void renderHTML(String html, String encoding) {
-		setContentType("text/html; charset=" + encoding);
-		out.write(html);
-	}
-
-	/**
-	 * JSON형식의 텍스트를 클라이언트에 출력한다.
-	 * <br>
-	 * ex) hello world!를 출력할 경우 => renderJSON("{ msg: \"hello world!\" }")
-	 * @param json 출력할 JSON형식의 텍스트(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderJSON(String json) {
-		renderJSON(json, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * JSON형식의 텍스트를 클라이언트에 출력한다.
-	 * <br>
-	 * ex) hello world!를 출력할 경우 => renderJSON("{ msg: \"hello world!\" }", "utf-8")
-	 * @param json 출력할 JSON형식의 텍스트
-	 * @param encoding 인코딩
-	 */
-	protected void renderJSON(String json, String encoding) {
-		setContentType("application/json; charset=" + encoding);
-		out.write(json);
-	}
-
-	/**
-	 * RecordSet 데이터를 JSON 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) rs를 출력할 경우 => renderJSON(rs)
-	 * @param rs 출력할 RecordSet 데이터(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderJSON(RecordSet rs) {
-		renderJSON(rs, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * RecordSet 데이터를 JSON 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) rs를 출력할 경우 => renderJSON(rs, "utf-8")
-	 * @param rs 출력할 RecordSet 데이터
-	 * @param encoding 인코딩
-	 */
-	protected void renderJSON(RecordSet rs, String encoding) {
-		setContentType("application/json; charset=" + encoding);
-		out.write(JsonUtil.render(rs));
-	}
-
-	/**
-	 * ResultSet 데이터를 JSON 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) rs를 출력할 경우 => renderJSON(rs)
-	 * @param rs 출력할 ResultSet 데이터(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderJSON(ResultSet rs) {
-		renderJSON(rs, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * ResultSet 데이터를 JSON 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) rs를 출력할 경우 => renderJSON(rs, "utf-8")
-	 * @param rs 출력할 ResultSet 데이터
-	 * @param encoding 인코딩
-	 */
-	protected void renderJSON(ResultSet rs, String encoding) {
-		setContentType("application/json; charset=" + encoding);
-		out.write(JsonUtil.render(rs));
-	}
-
-	/**
-	 * Map 데이터를 JSON 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) map을 출력할 경우 => renderJSON(map)
-	 * @param map 출력할 Map 데이터(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderJSON(Map<String, Object> map) {
-		renderJSON(map, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * Map 데이터를 JSON 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) map을 출력할 경우 => renderJSON(map, "utf-8")
-	 * @param map 출력할 Map 데이터
-	 * @param encoding 인코딩
-	 */
-	protected void renderJSON(Map<String, Object> map, String encoding) {
-		setContentType("application/json; charset=" + encoding);
-		out.write(JsonUtil.render(map));
-	}
-
-	/**
-	 * List 데이터를 JSON 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) list를 출력할 경우 => renderJSON(list)
-	 * @param list 출력할 List 데이터(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderJSON(List<Map<String, Object>> list) {
-		renderJSON(list, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * List 데이터를 JSON 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) list를 출력할 경우 => renderJSON(list, "utf-8")
-	 * @param list 출력할 List 데이터
-	 * @param encoding 인코딩
-	 */
-	protected void renderJSON(List<Map<String, Object>> list, String encoding) {
-		setContentType("application/json; charset=" + encoding);
-		out.write(JsonUtil.render(list));
-	}
-
-	/**
-	 * XML형식의 텍스트를 클라이언트에 출력한다.
-	 * <br>
-	 * ex) hello world!를 출력할 경우 => renderXML("<?xml version=\"1.0\" encoding=\"utf-8\"?><msg>hello world!</msg>")
-	 * @param xml 출력할 XML형식의 텍스트(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderXML(String xml) {
-		renderXML(xml, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * XML형식의 텍스트를 클라이언트에 출력한다.
-	 * <br>
-	 * ex) hello world!를 출력할 경우 => renderXML("<?xml version=\"1.0\" encoding=\"utf-8\"?><msg>hello world!</msg>", "utf-8")
-	 * @param xml 출력할 XML형식의 텍스트
-	 * @param encoding 인코딩
-	 */
-	protected void renderXML(String xml, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
-		out.write(xml);
-	}
-
-	/**
-	 * RecordSet 데이터를 XML 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) rs를 출력할 경우 => renderXML(rs)
-	 * @param rs 출력할 RecordSet 데이터(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderXML(RecordSet rs) {
-		renderXML(rs, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * RecordSet 데이터를 XML 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) rs를 출력할 경우 => renderXML(rs, "utf-8")
-	 * @param rs 출력할 RecordSet 데이터
-	 * @param encoding 인코딩
-	 */
-	protected void renderXML(RecordSet rs, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
-		out.write(XmlUtil.render(rs, encoding));
-	}
-
-	/**
-	 * ResultSet 데이터를 XML 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) rs를 출력할 경우 => renderXML(rs)
-	 * @param rs 출력할 ResultSet 데이터(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderXML(ResultSet rs) {
-		renderXML(rs, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * ResultSet 데이터를 XML 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) rs를 출력할 경우 => renderXML(rs, "utf-8")
-	 * @param rs 출력할 ResultSet 데이터
-	 * @param encoding 인코딩
-	 */
-	protected void renderXML(ResultSet rs, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
-		out.write(XmlUtil.render(rs, encoding));
-	}
-
-	/**
-	 * Map 데이터를 XML 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) map를 출력할 경우 => renderXML(map)
-	 * @param map 출력할 Map 데이터(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderXML(Map<String, Object> map) {
-		renderXML(map, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * Map 데이터를 XML 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) map를 출력할 경우 => renderXML(map, "utf-8")
-	 * @param map 출력할 Map 데이터
-	 * @param encoding 인코딩
-	 */
-	protected void renderXML(Map<String, Object> map, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
-		out.write(XmlUtil.render(map, encoding));
-	}
-
-	/**
-	 * List 데이터를 XML 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) list를 출력할 경우 => renderXML(list)
-	 * @param list 출력할 List 데이터(기본 인코딩으로 utf-8 사용)
-	 */
-	protected void renderXML(List<Map<String, Object>> list) {
-		renderXML(list, _DEFAULT_ENCODING);
-	}
-
-	/**
-	 * List 데이터를 XML 형식으로 클라이언트에 출력한다.
-	 * <br>
-	 * ex) list를 출력할 경우 => renderXML(list, "utf-8")
-	 * @param list 출력할 List 데이터
-	 * @param encoding 인코딩
-	 */
-	protected void renderXML(List<Map<String, Object>> list, String encoding) {
-		setContentType("text/xml; charset=" + encoding);
-		out.write(XmlUtil.render(list, encoding));
 	}
 
 	/** 
