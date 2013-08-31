@@ -48,8 +48,13 @@ public class Cache {
 				cache = Memcached.getInstance();
 				cacheName = "Memcached";
 			} catch (Exception e) {
-				cache = EhCache.getInstance();
-				cacheName = "EhCache";
+				try {
+					cache = Redis.getInstance();
+					cacheName = "Redis";
+				} catch (Exception e2) {
+					cache = EhCache.getInstance();
+					cacheName = "EhCache";
+				}
 			}
 			_getLogger().info(String.format("[ %s ] init : 초기화 성공", cacheName));
 		}
