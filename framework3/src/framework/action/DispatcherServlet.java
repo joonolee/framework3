@@ -4,6 +4,7 @@
 package framework.action;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -114,25 +115,29 @@ public class DispatcherServlet extends HttpServlet {
 
 	private void _processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			Controller controller = null;
+			Method method = null;
 			String controllerKey = _getControllerKey(request);
-			String controllerClassName = _getControllerClassName(controllerKey);
-			if (controllerClassName == null) {
-				throw new PageNotFoundExeption("controller class");
-			} else {
+			String[] controllerClassNameAndMethodName = _getControllerClassNameAndMethodName(controllerKey);
+			try {
+				String controllerClassName = controllerClassNameAndMethodName[0];
+				String controllerMethodName = controllerClassNameAndMethodName[1];
 				Class<?> controllerClass = Class.forName(controllerClassName);
-				Controller controller = (Controller) controllerClass.newInstance();
-				long currTime = 0;
-				if (_getLogger().isDebugEnabled()) {
-					currTime = System.currentTimeMillis();
-					_getLogger().debug("Start [ Controller : " + controllerKey + " | ClassName : " + controllerClassName + " ]");
-				}
-				controller.execute(this, request, response);
-				if (_getLogger().isDebugEnabled()) {
-					_getLogger().debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
-				}
+				controller = (Controller) controllerClass.newInstance();
+				method = controllerClass.getMethod(controllerMethodName);
+			} catch (Exception e) {
+				this.getServletContext().getNamedDispatcher(_defaultServletName).forward(request, response);
+				return;
 			}
-		} catch (PageNotFoundExeption e) {
-			this.getServletContext().getNamedDispatcher(_defaultServletName).forward(request, response);
+			long currTime = 0;
+			if (_getLogger().isDebugEnabled()) {
+				currTime = System.currentTimeMillis();
+				_getLogger().debug("Start [ Controller : " + controllerKey + " | ClassName : " + controller.getClass().getName() + " | MethodName : " + method.getName() + " ]");
+			}
+			controller.execute(this, request, response, method);
+			if (_getLogger().isDebugEnabled()) {
+				_getLogger().debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
+			}
 		} catch (Exception e) {
 			_getLogger().error(e);
 			throw new RuntimeException(e);
@@ -144,10 +149,12 @@ public class DispatcherServlet extends HttpServlet {
 		return path;
 	}
 
-	private String _getControllerClassName(String controllerKey) {
+	private String[] _getControllerClassNameAndMethodName(String controllerKey) {
 		try {
 			ResourceBundle bundle = (ResourceBundle) getServletContext().getAttribute("routes-mapping");
-			return ((String) bundle.getObject(controllerKey)).trim();
+			String value = ((String) bundle.getObject(controllerKey)).trim();
+			int period = value.lastIndexOf(".");
+			return new String[] { value.substring(0, period), value.substring(period + 1) };
 		} catch (MissingResourceException e) {
 			return null;
 		}

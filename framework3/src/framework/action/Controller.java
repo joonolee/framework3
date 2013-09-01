@@ -76,9 +76,10 @@ public abstract class Controller {
 	 * @param servlet 서블릿 객체
 	 * @param request 클라이언트에서 요청된 Request객체
 	 * @param response 클라이언트로 응답할 Response객체
+	 * @param method 메소드
 	 * @throws Exception
 	 */
-	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Exception {
 		this.servlet = servlet;
 		this.request = request;
 		this.params = Params.getParams(request);
@@ -92,10 +93,6 @@ public abstract class Controller {
 			logger.debug("Start");
 			logger.debug(this.params.toString());
 			logger.debug(this.cookies.toString());
-		}
-		Method method = _getMethod(params.getString("action"));
-		if (method == null) {
-			throw new PageNotFoundExeption("action");
 		}
 		try {
 			before();
@@ -127,15 +124,15 @@ public abstract class Controller {
 	 * 요청을 JSP페이지로 포워드(Forward) 한다.
 	 * 작성된 JSP페이지는 routes.properties에 등록한다.
 	 * <br>
-	 * ex) 키가 search-jsp 인 JSP페이지로 포워딩 할 경우 => route("search-jsp")
+	 * ex) 키가 search-jsp 인 JSP페이지로 포워딩 할 경우 => render("search-jsp")
 	 * @param jsp routes.properties 파일에 등록된 JSP 페이지의 키
 	 */
-	protected void route(String jsp) {
+	protected void render(String jsp) {
 		try {
 			Router router = new Router(jsp, true);
 			router.route(servlet, request, response);
 		} catch (Exception e) {
-			logger.error("Router Error!", e);
+			logger.error("Render Error!", e);
 		}
 	}
 
@@ -279,20 +276,5 @@ public abstract class Controller {
 		_connMgrMap.clear();
 		params = null;
 		out = null;
-	}
-
-	private Method _getMethod(String methodName) {
-		if (methodName == null || "".equals(methodName.trim())) {
-			methodName = "index";
-		}
-		if (!methodName.startsWith("_")) { // 언더바로 시작하는 함수는 호출 불가
-			Method method[] = getClass().getMethods();
-			for (int i = 0; i < method.length; i++) {
-				if (method[i].getName().equals(methodName)) {
-					return method[i];
-				}
-			}
-		}
-		return null;
 	}
 }
