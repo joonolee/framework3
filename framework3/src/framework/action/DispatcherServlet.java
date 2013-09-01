@@ -132,11 +132,12 @@ public class DispatcherServlet extends HttpServlet {
 			long currTime = 0;
 			if (_getLogger().isDebugEnabled()) {
 				currTime = System.currentTimeMillis();
-				_getLogger().debug("Start [ Controller : " + controllerKey + " | ClassName : " + controller.getClass().getName() + " | MethodName : " + method.getName() + " ]");
+				_getLogger().debug("★★★ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 시작되었습니다");
+				_getLogger().debug("ContentLength : " + request.getContentLength() + "bytes");
 			}
 			controller.execute(this, request, response, method);
 			if (_getLogger().isDebugEnabled()) {
-				_getLogger().debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
+				_getLogger().debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.currentTimeMillis() - currTime) + "ms\n");
 			}
 		} catch (Exception e) {
 			_getLogger().error(e);

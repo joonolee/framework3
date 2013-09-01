@@ -6,15 +6,6 @@
 	<display-name></display-name>
 
 	<filter>
-		<filter-name>AccessLogFilter</filter-name>
-		<filter-class>framework.filter.AccessLogFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>AccessLogFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
-	</filter-mapping>
-
-	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<filter-class>framework.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
