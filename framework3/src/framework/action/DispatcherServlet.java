@@ -117,9 +117,9 @@ public class DispatcherServlet extends HttpServlet {
 		try {
 			Controller controller = null;
 			Method method = null;
-			String controllerKey = _getControllerKey(request);
-			String[] controllerClassNameAndMethodName = _getControllerClassNameAndMethodName(controllerKey);
 			try {
+				String controllerKey = _getControllerKey(request);
+				String[] controllerClassNameAndMethodName = _getControllerClassNameAndMethodName(controllerKey);
 				String controllerClassName = controllerClassNameAndMethodName[0];
 				String controllerMethodName = controllerClassNameAndMethodName[1];
 				Class<?> controllerClass = Class.forName(controllerClassName);
