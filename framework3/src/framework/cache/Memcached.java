@@ -69,18 +69,8 @@ public class Memcached extends AbstractCache {
 	}
 
 	@Override
-	public void add(String key, Object value, int seconds) {
-		_client.add(key, seconds, value);
-	}
-
-	@Override
 	public void set(String key, Object value, int seconds) {
 		_client.set(key, seconds, value);
-	}
-
-	@Override
-	public void replace(String key, Object value, int seconds) {
-		_client.replace(key, seconds, value);
 	}
 
 	@Override
@@ -123,11 +113,6 @@ public class Memcached extends AbstractCache {
 	@Override
 	public void clear() {
 		_client.flush();
-	}
-
-	@Override
-	public void stop() {
-		_client.shutdown();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////Private ¸Þ¼Òµå

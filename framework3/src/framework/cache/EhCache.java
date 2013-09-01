@@ -56,27 +56,7 @@ public class EhCache extends AbstractCache {
 	}
 
 	@Override
-	public void add(String key, Object value, int seconds) {
-		if (_cache.get(key) != null) {
-			return;
-		}
-		Element element = new Element(key, value);
-		element.setTimeToLive(seconds);
-		_cache.put(element);
-	}
-
-	@Override
 	public void set(String key, Object value, int seconds) {
-		Element element = new Element(key, value);
-		element.setTimeToLive(seconds);
-		_cache.put(element);
-	}
-
-	@Override
-	public void replace(String key, Object value, int seconds) {
-		if (_cache.get(key) == null) {
-			return;
-		}
 		Element element = new Element(key, value);
 		element.setTimeToLive(seconds);
 		_cache.put(element);
@@ -131,10 +111,5 @@ public class EhCache extends AbstractCache {
 	@Override
 	public void clear() {
 		_cache.removeAll();
-	}
-
-	@Override
-	public void stop() {
-		_cacheManager.shutdown();
 	}
 }

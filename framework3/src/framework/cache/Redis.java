@@ -39,7 +39,7 @@ public class Redis extends AbstractCache {
 	/** 
 	 * 객체의 인스턴스를 리턴해준다.
 	 * 
-	 * @return Memcached 객체의 인스턴스
+	 * @return Redis 객체의 인스턴스
 	 */
 	public synchronized static Redis getInstance() {
 		if (_uniqueInstance == null) {
@@ -49,25 +49,10 @@ public class Redis extends AbstractCache {
 	}
 
 	@Override
-	public void add(String key, Object value, int seconds) {
-		_client.append(key, value.toString());
-		_client.expire(key, seconds);
-	}
-
-	@Override
 	public void set(String key, Object value, int seconds) {
 		_client.set(key, value.toString());
 		_client.expire(key, seconds);
 
-	}
-
-	@Override
-	public void replace(String key, Object value, int seconds) {
-		if (_client.get(key) == null) {
-			return;
-		}
-		_client.set(key, value.toString());
-		_client.expire(key, seconds);
 	}
 
 	@Override
@@ -102,11 +87,6 @@ public class Redis extends AbstractCache {
 	@Override
 	public void clear() {
 		_client.flushAll();
-	}
-
-	@Override
-	public void stop() {
-		_client.shutdown();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////Private 메소드

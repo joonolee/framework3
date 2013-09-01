@@ -11,28 +11,12 @@ import java.util.Map;
 public abstract class AbstractCache {
 
 	/**
-	 * 키와 값을 캐시에 추가한다.
-	 * @param key 키
-	 * @param value 값
-	 * @param seconds 캐시시간(초단위)
-	 */
-	public abstract void add(String key, Object value, int seconds);
-
-	/**
 	 * 키와 값을 캐시에 설정한다.
 	 * @param key 키
 	 * @param value 값
 	 * @param seconds 캐시시간(초단위)
 	 */
 	public abstract void set(String key, Object value, int seconds);
-
-	/**
-	 * 키와 값을 캐시에서 교체한다.
-	 * @param key 키
-	 * @param value 값
-	 * @param seconds 캐시시간(초단위)
-	 */
-	public abstract void replace(String key, Object value, int seconds);
 
 	/**
 	 * 캐시에서 키로 값을 얻어온다.
@@ -74,9 +58,4 @@ public abstract class AbstractCache {
 	 * 캐시를 모두 비운다.
 	 */
 	public abstract void clear();
-
-	/**
-	 * 캐시를 멈춘다.
-	 */
-	public abstract void stop();
 }

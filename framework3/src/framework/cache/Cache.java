@@ -61,29 +61,6 @@ public class Cache {
 	}
 
 	/**
-	 * 키와 값을 캐시에 추가한다.
-	 * @param key 키
-	 * @param value 값
-	 */
-	public static void add(String key, Object value) {
-		_isSerializable(value);
-		cache.add(key, value, DEFAULT_DURATION);
-		_getLogger().debug(String.format("[ %s ] add : { key=%s, value=%s, seconds=%d }", cacheName, key, value, DEFAULT_DURATION));
-	}
-
-	/**
-	 * 키와 값을 캐시에 추가한다.
-	 * @param key 키
-	 * @param value 값
-	 * @param seconds 캐시시간(초단위)
-	 */
-	public static void add(String key, Object value, int seconds) {
-		_isSerializable(value);
-		cache.add(key, value, seconds);
-		_getLogger().debug(String.format("[ %s ] add : { key=%s, value=%s, seconds=%d }", cacheName, key, value, seconds));
-	}
-
-	/**
 	 * 키와 값을 캐시에 설정한다.
 	 * @param key 키
 	 * @param value 값
@@ -104,29 +81,6 @@ public class Cache {
 		_isSerializable(value);
 		cache.set(key, value, seconds);
 		_getLogger().debug(String.format("[ %s ] set : { key=%s, value=%s, seconds=%d }", cacheName, key, value, seconds));
-	}
-
-	/**
-	 * 키와 값을 캐시에서 교체한다.
-	 * @param key 키
-	 * @param value 값
-	 */
-	public static void replace(String key, Object value) {
-		_isSerializable(value);
-		cache.replace(key, value, DEFAULT_DURATION);
-		_getLogger().debug(String.format("[ %s ] replace : { key=%s, value=%s, seconds=%d }", cacheName, key, value, DEFAULT_DURATION));
-	}
-
-	/**
-	 * 키와 값을 캐시에서 교체한다.
-	 * @param key 키
-	 * @param value 값
-	 * @param seconds 캐시시간(초단위)
-	 */
-	public static void replace(String key, Object value, int seconds) {
-		_isSerializable(value);
-		cache.replace(key, value, seconds);
-		_getLogger().debug(String.format("[ %s ] replace : { key=%s, value=%s, seconds=%d }", cacheName, key, value, seconds));
 	}
 
 	/**
@@ -211,14 +165,6 @@ public class Cache {
 	public static void clear() {
 		cache.clear();
 		_getLogger().debug(String.format("[ %s ] clear : 캐시 클리어 성공", cacheName));
-	}
-
-	/**
-	 * 캐시를 멈춘다.
-	 */
-	public static void stop() {
-		cache.stop();
-		_getLogger().debug(String.format("[ %s ] stop : 캐시 종료 성공", cacheName));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
