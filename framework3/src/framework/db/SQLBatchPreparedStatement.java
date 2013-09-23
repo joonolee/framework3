@@ -16,18 +16,18 @@ import java.util.StringTokenizer;
 
 public class SQLBatchPreparedStatement extends DBStatement {
 	private String _sql;
-	private ConnectionManager _connMgr = null;
+	private DB _db = null;
 	private PreparedStatement _pstmt = null;
 	private List<List<Object>> _paramList = new ArrayList<List<Object>>();
 	private Object _caller = null;
 
-	public static SQLBatchPreparedStatement create(String sql, ConnectionManager connMgr, Object caller) {
-		return new SQLBatchPreparedStatement(sql, connMgr, caller);
+	public static SQLBatchPreparedStatement create(String sql, DB db, Object caller) {
+		return new SQLBatchPreparedStatement(sql, db, caller);
 	}
 
-	private SQLBatchPreparedStatement(String sql, ConnectionManager connMgr, Object caller) {
+	private SQLBatchPreparedStatement(String sql, DB db, Object caller) {
 		_sql = sql;
-		_connMgr = connMgr;
+		_db = db;
 		_caller = caller;
 	}
 
@@ -46,7 +46,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 		}
 		try {
 			if (_pstmt == null) {
-				_pstmt = _connMgr.getRawConnection().prepareStatement(getSQL(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				_pstmt = _db.getRawConnection().prepareStatement(getSQL(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 				_pstmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {

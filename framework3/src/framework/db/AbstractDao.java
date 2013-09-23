@@ -9,15 +9,11 @@ import org.apache.commons.logging.LogFactory;
 
 public abstract class AbstractDao {
 	private static Log _logger = LogFactory.getLog(framework.db.AbstractDao.class);
-	private ConnectionManager _connMgr = null;
+	protected DB db = null;
 
-	public AbstractDao(ConnectionManager connMgr) {
+	public AbstractDao(DB db) {
 		super();
-		_connMgr = connMgr;
-	}
-
-	protected ConnectionManager getConnectionManager() {
-		return _connMgr;
+		this.db = db;
 	}
 
 	protected RecordSet executeQuery(String query) {
@@ -26,11 +22,11 @@ public abstract class AbstractDao {
 
 	protected RecordSet executeQuery(String query, Object[] where) {
 		RecordSet rs = null;
-		if (getConnectionManager() == null) {
+		if (this.db == null) {
 			getLogger().error("executeQuery : Can't open DB Connection!");
 			return null;
 		}
-		SQLPreparedStatement pstmt = getConnectionManager().createPrepareStatement(query);
+		SQLPreparedStatement pstmt = this.db.createPrepareStatement(query);
 		if (where != null) {
 			pstmt.set(where);
 		}
@@ -41,11 +37,11 @@ public abstract class AbstractDao {
 
 	protected int execute(String query, Object[] values) {
 		int result = 0;
-		if (getConnectionManager() == null) {
+		if (this.db == null) {
 			getLogger().error("executeQuery : Can't open DB Connection!");
 			return 0;
 		}
-		SQLPreparedStatement pstmt = getConnectionManager().createPrepareStatement(query);
+		SQLPreparedStatement pstmt = this.db.createPrepareStatement(query);
 		pstmt.set(values);
 		result = pstmt.executeUpdate();
 		pstmt.close();
@@ -54,7 +50,7 @@ public abstract class AbstractDao {
 
 	public int[] save(ValueObjectArray voArray) {
 		int result[] = null;
-		if (getConnectionManager() == null) {
+		if (this.db == null) {
 			getLogger().error("executeQuery : Can't open DB Connection!");
 			return null;
 		}
@@ -77,7 +73,7 @@ public abstract class AbstractDao {
 		values = vo.get(type);
 		if (values == null || values.length < 1)
 			return 0;
-		SQLPreparedStatement pstmt = getConnectionManager().createPrepareStatement(_getSaveSql(type, vo.getUserKeys(), vo.getUserFields()));
+		SQLPreparedStatement pstmt = this.db.createPrepareStatement(_getSaveSql(type, vo.getUserKeys(), vo.getUserFields()));
 		for (int i = 0; i < values.length; i++) {
 			pstmt.set(_getSaveValue(values[i], type, vo.getUserKeys(), vo.getUserFields()));
 			result[cnt++] = pstmt.executeUpdate();

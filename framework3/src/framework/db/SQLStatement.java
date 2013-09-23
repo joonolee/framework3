@@ -10,26 +10,26 @@ import java.sql.Statement;
 
 public class SQLStatement extends DBStatement {
 	private String _sql;
-	private ConnectionManager _connMgr = null;
+	private DB _db = null;
 	private Statement _stmt = null;
 	private RecordSet _rs = null;
 	private int _upCnt = 0;
 	private Object _caller = null;
 
-	public static SQLStatement create(String sql, ConnectionManager connMgr, Object caller) {
-		return new SQLStatement(sql, connMgr, caller);
+	public static SQLStatement create(String sql, DB db, Object caller) {
+		return new SQLStatement(sql, db, caller);
 	}
 
-	private SQLStatement(String sql, ConnectionManager connMgr, Object caller) {
+	private SQLStatement(String sql, DB db, Object caller) {
 		_sql = sql;
-		_connMgr = connMgr;
+		_db = db;
 		_caller = caller;
 	}
 
 	protected Statement getStatement() {
 		try {
 			if (_stmt == null) {
-				_stmt = _connMgr.getRawConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				_stmt = _db.getRawConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 				_stmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {

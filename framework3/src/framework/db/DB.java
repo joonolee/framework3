@@ -1,5 +1,5 @@
 /* 
- * @(#)ConnectionManager.java
+ * @(#)DB.java
  * 데이타베이스 컨넥션을 관리하는 클래스
  */
 package framework.db;
@@ -20,15 +20,15 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class ConnectionManager {
+public class DB {
 	private static Map<String, DataSource> _dsMap = new HashMap<String, DataSource>();
-	private static Log _logger = LogFactory.getLog(framework.db.ConnectionManager.class);
+	private static Log _logger = LogFactory.getLog(framework.db.DB.class);
 	private List<DBStatement> _stmtList = null;
 	private String _dsName = null;
 	private Object _caller = null;
 	private Connection _connection = null;
 
-	public ConnectionManager(String dsName, Object caller) {
+	public DB(String dsName, Object caller) {
 		_dsName = dsName;
 		_caller = caller;
 		if (_stmtList == null) {
@@ -153,6 +153,6 @@ public class ConnectionManager {
 	}
 
 	private Log _getLogger() {
-		return ConnectionManager._logger;
+		return DB._logger;
 	}
 }

@@ -17,7 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import framework.config.Config;
-import framework.db.ConnectionManager;
+import framework.db.DB;
 
 /** 
  * 비지니스 로직을 처리하는 클래스가 상속받아야 할 추상클래스이다.
@@ -26,7 +26,7 @@ import framework.db.ConnectionManager;
  * 작성된 Controller는 routes.properties에 등록한다.
  */
 public abstract class Controller {
-	private Map<String, ConnectionManager> _connMgrMap = new HashMap<String, ConnectionManager>();
+	private Map<String, DB> _dbMap = new HashMap<String, DB>();
 
 	/**
 	 * Controller를 호출한 서블릿 객체
@@ -161,8 +161,8 @@ public abstract class Controller {
 	 * 생성된 컨넥션의 autoCommit 속성은 false 로 셋팅된다.
 	 * @return 연결관리자(컨넥션 매니저) 객체
 	 */
-	protected ConnectionManager getConnectionManager() {
-		return getConnectionManager("default");
+	protected DB getDB() {
+		return getDB("default");
 	}
 
 	/** 
@@ -175,8 +175,8 @@ public abstract class Controller {
 	 * @param serviceName 서비스명(업무명)
 	 * @return 연결관리자(컨넥션 매니저) 객체
 	 */
-	protected ConnectionManager getConnectionManager(String serviceName) {
-		if (!_connMgrMap.containsKey(serviceName)) {
+	protected DB getDB(String serviceName) {
+		if (!_dbMap.containsKey(serviceName)) {
 			String dsName = null;
 			String jdbcDriver = null;
 			String jdbcUrl = null;
@@ -192,19 +192,19 @@ public abstract class Controller {
 				jdbcPw = getConfig().getString("jdbc." + serviceName + ".pwd");
 			}
 			try {
-				ConnectionManager connMgr = new ConnectionManager(dsName, this);
+				DB db = new DB(dsName, this);
 				if (dsName != null) {
-					connMgr.connect();
+					db.connect();
 				} else {
-					connMgr.connect(jdbcDriver, jdbcUrl, jdbcUid, jdbcPw);
+					db.connect(jdbcDriver, jdbcUrl, jdbcUid, jdbcPw);
 				}
-				connMgr.setAutoCommit(false);
-				_connMgrMap.put(serviceName, connMgr);
+				db.setAutoCommit(false);
+				_dbMap.put(serviceName, db);
 			} catch (Exception e) {
 				logger.error("DB Connection Error!", e);
 			}
 		}
-		return _connMgrMap.get(serviceName);
+		return _dbMap.get(serviceName);
 	}
 
 	/** 
@@ -265,15 +265,15 @@ public abstract class Controller {
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
 
 	private void _destroy() {
-		ConnectionManager connMgr = null;
-		for (String key : _connMgrMap.keySet()) {
-			connMgr = _connMgrMap.get(key);
-			if (connMgr != null) {
-				connMgr.release();
-				connMgr = null;
+		DB db = null;
+		for (String key : _dbMap.keySet()) {
+			db = _dbMap.get(key);
+			if (db != null) {
+				db.release();
+				db = null;
 			}
 		}
-		_connMgrMap.clear();
+		_dbMap.clear();
 		params = null;
 		out = null;
 	}

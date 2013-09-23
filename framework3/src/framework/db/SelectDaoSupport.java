@@ -11,14 +11,10 @@ import org.apache.commons.logging.LogFactory;
  */
 public class SelectDaoSupport {
 	private static Log _logger = LogFactory.getLog(framework.db.SelectDaoSupport.class);
-	private ConnectionManager _connMgr = null;
+	protected DB db = null;
 
-	public SelectDaoSupport(ConnectionManager connMgr) {
-		_connMgr = connMgr;
-	}
-
-	protected ConnectionManager getConnection() {
-		return _connMgr;
+	public SelectDaoSupport(DB db) {
+		this.db = db;
 	}
 
 	protected RecordSet select(String query) {
@@ -42,11 +38,11 @@ public class SelectDaoSupport {
 	}
 
 	protected void commit() {
-		getConnection().commit();
+		this.db.commit();
 	}
 
 	protected void rollback() {
-		getConnection().rollback();
+		this.db.rollback();
 	}
 
 	protected Log getLogger() {
@@ -54,7 +50,7 @@ public class SelectDaoSupport {
 	}
 
 	private RecordSet _prepardSelect(String query, Object[] where, int currPage, int pageSize) {
-		SQLPreparedStatement pstmt = _connMgr.createPrepareStatement(query);
+		SQLPreparedStatement pstmt = this.db.createPrepareStatement(query);
 		pstmt.set(where);
 		RecordSet rs = pstmt.executeQuery(currPage, pageSize);
 		pstmt.close();
@@ -62,7 +58,7 @@ public class SelectDaoSupport {
 	}
 
 	private RecordSet _statmentSelect(String query, int currPage, int pageSize) {
-		SQLStatement stmt = _connMgr.createStatement(query);
+		SQLStatement stmt = this.db.createStatement(query);
 		RecordSet rs = stmt.executeQuery(currPage, pageSize);
 		stmt.close();
 		return rs;

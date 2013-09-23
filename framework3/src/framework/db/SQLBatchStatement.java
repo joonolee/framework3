@@ -12,16 +12,16 @@ import java.util.List;
 
 public class SQLBatchStatement extends DBStatement {
 	private List<String> _sqlList = new ArrayList<String>();
-	private ConnectionManager _connMgr = null;
+	private DB _db = null;
 	private Statement _stmt = null;
 	private Object _caller = null;
 
-	public static SQLBatchStatement create(ConnectionManager connMgr, Object caller) {
-		return new SQLBatchStatement(connMgr, caller);
+	public static SQLBatchStatement create(DB db, Object caller) {
+		return new SQLBatchStatement(db, caller);
 	}
 
-	private SQLBatchStatement(ConnectionManager connMgr, Object caller) {
-		_connMgr = connMgr;
+	private SQLBatchStatement(DB db, Object caller) {
+		_db = db;
 		_caller = caller;
 	}
 
@@ -32,7 +32,7 @@ public class SQLBatchStatement extends DBStatement {
 	protected Statement getStatement() {
 		try {
 			if (_stmt == null) {
-				_stmt = _connMgr.getRawConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				_stmt = _db.getRawConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 				_stmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
