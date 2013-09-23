@@ -8,6 +8,7 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 
@@ -104,15 +105,32 @@ public class Params extends HashMap<String, String[]> {
 	 * @return 쿠키Params 객체
 	 */
 	public static Params getParamsFromCookie(HttpServletRequest request) {
-		Params cookieparams = new Params("Cookie");
+		Params cookieParams = new Params("Cookie");
 		Cookie[] cookies = request.getCookies();
 		if (cookies == null) {
-			return cookieparams;
+			return cookieParams;
 		}
 		for (Cookie cookie : cookies) {
-			cookieparams.put(cookie.getName(), new String[] { cookie.getValue() == null ? "" : cookie.getValue() });
+			cookieParams.put(cookie.getName(), new String[] { cookie.getValue() == null ? "" : cookie.getValue() });
 		}
-		return cookieparams;
+		return cookieParams;
+	}
+
+	/** 
+	 * 요청객체의 헤더 이름과 값을 저장한 해시테이블을 생성한다.
+	 * <br>
+	 * ex) header Params 객체를 얻는 경우 => Params params = Params.getParamsFromHeader(request)
+	 * @param request HTTP 클라이언트 요청객체
+	 * @return 헤더Params 객체
+	 */
+	public static Params getParamsFromHeader(HttpServletRequest request) {
+		Params headerParams = new Params("Header");
+		Enumeration<?> headerNames = request.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+			String headerName = (String) headerNames.nextElement();
+			headerParams.put(headerName, new String[] { request.getHeader(headerName) == null ? "" : request.getHeader(headerName) });
+		}
+		return headerParams;
 	}
 
 	/** 

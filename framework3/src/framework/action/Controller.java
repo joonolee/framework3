@@ -49,6 +49,11 @@ public abstract class Controller {
 	protected Params cookies = null;
 
 	/**
+	 * 헤더값을 담는 해시테이블
+	 */
+	protected Params headers = null;
+
+	/**
 	 * 클라이언트의 세션 객체
 	 */
 	protected HttpSession session = null;
@@ -84,6 +89,7 @@ public abstract class Controller {
 		this.request = request;
 		this.params = Params.getParams(request);
 		this.cookies = Params.getParamsFromCookie(request);
+		this.headers = Params.getParamsFromHeader(request);
 		this.session = request.getSession();
 		this.response = response;
 		this.out = response.getWriter();
