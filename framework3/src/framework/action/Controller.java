@@ -159,27 +159,27 @@ public abstract class Controller {
 	}
 
 	/** 
-	 * 데이타베이스 연결관리자(컨넥션 매니저) 객체를 리턴한다.
+	 * 데이타베이스 객체를 리턴한다.
 	 * <br>
 	 * config.properties에 datasource가 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
 	 * datasource가 등록되어 있지 않는 경우 연결정보를 바탕으로 jdbc 컨넥션을 생성한다.
 	 * 업무명이 default에 해당하는 설정파일 정보를 이용하여 컨넥션을 생성한다.
 	 * 생성된 컨넥션의 autoCommit 속성은 false 로 셋팅된다.
-	 * @return 연결관리자(컨넥션 매니저) 객체
+	 * @return DB 객체
 	 */
 	protected DB getDB() {
 		return getDB("default");
 	}
 
 	/** 
-	 * 데이타베이스 연결관리자(컨넥션 매니저) 객체를 리턴한다.
+	 * 데이타베이스 객체를 리턴한다.
 	 * <br>
 	 * config.properties에 datasource가 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
 	 * datasource가 등록되어 있지 않는 경우 연결정보를 바탕으로 jdbc 컨넥션을 생성한다.
 	 * 파라미터로 넘겨진 업무명에 해당하는 설정파일 정보를 이용하여 컨넥션을 생성한다.
 	 * 생성된 컨넥션의 autoCommit 속성은 false 로 셋팅된다.
 	 * @param serviceName 서비스명(업무명)
-	 * @return 연결관리자(컨넥션 매니저) 객체
+	 * @return DB 객체
 	 */
 	protected DB getDB(String serviceName) {
 		if (!_dbMap.containsKey(serviceName)) {

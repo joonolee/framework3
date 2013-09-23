@@ -32,7 +32,7 @@ public class SQLBatchStatement extends DBStatement {
 	protected Statement getStatement() {
 		try {
 			if (_stmt == null) {
-				_stmt = _db.getRawConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				_stmt = _db.getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 				_stmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {

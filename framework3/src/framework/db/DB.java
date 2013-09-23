@@ -74,7 +74,7 @@ public class DB {
 
 	public void commit() {
 		try {
-			getRawConnection().commit();
+			getConnection().commit();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -103,7 +103,7 @@ public class DB {
 		}
 	}
 
-	public Connection getRawConnection() {
+	public Connection getConnection() {
 		return _connection;
 	}
 
@@ -117,14 +117,14 @@ public class DB {
 				stmt.close();
 			}
 		}
-		if (getRawConnection() != null) {
+		if (getConnection() != null) {
 			try {
-				getRawConnection().rollback();
+				getConnection().rollback();
 			} catch (Exception e) {
 				_getLogger().error("Connection rollback error!", e);
 			}
 			try {
-				getRawConnection().close();
+				getConnection().close();
 			} catch (Exception e) {
 				_getLogger().error("Connection close error!", e);
 			}
@@ -140,14 +140,14 @@ public class DB {
 
 	public void rollback() {
 		try {
-			getRawConnection().rollback();
+			getConnection().rollback();
 		} catch (SQLException e) {
 		}
 	}
 
 	public void setAutoCommit(boolean isAuto) {
 		try {
-			getRawConnection().setAutoCommit(isAuto);
+			getConnection().setAutoCommit(isAuto);
 		} catch (SQLException e) {
 		}
 	}

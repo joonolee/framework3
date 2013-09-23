@@ -168,7 +168,7 @@ public class SQLPreparedStatement extends DBStatement {
 		}
 		try {
 			if (_pstmt == null) {
-				_pstmt = _db.getRawConnection().prepareStatement(getSQL(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				_pstmt = _db.getConnection().prepareStatement(getSQL(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 				_pstmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
