@@ -5,6 +5,7 @@ package framework.action;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -116,15 +117,18 @@ public class DispatcherServlet extends HttpServlet {
 	private void _processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Controller controller = null;
-			Method method = null;
+			Method actionMethod = null;
 			try {
-				String controllerKey = _getControllerKey(request);
-				String[] controllerClassNameAndMethodName = _getControllerClassNameAndMethodName(controllerKey);
-				String controllerClassName = controllerClassNameAndMethodName[0];
-				String controllerMethodName = controllerClassNameAndMethodName[1];
-				Class<?> controllerClass = Class.forName(controllerClassName);
+				String routePath = _getRoutePath(request);
+				String[] controllerAndAction = _getControllerAndAction(routePath);
+				String controllerName = controllerAndAction[0];
+				String actionName = controllerAndAction[1];
+				Class<?> controllerClass = Class.forName(controllerName);
 				controller = (Controller) controllerClass.newInstance();
-				method = controllerClass.getMethod(controllerMethodName);
+				actionMethod = controllerClass.getMethod(actionName);
+				if (!Modifier.isPublic(actionMethod.getModifiers())) { // Public 메소드만 호출가능
+					throw new Exception("This is not a public method.");
+				}
 			} catch (Exception e) {
 				this.getServletContext().getNamedDispatcher(_defaultServletName).forward(request, response);
 				return;
@@ -135,7 +139,7 @@ public class DispatcherServlet extends HttpServlet {
 				_getLogger().debug("★★★ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 시작되었습니다");
 				_getLogger().debug("ContentLength : " + request.getContentLength() + "bytes");
 			}
-			controller.execute(this, request, response, method);
+			controller.execute(this, request, response, actionMethod);
 			if (_getLogger().isDebugEnabled()) {
 				_getLogger().debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.currentTimeMillis() - currTime) + "ms\n");
 			}
@@ -145,15 +149,16 @@ public class DispatcherServlet extends HttpServlet {
 		}
 	}
 
-	private String _getControllerKey(HttpServletRequest request) {
+	private String _getRoutePath(HttpServletRequest request) {
 		String path = request.getServletPath() + StringUtil.nullToBlankString(request.getPathInfo());
-		return path;
+		String normalizePath = path.replaceAll("/+", "/");
+		return normalizePath;
 	}
 
-	private String[] _getControllerClassNameAndMethodName(String controllerKey) {
+	private String[] _getControllerAndAction(String routePath) {
 		try {
 			ResourceBundle bundle = (ResourceBundle) getServletContext().getAttribute("routes-mapping");
-			String value = ((String) bundle.getObject(controllerKey)).trim();
+			String value = ((String) bundle.getObject(routePath)).trim();
 			int period = value.lastIndexOf(".");
 			return new String[] { value.substring(0, period), value.substring(period + 1) };
 		} catch (MissingResourceException e) {
