@@ -77,7 +77,7 @@ public abstract class Controller {
 	 * 클라이언트에서 서비스를 호출할 때 요청파라미터 action에 설정된 값을 참고하여 해당 메소드를 실행한다.
 	 * 정의되지 않은 메소드를 호출할 경우 로그에 오류메시지가 기록되며 메소드 실행을 마친 후 데이터베이스 컨넥을 자동으로 닫아준다.
 	 * <br>
-	 * ex) action이 search 일때 => search() 메소드가 호출된다.
+	 * ex) action이 search 일때 : search() 메소드가 호출된다.
 	 * @param servlet 서블릿 객체
 	 * @param request 클라이언트에서 요청된 Request객체
 	 * @param response 클라이언트로 응답할 Response객체
@@ -133,7 +133,7 @@ public abstract class Controller {
 	 * 요청을 JSP페이지로 포워드(Forward) 한다.
 	 * 작성된 JSP페이지는 routes.properties에 등록한다.
 	 * <br>
-	 * ex) 키가 search-jsp 인 JSP페이지로 포워딩 할 경우 => render("search-jsp")
+	 * ex) 키가 search-jsp 인 JSP페이지로 포워딩 할 경우 : render("search-jsp")
 	 * @param jsp routes.properties 파일에 등록된 JSP 페이지의 키
 	 */
 	protected void render(String jsp) {
@@ -149,7 +149,7 @@ public abstract class Controller {
 	 * 요청을 JSP페이지로 재지향(Redirect) 한다.
 	 * 작성된 JSP페이지는  routes.properties에 등록한다.
 	 * <br>
-	 * ex) 키가 search-jsp 인 JSP페이지로 재지향 할 경우 => redirect("search-jsp")
+	 * ex) 키가 search-jsp 인 JSP페이지로 재지향 할 경우 : redirect("search-jsp")
 	 * @param key routes.properties 파일에 등록된 JSP 페이지의 키
 	 */
 	protected void redirect(String key) {
@@ -227,7 +227,7 @@ public abstract class Controller {
 	/** 
 	 * 세션객체에서 해당 키에 해당하는 오브젝트를 리턴한다.
 	 * <br>
-	 * ex) 세션에서 result라는 키로 오브젝트를 리턴받는 경우 => Object obj = getSessionAttribute("result")
+	 * ex) 세션에서 result라는 키로 오브젝트를 리턴받는 경우 : Object obj = getSessionAttribute("result")
 	 * @param key 세션객체의 조회키
 	 * @return 세션객체에서 얻어온 오브젝트
 	 */
@@ -238,9 +238,9 @@ public abstract class Controller {
 	/**
 	 * 응답객체를 클라이언트에게 전송하기 전에 컨텐츠타입을 설정한다. 
 	 * <br>
-	 * ex1) xml파일을 전송 하는 경우 => setContentType("text/xml; charset=utf-8")
+	 * ex1) xml파일을 전송 하는 경우 : setContentType("text/xml; charset=utf-8")
 	 * <br>
-	 * ex2) 텍스트 파일을 전송하는 경우 => setContentType("text/plain; charset=euc-kr")
+	 * ex2) 텍스트 파일을 전송하는 경우 : setContentType("text/plain; charset=euc-kr")
 	 * @param contentType 응답객체에 설정할 컨텐츠 타입
 	 */
 	protected void setContentType(String contentType) {
@@ -251,7 +251,7 @@ public abstract class Controller {
 	 * 요청객체에 키,값 속성을 설정한다.
 	 * Controller에서 처리한 결과를 뷰 로 넘길때 요청객체에 속성을 설정하여 라우팅한다.
 	 * <br>
-	 * ex) rs라는 RecordSet 객체를 result 라는 키로 요청객체에 설정하는 경우 => setAttribute("result", re) 
+	 * ex) rs라는 RecordSet 객체를 result 라는 키로 요청객체에 설정하는 경우 : setAttribute("result", re) 
 	 * @param key 속성의 키 문자열
 	 * @param value 속성의 값 객체
 	 */
@@ -263,7 +263,7 @@ public abstract class Controller {
 	 * 세션객체에 키,값 속성을 설정한다.
 	 * Controller에서 처리한 결과를 세션에 저장한다.
 	 * <br>
-	 * ex) userinfo 라는 사용자정보객체를 userinfo 라는 키로 세션객체에 설정하는 경우 => setSessionAttribute("userinfo", userinfo)
+	 * ex) userinfo 라는 사용자정보객체를 userinfo 라는 키로 세션객체에 설정하는 경우 : setSessionAttribute("userinfo", userinfo)
 	 * @param key 속성의 키 문자열
 	 * @param value 속성의 값 객체
 	 */

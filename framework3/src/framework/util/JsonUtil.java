@@ -34,7 +34,7 @@ public class JsonUtil {
 	/**
 	 * RecordSet을 JSON 형식으로 출력한다.
 	 * <br>
-	 * ex) response로 rs를 JSON 형식으로 출력하는 경우 => JsonUtil.render(response, rs)
+	 * ex) response로 rs를 JSON 형식으로 출력하는 경우 : JsonUtil.render(response, rs)
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs JSON 형식으로 변환할 RecordSet 객체
 	 * @return 처리건수
@@ -66,7 +66,7 @@ public class JsonUtil {
 	/**
 	 * RecordSet을 Json 배열 형태로 변환한다.
 	 * <br>
-	 * ex) rs를 JSON 형식으로 변환하는 경우 => String json = JsonUtil.render(rs) 
+	 * ex) rs를 JSON 형식으로 변환하는 경우 : String json = JsonUtil.render(rs) 
 	 * @param rs JSON 형식으로 변환할 RecordSet 객체
 	 * @return JSON 형식으로 변환된 문자열
 	 */
@@ -92,7 +92,7 @@ public class JsonUtil {
 	/**
 	 * ResultSet을 JSON 형식으로 출력한다.
 	 * <br>
-	 * ex) response로 rs를 JSON 형식으로 출력하는 경우 => JsonUtil.render(response, rs)
+	 * ex) response로 rs를 JSON 형식으로 출력하는 경우 : JsonUtil.render(response, rs)
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs JSON 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
 	 * @return 처리건수
@@ -136,7 +136,7 @@ public class JsonUtil {
 	/**
 	 * ResultSet을 Json 배열 형태로 변환한다.
 	 * <br>
-	 * ex) rs를 JSON 형식으로 변환하는 경우 => String json = JsonUtil.render(rs)
+	 * ex) rs를 JSON 형식으로 변환하는 경우 : String json = JsonUtil.render(rs)
 	 * @param rs JSON 형식으로 변환할 ResultSet 객체
 	 * @return JSON 형식으로 변환된 문자열
 	 */
@@ -179,7 +179,7 @@ public class JsonUtil {
 	/**
 	 * Map객체를 JSON 형식으로 변환한다.
 	 * <br>
-	 * ex) map을 JSON 형식으로 변환하는 경우 => String json = JsonUtil.render(map)
+	 * ex) map을 JSON 형식으로 변환하는 경우 : String json = JsonUtil.render(map)
 	 * @param map 변환할 Map객체
 	 * @return JSON 형식으로 변환된 문자열
 	 */
@@ -195,7 +195,7 @@ public class JsonUtil {
 	/**
 	 * List객체를 JSON 형식으로 변환한다.
 	 * <br>
-	 * ex1) mapList를 JSON 형식으로 변환하는 경우 => String json = JsonUtil.render(mapList)
+	 * ex1) mapList를 JSON 형식으로 변환하는 경우 : String json = JsonUtil.render(mapList)
 	 * @param mapList 변환할 List객체
 	 * @return JSON 형식으로 변환된 문자열
 	 */
@@ -221,7 +221,7 @@ public class JsonUtil {
 	/**
 	 * 객체를 JSON 형식으로 변환한다.
 	 * <br>
-	 * ex1) obj를 JSON 형식으로 변환하는 경우 => String json = JsonUtil.stringify(obj)
+	 * ex1) obj를 JSON 형식으로 변환하는 경우 : String json = JsonUtil.stringify(obj)
 	 * @param obj 변환할 객체
 	 * @return JSON 형식으로 변환된 문자열
 	 */
@@ -233,7 +233,7 @@ public class JsonUtil {
 	/**
 	 * JSON 문자열을 Object 로 변환한다.
 	 * <br>
-	 * ex1) json를 Object 형식으로 변환하는 경우 => Object obj = JsonUtil.parse(json)
+	 * ex1) json를 Object 형식으로 변환하는 경우 : Object obj = JsonUtil.parse(json)
 	 * @param json 변환할 JSON 문자열
 	 * @return Object 형식으로 변환된 객체
 	 */

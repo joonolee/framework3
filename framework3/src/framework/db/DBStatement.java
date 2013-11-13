@@ -21,9 +21,9 @@ public abstract class DBStatement {
 	 * DBStatement 로거객체를 리턴한다.
 	 * 모든 로그는 해당 로거를 이용해서 출력하여야 한다.
 	 * <br>
-	 * ex1) 에러 정보를 출력할 경우 => getLogger().error("...에러메시지내용")
+	 * ex1) 에러 정보를 출력할 경우 : getLogger().error("...에러메시지내용")
 	 * <br>
-	 * ex2) 디버그 정보를 출력할 경우 => getLogger().debug("...디버그메시지내용")
+	 * ex2) 디버그 정보를 출력할 경우 : getLogger().debug("...디버그메시지내용")
 	 * @return DBStatement의 로거객체
 	 */
 	protected Log getLogger() {

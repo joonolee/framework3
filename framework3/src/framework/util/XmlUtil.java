@@ -31,7 +31,7 @@ public class XmlUtil {
 	/**
 	 * RecordSet을 xml 형식으로 출력한다. (xml 헤더포함). 
 	 * <br>
-	 * ex) response로 rs를 xml 형식으로 출력하는 경우 => XmlUtil.render(response, rs, "utf-8")
+	 * ex) response로 rs를 xml 형식으로 출력하는 경우 : XmlUtil.render(response, rs, "utf-8")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs xml 형식으로 변환할 RecordSet 객체
 	 * @param encoding 헤더에 포함될 인코딩
@@ -63,7 +63,7 @@ public class XmlUtil {
 	/**
 	 * RecordSet을 xml 형식으로 변환한다. (xml 헤더 미포함).
 	 * <br>
-	 * ex) rs를 xml 형식으로 변환하는 경우 => String xml = XmlUtil.render(rs)
+	 * ex) rs를 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(rs)
 	 * @param rs xml 형식으로 변환할 RecordSet 객체
 	 * @return xml 형식으로 변환된 문자열
 	 */
@@ -85,7 +85,7 @@ public class XmlUtil {
 	/**
 	 * RecordSet을 xml 형식으로 변환한다. (xml 헤더포함). 
 	 * <br>
-	 * ex) rs를 xml 형식으로 변환하는 경우 => String xml = XmlUtil.render(rs, "utf-8")
+	 * ex) rs를 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(rs, "utf-8")
 	 * @param rs xml 형식으로 변환할 RecordSet 객체
 	 * @param encoding 헤더에 포함될 인코딩
 	 * @return xml 형식으로 변환된 문자열
@@ -103,7 +103,7 @@ public class XmlUtil {
 	/**
 	 * ResultSet을 xml 형식으로 출력한다 (xml 헤더포함). 
 	 * <br>
-	 * ex) response로 rs를 xml 형식으로 출력하는 경우 => XmlUtil.render(response, rs, "utf-8")
+	 * ex) response로 rs를 xml 형식으로 출력하는 경우 : XmlUtil.render(response, rs, "utf-8")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs xml 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
 	 * @param encoding 헤더에 포함될 인코딩
@@ -147,7 +147,7 @@ public class XmlUtil {
 	/**
 	 * ResultSet을 xml 형식으로 변환한다 (xml 헤더 미포함). 
 	 * <br>
-	 * ex) rs를 xml 형식으로 변환하는 경우 => String xml = XmlUtil.render(rs)
+	 * ex) rs를 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(rs)
 	 * @param rs xml 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
 	 */
 	public static String render(ResultSet rs) {
@@ -185,7 +185,7 @@ public class XmlUtil {
 	/**
 	 * ResultSet을 xml 형식으로 변환한다 (xml 헤더포함). 
 	 * <br>
-	 * ex) rs를 xml 형식으로 변환하는 경우 => String xml = XmlUtil.render(rs, "utf-8")
+	 * ex) rs를 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(rs, "utf-8")
 	 * @param rs xml 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
 	 * @param encoding 헤더에 포함될 인코딩
 	 */
@@ -206,7 +206,7 @@ public class XmlUtil {
 	/**
 	 * Map객체를 xml 형식으로 변환한다 (xml 헤더 미포함). 
 	 * <br>
-	 * ex) map을 xml 형식으로 변환하는 경우 => String xml = XmlUtil.render(map)
+	 * ex) map을 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(map)
 	 * @param map 변환할 Map객체
 	 * @return xml 형식으로 변환된 문자열
 	 */
@@ -224,7 +224,7 @@ public class XmlUtil {
 	/**
 	 * Map객체를 xml 형식으로 변환한다 (xml 헤더포함). 
 	 * <br>
-	 * ex) map을 xml 형식으로 변환하는 경우  => String xml = XmlUtil.render(map, "utf-8")
+	 * ex) map을 xml 형식으로 변환하는 경우  : String xml = XmlUtil.render(map, "utf-8")
 	 * @param map 변환할 Map객체
 	 * @param encoding 헤더에 포함될 인코딩
 	 * @return xml 형식으로 변환된 문자열
@@ -242,7 +242,7 @@ public class XmlUtil {
 	/**
 	 * List객체를 xml 형태로 변환한다 (xml 헤더 미포함). 
 	 * <br>
-	 * ex) mapList를 xml으로 변환하는 경우 => String xml = XmlUtil.render(mapList)
+	 * ex) mapList를 xml으로 변환하는 경우 : String xml = XmlUtil.render(mapList)
 	 * @param mapList 변환할 List객체
 	 * @return xml형식으로 변환된 문자열
 	 */
@@ -262,7 +262,7 @@ public class XmlUtil {
 	/**
 	 * List객체를 xml 형태로 변환한다 (xml 헤더포함).
 	 * <br>
-	 * ex) mapList를 xml으로 변환하는 경우  => String xml = XmlUtil.render(mapList, "utf-8")
+	 * ex) mapList를 xml으로 변환하는 경우  : String xml = XmlUtil.render(mapList, "utf-8")
 	 * @param mapList 변환할 List객체
 	 * @param encoding 헤더에 포함될 인코딩
 	 * @return xml형식으로 변환된 문자열

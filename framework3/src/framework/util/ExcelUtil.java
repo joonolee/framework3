@@ -400,7 +400,7 @@ public class ExcelUtil {
 	/**
 	 * RecordSet을 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
 	 * <br>
-	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 => String csv = ExcelUtil.renderSep(rs, ",")
+	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = ExcelUtil.renderSep(rs, ",")
 	 * @param rs 변환할 RecordSet 객체
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * 
@@ -741,7 +741,7 @@ public class ExcelUtil {
 	/**
 	 * ResultSet을 구분자(CSV, TSV 등)파일 형식으로 변환한다.
 	 * <br>
-	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 => String csv = ExcelUtil.renderSep(rs, ",")
+	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = ExcelUtil.renderSep(rs, ",")
 	 * @param rs 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
@@ -783,7 +783,7 @@ public class ExcelUtil {
 	/**
 	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
 	 * <br>
-	 * ex) map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 => String csv = ExcelUtil.renderSep(map, ",")
+	 * ex) map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = ExcelUtil.renderSep(map, ",")
 	 * @param map 변환할 Map객체
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
@@ -800,7 +800,7 @@ public class ExcelUtil {
 	/**
 	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
 	 * <br>
-	 * ex1) mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 => String csv = ExcelUtil.renderSep(mapList, ",")
+	 * ex1) mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = ExcelUtil.renderSep(mapList, ",")
 	 * @param mapList 변환할 List객체
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열

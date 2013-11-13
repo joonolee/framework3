@@ -92,19 +92,19 @@ public class StringUtil {
 	/**
 	 * 스트링 타입의 날짜 데이타를 정해진 포맷으로 변환하는 함수
 	 * <br>
-	 * ex1) StringUtil.nalDesign("20080101090000", 1) => "2008-01-01"
+	 * ex1) StringUtil.nalDesign("20080101090000", 1) : "2008-01-01"
 	 * <br>
-	 * ex2) StringUtil.nalDesign("20080101090000", 2) => "08-01-01 09:00"
+	 * ex2) StringUtil.nalDesign("20080101090000", 2) : "08-01-01 09:00"
 	 * <br>
-	 * ex3) StringUtil.nalDesign("20080101090000", 3) => "09:00"
+	 * ex3) StringUtil.nalDesign("20080101090000", 3) : "09:00"
 	 * <br>
-	 * ex4) StringUtil.nalDesign("20080101090000", 4) => "01-01"
+	 * ex4) StringUtil.nalDesign("20080101090000", 4) : "01-01"
 	 * <br>
-	 * ex5) StringUtil.nalDesign("20080101090000", 5) => "08-01-01"
+	 * ex5) StringUtil.nalDesign("20080101090000", 5) : "08-01-01"
 	 * <br>
-	 * ex6) StringUtil.nalDesign("20080101090000", 6) => "01-01 09:00"
+	 * ex6) StringUtil.nalDesign("20080101090000", 6) : "01-01 09:00"
 	 * <br>
-	 * ex7) StringUtil.nalDesign("20080101090000", 7) => "2008년 01월 01일"
+	 * ex7) StringUtil.nalDesign("20080101090000", 7) : "2008년 01월 01일"
 	 * @param str 원본 문자열
 	 * @param option 날짜 옵션
 	 * @return 포맷된 날짜 문자열

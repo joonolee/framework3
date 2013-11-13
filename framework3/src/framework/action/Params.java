@@ -42,7 +42,7 @@ public class Params extends HashMap<String, String[]> {
 	/** 
 	 * 요청객체의 파라미터 이름과 값을 저장한 해시테이블을 생성한다.
 	 * <br>
-	 * ex) request Params 객체를 얻는 경우 => Params params = Params.getParams(request)
+	 * ex) request Params 객체를 얻는 경우 : Params params = Params.getParams(request)
 	 * @param request HTTP 클라이언트 요청객체
 	 * @return 요청Params 객체
 	 */
@@ -100,7 +100,7 @@ public class Params extends HashMap<String, String[]> {
 	/** 
 	 * 요청객체의 쿠키 이름과 값을 저장한 해시테이블을 생성한다.
 	 * <br>
-	 * ex) cookie Params 객체를 얻는 경우 => Params params = Params.getParamsFromCookie(request)
+	 * ex) cookie Params 객체를 얻는 경우 : Params params = Params.getParamsFromCookie(request)
 	 * @param request HTTP 클라이언트 요청객체
 	 * @return 쿠키Params 객체
 	 */
@@ -119,7 +119,7 @@ public class Params extends HashMap<String, String[]> {
 	/** 
 	 * 요청객체의 헤더 이름과 값을 저장한 해시테이블을 생성한다.
 	 * <br>
-	 * ex) header Params 객체를 얻는 경우 => Params params = Params.getParamsFromHeader(request)
+	 * ex) header Params 객체를 얻는 경우 : Params params = Params.getParamsFromHeader(request)
 	 * @param request HTTP 클라이언트 요청객체
 	 * @return 헤더Params 객체
 	 */

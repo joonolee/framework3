@@ -87,7 +87,7 @@ public class DB {
 			throw new RuntimeException(e);
 		}
 		if (_getLogger().isDebugEnabled()) {
-			_getLogger().debug("DB연결 성공! => " + _dsName);
+			_getLogger().debug("DB연결 성공! : " + _dsName);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class DB {
 			throw new RuntimeException(e);
 		}
 		if (_getLogger().isDebugEnabled()) {
-			_getLogger().debug("DB연결 성공! => " + url);
+			_getLogger().debug("DB연결 성공! : " + url);
 		}
 	}
 
@@ -129,7 +129,7 @@ public class DB {
 				_getLogger().error("Connection close error!", e);
 			}
 			if (_getLogger().isDebugEnabled()) {
-				_getLogger().debug("DB연결 종료! => " + _dsName);
+				_getLogger().debug("DB연결 종료! : " + _dsName);
 			}
 		} else {
 			if (_getLogger().isDebugEnabled()) {
