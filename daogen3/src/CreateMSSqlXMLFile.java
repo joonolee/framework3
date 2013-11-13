@@ -21,8 +21,7 @@ public class CreateMSSqlXMLFile {
 	private static final String _jdbcUrl = "jdbc:sqlserver://instancename:port;databaseName=";
 	private static final String _jdbcUid = "";
 	private static final String _jdbcPw = "";
-	private static List<String> _tableNameList = Arrays.asList(
-	);
+	private static List<String> _tableNameList = Arrays.asList();
 	private static String _filePath = "xml";
 
 	public static void main(String[] args) throws Exception {
@@ -87,9 +86,9 @@ public class CreateMSSqlXMLFile {
 			StringBuffer strPK = new StringBuffer();
 			strPK.append("select col.column_name  ");
 			strPK.append("from sysobjects cons ");
-			strPK.append("	inner join information_schema.key_column_usage col on cons.name = col.constraint_name ");
+			strPK.append("    inner join information_schema.key_column_usage col on cons.name = col.constraint_name ");
 			strPK.append("where cons.xtype = 'PK' ");
-			strPK.append("	and col.table_name = '" + name.trim() + "' ");
+			strPK.append("    and col.table_name = '" + name.trim() + "' ");
 			strPK.append("order by col.ordinal_position ");
 			rs3 = stmt3.executeQuery(strPK.toString());
 			pkProcess = true;

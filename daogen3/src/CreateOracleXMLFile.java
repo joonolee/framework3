@@ -21,9 +21,7 @@ public class CreateOracleXMLFile {
 	private static final String _jdbcUrl = "jdbc:oracle:thin:@192.1.1.68:1521:TESTDB";
 	private static final String _jdbcUid = "rcy2usr";
 	private static final String _jdbcPw = "rcy2usr#testdb";
-	private static List<String> _tableNameList = Arrays.asList(
-
-	);
+	private static List<String> _tableNameList = Arrays.asList();
 	private static String _filePath = "xml";
 
 	public static void main(String[] args) throws Exception {
@@ -86,11 +84,10 @@ public class CreateOracleXMLFile {
 		try {
 			stmt3 = conn2.createStatement();
 			StringBuffer strPK = new StringBuffer();
-			strPK.append("select col.column_name  ");
-			strPK.append("from  ");
-			strPK.append("    user_constraints cons inner join ");
-			strPK.append("    user_cons_columns col on cons.constraint_name = col.constraint_name  ");
-			strPK.append("where constraint_type = 'P'  ");
+			strPK.append("select col.column_name ");
+			strPK.append("from user_constraints cons ");
+			strPK.append("    inner join user_cons_columns col on cons.constraint_name = col.constraint_name ");
+			strPK.append("where constraint_type = 'P' ");
 			strPK.append("    and col.table_name = '" + name.trim() + "' ");
 			strPK.append("order by col.position");
 			rs3 = stmt3.executeQuery(strPK.toString());
