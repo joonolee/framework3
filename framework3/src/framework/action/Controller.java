@@ -101,9 +101,10 @@ public abstract class Controller {
 			logger.debug(this.cookies.toString());
 		}
 		try {
-			before();
-			method.invoke(this, (Object[]) null);
-			after();
+			if (before()) {
+				method.invoke(this, (Object[]) null);
+				after();
+			}
 		} finally {
 			_destroy();
 		}
@@ -115,8 +116,10 @@ public abstract class Controller {
 	/**
 	 * 액션메소드가 호출되기 직전에 호출된다.
 	 * 컨트롤러 클래스에서 오버라이드 하면 자동 호출된다.
+	 * @return true를 리턴하면 다음단계가 진행, false이면 요청이 종료된다.
 	 */
-	protected void before() {
+	protected boolean before() {
+		return true;
 	}
 
 	/**
