@@ -23,8 +23,7 @@ import framework.util.StringUtil;
 
 /** 
  * 컨트롤러 역할을 하는 서블릿으로 모든 클라이언트의 요청을 받아 해당 액션을 실행한다.
- * 확장자가 (.do)로 실행되는 모든 요청을 이 서블릿이 처리하기 위하여 web.xml 파일에서 서블릿을 매핑하여야 하며
- * 서버 부팅시 한개의 객체를 생성해 놓는다.  
+ * web.xml 파일에서 서블릿을 매핑하여야 하며 서버 부팅시 한개의 객체를 생성해 놓는다.  
  * 요청에서 추출한 액션키로 routes.properties에서 Controller클래스를 찾아 객체를 생성하여 비지니스 프로세스를 실행한다. 
  */
 public class DispatcherServlet extends HttpServlet {
