@@ -110,7 +110,7 @@ public class CreateOracleXMLFile {
 		}
 		FileWriter fw = new FileWriter(file);
 		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write("<?xml version=\"1.0\" encoding=\"EUC-KR\" ?>\n");
+		bw.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n");
 		bw.write("<table name=\"" + name + "\"  schema=\"" + _jdbcUid + "\" class=\"" + name + "\">\n");
 		bw.write("<description></description>\n");
 		bw.write("<columns>\n");
