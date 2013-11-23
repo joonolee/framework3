@@ -10,7 +10,7 @@
  * @(#)<xsl:value-of select="@class"/>DAO.java
  * <xsl:value-of select="@class"/> Table DAO INFO
  */
-package vo;
+package _com.vo;
 
 import java.util.*;
 

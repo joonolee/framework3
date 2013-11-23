@@ -21,7 +21,7 @@ public class CreateOracleXMLFile {
 	private static final String _jdbcUrl = "jdbc:oracle:thin:@192.1.1.68:1521:TESTDB";
 	private static final String _jdbcUid = "rcy2usr";
 	private static final String _jdbcPw = "rcy2usr#testdb";
-	private static List<String> _tableNameList = Arrays.asList();
+	private static List<String> _tableNameList = Arrays.asList("T_RCY_GROUP");
 	private static String _filePath = "xml";
 
 	public static void main(String[] args) throws Exception {
@@ -99,6 +99,10 @@ public class CreateOracleXMLFile {
 			while (rs3.next()) {
 				primaryKeyList.add(rs3.getString("COLUMN_NAME"));
 			}
+		}
+		File dir = new File(_filePath);
+		if (!dir.exists()) {
+			dir.mkdir();
 		}
 		File file = new File(_filePath, name + ".xml");
 		if (file.exists()) {
