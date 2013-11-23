@@ -59,9 +59,11 @@ public class Router {
 					getLogger().debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 forward 되었습니다");
 				}
 			} else {
-				response.sendRedirect(response.encodeRedirectURL(_key));
+				String url = request.getContextPath() + "/" + response.encodeRedirectURL(_key);
+				String normalizeURL = url.replaceAll("/+", "/");
+				response.sendRedirect(normalizeURL);
 				if (getLogger().isDebugEnabled()) {
-					getLogger().debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + _key + "\" 로 redirect 되었습니다");
+					getLogger().debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + normalizeURL + "\" 로 redirect 되었습니다");
 				}
 			}
 		} catch (Exception e) {
