@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -134,12 +136,16 @@ public abstract class Controller {
 	 * 작성된 JSP페이지는 routes.properties에 등록한다.
 	 * <br>
 	 * ex) 키가 search-jsp 인 JSP페이지로 포워딩 할 경우 : render("search-jsp")
-	 * @param jsp routes.properties 파일에 등록된 JSP 페이지의 키
+	 * @param key routes.properties 파일에 등록된 JSP 페이지의 키
 	 */
-	protected void render(String jsp) {
+	protected void render(String key) {
 		try {
-			Router router = new Router(jsp, true);
-			router.route(servlet, request, response);
+			ResourceBundle bundle = (ResourceBundle) servlet.getServletContext().getAttribute("routes-mapping");
+			String url = ((String) bundle.getObject(key)).trim();
+			servlet.getServletContext().getRequestDispatcher(response.encodeURL(url)).forward(request, response);
+			if (logger.isDebugEnabled()) {
+				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 forward 되었습니다");
+			}
 		} catch (Exception e) {
 			logger.error("Render Error!", e);
 		}
@@ -154,8 +160,17 @@ public abstract class Controller {
 	 */
 	protected void redirect(String key) {
 		try {
-			Router router = new Router(key, false);
-			router.route(servlet, request, response);
+			String url = null;
+			if (Pattern.matches("^/.+", key)) {
+				url = request.getContextPath() + response.encodeRedirectURL(key);
+				url = url.replaceAll("/+", "/");
+			} else {
+				url = response.encodeRedirectURL(key);
+			}
+			response.sendRedirect(url);
+			if (logger.isDebugEnabled()) {
+				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 redirect 되었습니다");
+			}
 		} catch (Exception e) {
 			logger.error("Redirect Error!", e);
 		}
