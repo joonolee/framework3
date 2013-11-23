@@ -100,6 +100,10 @@ public class CreateMSSqlXMLFile {
 				primaryKeyList.add(rs3.getString("COLUMN_NAME"));
 			}
 		}
+		File dir = new File(_filePath);
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
 		File file = new File(_filePath, name + ".xml");
 		if (file.exists()) {
 			file.delete();
