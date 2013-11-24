@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.sql.Types;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,21 +80,14 @@ public class MiPlatformUtil {
 		VariableList vl = new VariableList();
 		DatasetList dl = new DatasetList();
 		try {
-			try {
-				for (int i = 0, len = rsArray.length; i < len; i++) {
-					Dataset dSet = new Dataset(datasetNameArray[i], "euc-kr", false, false);
-					rowCount += _appendDataset(dSet, rsArray[i]);
-					dl.addDataset(dSet);
-				}
-				vl.addStr("ErrorCode", "0");
-				vl.addStr("ErrorMsg", "SUCC");
-			} catch (Exception e) {
-				vl.addStr("ErrorCode", "-1");
-				vl.addStr("ErrorMsg", e.getMessage());
-				throw e;
-			} finally {
-				sendData(response, vl, dl, dataFormat);
+			for (int i = 0, len = rsArray.length; i < len; i++) {
+				Dataset dSet = new Dataset(datasetNameArray[i], "utf-8", false, false);
+				rowCount += _appendDataset(dSet, rsArray[i]);
+				dl.addDataset(dSet);
 			}
+			vl.addStr("ErrorCode", "0");
+			vl.addStr("ErrorMsg", "SUCC");
+			sendData(response, vl, dl, dataFormat);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -131,21 +125,14 @@ public class MiPlatformUtil {
 		try {
 			VariableList vl = new VariableList();
 			DatasetList dl = new DatasetList();
-			try {
-				for (int i = 0, len = rsArray.length; i < len; i++) {
-					Dataset dSet = new Dataset(datasetNameArray[i], "euc-kr", false, false);
-					rowCount += _appendDataset(dSet, rsArray[i]);
-					dl.addDataset(dSet);
-				}
-				vl.addStr("ErrorCode", "0");
-				vl.addStr("ErrorMsg", "SUCC");
-			} catch (Exception e) {
-				vl.addStr("ErrorCode", "-1");
-				vl.addStr("ErrorMsg", e.getMessage());
-				throw e;
-			} finally {
-				sendData(response, vl, dl, dataFormat);
+			for (int i = 0, len = rsArray.length; i < len; i++) {
+				Dataset dSet = new Dataset(datasetNameArray[i], "utf-8", false, false);
+				rowCount += _appendDataset(dSet, rsArray[i]);
+				dl.addDataset(dSet);
 			}
+			vl.addStr("ErrorCode", "0");
+			vl.addStr("ErrorMsg", "SUCC");
+			sendData(response, vl, dl, dataFormat);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -256,7 +243,7 @@ public class MiPlatformUtil {
 	 */
 	public static void sendData(HttpServletResponse response, VariableList vl, DatasetList dl, int dataFormat) {
 		try {
-			PlatformResponse pResponse = getPRes(response, dataFormat);
+			PlatformResponse pResponse = getPRes(response, dataFormat, "utf-8");
 			pResponse.sendData(vl, dl);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -364,17 +351,28 @@ public class MiPlatformUtil {
 		}
 		String[] colNms = rs.getColumns();
 		int[] colSize = rs.getColumnsSize();
-		rs.moveRow(0); // rs의 위치를 1번째로 이동 
-		int rowCount = 0;
+		int[] colType = rs.getColumnsType();
 		// 컬럼 레이아웃 셋팅
 		for (int c = 0; c < colNms.length; c++) {
-			Object value = rs.get(colNms[c]);
-			if (value instanceof Number) {
+			switch (colType[c]) {
+			case Types.BIGINT:
+			case Types.DECIMAL:
+			case Types.DOUBLE:
+			case Types.FLOAT:
+			case Types.INTEGER:
+			case Types.NUMERIC:
+			case Types.REAL:
+			case Types.SMALLINT:
+			case Types.TINYINT:
 				dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_DECIMAL, colSize[c]);
-			} else {
+				break;
+			default:
 				dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_STRING, colSize[c]);
+				break;
 			}
 		}
+		rs.moveRow(0); // rs의 위치를 1번째로 이동 
+		int rowCount = 0;
 		while (rs.nextRow()) {
 			rowCount++;
 			_appendRow(dSet, rs, colNms);
@@ -395,22 +393,35 @@ public class MiPlatformUtil {
 				int count = rsmd.getColumnCount();
 				String[] colNms = new String[count];
 				int[] colSize = new int[count];
+				int[] colType = new int[count];
 				for (int i = 1; i <= count; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-					//Fiels 의 정보 및 Size 추가
+					//Field 의 정보 및 Size 추가
 					colSize[i - 1] = rsmd.getColumnDisplaySize(i);
+					// Field 의 타입 추가
+					colType[i - 1] = rsmd.getColumnType(i);
 				}
-				int rowCount = 0;
 				// 컬럼 레이아웃 셋팅
 				for (int c = 0; c < colNms.length; c++) {
-					Object value = rs.getObject(colNms[c]);
-					if (value instanceof Number) {
+					switch (colType[c]) {
+					case Types.BIGINT:
+					case Types.DECIMAL:
+					case Types.DOUBLE:
+					case Types.FLOAT:
+					case Types.INTEGER:
+					case Types.NUMERIC:
+					case Types.REAL:
+					case Types.SMALLINT:
+					case Types.TINYINT:
 						dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_DECIMAL, colSize[c]);
-					} else {
+						break;
+					default:
 						dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_STRING, colSize[c]);
+						break;
 					}
 				}
+				int rowCount = 0;
 				while (rs.next()) {
 					rowCount++;
 					_appendRow(dSet, rs, colNms);
