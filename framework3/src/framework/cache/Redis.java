@@ -3,10 +3,15 @@
  */
 package framework.cache;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisShardInfo;
+import redis.clients.jedis.ShardedJedis;
 import framework.config.Config;
 
 /**
@@ -21,19 +26,25 @@ public class Redis extends AbstractCache {
 	/**
 	 * 캐시 클라이언트
 	 */
-	private Jedis _client;
+	private ShardedJedis _client;
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
 	private Redis() {
-		String redisHost = null;
+		List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
 		if (_getConfig().containsKey("redis.host")) {
-			redisHost = _getConfig().getString("redis.host");
+			shards.add(new JedisShardInfo(_getConfig().getString("redis.host")));
+		} else if (_getConfig().containsKey("redis.1.host")) {
+			int count = 1;
+			while (_getConfig().containsKey("redis." + count + ".host")) {
+				shards.add(new JedisShardInfo(_getConfig().getString("redis." + count + ".host")));
+				count++;
+			}
 		} else {
 			throw new RuntimeException("redis의 호스트설정이 누락되었습니다.");
 		}
-		_client = new Jedis(redisHost);
+		_client = new ShardedJedis(shards);
 	}
 
 	/** 
@@ -86,7 +97,9 @@ public class Redis extends AbstractCache {
 
 	@Override
 	public void clear() {
-		_client.flushAll();
+		for (Jedis jedis : _client.getAllShards()) {
+			jedis.flushAll();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////Private 메소드
