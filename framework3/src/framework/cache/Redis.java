@@ -4,10 +4,14 @@
 package framework.cache;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.spy.memcached.AddrUtil;
+import net.spy.memcached.MemcachedClient;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
@@ -32,15 +36,17 @@ public class Redis extends AbstractCache {
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
 	private Redis() {
-		List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
+		List<JedisShardInfo> shards;
 		if (_getConfig().containsKey("redis.host")) {
-			shards.add(new JedisShardInfo(_getConfig().getString("redis.host")));
+			shards = _getAddresses(_getConfig().getString("redis.host"));
 		} else if (_getConfig().containsKey("redis.1.host")) {
 			int count = 1;
+			StringBuilder buffer = new StringBuilder();
 			while (_getConfig().containsKey("redis." + count + ".host")) {
-				shards.add(new JedisShardInfo(_getConfig().getString("redis." + count + ".host")));
+				buffer.append(_getConfig().getString("redis." + count + ".host") + " ");
 				count++;
 			}
+			shards = _getAddresses(buffer.toString());
 		} else {
 			throw new RuntimeException("redis의 호스트설정이 누락되었습니다.");
 		}
@@ -110,5 +116,29 @@ public class Redis extends AbstractCache {
 	*/
 	private Config _getConfig() {
 		return Config.getInstance();
+	}
+
+	/**
+	 * 문자열에서 redis 호스트 주소를 파싱하여 리턴한다.
+	 * @param str 스페이스로 구분된 주소문자열
+	 * @return 샤드주소객체
+	 */
+	private List<JedisShardInfo> _getAddresses(String str) {
+		if (str == null || "".equals(str.trim())) {
+			throw new IllegalArgumentException("redis의 호스트설정이 누락되었습니다.");
+		}
+		ArrayList<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
+		for (String addr : str.split("(?:\\s|,)+")) {
+			if ("".equals(addr)) {
+				continue;
+			}
+			int sep = addr.lastIndexOf(':');
+			if (sep < 1) {
+				throw new IllegalArgumentException("서버설정이 잘못되었습니다. 형식=>호스트:포트");
+			}
+			shards.add(new JedisShardInfo(addr.substring(0, sep), Integer.valueOf(addr.substring(sep + 1))));
+		}
+		assert !shards.isEmpty() : "redis의 호스트설정이 누락되었습니다.";
+		return shards;
 	}
 }
