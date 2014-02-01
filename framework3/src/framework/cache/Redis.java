@@ -171,7 +171,6 @@ public class Redis extends AbstractCache {
 			byte[] bytes = baos.toByteArray();
 			return bytes;
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -188,7 +187,6 @@ public class Redis extends AbstractCache {
 			ObjectInputStream ois = new ObjectInputStream(bais);
 			return ois.readObject();
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
