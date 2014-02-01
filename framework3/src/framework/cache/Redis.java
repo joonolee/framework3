@@ -3,15 +3,14 @@
  */
 package framework.cache;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.spy.memcached.AddrUtil;
-import net.spy.memcached.MemcachedClient;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
@@ -67,14 +66,21 @@ public class Redis extends AbstractCache {
 
 	@Override
 	public void set(String key, Object value, int seconds) {
-		_client.set(key, value.toString());
-		_client.expire(key, seconds);
+		set(_serialize(key), _serialize(value), seconds);
+	}
 
+	public void set(byte[] key, byte[] value, int seconds) {
+		_client.set(key, value);
+		_client.expire(key, seconds);
 	}
 
 	@Override
 	public Object get(String key) {
-		return _client.get(key);
+		return get(_serialize(key));
+	}
+
+	public Object get(byte[] key) {
+		return _deserialize(_client.get(key));
 	}
 
 	@Override
@@ -88,11 +94,19 @@ public class Redis extends AbstractCache {
 
 	@Override
 	public long incr(String key, int by) {
+		return incr(_serialize(key), by);
+	}
+
+	public long incr(byte[] key, int by) {
 		return _client.incrBy(key, by);
 	}
 
 	@Override
 	public long decr(String key, int by) {
+		return decr(_serialize(key), by);
+	}
+
+	public long decr(byte[] key, int by) {
 		return _client.decrBy(key, by);
 	}
 
@@ -140,5 +154,42 @@ public class Redis extends AbstractCache {
 		}
 		assert !shards.isEmpty() : "redis의 호스트설정이 누락되었습니다.";
 		return shards;
+	}
+
+	/**
+	 * 객체를 바이트배열로 직렬화 한다.
+	 * @param obj 직렬화할 객체
+	 * @return 바이트배열
+	 */
+	public byte[] _serialize(Object obj) {
+		ObjectOutputStream oos = null;
+		ByteArrayOutputStream baos = null;
+		try {
+			baos = new ByteArrayOutputStream();
+			oos = new ObjectOutputStream(baos);
+			oos.writeObject(obj);
+			byte[] bytes = baos.toByteArray();
+			return bytes;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 바이트배열을 객체로 역직렬화 한다.
+	 * @param bytes 바이트배열
+	 * @return 역직렬화된 객체
+	 */
+	public Object _deserialize(byte[] bytes) {
+		ByteArrayInputStream bais = null;
+		try {
+			bais = new ByteArrayInputStream(bytes);
+			ObjectInputStream ois = new ObjectInputStream(bais);
+			return ois.readObject();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
