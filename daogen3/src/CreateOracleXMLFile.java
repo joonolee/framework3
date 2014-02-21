@@ -18,10 +18,11 @@ import java.util.List;
 
 public class CreateOracleXMLFile {
 	private static final String _jdbcDriver = "oracle.jdbc.driver.OracleDriver";
-	private static final String _jdbcUrl = "jdbc:oracle:thin:@192.1.1.68:1521:TESTDB";
-	private static final String _jdbcUid = "rcy2usr";
-	private static final String _jdbcPw = "rcy2usr#testdb";
-	private static List<String> _tableNameList = Arrays.asList("T_RCY_GROUP");
+	private static final String _jdbcUrl = "jdbc:oracle:thin:@ip:port:sid";
+	private static final String _jdbcUid = "";
+	private static final String _jdbcPw = "";
+	private static List<String> _tableNameList = Arrays.asList(
+	);
 	private static String _filePath = "xml";
 
 	public static void main(String[] args) throws Exception {
