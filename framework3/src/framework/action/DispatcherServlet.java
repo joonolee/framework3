@@ -54,8 +54,10 @@ public class DispatcherServlet extends HttpServlet {
 				}
 			}
 			this._defaultServletDispatcher = getServletContext().getNamedDispatcher(defaultServletName);
-			if (_defaultServletDispatcher == null) {
-				_getLogger().info("WAS의 디폴트 서블릿을 찾을 수 없습니다.");
+			if (this._defaultServletDispatcher == null) {
+				_getLogger().info("Default Servlet을 찾을 수 없습니다.");
+			} else {
+				_getLogger().info("Default Servlet을 찾았습니다. (" + defaultServletName + ")");
 			}
 		} catch (MissingResourceException e) {
 			throw new ServletException(e);
