@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,9 +29,9 @@ import framework.util.StringUtil;
  */
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
-	private static Log _logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
-	private static final String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
-	private String _defaultServletName = null;
+	private Log _logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
+	private final String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
+	private RequestDispatcher _defaultServletDispatcher = null;
 
 	/**
 	 * 서블릿 객체를 초기화 한다.
@@ -43,17 +44,18 @@ public class DispatcherServlet extends HttpServlet {
 		ResourceBundle bundle = null;
 		try {
 			bundle = ResourceBundle.getBundle(config.getInitParameter("routes-mapping"));
-			_defaultServletName = StringUtil.nullToBlankString(config.getInitParameter("default-servlet-name"));
-			if ("".equals(_defaultServletName)) {
+			String defaultServletName = StringUtil.nullToBlankString(config.getInitParameter("default-servlet-name"));
+			if ("".equals(defaultServletName)) {
 				for (String servletName : _DEFAULT_SERVLET_NAMES) {
 					if (getServletContext().getNamedDispatcher(servletName) != null) {
-						_defaultServletName = servletName;
+						defaultServletName = servletName;
 						break;
 					}
 				}
 			}
-			if (getServletContext().getNamedDispatcher(_defaultServletName) == null) {
-				throw new IllegalStateException("defaultServletName Error!");
+			this._defaultServletDispatcher = getServletContext().getNamedDispatcher(defaultServletName);
+			if (_defaultServletDispatcher == null) {
+				_getLogger().info("WAS의 디폴트 서블릿을 찾을 수 없습니다.");
 			}
 		} catch (MissingResourceException e) {
 			throw new ServletException(e);
@@ -126,10 +128,12 @@ public class DispatcherServlet extends HttpServlet {
 				controller = (Controller) controllerClass.newInstance();
 				actionMethod = controllerClass.getMethod(actionName);
 				if (!Modifier.isPublic(actionMethod.getModifiers())) { // Public 메소드만 호출가능
-					throw new Exception("This is not a public method.");
+					throw new Exception("Public 메소드만 호출 가능합니다.");
 				}
 			} catch (Exception e) {
-				this.getServletContext().getNamedDispatcher(_defaultServletName).forward(request, response);
+				if (this._defaultServletDispatcher != null) {
+					this._defaultServletDispatcher.forward(request, response);
+				}
 				return;
 			}
 			long currTime = 0;
@@ -166,6 +170,6 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	private Log _getLogger() {
-		return DispatcherServlet._logger;
+		return this._logger;
 	}
 }
