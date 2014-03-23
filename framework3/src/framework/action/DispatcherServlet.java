@@ -129,8 +129,8 @@ public class DispatcherServlet extends HttpServlet {
 				Class<?> controllerClass = Class.forName(controllerName);
 				controller = (Controller) controllerClass.newInstance();
 				actionMethod = controllerClass.getMethod(actionName);
-				if (!Modifier.isPublic(actionMethod.getModifiers())) { // Public 메소드만 호출가능
-					throw new Exception("Public 메소드만 호출 가능합니다.");
+				if (!_isActionMethod(actionMethod)) {
+					throw new Exception("호출할 수 없는 메소드입니다.");
 				}
 			} catch (Exception e) {
 				if (this._defaultServletDispatcher != null) {
@@ -169,6 +169,25 @@ public class DispatcherServlet extends HttpServlet {
 		} catch (MissingResourceException e) {
 			return null;
 		}
+	}
+
+	private boolean _isActionMethod(Method method) {
+		if (!Modifier.isPublic(method.getModifiers())) {
+			return false;
+		}
+		if (method.isAnnotationPresent(Before.class)) {
+			return false;
+		}
+		if (method.isAnnotationPresent(After.class)) {
+			return false;
+		}
+		if (method.isAnnotationPresent(Finally.class)) {
+			return false;
+		}
+		if (method.isAnnotationPresent(Catch.class)) {
+			return false;
+		}
+		return true;
 	}
 
 	private Log _getLogger() {

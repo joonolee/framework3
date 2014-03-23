@@ -4,8 +4,13 @@
 package framework.action;
 
 import java.io.PrintWriter;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -71,6 +76,21 @@ public abstract class Controller {
 	protected PrintWriter out = null;
 
 	/**
+	 * 컨트롤러 이름
+	 */
+	protected String controller = null;
+
+	/**
+	 * 액션메소드 이름
+	 */
+	protected String actionMethod = null;
+
+	/**
+	 * 액션 이름(컨트롤러.액션메소드)
+	 */
+	protected String action = null;
+
+	/**
 	 * Controller의 로거객체
 	 */
 	protected static Log logger = LogFactory.getLog(framework.action.Controller.class);
@@ -95,40 +115,30 @@ public abstract class Controller {
 		this.session = request.getSession();
 		this.response = response;
 		this.out = response.getWriter();
+		this.controller = getClass().getName();
+		this.actionMethod = method.getName();
+		this.action = this.controller + "." + this.actionMethod;
 		long currTime = 0;
 		if (logger.isDebugEnabled()) {
 			currTime = System.currentTimeMillis();
-			logger.debug("Start");
+			logger.debug("Start Class : " + this.controller + ", Method : " + this.actionMethod);
 			logger.debug(this.params.toString());
 			logger.debug(this.cookies.toString());
 		}
 		try {
-			if (before()) {
-				method.invoke(this, (Object[]) null);
-				after();
-			}
+			_before();
+			method.invoke(this, (Object[]) null);
+			_after();
+		} catch (Exception e) {
+			_catch(e);
+			throw e;
 		} finally {
 			_destroy();
+			_finally();
 		}
 		if (logger.isDebugEnabled()) {
 			logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 		}
-	}
-
-	/**
-	 * 액션메소드가 호출되기 직전에 호출된다.
-	 * 컨트롤러 클래스에서 오버라이드 하면 자동 호출된다.
-	 * @return true를 리턴하면 다음단계가 진행, false이면 요청이 종료된다.
-	 */
-	protected boolean before() {
-		return true;
-	}
-
-	/**
-	 * 액션메소드가 호출되고난 직후에 호출된다.
-	 * 컨트롤러 클래스에서 오버라이드 하면 자동 호출된다.
-	 */
-	protected void after() {
 	}
 
 	/**
@@ -288,17 +298,201 @@ public abstract class Controller {
 
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
 
-	private void _destroy() {
-		DB db = null;
-		for (String key : _dbMap.keySet()) {
-			db = _dbMap.get(key);
-			if (db != null) {
-				db.release();
-				db = null;
+	/*
+	 * Play framework 참고
+	 */
+	private void _before() throws Exception {
+		List<Method> beforeMethods = _getAnnotationMethods(Before.class);
+		Collections.sort(beforeMethods, new Comparator<Method>() {
+			public int compare(Method m1, Method m2) {
+				Before before1 = m1.getAnnotation(Before.class);
+				Before before2 = m2.getAnnotation(Before.class);
+				return before1.priority() - before2.priority();
+			}
+		});
+		for (Method beforeMethod : beforeMethods) {
+			String[] only = beforeMethod.getAnnotation(Before.class).only();
+			String[] unless = beforeMethod.getAnnotation(Before.class).unless();
+			boolean skip = false;
+			for (String o : only) {
+				if (!o.contains(".")) {
+					o = getClass().getName() + "." + o;
+				}
+				if (o.equals(this.action)) {
+					skip = false;
+					break;
+				} else {
+					skip = true;
+				}
+			}
+			for (String u : unless) {
+				if (!u.contains(".")) {
+					u = getClass().getName() + "." + u;
+				}
+				if (u.equals(this.action)) {
+					skip = true;
+					break;
+				}
+			}
+			if (!skip) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("@Before Class : " + beforeMethod.getDeclaringClass().getName() + ", Method : " + beforeMethod.getName());
+				}
+				beforeMethod.setAccessible(true);
+				beforeMethod.invoke(this, (Object[]) null);
 			}
 		}
-		_dbMap.clear();
-		params = null;
-		out = null;
+	}
+
+	/*
+	 * Play framework 참고
+	 */
+	private void _after() throws Exception {
+		List<Method> afterMethods = _getAnnotationMethods(After.class);
+		Collections.sort(afterMethods, new Comparator<Method>() {
+			public int compare(Method m1, Method m2) {
+				After after1 = m1.getAnnotation(After.class);
+				After after2 = m2.getAnnotation(After.class);
+				return after1.priority() - after2.priority();
+			}
+		});
+		for (Method afterMethod : afterMethods) {
+			String[] only = afterMethod.getAnnotation(After.class).only();
+			String[] unless = afterMethod.getAnnotation(After.class).unless();
+			boolean skip = false;
+			for (String o : only) {
+				if (!o.contains(".")) {
+					o = getClass().getName() + "." + o;
+				}
+				if (o.equals(this.action)) {
+					skip = false;
+					break;
+				} else {
+					skip = true;
+				}
+			}
+			for (String u : unless) {
+				if (!u.contains(".")) {
+					u = getClass().getName() + "." + u;
+				}
+				if (u.equals(this.action)) {
+					skip = true;
+					break;
+				}
+			}
+			if (!skip) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("@After Class : " + afterMethod.getDeclaringClass().getName() + ", Method : " + afterMethod.getName());
+				}
+				afterMethod.setAccessible(true);
+				afterMethod.invoke(this, (Object[]) null);
+			}
+		}
+	}
+
+	/*
+	 * Play framework 참고
+	 */
+	private void _catch(Exception e) throws Exception {
+		List<Method> catchMethods = _getAnnotationMethods(Catch.class);
+		Collections.sort(catchMethods, new Comparator<Method>() {
+			public int compare(Method m1, Method m2) {
+				Catch catch1 = m1.getAnnotation(Catch.class);
+				Catch catch2 = m2.getAnnotation(Catch.class);
+				return catch1.priority() - catch2.priority();
+			}
+		});
+		for (Method catchMethod : catchMethods) {
+			Class<?>[] exceptionClasses = catchMethod.getAnnotation(Catch.class).value();
+			if (exceptionClasses.length == 0) {
+				exceptionClasses = new Class<?>[] { Exception.class };
+			}
+			for (Class<?> exceptionClass : exceptionClasses) {
+				if (exceptionClass.isInstance(e)) {
+					if (logger.isDebugEnabled()) {
+						logger.debug("@Catch Class : " + catchMethod.getDeclaringClass().getName() + ", Method : " + catchMethod.getName());
+					}
+					catchMethod.setAccessible(true);
+					catchMethod.invoke(this, (Object[]) null);
+					break;
+				}
+			}
+		}
+	}
+
+	/*
+	 * Play framework 참고
+	 */
+	private void _finally() throws Exception {
+		List<Method> finallyMethods = _getAnnotationMethods(Finally.class);
+		Collections.sort(finallyMethods, new Comparator<Method>() {
+			public int compare(Method m1, Method m2) {
+				Finally finally1 = m1.getAnnotation(Finally.class);
+				Finally finally2 = m2.getAnnotation(Finally.class);
+				return finally1.priority() - finally2.priority();
+			}
+		});
+		for (Method finallyMethod : finallyMethods) {
+			String[] only = finallyMethod.getAnnotation(Finally.class).only();
+			String[] unless = finallyMethod.getAnnotation(Finally.class).unless();
+			boolean skip = false;
+			for (String o : only) {
+				if (!o.contains(".")) {
+					o = getClass().getName() + "." + o;
+				}
+				if (o.equals(this.action)) {
+					skip = false;
+					break;
+				} else {
+					skip = true;
+				}
+			}
+			for (String u : unless) {
+				if (!u.contains(".")) {
+					u = getClass().getName() + "." + u;
+				}
+				if (u.equals(this.action)) {
+					skip = true;
+					break;
+				}
+			}
+			if (!skip) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("@Finally Class : " + finallyMethod.getDeclaringClass().getName() + ", Method : " + finallyMethod.getName());
+				}
+				finallyMethod.setAccessible(true);
+				finallyMethod.invoke(this, (Object[]) null);
+			}
+		}
+	}
+
+	private List<Method> _getAnnotationMethods(Class<? extends Annotation> annotation) {
+		List<Method> methods = new ArrayList<Method>();
+		for (Method method : getClass().getMethods()) {
+			if (method.isAnnotationPresent(annotation)) {
+				methods.add(method);
+			}
+		}
+		return methods;
+	}
+
+	/*
+	 * DB 컨넥션 정리
+	 */
+	private void _destroy() {
+		try {
+			DB db = null;
+			for (String key : _dbMap.keySet()) {
+				db = _dbMap.get(key);
+				if (db != null) {
+					db.release();
+					db = null;
+				}
+			}
+			_dbMap.clear();
+			params = null;
+			out = null;
+		} catch (Exception e) {
+		}
 	}
 }
