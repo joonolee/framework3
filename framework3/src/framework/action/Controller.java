@@ -119,15 +119,18 @@ public abstract class Controller {
 		this.actionMethod = method.getName();
 		this.action = this.controller + "." + this.actionMethod;
 		long currTime = 0;
-		if (logger.isDebugEnabled()) {
-			currTime = System.currentTimeMillis();
-			logger.debug("Start Class : " + this.controller + ", Method : " + this.actionMethod);
-			logger.debug(this.params.toString());
-			logger.debug(this.cookies.toString());
-		}
 		try {
 			_before();
+			if (logger.isDebugEnabled()) {
+				currTime = System.currentTimeMillis();
+				logger.debug("Start Class : " + this.controller + ", Method : " + this.actionMethod);
+				logger.debug(this.params.toString());
+				logger.debug(this.cookies.toString());
+			}
 			method.invoke(this, (Object[]) null);
+			if (logger.isDebugEnabled()) {
+				logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
+			}
 			_after();
 		} catch (Exception e) {
 			_catch(e);
@@ -135,9 +138,6 @@ public abstract class Controller {
 		} finally {
 			_destroy();
 			_finally();
-		}
-		if (logger.isDebugEnabled()) {
-			logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 		}
 	}
 
