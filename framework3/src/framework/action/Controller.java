@@ -5,6 +5,7 @@ package framework.action;
 
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,7 +105,7 @@ public abstract class Controller {
 	 * @param request 클라이언트에서 요청된 Request객체
 	 * @param response 클라이언트로 응답할 Response객체
 	 * @param method 메소드
-	 * @throws Exception
+	 * @throws Throwable 
 	 */
 	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Exception {
 		this.servlet = servlet;
@@ -127,18 +128,36 @@ public abstract class Controller {
 				logger.debug(this.params.toString());
 				logger.debug(this.cookies.toString());
 			}
-			method.invoke(this, (Object[]) null);
+			try {
+				method.invoke(this, (Object[]) null);
+			} catch (InvocationTargetException e) {
+				throw e.getCause();
+			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 			}
 			_after();
-		} catch (Exception e) {
-			_catch(e);
-			throw e;
+		} catch (_ActionStopException e) {
+		} catch (Throwable e) {
+			try {
+				_catch(e);
+			} catch (Throwable te) {
+			}
+			throw new Exception(e);
 		} finally {
 			_destroy();
-			_finally();
+			try {
+				_finally();
+			} catch (Throwable te) {
+			}
 		}
+	}
+
+	/**
+	 * 액션진행을 중단한다.
+	 */
+	protected void stop() {
+		throw new _ActionStopException();
 	}
 
 	/**
@@ -152,10 +171,10 @@ public abstract class Controller {
 		try {
 			ResourceBundle bundle = (ResourceBundle) servlet.getServletContext().getAttribute("routes-mapping");
 			String url = ((String) bundle.getObject(key)).trim();
-			servlet.getServletContext().getRequestDispatcher(response.encodeURL(url)).forward(request, response);
 			if (logger.isDebugEnabled()) {
 				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 forward 되었습니다");
 			}
+			servlet.getServletContext().getRequestDispatcher(response.encodeURL(url)).forward(request, response);
 		} catch (Exception e) {
 			logger.error("Render Error!", e);
 		}
@@ -177,10 +196,10 @@ public abstract class Controller {
 			} else {
 				url = response.encodeRedirectURL(key);
 			}
-			response.sendRedirect(url);
 			if (logger.isDebugEnabled()) {
 				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 redirect 되었습니다");
 			}
+			response.sendRedirect(url);
 		} catch (Exception e) {
 			logger.error("Redirect Error!", e);
 		}
@@ -299,9 +318,16 @@ public abstract class Controller {
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
 
 	/*
+	 * 액션진행을 중단하기 위해 내부적으로 사용하는 예외
+	 */
+	private class _ActionStopException extends RuntimeException {
+		private static final long serialVersionUID = -4449840322691459821L;
+	}
+
+	/*
 	 * Play framework 참고
 	 */
-	private void _before() throws Exception {
+	private void _before() throws Throwable {
 		List<Method> beforeMethods = _getAnnotationMethods(Before.class);
 		Collections.sort(beforeMethods, new Comparator<Method>() {
 			public int compare(Method m1, Method m2) {
@@ -339,7 +365,11 @@ public abstract class Controller {
 					logger.debug("@Before Class : " + beforeMethod.getDeclaringClass().getName() + ", Method : " + beforeMethod.getName());
 				}
 				beforeMethod.setAccessible(true);
-				beforeMethod.invoke(this, (Object[]) null);
+				try {
+					beforeMethod.invoke(this, (Object[]) null);
+				} catch (InvocationTargetException e) {
+					throw e.getCause();
+				}
 			}
 		}
 	}
@@ -347,7 +377,7 @@ public abstract class Controller {
 	/*
 	 * Play framework 참고
 	 */
-	private void _after() throws Exception {
+	private void _after() throws Throwable {
 		List<Method> afterMethods = _getAnnotationMethods(After.class);
 		Collections.sort(afterMethods, new Comparator<Method>() {
 			public int compare(Method m1, Method m2) {
@@ -385,7 +415,11 @@ public abstract class Controller {
 					logger.debug("@After Class : " + afterMethod.getDeclaringClass().getName() + ", Method : " + afterMethod.getName());
 				}
 				afterMethod.setAccessible(true);
-				afterMethod.invoke(this, (Object[]) null);
+				try {
+					afterMethod.invoke(this, (Object[]) null);
+				} catch (InvocationTargetException e) {
+					throw e.getCause();
+				}
 			}
 		}
 	}
@@ -393,7 +427,7 @@ public abstract class Controller {
 	/*
 	 * Play framework 참고
 	 */
-	private void _catch(Exception e) throws Exception {
+	private void _catch(Throwable e) throws Throwable {
 		List<Method> catchMethods = _getAnnotationMethods(Catch.class);
 		Collections.sort(catchMethods, new Comparator<Method>() {
 			public int compare(Method m1, Method m2) {
@@ -413,7 +447,11 @@ public abstract class Controller {
 						logger.debug("@Catch Class : " + catchMethod.getDeclaringClass().getName() + ", Method : " + catchMethod.getName());
 					}
 					catchMethod.setAccessible(true);
-					catchMethod.invoke(this, (Object[]) null);
+					try {
+						catchMethod.invoke(this, (Object[]) null);
+					} catch (InvocationTargetException ie) {
+						throw ie.getCause();
+					}
 					break;
 				}
 			}
@@ -423,7 +461,7 @@ public abstract class Controller {
 	/*
 	 * Play framework 참고
 	 */
-	private void _finally() throws Exception {
+	private void _finally() throws Throwable {
 		List<Method> finallyMethods = _getAnnotationMethods(Finally.class);
 		Collections.sort(finallyMethods, new Comparator<Method>() {
 			public int compare(Method m1, Method m2) {
@@ -461,7 +499,11 @@ public abstract class Controller {
 					logger.debug("@Finally Class : " + finallyMethod.getDeclaringClass().getName() + ", Method : " + finallyMethod.getName());
 				}
 				finallyMethod.setAccessible(true);
-				finallyMethod.invoke(this, (Object[]) null);
+				try {
+					finallyMethod.invoke(this, (Object[]) null);
+				} catch (InvocationTargetException e) {
+					throw e.getCause();
+				}
 			}
 		}
 	}
