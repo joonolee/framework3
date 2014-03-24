@@ -5,7 +5,6 @@ package framework.action;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -172,9 +171,6 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	private boolean _isActionMethod(Method method) {
-		if (!Modifier.isPublic(method.getModifiers())) {
-			return false;
-		}
 		if (method.isAnnotationPresent(Before.class)) {
 			return false;
 		}

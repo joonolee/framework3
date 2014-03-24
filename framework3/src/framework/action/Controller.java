@@ -510,7 +510,7 @@ public abstract class Controller {
 
 	private List<Method> _getAnnotationMethods(Class<? extends Annotation> annotation) {
 		List<Method> methods = new ArrayList<Method>();
-		for (Method method : getClass().getMethods()) {
+		for (Method method : getClass().getDeclaredMethods()) {
 			if (method.isAnnotationPresent(annotation)) {
 				methods.add(method);
 			}
