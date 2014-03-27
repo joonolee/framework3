@@ -1,5 +1,5 @@
 /** 
- * @(#)SelectDaoSupport.java
+ * @(#)JdbcDaoSupport.java
  */
 package framework.db;
 
@@ -7,13 +7,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * SELECT 하는 DAO를 작성할때 상속받는 부모 클래스이다.
+ * JDBC를 이용한 DAO를 작성할때 상속받는 부모 클래스이다.
  */
-public class SelectDaoSupport {
-	private static Log _logger = LogFactory.getLog(framework.db.SelectDaoSupport.class);
+public class JdbcDaoSupport {
+	private static Log _logger = LogFactory.getLog(framework.db.JdbcDaoSupport.class);
 	protected DB db = null;
 
-	public SelectDaoSupport(DB db) {
+	public JdbcDaoSupport(DB db) {
 		this.db = db;
 	}
 
@@ -46,7 +46,7 @@ public class SelectDaoSupport {
 	}
 
 	protected Log getLogger() {
-		return SelectDaoSupport._logger;
+		return JdbcDaoSupport._logger;
 	}
 
 	private RecordSet _prepardSelect(String query, Object[] where, int currPage, int pageSize) {
