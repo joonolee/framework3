@@ -7,11 +7,11 @@ package framework.db;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public abstract class AbstractDao {
-	private static Log _logger = LogFactory.getLog(framework.db.AbstractDao.class);
+public abstract class AbstractOrmDao {
+	private static Log _logger = LogFactory.getLog(framework.db.AbstractOrmDao.class);
 	protected DB db = null;
 
-	public AbstractDao(DB db) {
+	public AbstractOrmDao(DB db) {
 		super();
 		this.db = db;
 	}
@@ -139,7 +139,7 @@ public abstract class AbstractDao {
 	}
 
 	protected Log getLogger() {
-		return AbstractDao._logger;
+		return AbstractOrmDao._logger;
 	}
 
 	public abstract String getInsertSql();
