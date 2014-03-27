@@ -25,7 +25,7 @@ import framework.db.*;
 		<xsl:value-of select="@name"/>:<xsl:value-of select="@dbType"/>:<xsl:value-of select="@desc"/>\n
 		</xsl:for-each>
 */
-public class <xsl:value-of select="@class"/>DAO extends AbstractDao {
+public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
 	// Update Only Map
 	private static Map&lt;String, String&gt; updateOnlyMap = new HashMap&lt;String, String&gt;();
 
