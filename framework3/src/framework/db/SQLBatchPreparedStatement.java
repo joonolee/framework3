@@ -93,7 +93,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 					Object param = params.get(i - 1);
 					if (param == null || "".equals(param)) {
 						pstmt.setNull(i, java.sql.Types.VARCHAR);
-					} else if (param instanceof String) {
+					} else if (param instanceof CharSequence) {
 						pstmt.setString(i, param.toString());
 					} else if (param instanceof byte[]) {
 						int size = ((byte[]) param).length;
@@ -147,7 +147,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 					value = param.get(qMarkCount++);
 					if (value == null || "".equals(value)) {
 						value = "NULL";
-					} else if (value instanceof String || value instanceof Date) {
+					} else if (value instanceof CharSequence || value instanceof Date) {
 						value = "'" + value + "'";
 					}
 				} else {
