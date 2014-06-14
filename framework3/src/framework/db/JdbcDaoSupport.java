@@ -3,18 +3,13 @@
  */
 package framework.db;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * JDBC를 이용한 DAO를 작성할때 상속받는 부모 클래스이다.
  */
-public class JdbcDaoSupport {
-	private static Log _logger = LogFactory.getLog(framework.db.JdbcDaoSupport.class);
-	protected DB db = null;
+public class JdbcDaoSupport extends AbstractDaoSupport {
 
 	public JdbcDaoSupport(DB db) {
-		this.db = db;
+		super(db);
 	}
 
 	protected RecordSet select(String query) {
@@ -75,18 +70,6 @@ public class JdbcDaoSupport {
 		} else {
 			return _prepardBatch(query, where);
 		}
-	}
-
-	protected void commit() {
-		this.db.commit();
-	}
-
-	protected void rollback() {
-		this.db.rollback();
-	}
-
-	protected Log getLogger() {
-		return JdbcDaoSupport._logger;
 	}
 
 	private RecordSet _prepardSelect(String query, Object[] where, int currPage, int pageSize) {
