@@ -37,6 +37,18 @@ public class JdbcDaoSupport {
 		}
 	}
 
+	protected int update(String query) {
+		return update(query, null);
+	}
+
+	protected int update(String query, Object[] where) {
+		if (where == null) {
+			return _statmentUpdate(query);
+		} else {
+			return _prepardUpdate(query, where);
+		}
+	}
+
 	protected void commit() {
 		this.db.commit();
 	}
@@ -62,5 +74,20 @@ public class JdbcDaoSupport {
 		RecordSet rs = stmt.executeQuery(currPage, pageSize);
 		stmt.close();
 		return rs;
+	}
+
+	private int _prepardUpdate(String query, Object[] where) {
+		SQLPreparedStatement pstmt = this.db.createPrepareStatement(query);
+		pstmt.set(where);
+		int cnt = pstmt.executeUpdate();
+		pstmt.close();
+		return cnt;
+	}
+
+	private int _statmentUpdate(String query) {
+		SQLStatement stmt = this.db.createStatement(query);
+		int cnt = stmt.executeUpdate();
+		stmt.close();
+		return cnt;
 	}
 }
