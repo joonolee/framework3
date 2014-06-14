@@ -37,6 +37,22 @@ public class JdbcDaoSupport {
 		}
 	}
 
+	protected int insert(String query) {
+		return update(query);
+	}
+
+	protected int insert(String query, Object[] where) {
+		return update(query, where);
+	}
+
+	protected int delete(String query) {
+		return update(query);
+	}
+
+	protected int delete(String query, Object[] where) {
+		return update(query, where);
+	}
+
 	protected int update(String query) {
 		return update(query, null);
 	}
@@ -46,6 +62,18 @@ public class JdbcDaoSupport {
 			return _statmentUpdate(query);
 		} else {
 			return _prepardUpdate(query, where);
+		}
+	}
+
+	protected int[] batch(String[] queries) {
+		return _statmentBatch(queries);
+	}
+
+	protected int[] batch(String query, Object[] where) {
+		if (where == null) {
+			return _statmentBatch(new String[] { query });
+		} else {
+			return _prepardBatch(query, where);
 		}
 	}
 
@@ -87,6 +115,24 @@ public class JdbcDaoSupport {
 	private int _statmentUpdate(String query) {
 		SQLStatement stmt = this.db.createStatement(query);
 		int cnt = stmt.executeUpdate();
+		stmt.close();
+		return cnt;
+	}
+
+	private int[] _prepardBatch(String query, Object[] where) {
+		SQLBatchPreparedStatement pstmt = this.db.createBatchPrepareStatement(query);
+		pstmt.addBatch(where);
+		int[] cnt = pstmt.executeBatch();
+		pstmt.close();
+		return cnt;
+	}
+
+	private int[] _statmentBatch(String[] queries) {
+		SQLBatchStatement stmt = this.db.createBatchStatement();
+		for (String query : queries) {
+			stmt.addBatch(query);
+		}
+		int[] cnt = stmt.executeBatch();
 		stmt.close();
 		return cnt;
 	}
