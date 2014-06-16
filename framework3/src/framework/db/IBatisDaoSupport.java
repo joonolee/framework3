@@ -1,3 +1,6 @@
+/** 
+ * @(#)IBatisDaoSupport.java
+ */
 package framework.db;
 
 import java.io.Reader;
@@ -22,7 +25,7 @@ public class IBatisDaoSupport {
 
 	static {
 		try {
-			Reader reader = Resources.getResourceAsReader("SqlMapConfig.xml");
+			Reader reader = Resources.getResourceAsReader("ibatis-config.xml");
 			sqlMapClient = SqlMapClientBuilder.buildSqlMapClient(reader);
 			reader.close();
 		} catch (Exception e) {
