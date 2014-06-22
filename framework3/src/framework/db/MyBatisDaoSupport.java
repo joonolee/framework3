@@ -30,7 +30,6 @@ public class MyBatisDaoSupport {
 			Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 			reader.close();
-
 		} catch (Exception e) {
 			throw new RuntimeException("Something bad happened while building the SqlSessionFactory instance." + e, e);
 		}
@@ -38,7 +37,8 @@ public class MyBatisDaoSupport {
 
 	public MyBatisDaoSupport(DB db) {
 		this.db = db;
-		sqlSession = sqlSessionFactory.openSession(db.getConnection());
+		MyBatisSession session = db.createMyBatisSession(sqlSessionFactory);
+		sqlSession = session.getSession();
 	}
 
 	protected Log getLogger() {

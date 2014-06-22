@@ -19,6 +19,9 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.session.SqlSessionFactory;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
 
 public class DB {
 	private static Map<String, DataSource> _dsMap = new HashMap<String, DataSource>();
@@ -72,6 +75,18 @@ public class DB {
 		return bstmt;
 	}
 
+	public IBatisSession createIBatisSession(SqlMapClient sqlMapClient) {
+		IBatisSession session = IBatisSession.create(this, sqlMapClient);
+		_stmtList.add(session);
+		return session;
+	}
+
+	public MyBatisSession createMyBatisSession(SqlSessionFactory sqlSessionFactory) {
+		MyBatisSession session = MyBatisSession.create(this, sqlSessionFactory);
+		_stmtList.add(session);
+		return session;
+	}
+
 	public void commit() {
 		try {
 			getConnection().commit();
@@ -114,7 +129,10 @@ public class DB {
 	public void release() {
 		if (_stmtList != null) {
 			for (DBStatement stmt : _stmtList) {
-				stmt.close();
+				try {
+					stmt.close();
+				} catch (Exception e) {
+				}
 			}
 		}
 		if (getConnection() != null) {

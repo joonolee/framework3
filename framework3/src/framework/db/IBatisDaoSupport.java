@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import com.ibatis.common.resources.Resources;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
+import com.ibatis.sqlmap.client.SqlMapSession;
 import com.ibatis.sqlmap.client.event.RowHandler;
 
 /**
@@ -20,8 +21,9 @@ import com.ibatis.sqlmap.client.event.RowHandler;
  */
 public class IBatisDaoSupport {
 	private static Log _logger = LogFactory.getLog(framework.db.IBatisDaoSupport.class);
-	protected DB db = null;
 	protected static SqlMapClient sqlMapClient = null;
+	protected DB db = null;
+	protected SqlMapSession sqlMapSession = null;
 
 	static {
 		try {
@@ -35,11 +37,8 @@ public class IBatisDaoSupport {
 
 	public IBatisDaoSupport(DB db) {
 		this.db = db;
-		try {
-			sqlMapClient.setUserConnection(db.getConnection());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		IBatisSession session = db.createIBatisSession(sqlMapClient);
+		sqlMapSession = session.getSession();
 	}
 
 	protected Log getLogger() {
@@ -56,7 +55,7 @@ public class IBatisDaoSupport {
 
 	public int delete(String id) {
 		try {
-			return sqlMapClient.delete(id);
+			return sqlMapSession.delete(id);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -64,7 +63,7 @@ public class IBatisDaoSupport {
 
 	public int delete(String id, Object parameterObject) {
 		try {
-			return sqlMapClient.delete(id, parameterObject);
+			return sqlMapSession.delete(id, parameterObject);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -72,7 +71,7 @@ public class IBatisDaoSupport {
 
 	public int executeBatch() {
 		try {
-			return sqlMapClient.executeBatch();
+			return sqlMapSession.executeBatch();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -80,7 +79,7 @@ public class IBatisDaoSupport {
 
 	public List<?> executeBatchDetailed() {
 		try {
-			return sqlMapClient.executeBatchDetailed();
+			return sqlMapSession.executeBatchDetailed();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -88,7 +87,7 @@ public class IBatisDaoSupport {
 
 	public Object insert(String id) {
 		try {
-			return sqlMapClient.insert(id);
+			return sqlMapSession.insert(id);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -96,7 +95,7 @@ public class IBatisDaoSupport {
 
 	public Object insert(String id, Object parameterObject) {
 		try {
-			return sqlMapClient.insert(id, parameterObject);
+			return sqlMapSession.insert(id, parameterObject);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -104,7 +103,7 @@ public class IBatisDaoSupport {
 
 	public List<?> queryForList(String id) {
 		try {
-			return sqlMapClient.queryForList(id);
+			return sqlMapSession.queryForList(id);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -112,7 +111,7 @@ public class IBatisDaoSupport {
 
 	public List<?> queryForList(String id, Object parameterObject) {
 		try {
-			return sqlMapClient.queryForList(id, parameterObject);
+			return sqlMapSession.queryForList(id, parameterObject);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -120,7 +119,7 @@ public class IBatisDaoSupport {
 
 	public List<?> queryForList(String id, int skip, int max) {
 		try {
-			return sqlMapClient.queryForList(id, skip, max);
+			return sqlMapSession.queryForList(id, skip, max);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -128,7 +127,7 @@ public class IBatisDaoSupport {
 
 	public List<?> queryForList(String id, Object parameterObject, int skip, int max) {
 		try {
-			return sqlMapClient.queryForList(id, parameterObject, skip, max);
+			return sqlMapSession.queryForList(id, parameterObject, skip, max);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -136,7 +135,7 @@ public class IBatisDaoSupport {
 
 	public Map<?, ?> queryForMap(String id, Object parameterObject, String keyProp) {
 		try {
-			return sqlMapClient.queryForMap(id, parameterObject, keyProp);
+			return sqlMapSession.queryForMap(id, parameterObject, keyProp);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -144,7 +143,7 @@ public class IBatisDaoSupport {
 
 	public Map<?, ?> queryForMap(String id, Object parameterObject, String keyProp, String valueProp) {
 		try {
-			return sqlMapClient.queryForMap(id, parameterObject, keyProp, valueProp);
+			return sqlMapSession.queryForMap(id, parameterObject, keyProp, valueProp);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -152,7 +151,7 @@ public class IBatisDaoSupport {
 
 	public Object queryForObject(String id) {
 		try {
-			return sqlMapClient.queryForObject(id);
+			return sqlMapSession.queryForObject(id);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -160,7 +159,7 @@ public class IBatisDaoSupport {
 
 	public Object queryForObject(String id, Object parameterObject) {
 		try {
-			return sqlMapClient.queryForObject(id, parameterObject);
+			return sqlMapSession.queryForObject(id, parameterObject);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -168,7 +167,7 @@ public class IBatisDaoSupport {
 
 	public Object queryForObject(String id, Object parameterObject, Object resultObject) {
 		try {
-			return sqlMapClient.queryForObject(id, parameterObject, resultObject);
+			return sqlMapSession.queryForObject(id, parameterObject, resultObject);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -176,7 +175,7 @@ public class IBatisDaoSupport {
 
 	public void queryWithRowHandler(String id, RowHandler rowHandler) {
 		try {
-			sqlMapClient.queryWithRowHandler(id, rowHandler);
+			sqlMapSession.queryWithRowHandler(id, rowHandler);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -184,7 +183,7 @@ public class IBatisDaoSupport {
 
 	public void queryWithRowHandler(String id, Object parameterObject, RowHandler rowHandler) {
 		try {
-			sqlMapClient.queryWithRowHandler(id, parameterObject, rowHandler);
+			sqlMapSession.queryWithRowHandler(id, parameterObject, rowHandler);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -192,7 +191,7 @@ public class IBatisDaoSupport {
 
 	public void startBatch() {
 		try {
-			sqlMapClient.startBatch();
+			sqlMapSession.startBatch();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -200,7 +199,7 @@ public class IBatisDaoSupport {
 
 	public int update(String id) {
 		try {
-			return sqlMapClient.update(id);
+			return sqlMapSession.update(id);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -208,7 +207,7 @@ public class IBatisDaoSupport {
 
 	public int update(String id, Object parameterObject) {
 		try {
-			return sqlMapClient.update(id, parameterObject);
+			return sqlMapSession.update(id, parameterObject);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
