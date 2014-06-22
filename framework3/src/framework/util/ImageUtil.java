@@ -1,6 +1,3 @@
-/* 
- * @(#)ImageUtil.java
- */
 package framework.util;
 
 import java.awt.Graphics2D;

@@ -1,12 +1,11 @@
-/* 
- * @(#)IBatisSession.java
- * IBatisSession 을 이용하기 위한 객체
- */
 package framework.db;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapSession;
 
+/**
+ * IBatisSession 을 이용하기 위한 객체
+ */
 public class IBatisSession extends DBStatement {
 	private SqlMapSession _session = null;
 

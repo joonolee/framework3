@@ -1,6 +1,3 @@
-/** 
- * @(#)OAuth10aUtil.java
- */
 package framework.util;
 
 import java.io.File;

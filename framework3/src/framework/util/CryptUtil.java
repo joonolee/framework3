@@ -1,6 +1,3 @@
-/*
- * @(#)CryptoUtil.java
- */
 package framework.util;
 
 import java.security.MessageDigest;

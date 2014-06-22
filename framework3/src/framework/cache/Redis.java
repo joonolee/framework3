@@ -1,6 +1,3 @@
-/** 
- * @(#)Redis.java
- */
 package framework.cache;
 
 import java.io.ByteArrayInputStream;

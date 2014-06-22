@@ -1,6 +1,3 @@
-/** 
- * @(#)SelectConditionObject.java
- */
 package framework.db;
 
 import java.util.ArrayList;

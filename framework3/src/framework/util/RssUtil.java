@@ -1,6 +1,3 @@
-/* 
- * @(#)RssUtil.java
- */
 package framework.util;
 
 import java.io.IOException;

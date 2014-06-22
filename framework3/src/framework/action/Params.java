@@ -1,6 +1,3 @@
-/**
- * @(#)Params.java
- */
 package framework.action;
 
 import java.io.File;

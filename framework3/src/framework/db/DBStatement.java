@@ -1,6 +1,3 @@
-/** 
- * @(#)DBStatement.java
- */
 package framework.db;
 
 import org.apache.commons.logging.Log;

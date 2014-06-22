@@ -1,7 +1,3 @@
-/* 
- * @(#)SQLBatchStatement.java
- * Statement의 Batch 처리를 이용하기 위한 객체
- */
 package framework.db;
 
 import java.sql.ResultSet;
@@ -10,6 +6,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Statement의 Batch 처리를 이용하기 위한 객체
+ */
 public class SQLBatchStatement extends DBStatement {
 	private List<String> _sqlList = new ArrayList<String>();
 	private DB _db = null;

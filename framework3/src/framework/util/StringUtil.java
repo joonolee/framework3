@@ -1,6 +1,3 @@
-/* 
- * @(#)StringUtil.java
- */
 package framework.util;
 
 /**

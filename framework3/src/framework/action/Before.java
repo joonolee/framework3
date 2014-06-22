@@ -1,6 +1,3 @@
-/** 
- * @(#)Before.java
- */
 package framework.action;
 
 import java.lang.annotation.ElementType;

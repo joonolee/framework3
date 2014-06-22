@@ -1,7 +1,3 @@
-/* 
- * @(#)ValueObjectArray.java
- * 테이블의 값을 담는 VO의 배열 클래스
- */
 package framework.db;
 
 import java.util.ArrayList;
@@ -9,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 테이블의 값을 담는 VO의 배열 클래스
+ */
 public class ValueObjectArray {
 	public final static String INSERT = "IK";
 	public final static String UPDATE = "UK";

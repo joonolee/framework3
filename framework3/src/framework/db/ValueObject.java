@@ -1,7 +1,3 @@
-/* 
- * @(#)ValueObject.java
- * 테이블의 값을 담는 VO를 작성할때 상속받는 클래스
- */
 package framework.db;
 
 import java.util.Map;
@@ -9,6 +5,9 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * 테이블의 값을 담는 VO를 작성할때 상속받는 클래스
+ */
 public abstract class ValueObject {
 	private static Log _logger = LogFactory.getLog(framework.db.ValueObject.class);
 

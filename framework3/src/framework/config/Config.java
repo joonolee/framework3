@@ -1,7 +1,3 @@
-/** 
- * @(#)Configuration.java
- * 설정파일에서 값을 읽어오는 클래스
- */
 package framework.config;
 
 import java.util.ResourceBundle;

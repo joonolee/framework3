@@ -1,6 +1,3 @@
-/** 
- * @(#)DispatcherServlet.java
- */
 package framework.action;
 
 import java.io.IOException;

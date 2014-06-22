@@ -1,6 +1,3 @@
-/*
- * @(#)XmlUtil.java
- */
 package framework.util;
 
 import java.io.IOException;

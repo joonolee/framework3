@@ -1,6 +1,3 @@
-/* 
- * @(#)PagingUtil.java
- */
 package framework.util;
 
 import java.util.HashMap;

@@ -1,7 +1,3 @@
-/* 
- * @(#)SQLPreparedStatement.java
- * Prepared Statement 를 이용하기 위한 객체
- */
 package framework.db;
 
 import java.io.ByteArrayInputStream;
@@ -14,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+/**
+ * Prepared Statement 를 이용하기 위한 객체
+ */
 public class SQLPreparedStatement extends DBStatement {
 	private String _sql;
 	private DB _db = null;

@@ -1,6 +1,3 @@
-/* 
- * @(#)JQGridUtil.java
- */
 package framework.util;
 
 import java.io.IOException;

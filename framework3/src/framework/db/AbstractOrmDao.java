@@ -1,12 +1,11 @@
-/* 
- * @(#)SuperDaoSupport.java
- * 테이블을 CRUD 하는 DAO를 작성할때 상속받는 클래스
- */
 package framework.db;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * 테이블을 CRUD 하는 DAO를 작성할때 상속받는 클래스
+ */
 public abstract class AbstractOrmDao {
 	private static Log _logger = LogFactory.getLog(framework.db.AbstractOrmDao.class);
 	protected DB db = null;

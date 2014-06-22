@@ -1,6 +1,3 @@
-/** 
- * @(#)MyBatisDaoSupport.java
- */
 package framework.db;
 
 import java.io.Reader;

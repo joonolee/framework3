@@ -1,7 +1,3 @@
-/* 
- * @(#)CharacterEncodingFilter.java
- * 요청과 응답을 인코딩 하는 필터
- */
 package framework.filter;
 
 import java.io.IOException;
@@ -13,6 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/**
+ * 요청과 응답을 인코딩 하는 필터
+ */
 public class CharacterEncodingFilter implements Filter {
 	private String _encoding = null;
 	private boolean _force = true;

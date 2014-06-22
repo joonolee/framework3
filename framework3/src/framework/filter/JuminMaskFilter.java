@@ -1,7 +1,3 @@
-/* 
- * @(#)JuminMaskFilter.java
- * 응답데이터에서 주민번호 패턴 마스킹 필터
- */
 package framework.filter;
 
 import java.io.ByteArrayOutputStream;
@@ -23,6 +19,9 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 import framework.util.StringUtil;
 
+/**
+ * 응답데이터에서 주민번호 패턴 마스킹 필터
+ */
 public class JuminMaskFilter implements Filter {
 	private Pattern _juminPattern = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])?", Pattern.MULTILINE);
 

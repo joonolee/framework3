@@ -1,12 +1,11 @@
-/* 
- * @(#)MyBatisSession.java
- * IBatisSession 을 이용하기 위한 객체
- */
 package framework.db;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+/**
+ * MyBatisSession 을 이용하기 위한 객체
+ */
 public class MyBatisSession extends DBStatement {
 	private SqlSession _session = null;
 

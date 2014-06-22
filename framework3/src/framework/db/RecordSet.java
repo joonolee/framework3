@@ -1,6 +1,3 @@
-/** 
- * @(#)RecordSet.java
- */
 package framework.db;
 
 import java.io.Serializable;

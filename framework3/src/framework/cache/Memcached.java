@@ -1,6 +1,3 @@
-/** 
- * @(#)Memcached.java
- */
 package framework.cache;
 
 import java.io.IOException;

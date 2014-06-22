@@ -1,6 +1,3 @@
-/* 
- * @(#)MaSaferUtil.java
- */
 package framework.util;
 
 import java.io.File;

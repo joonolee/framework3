@@ -1,6 +1,3 @@
-/** 
- * @(#)Cache.java
- */
 package framework.cache;
 
 import java.io.NotSerializableException;

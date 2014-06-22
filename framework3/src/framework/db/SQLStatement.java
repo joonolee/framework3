@@ -1,13 +1,12 @@
-/* 
- * @(#)SQLStatement.java
- * Statement 를 이용하기 위한 객체
- */
 package framework.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Statement 를 이용하기 위한 객체
+ */
 public class SQLStatement extends DBStatement {
 	private String _sql;
 	private DB _db = null;

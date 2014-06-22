@@ -1,6 +1,3 @@
-/** 
- * @(#)Controller.java
- */
 package framework.action;
 
 import java.io.PrintWriter;

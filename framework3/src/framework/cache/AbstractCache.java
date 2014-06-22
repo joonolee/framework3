@@ -1,6 +1,3 @@
-/** 
- * @(#)AbstractCache.java
- */
 package framework.cache;
 
 import java.util.Map;

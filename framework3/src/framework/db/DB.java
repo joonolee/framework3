@@ -1,7 +1,3 @@
-/* 
- * @(#)DB.java
- * 데이타베이스 컨넥션을 관리하는 클래스
- */
 package framework.db;
 
 import java.sql.Connection;
@@ -23,6 +19,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 
+/**
+ * 데이타베이스 컨넥션을 관리하는 클래스
+ */
 public class DB {
 	private static Map<String, DataSource> _dsMap = new HashMap<String, DataSource>();
 	private static Log _logger = LogFactory.getLog(framework.db.DB.class);

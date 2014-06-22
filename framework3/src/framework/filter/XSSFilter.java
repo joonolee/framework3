@@ -1,7 +1,3 @@
-/* 
- * @(#)XSSFilter.java
- * Anti cross-site scripting (XSS) filter
- */
 package framework.filter;
 
 import java.io.IOException;
@@ -16,6 +12,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+/**
+ * Anti cross-site scripting (XSS) filter
+ */
 public class XSSFilter implements Filter {
 	// Avoid anything between script tags
 	private Pattern _scriptPattern1 = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);

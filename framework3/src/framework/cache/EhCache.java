@@ -1,6 +1,3 @@
-/** 
- * @(#)EhCache.java
- */
 package framework.cache;
 
 import java.util.HashMap;

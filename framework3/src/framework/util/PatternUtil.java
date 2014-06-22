@@ -1,6 +1,3 @@
-/* 
- * @(#)PatternUtil.java
- */
 package framework.util;
 
 import java.util.regex.Matcher;

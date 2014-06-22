@@ -1,7 +1,3 @@
-/* 
- * @(#)MinifyFilter.java
- * HTML, JavaScript, CSS Minify filter
- */
 package framework.filter;
 
 import java.io.ByteArrayOutputStream;
@@ -23,6 +19,9 @@ import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 
 import framework.util.StringUtil;
 
+/**
+ * HTML, JavaScript, CSS Minify filter
+ */
 public class MinifyFilter implements Filter {
 	private HtmlCompressor _compressor;
 

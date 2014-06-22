@@ -1,6 +1,3 @@
-/* 
- * @(#)ValidationUtil.java
- */
 package framework.util;
 
 /**
