@@ -52,163 +52,91 @@ public class MyBatisDaoSupport {
 
 	public int delete(String statement) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.delete(statement);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.delete(statement);
 	}
 
 	public int delete(String statement, Object parameter) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.delete(statement, parameter);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.delete(statement, parameter);
 	}
 
 	public <T> T getMapper(Class<T> type) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.getMapper(type);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.getMapper(type);
 	}
 
 	public int insert(String statement) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.insert(statement);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.insert(statement);
 	}
 
 	public int insert(String statement, Object parameter) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.insert(statement, parameter);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.insert(statement, parameter);
 	}
 
 	public void select(String statement, ResultHandler handler) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			sqlSession.select(statement, handler);
-		} finally {
-			sqlSession.close();
-		}
+		sqlSession.select(statement, handler);
 	}
 
 	public void select(String statement, Object parameter, ResultHandler handler) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			sqlSession.select(statement, parameter, handler);
-		} finally {
-			sqlSession.close();
-		}
+		sqlSession.select(statement, parameter, handler);
 	}
 
 	public void select(String statement, Object parameter, RowBounds rowBounds, ResultHandler handler) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			sqlSession.select(statement, parameter, rowBounds, handler);
-		} finally {
-			sqlSession.close();
-		}
+		sqlSession.select(statement, parameter, rowBounds, handler);
 	}
 
 	public <E> List<E> selectList(String statement) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.selectList(statement);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.selectList(statement);
 	}
 
 	public <E> List<E> selectList(String statement, Object parameter) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.selectList(statement, parameter);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.selectList(statement, parameter);
 	}
 
 	public <E> List<E> selectList(String statement, Object parameter, RowBounds rowBounds) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.selectList(statement, parameter, rowBounds);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.selectList(statement, parameter, rowBounds);
 	}
 
 	public <K, V> Map<K, V> selectMap(String statement, String mapKey) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.selectMap(statement, mapKey);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.selectMap(statement, mapKey);
 	}
 
 	public <K, V> Map<K, V> selectMap(String statement, Object parameter, String mapKey) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.selectMap(statement, parameter, mapKey);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.selectMap(statement, parameter, mapKey);
 	}
 
 	public <K, V> Map<K, V> selectMap(String statement, Object parameter, String mapKey, RowBounds rowBounds) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.selectMap(statement, parameter, mapKey, rowBounds);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.selectMap(statement, parameter, mapKey, rowBounds);
 	}
 
 	public <T> T selectOne(String statement) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.selectOne(statement);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.selectOne(statement);
 	}
 
 	public <T> T selectOne(String statement, Object parameter) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.selectOne(statement, parameter);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.selectOne(statement, parameter);
 	}
 
 	public int update(String statement) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.update(statement);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.update(statement);
 	}
 
 	public int update(String statement, Object parameter) {
 		SqlSession sqlSession = sqlSessionFactory.openSession(db.getConnection());
-		try {
-			return sqlSession.update(statement, parameter);
-		} finally {
-			sqlSession.close();
-		}
+		return sqlSession.update(statement, parameter);
 	}
 }
