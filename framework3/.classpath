@@ -3,6 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/activation.jar"/>
+	<classpathentry kind="lib" path="lib/asm-3.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-2.2.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4.jar"/>
@@ -17,13 +19,15 @@
 	<classpathentry kind="lib" path="lib/httpcore-4.1.4.jar"/>
 	<classpathentry kind="lib" path="lib/httpmime-4.1.3.jar"/>
 	<classpathentry kind="lib" path="lib/ibatis-2.3.4.726.jar"/>
+	<classpathentry kind="lib" path="lib/javassist-3.17.1-GA.jar"/>
 	<classpathentry kind="lib" path="lib/jedis-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/jstl.jar"/>
 	<classpathentry kind="lib" path="lib/libMarkanyMaSaferJava.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/memcached-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/miplatform-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/mybatis-3.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.7-20101029.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.7-20101029.jar"/>
@@ -33,8 +37,8 @@
 	<classpathentry kind="lib" path="lib/signpost-commonshttp4-1.2.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/signpost-core-1.2.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/simplecaptcha-1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/sqljdbc4.jar"/>
 	<classpathentry kind="lib" path="lib/standard.jar"/>
 	<classpathentry kind="lib" path="lib/stringtree-json-2.0.5.jar"/>
