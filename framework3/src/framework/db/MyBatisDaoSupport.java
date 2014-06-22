@@ -21,9 +21,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  */
 public class MyBatisDaoSupport {
 	private static Log _logger = LogFactory.getLog(framework.db.MyBatisDaoSupport.class);
-	protected DB db = null;
 	protected static SqlSessionFactory sqlSessionFactory = null;
-	protected static SqlSession sqlSession = null;
+	protected DB db = null;
+	protected SqlSession sqlSession = null;
 
 	static {
 		try {
