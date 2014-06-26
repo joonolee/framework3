@@ -25,6 +25,7 @@ import framework.db.*;
 		<xsl:value-of select="@name"/>:<xsl:value-of select="@dbType"/>:<xsl:value-of select="@desc"/>\n
 		</xsl:for-each>
 */
+@SuppressWarnings("serial")
 public class <xsl:value-of select="@class"/>VO extends ValueObject {
 	public static final String TABLE = "<xsl:value-of select='@name'/>";
 	public static final String TABLE_DESC = "<xsl:value-of select='description'/>";
