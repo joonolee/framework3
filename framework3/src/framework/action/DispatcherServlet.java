@@ -25,7 +25,7 @@ import framework.util.StringUtil;
  */
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
-	private Log _logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
+	private final Log _logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
 	private final String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
 	private RequestDispatcher _defaultServletDispatcher = null;
 

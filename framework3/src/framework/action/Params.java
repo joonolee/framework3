@@ -88,7 +88,7 @@ public class Params extends HashMap<String, String[]> {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}
 		return params;

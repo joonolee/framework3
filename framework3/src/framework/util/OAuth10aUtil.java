@@ -194,7 +194,7 @@ public class OAuth10aUtil {
 				content = EntityUtils.toString(resEntityGet);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return new Result(statusCode, content);
 	}
@@ -255,7 +255,7 @@ public class OAuth10aUtil {
 				content = EntityUtils.toString(resEntity);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return new Result(statusCode, content);
 	}
@@ -313,7 +313,7 @@ public class OAuth10aUtil {
 				content = EntityUtils.toString(resEntity);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return new Result(statusCode, content);
 	}
