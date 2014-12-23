@@ -177,6 +177,9 @@ public class ExcelUtil {
 				_appendRow(row, rs, colNms);
 				rowCount++;
 			}
+			for (int i = 0; i < colNms.length; i++) {
+				sheet.autoSizeColumn(i);
+			}
 			workbook.write(os);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -205,6 +208,9 @@ public class ExcelUtil {
 				Row row = sheet.createRow(rowCount);
 				_appendRow(row, rs, colNms);
 				rowCount++;
+			}
+			for (int i = 0; i < colNms.length; i++) {
+				sheet.autoSizeColumn(i);
 			}
 			workbook.write(fos);
 			fos.close();
@@ -241,6 +247,9 @@ public class ExcelUtil {
 				_appendRow(row, rs, colNms);
 				rowCount++;
 			}
+			for (int i = 0; i < colNms.length; i++) {
+				sheet.autoSizeColumn(i);
+			}
 			workbook.write(os);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -269,6 +278,9 @@ public class ExcelUtil {
 				Row row = sheet.createRow(rowCount);
 				_appendRow(row, rs, colNms);
 				rowCount++;
+			}
+			for (int i = 0; i < colNms.length; i++) {
+				sheet.autoSizeColumn(i);
 			}
 			workbook.write(fos);
 			fos.close();
@@ -444,6 +456,9 @@ public class ExcelUtil {
 					_appendRow(row, rs, colNms);
 					rowCount++;
 				}
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
 				workbook.write(os);
 				return rowCount;
 			} finally {
@@ -485,6 +500,9 @@ public class ExcelUtil {
 					Row row = sheet.createRow(rowCount);
 					_appendRow(row, rs, colNms);
 					rowCount++;
+				}
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
 				}
 				workbook.write(fos);
 				return rowCount;
@@ -535,6 +553,9 @@ public class ExcelUtil {
 					_appendRow(row, rs, colNms);
 					rowCount++;
 				}
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
 				workbook.write(os);
 				return rowCount;
 			} finally {
@@ -576,6 +597,9 @@ public class ExcelUtil {
 					Row row = sheet.createRow(rowCount);
 					_appendRow(row, rs, colNms);
 					rowCount++;
+				}
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
 				}
 				workbook.write(fos);
 				return rowCount;
