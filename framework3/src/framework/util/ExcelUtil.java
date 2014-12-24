@@ -1,6 +1,15 @@
 package framework.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -70,7 +79,6 @@ public class ExcelUtil {
 	 * @param fileItem 파일아이템
 	 * @param password 비밀번호
 	 * @return 데이터의 리스트
-	 * @throws Exception
 	 */
 	public static List<Map<String, String>> parse(FileItem fileItem, String password) {
 		String ext = FileUtil.getFileExtension(fileItem.getName());
@@ -125,7 +133,6 @@ public class ExcelUtil {
 	 * 암호화된 엑셀파일을 파싱한다.
 	 * @param file 파일
 	 * @return 데이터의 리스트
-	 * @throws Exception
 	 */
 	public static List<Map<String, String>> parse(File file, String password) {
 		FileInputStream fis = null;
@@ -158,6 +165,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, RecordSet rs, String fileName) {
+		return renderExcel2003(response, rs, fileName, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2003 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response
+	 * @param rs
+	 * @param fileName
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int renderExcel2003(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
 		if (rs == null) {
 			return 0;
 		}
@@ -171,6 +190,11 @@ public class ExcelUtil {
 			Sheet sheet = workbook.createSheet();
 			OutputStream os = response.getOutputStream();
 			String[] colNms = rs.getColumns();
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				_appendHeader(row, header);
+				rowCount++;
+			}
 			rs.moveRow(0);
 			while (rs.nextRow()) {
 				Row row = sheet.createRow(rowCount);
@@ -194,6 +218,17 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2003(File file, RecordSet rs) {
+		return writeExcel2003(file, rs, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2003 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param rs
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int writeExcel2003(File file, RecordSet rs, String[] header) {
 		if (rs == null) {
 			return 0;
 		}
@@ -203,6 +238,11 @@ public class ExcelUtil {
 			Sheet sheet = workbook.createSheet();
 			FileOutputStream fos = new FileOutputStream(file);
 			String[] colNms = rs.getColumns();
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				_appendHeader(row, header);
+				rowCount++;
+			}
 			rs.moveRow(0);
 			while (rs.nextRow()) {
 				Row row = sheet.createRow(rowCount);
@@ -228,6 +268,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName) {
+		return renderExcel2007(response, rs, fileName, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다. 
+	 * @param response
+	 * @param rs
+	 * @param fileName
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
 		if (rs == null) {
 			return 0;
 		}
@@ -241,6 +293,11 @@ public class ExcelUtil {
 			Sheet sheet = workbook.createSheet();
 			OutputStream os = response.getOutputStream();
 			String[] colNms = rs.getColumns();
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				_appendHeader(row, header);
+				rowCount++;
+			}
 			rs.moveRow(0);
 			while (rs.nextRow()) {
 				Row row = sheet.createRow(rowCount);
@@ -264,6 +321,17 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, RecordSet rs) {
+		return writeExcel2007(file, rs, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2007 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param rs
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007(File file, RecordSet rs, String[] header) {
 		if (rs == null) {
 			return 0;
 		}
@@ -273,6 +341,11 @@ public class ExcelUtil {
 			Sheet sheet = workbook.createSheet();
 			FileOutputStream fos = new FileOutputStream(file);
 			String[] colNms = rs.getColumns();
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				_appendHeader(row, header);
+				rowCount++;
+			}
 			rs.moveRow(0);
 			while (rs.nextRow()) {
 				Row row = sheet.createRow(rowCount);
@@ -403,7 +476,6 @@ public class ExcelUtil {
 	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = ExcelUtil.renderSep(rs, ",")
 	 * @param rs 변환할 RecordSet 객체
 	 * @param sep 열 구분자로 쓰일 문자열
-	 * 
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
 	public static String renderSep(RecordSet rs, String sep) {
@@ -431,6 +503,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, ResultSet rs, String fileName) {
+		return renderExcel2003(response, rs, fileName, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2003 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response
+	 * @param rs
+	 * @param fileName
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int renderExcel2003(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
 		if (rs == null) {
 			return 0;
 		}
@@ -451,6 +535,11 @@ public class ExcelUtil {
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
+				if (header != null) {
+					Row row = sheet.createRow(rowCount);
+					_appendHeader(row, header);
+					rowCount++;
+				}
 				while (rs.next()) {
 					Row row = sheet.createRow(rowCount);
 					_appendRow(row, rs, colNms);
@@ -480,6 +569,17 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2003(File file, ResultSet rs) {
+		return writeExcel2003(file, rs, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2003 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param rs
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int writeExcel2003(File file, ResultSet rs, String[] header) {
 		if (rs == null) {
 			return 0;
 		}
@@ -496,6 +596,11 @@ public class ExcelUtil {
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
+				if (header != null) {
+					Row row = sheet.createRow(rowCount);
+					_appendHeader(row, header);
+					rowCount++;
+				}
 				while (rs.next()) {
 					Row row = sheet.createRow(rowCount);
 					_appendRow(row, rs, colNms);
@@ -528,6 +633,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName) {
+		return renderExcel2007(response, rs, fileName, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response
+	 * @param rs
+	 * @param fileName
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
 		if (rs == null) {
 			return 0;
 		}
@@ -548,6 +665,11 @@ public class ExcelUtil {
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
+				if (header != null) {
+					Row row = sheet.createRow(rowCount);
+					_appendHeader(row, header);
+					rowCount++;
+				}
 				while (rs.next()) {
 					Row row = sheet.createRow(rowCount);
 					_appendRow(row, rs, colNms);
@@ -577,6 +699,17 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, ResultSet rs) {
+		return writeExcel2007(file, rs, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2007 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param rs
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007(File file, ResultSet rs, String[] header) {
 		if (rs == null) {
 			return 0;
 		}
@@ -593,6 +726,11 @@ public class ExcelUtil {
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
+				if (header != null) {
+					Row row = sheet.createRow(rowCount);
+					_appendHeader(row, header);
+					rowCount++;
+				}
 				while (rs.next()) {
 					Row row = sheet.createRow(rowCount);
 					_appendRow(row, rs, colNms);
@@ -925,6 +1063,16 @@ public class ExcelUtil {
 			}
 		}
 		return buffer.toString();
+	}
+
+	private static void _appendHeader(Row row, String[] header) {
+		if (header == null)
+			return;
+		for (int c = 0; c < header.length; c++) {
+			Cell cell = row.createCell(c);
+			cell.setCellType(Cell.CELL_TYPE_STRING);
+			cell.setCellValue(header[0]);
+		}
 	}
 
 	private static void _appendRow(Row row, RecordSet rs, String[] colNms) {
