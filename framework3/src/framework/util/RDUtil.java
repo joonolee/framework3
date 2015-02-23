@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +12,16 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import framework.db.RecordSet;
 
 /**
  * RD(Report Designer)를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
 public class RDUtil {
+	protected static final Log logger = LogFactory.getLog(framework.util.RDUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
@@ -27,12 +32,12 @@ public class RDUtil {
 	/**
 	 * 디폴트 열 구분자
 	 */
-	public static final String DEFAULT_COLSEP = "##";
+	private static final String _DEFAULT_COLSEP = "##";
 
 	/**
 	 * 디폴트 행 구분자
 	 */
-	public static final String DEFAULT_LINESEP = "\n";
+	private static final String _DEFAULT_LINESEP = "\n";
 
 	/**
 	 * RecordSet을 RD 파일 형식으로 출력한다.
@@ -44,7 +49,7 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
-		return render(response, rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
+		return render(response, rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
@@ -88,7 +93,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs) {
-		return render(rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
+		return render(rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
@@ -102,7 +107,7 @@ public class RDUtil {
 	 */
 	public static String render(RecordSet rs, String colSep, String lineSep) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		String[] colNms = rs.getColumns();
@@ -127,7 +132,10 @@ public class RDUtil {
 	 * @return 처리건수 
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
-		return render(response, rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
+		if (rs == null) {
+			return 0;
+		}
+		return render(response, rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
@@ -163,7 +171,14 @@ public class RDUtil {
 				}
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -183,7 +198,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(ResultSet rs) {
-		return render(rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
+		return render(rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
@@ -197,7 +212,7 @@ public class RDUtil {
 	 */
 	public static String render(ResultSet rs, String colSep, String lineSep) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		try {
@@ -217,7 +232,14 @@ public class RDUtil {
 					buffer.append(_rdRowStr(rs, colNms, colSep));
 				}
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -238,7 +260,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(Map<String, Object> map) {
-		return render(map, DEFAULT_COLSEP);
+		return render(map, _DEFAULT_COLSEP);
 	}
 
 	/**
@@ -251,7 +273,7 @@ public class RDUtil {
 	 */
 	public static String render(Map<String, Object> map, String colSep) {
 		if (map == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append(_rdRowStr(map, colSep));
@@ -267,7 +289,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(List<Map<String, Object>> mapList) {
-		return render(mapList, DEFAULT_COLSEP, DEFAULT_LINESEP);
+		return render(mapList, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
@@ -281,7 +303,7 @@ public class RDUtil {
 	 */
 	public static String render(List<Map<String, Object>> mapList, String colSep, String lineSep) {
 		if (mapList == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		if (mapList.size() > 0) {
@@ -327,6 +349,9 @@ public class RDUtil {
 	 * RD(리포트디자이너) 용 Row 문자열 생성
 	 */
 	private static String _rdRowStr(RecordSet rs, String[] colNms, String colSep) {
+		if (colNms == null) {
+			return "";
+		}
 		StringBuilder buffer = new StringBuilder();
 		for (int c = 0; c < colNms.length; c++) {
 			if (rs.get(colNms[c]) != null) {
@@ -338,6 +363,9 @@ public class RDUtil {
 	}
 
 	private static String _rdRowStr(ResultSet rs, String[] colNms, String colSep) {
+		if (colNms == null) {
+			return "";
+		}
 		StringBuilder buffer = new StringBuilder();
 		try {
 			for (int c = 0; c < colNms.length; c++) {

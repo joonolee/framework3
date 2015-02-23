@@ -35,7 +35,9 @@ public class SQLBatchStatement extends DBStatement {
 				_stmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
-			getLogger().error("getStatement Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("getStatement Error!");
+			}
 			throw new RuntimeException(e);
 		}
 		return _stmt;
@@ -48,7 +50,9 @@ public class SQLBatchStatement extends DBStatement {
 				_stmt.close();
 				_sqlList.clear();
 			} catch (SQLException e) {
-				getLogger().error("close Error!");
+				if (logger.isErrorEnabled()) {
+					logger.error("close Error!");
+				}
 				throw new RuntimeException(e);
 			}
 		}
@@ -56,38 +60,42 @@ public class SQLBatchStatement extends DBStatement {
 
 	public int[] executeBatch() {
 		if (_sqlList.size() == 0) {
-			getLogger().error("Query is Null");
+			if (logger.isErrorEnabled()) {
+				logger.error("Query is Null");
+			}
 			return new int[] { 0 };
 		}
 		int[] _upCnts = null;
 		try {
 			Statement stmt = getStatement();
-			if (getLogger().isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
 				log.append("@Sql Start (BATCH STATEMENT) FetchSize : " + stmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getSQL());
-				getLogger().debug(log.toString());
+				logger.debug(log.toString());
 			}
 			for (int i = 0, size = _sqlList.size(); i < size; i++) {
 				stmt.addBatch(_sqlList.get(i));
 			}
 			_upCnts = stmt.executeBatch();
-			if (getLogger().isDebugEnabled()) {
-				getLogger().debug("@Sql End (BATCH STATEMENT)");
+			if (logger.isDebugEnabled()) {
+				logger.debug("@Sql End (BATCH STATEMENT)");
 			}
 		} catch (SQLException e) {
-			getLogger().error("executeBatch Error!");
+			if (logger.isDebugEnabled()) {
+				logger.error("executeBatch Error!");
+			}
 			throw new RuntimeException(e.getMessage() + "\nSQL : \n" + getSQL());
 		}
 		return _upCnts;
 	}
 
 	public String getSQL() {
-		StringBuilder str = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		for (int i = 0, size = _sqlList.size(); i < size; i++) {
-			str.append(_sqlList.get(i) + "\n");
+			buf.append(_sqlList.get(i) + "\n");
 		}
-		return str.toString();
+		return buf.toString();
 	}
 
 	@Override

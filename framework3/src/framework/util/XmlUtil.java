@@ -12,13 +12,17 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import framework.db.RecordSet;
 
 /**
  * XML을 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
 public class XmlUtil {
-
+	protected static final Log logger = LogFactory.getLog(framework.util.XmlUtil.class);
+	
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
@@ -130,7 +134,14 @@ public class XmlUtil {
 				pw.print("</items>");
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -167,7 +178,14 @@ public class XmlUtil {
 				}
 				buffer.append("</items>");
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -315,6 +333,9 @@ public class XmlUtil {
 	 * xml item 문자열 생성
 	 */
 	private static String _xmlItemStr(RecordSet rs, String[] colNms) {
+		if (colNms == null) {
+			return "<item></item>";
+		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<item>");
 		for (int c = 0; c < colNms.length; c++) {

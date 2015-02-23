@@ -3,10 +3,14 @@ package framework.util;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.gauce.GauceDataColumn;
 import com.gauce.GauceDataRow;
@@ -24,7 +28,8 @@ import framework.db.RecordSet;
  * 가우스를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
 public class GauceUtil {
-
+	protected static final Log logger = LogFactory.getLog(framework.util.GauceUtil.class);
+	
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
@@ -260,6 +265,9 @@ public class GauceUtil {
 			((HttpGauceResponse) response).addException(new GauceException("SESSION", "0000", "OUT"));
 			((HttpGauceResponse) response).getGauceOutputStream().close();
 		} catch (IOException e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
 		}
 	}
 
@@ -275,6 +283,9 @@ public class GauceUtil {
 			((HttpGauceResponse) response).addException(exception);
 			((HttpGauceResponse) response).getGauceOutputStream().close();
 		} catch (IOException e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
 		}
 	}
 
@@ -353,7 +364,14 @@ public class GauceUtil {
 				}
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)

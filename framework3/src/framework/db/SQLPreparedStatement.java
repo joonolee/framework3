@@ -41,7 +41,9 @@ public class SQLPreparedStatement extends DBStatement {
 			}
 			clearParam();
 		} catch (SQLException e) {
-			getLogger().error("close Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("close Error!");
+			}
 			throw new RuntimeException(e);
 		}
 	}
@@ -56,7 +58,9 @@ public class SQLPreparedStatement extends DBStatement {
 
 	public RecordSet executeQuery(int currPage, int pageSize) {
 		if (getSQL() == null) {
-			getLogger().error("Query is Null");
+			if (logger.isErrorEnabled()) {
+				logger.error("Query is Null");
+			}
 			return null;
 		}
 		try {
@@ -70,18 +74,20 @@ public class SQLPreparedStatement extends DBStatement {
 					}
 				}
 			}
-			if (getLogger().isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
 				log.append("@Sql Start (P_STATEMENT) FetchSize : " + pstmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getQueryString());
-				getLogger().debug(log.toString());
+				logger.debug(log.toString());
 			}
 			_rs = new RecordSet(pstmt.executeQuery(), currPage, pageSize);
-			if (getLogger().isDebugEnabled()) {
-				getLogger().debug("@Sql End (P_STATEMENT)");
+			if (logger.isDebugEnabled()) {
+				logger.debug("@Sql End (P_STATEMENT)");
 			}
 		} catch (SQLException e) {
-			getLogger().error("executeQuery Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("executeQuery Error!");
+			}
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
 		return _rs;
@@ -99,7 +105,9 @@ public class SQLPreparedStatement extends DBStatement {
 
 	public int executeUpdate() {
 		if (getSQL() == null) {
-			getLogger().error("Query is Null");
+			if (logger.isErrorEnabled()) {
+				logger.error("Query is Null");
+			}
 			return 0;
 		}
 		try {
@@ -124,18 +132,20 @@ public class SQLPreparedStatement extends DBStatement {
 					}
 				}
 			}
-			if (getLogger().isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
 				log.append("@Sql Start (P_STATEMENT) FetchSize : " + pstmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getQueryString());
-				getLogger().debug(log.toString());
+				logger.debug(log.toString());
 			}
 			_upCnt = pstmt.executeUpdate();
-			if (getLogger().isDebugEnabled()) {
-				getLogger().debug("@Sql End (P_STATEMENT)");
+			if (logger.isDebugEnabled()) {
+				logger.debug("@Sql End (P_STATEMENT)");
 			}
 		} catch (SQLException e) {
-			getLogger().error("executeUpdate Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("executeUpdate Error!");
+			}
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
 		return _upCnt;
@@ -162,7 +172,9 @@ public class SQLPreparedStatement extends DBStatement {
 
 	protected PreparedStatement getPrepareStatment() {
 		if (getSQL() == null) {
-			getLogger().error("Query is Null");
+			if (logger.isErrorEnabled()) {
+				logger.error("Query is Null");
+			}
 			return null;
 		}
 		try {
@@ -171,7 +183,9 @@ public class SQLPreparedStatement extends DBStatement {
 				_pstmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
-			getLogger().error("getPrepareStatment Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("getPrepareStatment Error!");
+			}
 			throw new RuntimeException(e);
 		}
 		return _pstmt;

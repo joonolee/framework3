@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisShardInfo;
@@ -21,6 +24,8 @@ import framework.config.Config;
  * Redis Ä³½Ã ±¸ÇöÃ¼ (http://redis.io/)
  */
 public class Redis extends AbstractCache {
+	protected static final Log logger = LogFactory.getLog(framework.cache.Redis.class);
+	
 	/**
 	 * ½Ì±ÛÅæ °´Ã¼
 	 */
@@ -256,9 +261,11 @@ public class Redis extends AbstractCache {
 			baos = new ByteArrayOutputStream();
 			oos = new ObjectOutputStream(baos);
 			oos.writeObject(obj);
-			byte[] bytes = baos.toByteArray();
-			return bytes;
+			return baos.toByteArray();
 		} catch (Exception e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
 		}
 		return null;
 	}
@@ -275,6 +282,9 @@ public class Redis extends AbstractCache {
 			ObjectInputStream ois = new ObjectInputStream(bais);
 			return ois.readObject();
 		} catch (Exception e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
 		}
 		return null;
 	}

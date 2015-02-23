@@ -40,7 +40,9 @@ public class SQLBatchPreparedStatement extends DBStatement {
 
 	protected PreparedStatement getPrepareStatment() {
 		if (getSQL() == null) {
-			getLogger().error("Query is Null");
+			if (logger.isErrorEnabled()) {
+				logger.error("Query is Null");
+			}
 			return null;
 		}
 		try {
@@ -49,7 +51,9 @@ public class SQLBatchPreparedStatement extends DBStatement {
 				_pstmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
-			getLogger().error("getPrepareStatment Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("getPrepareStatment Error!");
+			}
 			throw new RuntimeException(e);
 		}
 		return _pstmt;
@@ -64,7 +68,9 @@ public class SQLBatchPreparedStatement extends DBStatement {
 			}
 			clearParamList();
 		} catch (SQLException e) {
-			getLogger().error("close Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("close Error!");
+			}
 			throw new RuntimeException(e);
 		}
 	}
@@ -75,17 +81,19 @@ public class SQLBatchPreparedStatement extends DBStatement {
 
 	public int[] executeBatch() {
 		if (getSQL() == null) {
-			getLogger().error("Query is Null");
+			if (logger.isErrorEnabled()) {
+				logger.error("Query is Null");
+			}
 			return new int[] { 0 };
 		}
 		int[] _upCnts = null;
 		try {
 			PreparedStatement pstmt = getPrepareStatment();
-			if (getLogger().isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
 				log.append("@Sql Start (BATCH P_STATEMENT) FetchSize : " + pstmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getQueryString());
-				getLogger().debug(log.toString());
+				logger.debug(log.toString());
 			}
 			for (List<Object> params : _paramList) {
 				for (int i = 1, length = params.size(); i <= length; i++) {
@@ -109,11 +117,13 @@ public class SQLBatchPreparedStatement extends DBStatement {
 				pstmt.addBatch();
 			}
 			_upCnts = pstmt.executeBatch();
-			if (getLogger().isDebugEnabled()) {
-				getLogger().debug("@Sql End (BATCH P_STATEMENT)");
+			if (logger.isDebugEnabled()) {
+				logger.debug("@Sql End (BATCH P_STATEMENT)");
 			}
 		} catch (SQLException e) {
-			getLogger().error("executeQuery Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("executeQuery Error!");
+			}
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
 		return _upCnts;

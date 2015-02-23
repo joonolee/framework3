@@ -31,7 +31,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	private List<Map<String, Object>> _rows = new ArrayList<Map<String, Object>>();
 	private int _currow = 0;
 
-	RecordSet() {
+	public RecordSet() {
 	};
 
 	/**
@@ -53,15 +53,15 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 		}
 		try {
 			ResultSetMetaData rsmd = rs.getMetaData();
-			int count = rsmd.getColumnCount();
-			_colNms = new String[count];
-			_colInfo = new String[count];
-			_colSize = new int[count];
-			_colSizeReal = new int[count];
-			_colScale = new int[count];
+			int cnt = rsmd.getColumnCount();
+			_colNms = new String[cnt];
+			_colInfo = new String[cnt];
+			_colSize = new int[cnt];
+			_colSizeReal = new int[cnt];
+			_colScale = new int[cnt];
 			// byte[] 데이터 처리를 위해서 추가
-			_columnsType = new int[count];
-			for (int i = 1; i <= count; i++) {
+			_columnsType = new int[cnt];
+			for (int i = 1; i <= cnt; i++) {
 				//Table의 Field 가 소문자 인것은 대문자로 변경처리
 				_colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				_columnsType[i - 1] = rsmd.getColumnType(i);
@@ -75,7 +75,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 			int num = 0;
 			while (rs.next()) {
 				// 현재 Row 저장 객체
-				Map<String, Object> columns = new HashMap<String, Object>(count);
+				Map<String, Object> columns = new HashMap<String, Object>(cnt);
 				num++;
 				if (curpage != 0 && (num < (curpage - 1) * pagesize + 1)) {
 					continue;
@@ -83,7 +83,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 				if (pagesize != 0 && (num > curpage * pagesize)) {
 					break;
 				}
-				for (int i = 1; i <= count; i++) {
+				for (int i = 1; i <= cnt; i++) {
 					Object value = rs.getObject(_colNms[i - 1]);
 					if (value instanceof Number) {
 						columns.put(_colNms[i - 1], rs.getObject(_colNms[i - 1]));
@@ -93,11 +93,15 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 				}
 				_rows.add(columns);
 			}
-			if (rs != null) {
-				rs.close();
-			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
 		}
 	}
 
@@ -106,7 +110,10 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	 * @return String[]
 	 */
 	public String[] getColumns() {
-		return _colNms;
+		if (_colNms == null) {
+			return null;
+		}
+		return _colNms.clone();
 	}
 
 	/**
@@ -114,7 +121,10 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	 * @return String[]
 	 */
 	public int[] getColumnsSize() {
-		return _colSize;
+		if (_colSize == null) {
+			return null;
+		}
+		return _colSize.clone();
 	}
 
 	/**
@@ -122,7 +132,10 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	 * @return String[]
 	 */
 	public int[] getColumnsSizeReal() {
-		return _colSizeReal;
+		if (_colSizeReal == null) {
+			return null;
+		}
+		return _colSizeReal.clone();
 	}
 
 	/**
@@ -130,7 +143,10 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	 * @return String[]
 	 */
 	public int[] getColumnsScale() {
-		return _colScale;
+		if (_colScale == null) {
+			return null;
+		}
+		return _colScale.clone();
 	}
 
 	/**
@@ -138,7 +154,10 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	 * @return String[]
 	 */
 	public String[] getColumnsInfo() {
-		return _colInfo;
+		if (_colInfo == null) {
+			return null;
+		}
+		return _colInfo.clone();
 	}
 
 	/**
@@ -146,7 +165,10 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	 * @return String[]
 	 */
 	public int[] getColumnsType() {
-		return _columnsType;
+		if (_columnsType == null) {
+			return null;
+		}
+		return _columnsType.clone();
 	}
 
 	/**
@@ -154,7 +176,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	 * @return ArrayList
 	 */
 	public List<Map<String, Object>> getRows() {
-		return _rows;
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		list.addAll(_rows);
+		return list;
 	}
 
 	/**
@@ -197,9 +221,10 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 			throw new IllegalArgumentException("index 0 is not vaild ");
 		}
 		if (_colNms == null) {
-			throw new NullPointerException("is not find");
+			throw new RuntimeException("Column is not find");
 		}
-		return _colNms[index - 1];
+		String label = _colNms[index - 1];
+		return label;
 	}
 
 	/**
@@ -386,7 +411,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	 * @return float  column data
 	 */
 	public Timestamp getTimestamp(int row, String column) {
-		if ((String) get(row, column) == null) {
+		if (get(row, column) == null) {
 			return null;
 		} else {
 			return Timestamp.valueOf(get(row, column).toString());

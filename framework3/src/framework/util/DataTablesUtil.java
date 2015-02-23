@@ -12,12 +12,16 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import framework.db.RecordSet;
 
 /**
  * DataTables 를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
 public class DataTablesUtil {
+	protected static final Log logger = LogFactory.getLog(framework.util.DataTablesUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
@@ -180,7 +184,14 @@ public class DataTablesUtil {
 				pw.print("}");
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -220,7 +231,14 @@ public class DataTablesUtil {
 				pw.print("}");
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -260,13 +278,20 @@ public class DataTablesUtil {
 				buffer.append("]");
 				buffer.append("}");
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
 					stmt.close();
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		return buffer.toString();
@@ -299,13 +324,20 @@ public class DataTablesUtil {
 				buffer.append("]");
 				buffer.append("}");
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
 					stmt.close();
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		return buffer.toString();
@@ -382,7 +414,7 @@ public class DataTablesUtil {
 	 */
 	private static String _dataTablesRowStr(RecordSet rs, String[] colNms) {
 		StringBuilder buffer = new StringBuilder();
-		if (colNms.length > 0) {
+		if (colNms != null && colNms.length > 0) {
 			buffer.append("[");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.get(colNms[c].toUpperCase());

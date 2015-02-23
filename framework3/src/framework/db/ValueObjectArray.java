@@ -16,7 +16,8 @@ public class ValueObjectArray {
 	public final static String USER_DELETE = "UD";
 	public final static String UPDATE_ONLY = "UO";
 	private Map<String, ValueObject> _voMap = new HashMap<String, ValueObject>();
-	private String[] _keys, _fields = null;
+	private String[] _keys = null;
+	private String[] _fields = null;
 	private int _seq = 0;
 
 	public void add(String type, ValueObject vo) {
@@ -57,18 +58,34 @@ public class ValueObjectArray {
 	}
 
 	public void setUserKeys(String[] keys) {
-		_keys = keys;
+		if (keys != null) {
+			_keys = new String[keys.length];
+			for (int i = 0; i < keys.length; i++) {
+				_keys[i] = keys[i];
+			}
+		}
 	}
 
 	public void setUserFields(String[] fields) {
-		_fields = fields;
+		if (fields != null) {
+			_fields = new String[fields.length];
+			for (int i = 0; i < fields.length; i++) {
+				_fields[i] = fields[i];
+			}
+		}
 	}
 
 	public String[] getUserKeys() {
-		return _keys;
+		if (_keys == null) {
+			return null;
+		}
+		return _keys.clone();
 	}
 
 	public String[] getUserFields() {
-		return _fields;
+		if (_fields == null) {
+			return null;
+		}
+		return _fields.clone();
 	}
 }

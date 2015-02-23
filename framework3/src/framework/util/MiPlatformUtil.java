@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.tobesoft.platform.PlatformRequest;
 import com.tobesoft.platform.PlatformResponse;
@@ -24,7 +28,8 @@ import framework.db.RecordSet;
  * 마이플랫폼을 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
 public class MiPlatformUtil {
-
+	protected static final Log logger = LogFactory.getLog(framework.util.MiPlatformUtil.class);
+	
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
@@ -34,17 +39,17 @@ public class MiPlatformUtil {
 	/**
 	 * 미압축 방식의 바이너리 송수신 형식
 	 */
-	public static int BIN = PlatformRequest.BIN;
+	public static final int BIN = PlatformRequest.BIN;
 
 	/**
 	 * 미압축 방식의 XML 송수신 형식
 	 */
-	public static int XML = PlatformRequest.XML;
+	public static final int XML = PlatformRequest.XML;
 
 	/**
 	 * Zlib 압축 방식의 바이너리 송수신 형식
 	 */
-	public static int ZLIB_COMP = PlatformRequest.ZLIB_COMP;
+	public static final int ZLIB_COMP = PlatformRequest.ZLIB_COMP;
 
 	/**
 	 * RecordSet을 마이플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
@@ -425,7 +430,14 @@ public class MiPlatformUtil {
 				}
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)

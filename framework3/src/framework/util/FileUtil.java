@@ -11,10 +11,14 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * 파일처리, 업로드, 다운로드시 이용할 수 있는 유틸리티 클래스이다.
  */
 public class FileUtil {
+	protected static final Log logger = LogFactory.getLog(framework.util.FileUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
@@ -94,8 +98,7 @@ public class FileUtil {
 	 */
 	public static void copyFile(java.io.File src, java.io.File dest) {
 		try {
-			java.io.InputStream in = new FileInputStream(src);
-
+			InputStream in = new FileInputStream(src);
 			try {
 				java.io.OutputStream out = new FileOutputStream(dest);
 				try {
@@ -232,13 +235,15 @@ public class FileUtil {
 			int readBytes = 0;
 			int available = 1024;
 			byte b[] = new byte[available];
-
 			bufferin = new BufferedInputStream(new FileInputStream(file));
 			stream = new BufferedOutputStream(response.getOutputStream());
 			while ((readBytes = bufferin.read(b, 0, available)) != -1) {
 				stream.write(b, 0, readBytes);
 			}
 		} catch (Exception e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
 		} finally {
 			try {
 				bufferin.close();

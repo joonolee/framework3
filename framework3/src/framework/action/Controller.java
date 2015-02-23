@@ -91,33 +91,31 @@ public abstract class Controller {
 	/**
 	 * Controller의 로거객체
 	 */
-	protected static Log logger = LogFactory.getLog(framework.action.Controller.class);
+	protected static final Log logger = LogFactory.getLog(framework.action.Controller.class);
 
 	/** 
-	 * 클라이언트에서 서비스를 호출할 때 요청파라미터 action에 설정된 값을 참고하여 해당 메소드를 실행한다.
+	 * 클라이언트에서 서비스를 호출할 때 요청 url에 설정된 값을 참고하여 해당 메소드를 실행한다.
 	 * 정의되지 않은 메소드를 호출할 경우 로그에 오류메시지가 기록되며 메소드 실행을 마친 후 데이터베이스 컨넥을 자동으로 닫아준다.
-	 * <br>
-	 * ex) action이 search 일때 : search() 메소드가 호출된다.
 	 * @param servlet 서블릿 객체
 	 * @param request 클라이언트에서 요청된 Request객체
 	 * @param response 클라이언트로 응답할 Response객체
 	 * @param method 메소드
 	 * @throws Throwable 
 	 */
-	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Exception {
-		this.servlet = servlet;
-		this.request = request;
-		this.params = Params.getParams(request);
-		this.cookies = Params.getParamsFromCookie(request);
-		this.headers = Params.getParamsFromHeader(request);
-		this.session = request.getSession();
-		this.response = response;
-		this.out = response.getWriter();
-		this.controller = getClass().getName();
-		this.actionMethod = method.getName();
-		this.action = this.controller + "." + this.actionMethod;
-		long currTime = 0;
+	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Throwable {
 		try {
+			this.servlet = servlet;
+			this.request = request;
+			this.params = Params.getParams(request);
+			this.cookies = Params.getParamsFromCookie(request);
+			this.headers = Params.getParamsFromHeader(request);
+			this.session = request.getSession();
+			this.response = response;
+			this.out = response.getWriter();
+			this.controller = getClass().getName();
+			this.actionMethod = method.getName();
+			this.action = this.controller + "." + this.actionMethod;
+			long currTime = 0;
 			_before();
 			if (logger.isDebugEnabled()) {
 				currTime = System.currentTimeMillis();
@@ -135,14 +133,14 @@ public abstract class Controller {
 				logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 			}
 			_after();
-		} catch (_ActionStopException e) {
-		} catch (Throwable e) {
-			throw new Exception(e);
 		} finally {
 			_destroy();
 			try {
 				_finally();
 			} catch (Throwable te) {
+				if (logger.isErrorEnabled()) {
+					logger.error(te);
+				}
 			}
 		}
 	}
@@ -170,7 +168,9 @@ public abstract class Controller {
 			}
 			servlet.getServletContext().getRequestDispatcher(response.encodeURL(url)).forward(request, response);
 		} catch (Exception e) {
-			logger.error("Render Error!", e);
+			if (logger.isErrorEnabled()) {
+				logger.error("Render Error!", e);
+			}
 		}
 	}
 
@@ -195,7 +195,9 @@ public abstract class Controller {
 			}
 			response.sendRedirect(url);
 		} catch (Exception e) {
-			logger.error("Redirect Error!", e);
+			if (logger.isErrorEnabled()) {
+				logger.error("Redirect Error!", e);
+			}
 		}
 	}
 
@@ -248,7 +250,9 @@ public abstract class Controller {
 				db.setAutoCommit(false);
 				_dbMap.put(serviceName, db);
 			} catch (Exception e) {
-				logger.error("DB Connection Error!", e);
+				if (logger.isErrorEnabled()) {
+					logger.error("DB Connection Error!", e);
+				}
 			}
 		}
 		return _dbMap.get(serviceName);
@@ -530,6 +534,9 @@ public abstract class Controller {
 			params = null;
 			out = null;
 		} catch (Exception e) {
+			if (logger.isErrorEnabled()) {
+				logger.error("Destroy Error!", e);
+			}
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package framework.db;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
@@ -17,18 +18,25 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  * MyBatis를 이용한 DAO를 작성할때 상속받는 부모 클래스이다.
  */
 public class MyBatisDaoSupport {
-	private static Log _logger = LogFactory.getLog(framework.db.MyBatisDaoSupport.class);
+	protected static final Log logger = LogFactory.getLog(framework.db.MyBatisDaoSupport.class);
 	protected static SqlSessionFactory sqlSessionFactory = null;
 	protected DB db = null;
 	protected SqlSession sqlSession = null;
 
 	static {
+		Reader reader = null;
 		try {
-			Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
+			reader = Resources.getResourceAsReader("mybatis-config.xml");
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-			reader.close();
 		} catch (Exception e) {
 			throw new RuntimeException("Something bad happened while building the SqlSessionFactory instance." + e, e);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+				}
+			}
 		}
 	}
 
@@ -36,10 +44,6 @@ public class MyBatisDaoSupport {
 		this.db = db;
 		MyBatisSession session = db.createMyBatisSession(sqlSessionFactory);
 		sqlSession = session.getSession();
-	}
-
-	protected Log getLogger() {
-		return MyBatisDaoSupport._logger;
 	}
 
 	public void commit() {

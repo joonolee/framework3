@@ -9,7 +9,11 @@ import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class StringUtil {
+	protected static final Log logger = LogFactory.getLog(framework.util.StringUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
@@ -82,6 +86,9 @@ public class StringUtil {
 				rval = new String(bstr, 0, bindex) + "..";
 			}
 		} catch (Exception e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
 		}
 		return rval;
 	}

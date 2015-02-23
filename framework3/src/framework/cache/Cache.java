@@ -13,7 +13,7 @@ public class Cache {
 	/**
 	 * 로거객체 정의
 	 */
-	private static Log _logger = LogFactory.getLog(framework.cache.Cache.class);
+	protected static final Log logger = LogFactory.getLog(framework.cache.Cache.class);
 
 	/**
 	 * 캐시구현체
@@ -28,7 +28,7 @@ public class Cache {
 	/**
 	 * 기본 캐시 시간 (30일)
 	 */
-	private final static int DEFAULT_DURATION = 60 * 60 * 24 * 30;
+	private final static int _DEFAULT_DURATION = 60 * 60 * 24 * 30;
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정 
@@ -53,7 +53,7 @@ public class Cache {
 					cacheName = "EhCache";
 				}
 			}
-			_getLogger().info(String.format("[ %s ] init : 초기화 성공", cacheName));
+			logger.info(String.format("[ %s ] init : 초기화 성공", cacheName));
 		}
 	}
 
@@ -64,8 +64,10 @@ public class Cache {
 	 */
 	public static void set(String key, Object value) {
 		_isSerializable(value);
-		cache.set(key, value, DEFAULT_DURATION);
-		_getLogger().debug(String.format("[ %s ] set : { key=%s, value=%s, seconds=%d }", cacheName, key, value, DEFAULT_DURATION));
+		cache.set(key, value, _DEFAULT_DURATION);
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] set : { key=%s, value=%s, seconds=%d }", cacheName, key, value, _DEFAULT_DURATION));
+		}
 	}
 
 	/**
@@ -77,7 +79,9 @@ public class Cache {
 	public static void set(String key, Object value, int seconds) {
 		_isSerializable(value);
 		cache.set(key, value, seconds);
-		_getLogger().debug(String.format("[ %s ] set : { key=%s, value=%s, seconds=%d }", cacheName, key, value, seconds));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] set : { key=%s, value=%s, seconds=%d }", cacheName, key, value, seconds));
+		}
 	}
 
 	/**
@@ -87,7 +91,9 @@ public class Cache {
 	 */
 	public static long incr(String key) {
 		long result = cache.incr(key, 1);
-		_getLogger().debug(String.format("[ %s ] incr : { key=%s, by=%d }", cacheName, key, 1));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] incr : { key=%s, by=%d }", cacheName, key, 1));
+		}
 		return result;
 	}
 
@@ -99,7 +105,9 @@ public class Cache {
 	 */
 	public static long incr(String key, int by) {
 		long result = cache.incr(key, by);
-		_getLogger().debug(String.format("[ %s ] incr : { key=%s, by=%d }", cacheName, key, by));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] incr : { key=%s, by=%d }", cacheName, key, by));
+		}
 		return result;
 	}
 
@@ -110,7 +118,9 @@ public class Cache {
 	 */
 	public static long decr(String key) {
 		long result = cache.decr(key, 1);
-		_getLogger().debug(String.format("[ %s ] decr : { key=%s, by=%d }", cacheName, key, 1));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] decr : { key=%s, by=%d }", cacheName, key, 1));
+		}
 		return result;
 	}
 
@@ -121,7 +131,9 @@ public class Cache {
 	 */
 	public static long decr(String key, int by) {
 		long result = cache.decr(key, by);
-		_getLogger().debug(String.format("[ %s ] decr : { key=%s, by=%d }", cacheName, key, by));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] decr : { key=%s, by=%d }", cacheName, key, by));
+		}
 		return result;
 	}
 
@@ -132,7 +144,9 @@ public class Cache {
 	 */
 	public static Object get(String key) {
 		Object value = cache.get(key);
-		_getLogger().debug(String.format("[ %s ] get : { key=%s, value=%s }", cacheName, key, value));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] get : { key=%s, value=%s }", cacheName, key, value));
+		}
 		return value;
 	}
 
@@ -143,7 +157,9 @@ public class Cache {
 	 */
 	public static Map<String, Object> get(String... keys) {
 		Map<String, Object> valueMap = cache.get(keys);
-		_getLogger().debug(String.format("[ %s ] get : { key=%s, value=%s }", cacheName, Arrays.asList(keys), valueMap));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] get : { key=%s, value=%s }", cacheName, Arrays.asList(keys), valueMap));
+		}
 		return valueMap;
 	}
 
@@ -153,7 +169,9 @@ public class Cache {
 	 */
 	public static void delete(String key) {
 		cache.delete(key);
-		_getLogger().debug(String.format("[ %s ] delete : { key=%s }", cacheName, key));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] delete : { key=%s }", cacheName, key));
+		}
 	}
 
 	/**
@@ -161,7 +179,9 @@ public class Cache {
 	 */
 	public static void clear() {
 		cache.clear();
-		_getLogger().debug(String.format("[ %s ] clear : 캐시 클리어 성공", cacheName));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("[ %s ] clear : 캐시 클리어 성공", cacheName));
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
@@ -173,9 +193,5 @@ public class Cache {
 		if (value != null && !(value instanceof Serializable)) {
 			throw new RuntimeException(new NotSerializableException(value.getClass().getName()));
 		}
-	}
-
-	private static Log _getLogger() {
-		return Cache._logger;
 	}
 }

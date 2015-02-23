@@ -15,8 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import framework.config.Config;
+import framework.util.StringUtil;
 
 /** 
  * 요청객체, 쿠키객체의 값을 담는 해시테이블 객체이다.
@@ -24,6 +27,7 @@ import framework.config.Config;
  */
 public class Params extends HashMap<String, String[]> {
 	private static final long serialVersionUID = 7143941735208780214L;
+	protected static final Log logger = LogFactory.getLog(framework.action.Params.class);
 	private String _name = null;
 	private List<FileItem> _fileItems = new ArrayList<FileItem>();
 
@@ -56,15 +60,24 @@ public class Params extends HashMap<String, String[]> {
 				try {
 					factory.setSizeThreshold(_getConfig().getInt("fileupload.sizeThreshold"));
 				} catch (IllegalArgumentException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
 				}
 				try {
 					factory.setRepository(new File(_getConfig().getString("fileupload.repository")));
 				} catch (IllegalArgumentException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
 				}
 				ServletFileUpload upload = new ServletFileUpload(factory);
 				try {
 					upload.setSizeMax(_getConfig().getInt("fileupload.sizeMax"));
 				} catch (IllegalArgumentException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
 				}
 				List<FileItem> items = upload.parseRequest(request);
 				for (FileItem item : items) {
@@ -108,7 +121,7 @@ public class Params extends HashMap<String, String[]> {
 			return cookieParams;
 		}
 		for (Cookie cookie : cookies) {
-			cookieParams.put(cookie.getName(), new String[] { cookie.getValue() == null ? "" : cookie.getValue() });
+			cookieParams.put(cookie.getName(), new String[] { StringUtil.nullToBlankString(cookie.getValue()) });
 		}
 		return cookieParams;
 	}
@@ -125,7 +138,7 @@ public class Params extends HashMap<String, String[]> {
 		Enumeration<?> headerNames = request.getHeaderNames();
 		while (headerNames.hasMoreElements()) {
 			String headerName = (String) headerNames.nextElement();
-			headerParams.put(headerName, new String[] { request.getHeader(headerName) == null ? "" : request.getHeader(headerName) });
+			headerParams.put(headerName, new String[] { StringUtil.nullToBlankString(request.getHeader(headerName)) });
 		}
 		return headerParams;
 	}
@@ -136,10 +149,9 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 오브젝트
 	 */
 	public Object get(String key) {
-		Object value = null;
-		value = super.get(key);
+		Object value = super.get(key);
 		if (value == null) {
-			return value;
+			return null;
 		}
 		if (value.getClass().isArray()) {
 			int length = Array.getLength(value);
@@ -171,13 +183,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 Boolean 객체
 	 */
 	public Boolean getBoolean(String key) {
-		String value = getString(key);
-		Boolean isTrue = Boolean.valueOf(false);
-		try {
-			isTrue = Boolean.valueOf(value);
-		} catch (Exception e) {
-		}
-		return isTrue;
+		return Boolean.valueOf(getString(key).trim());
 	}
 
 	/** 
@@ -186,17 +192,11 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 Double 객체
 	 */
 	public Double getDouble(String key) {
-		String value = getString(key).trim().replaceAll(",", "");
-		if (value.equals("")) {
+		try {
+			return Double.valueOf(getString(key).trim().replaceAll(",", ""));
+		} catch (NumberFormatException e) {
 			return Double.valueOf(0);
 		}
-		Double num = null;
-		try {
-			num = Double.valueOf(value);
-		} catch (Exception e) {
-			num = Double.valueOf(0);
-		}
-		return num;
 	}
 
 	/** 
@@ -205,13 +205,9 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 BigDecimal 객체
 	 */
 	public BigDecimal getBigDecimal(String key) {
-		String value = getString(key).trim().replaceAll(",", "");
-		if (value.equals("")) {
-			return BigDecimal.valueOf(0);
-		}
 		try {
-			return new BigDecimal(value);
-		} catch (Exception e) {
+			return new BigDecimal(getString(key).trim().replaceAll(",", ""));
+		} catch (NumberFormatException e) {
 			return BigDecimal.valueOf(0);
 		}
 	}
@@ -222,7 +218,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 Float 객체
 	 */
 	public Float getFloat(String key) {
-		return new Float(getDouble(key).doubleValue());
+		return Float.valueOf(getDouble(key).floatValue());
 	}
 
 	/** 
@@ -231,8 +227,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 Integer 객체
 	 */
 	public Integer getInteger(String key) {
-		Double value = getDouble(key);
-		return Integer.valueOf(value.intValue());
+		return Integer.valueOf(getDouble(key).intValue());
 	}
 
 	/** 
@@ -241,18 +236,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 Long 객체
 	 */
 	public Long getLong(String key) {
-		Double value = getDouble(key);
-		return Long.valueOf(value.longValue());
-	}
-
-	/** 
-	 * 키(key)문자열과 매핑되어 있는 long 변수를 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 long 변수를
-	 */
-	public long getlong(String key) {
-		Double value = getDouble(key);
-		return value.longValue();
+		return Long.valueOf(getDouble(key).longValue());
 	}
 
 	/** 
@@ -289,24 +273,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 String 객체
 	 */
 	public String getRawString(String key) {
-		String str = (String) get(key);
-		if (str == null) {
-			return "";
-		}
-		return str;
-	}
-
-	/** 
-	 * 키(key)문자열과 매핑되어 있는 바이트 배열을 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 바이트 배열
-	 */
-	public byte[] getByte(String key) {
-		Object obj = super.get(key);
-		if (obj == null) {
-			return null;
-		}
-		return (byte[]) obj;
+		return StringUtil.nullToBlankString((String) get(key));
 	}
 
 	/** 
@@ -316,7 +283,7 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	public Timestamp getTimestamp(String key) {
 		String str = getString(key);
-		if (str == null || "".equals(str)) {
+		if ("".equals(str)) {
 			return null;
 		}
 		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("HH:mm:ss.SSS", java.util.Locale.KOREA);
@@ -329,7 +296,9 @@ public class Params extends HashMap<String, String[]> {
 	 * @return 파일아이템 리스트 객체
 	 */
 	public List<FileItem> getFileItems() {
-		return _fileItems;
+		List<FileItem> list = new ArrayList<FileItem>();
+		list.addAll(_fileItems);
+		return list;
 	}
 
 	/**
@@ -338,7 +307,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @param value 키에 매핑되는 문자열
 	 * @return 원래 key에 매핑되어 있는 스트링 배열
 	 */
-	public String[] put(String key, String value) {
+	public String[] putString(String key, String value) {
 		return put(key, new String[] { value });
 	}
 

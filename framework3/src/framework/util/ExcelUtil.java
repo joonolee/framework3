@@ -23,6 +23,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -41,7 +43,8 @@ import framework.db.RecordSet;
  * Excel 출력을 위해 이용할 수 있는 유틸리티 클래스이다.
  */
 public class ExcelUtil {
-
+	protected static final Log logger = LogFactory.getLog(framework.util.ExcelUtil.class);
+	
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
@@ -551,7 +554,14 @@ public class ExcelUtil {
 				workbook.write(os);
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -586,8 +596,9 @@ public class ExcelUtil {
 		try {
 			Workbook workbook = new HSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			FileOutputStream fos = new FileOutputStream(file);
+			FileOutputStream fos = null;
 			try {
+				fos = new FileOutputStream(file);
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int count = rsmd.getColumnCount();
 				String[] colNms = new String[count];
@@ -612,7 +623,14 @@ public class ExcelUtil {
 				workbook.write(fos);
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (fos != null)
 					fos.close();
 				if (rs != null)
@@ -681,7 +699,14 @@ public class ExcelUtil {
 				workbook.write(os);
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -716,8 +741,9 @@ public class ExcelUtil {
 		try {
 			Workbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			FileOutputStream fos = new FileOutputStream(file);
+			FileOutputStream fos = null;
 			try {
+				fos = new FileOutputStream(file);
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int count = rsmd.getColumnCount();
 				String[] colNms = new String[count];
@@ -742,7 +768,14 @@ public class ExcelUtil {
 				workbook.write(fos);
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (fos != null)
 					fos.close();
 				if (rs != null)
@@ -834,7 +867,14 @@ public class ExcelUtil {
 				}
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -857,8 +897,9 @@ public class ExcelUtil {
 			return 0;
 		}
 		try {
-			FileWriter fw = new FileWriter(file);
+			FileWriter fw = null;
 			try {
+				fw = new FileWriter(file);
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int count = rsmd.getColumnCount();
 				String[] colNms = new String[count];
@@ -875,7 +916,14 @@ public class ExcelUtil {
 				}
 				return rowCount;
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (fw != null)
 					fw.close();
 				if (rs != null)
@@ -918,7 +966,14 @@ public class ExcelUtil {
 					buffer.append(_sepRowStr(rs, colNms, sep));
 				}
 			} finally {
-				Statement stmt = rs.getStatement();
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 				if (rs != null)
 					rs.close();
 				if (stmt != null)
@@ -1015,6 +1070,9 @@ public class ExcelUtil {
 	 * 데이타가 숫자가 아닐때에는 구분자로 쓰인 문자열 또는 개행문자를 escape 하기 위해 값을 쌍따옴표로 둘러싼다.
 	 */
 	private static String _sepRowStr(RecordSet rs, String[] colNms, String sep) {
+		if (colNms == null) {
+			return "";
+		}
 		StringBuilder buffer = new StringBuilder();
 		int rowCount = 0;
 		for (int c = 0; c < colNms.length; c++) {

@@ -24,7 +24,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
  */
 public class DB {
 	private static Map<String, DataSource> _dsMap = new HashMap<String, DataSource>();
-	private static Log _logger = LogFactory.getLog(framework.db.DB.class);
+	protected static final Log logger = LogFactory.getLog(framework.db.DB.class);
 	private List<DBStatement> _stmtList = null;
 	private String _dsName = null;
 	private Object _caller = null;
@@ -100,8 +100,8 @@ public class DB {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		if (_getLogger().isDebugEnabled()) {
-			_getLogger().debug("DB연결 성공! : " + _dsName);
+		if (logger.isDebugEnabled()) {
+			logger.debug("DB연결 성공! : " + _dsName);
 		}
 	}
 
@@ -112,8 +112,8 @@ public class DB {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		if (_getLogger().isDebugEnabled()) {
-			_getLogger().debug("DB연결 성공! : " + url);
+		if (logger.isDebugEnabled()) {
+			logger.debug("DB연결 성공! : " + url);
 		}
 	}
 
@@ -138,19 +138,23 @@ public class DB {
 			try {
 				getConnection().rollback();
 			} catch (Exception e) {
-				_getLogger().error("Connection rollback error!", e);
+				if (logger.isErrorEnabled()) {
+					logger.error("Connection rollback error!", e);
+				}
 			}
 			try {
 				getConnection().close();
 			} catch (Exception e) {
-				_getLogger().error("Connection close error!", e);
+				if (logger.isErrorEnabled()) {
+					logger.error("Connection close error!", e);
+				}
 			}
-			if (_getLogger().isDebugEnabled()) {
-				_getLogger().debug("DB연결 종료! : " + _dsName);
+			if (logger.isDebugEnabled()) {
+				logger.debug("DB연결 종료! : " + _dsName);
 			}
 		} else {
-			if (_getLogger().isDebugEnabled()) {
-				_getLogger().debug("@CONNECTION IS NULL");
+			if (logger.isDebugEnabled()) {
+				logger.debug("@CONNECTION IS NULL");
 			}
 		}
 	}
@@ -159,6 +163,9 @@ public class DB {
 		try {
 			getConnection().rollback();
 		} catch (SQLException e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
 		}
 	}
 
@@ -166,10 +173,9 @@ public class DB {
 		try {
 			getConnection().setAutoCommit(isAuto);
 		} catch (SQLException e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
 		}
-	}
-
-	private Log _getLogger() {
-		return DB._logger;
 	}
 }

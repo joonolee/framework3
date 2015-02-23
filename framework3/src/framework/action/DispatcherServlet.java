@@ -25,8 +25,8 @@ import framework.util.StringUtil;
  */
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
-	private final Log _logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
-	private final String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
+	protected static final Log logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
+	private static final String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
 	private RequestDispatcher _defaultServletDispatcher = null;
 
 	/**
@@ -51,9 +51,9 @@ public class DispatcherServlet extends HttpServlet {
 			}
 			this._defaultServletDispatcher = getServletContext().getNamedDispatcher(defaultServletName);
 			if (this._defaultServletDispatcher == null) {
-				_getLogger().info("Default Servlet을 찾을 수 없습니다.");
+				logger.info("Default Servlet을 찾을 수 없습니다.");
 			} else {
-				_getLogger().info("Default Servlet을 찾았습니다. (" + defaultServletName + ")");
+				logger.info("Default Servlet을 찾았습니다. (" + defaultServletName + ")");
 			}
 		} catch (MissingResourceException e) {
 			throw new ServletException(e);
@@ -135,18 +135,20 @@ public class DispatcherServlet extends HttpServlet {
 				return;
 			}
 			long currTime = 0;
-			if (_getLogger().isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				currTime = System.currentTimeMillis();
-				_getLogger().debug("★★★ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 시작되었습니다");
-				_getLogger().debug("ContentLength : " + request.getContentLength() + "bytes");
+				logger.debug("★★★ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 시작되었습니다");
+				logger.debug("ContentLength : " + request.getContentLength() + "bytes");
 			}
 			controller.execute(this, request, response, actionMethod);
-			if (_getLogger().isDebugEnabled()) {
-				_getLogger().debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.currentTimeMillis() - currTime) + "ms\n");
+			if (logger.isDebugEnabled()) {
+				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.currentTimeMillis() - currTime) + "ms\n");
 			}
-		} catch (Exception e) {
-			_getLogger().error(e);
-			throw new RuntimeException(e);
+		} catch (Throwable e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
+			throw new ServletException(e);
 		}
 	}
 
@@ -160,8 +162,8 @@ public class DispatcherServlet extends HttpServlet {
 		try {
 			ResourceBundle bundle = (ResourceBundle) getServletContext().getAttribute("routes-mapping");
 			String value = ((String) bundle.getObject(routePath)).trim();
-			int period = value.lastIndexOf(".");
-			return new String[] { value.substring(0, period), value.substring(period + 1) };
+			int pos = value.lastIndexOf(".");
+			return new String[] { value.substring(0, pos), value.substring(pos + 1) };
 		} catch (MissingResourceException e) {
 			return null;
 		}
@@ -181,9 +183,5 @@ public class DispatcherServlet extends HttpServlet {
 			return false;
 		}
 		return true;
-	}
-
-	private Log _getLogger() {
-		return this._logger;
 	}
 }

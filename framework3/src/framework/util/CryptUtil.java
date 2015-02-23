@@ -1,6 +1,7 @@
 package framework.util;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -359,8 +360,9 @@ public class CryptUtil {
 		try {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
 			md.reset();
+			md.update("".getBytes());
 			return md.digest(message.getBytes());
-		} catch (Exception e) {
+		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -416,7 +418,7 @@ public class CryptUtil {
 			md.reset();
 			md.update(salt.getBytes());
 			return md.digest(message.getBytes());
-		} catch (Exception e) {
+		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		}
 	}

@@ -38,9 +38,7 @@ public class Config {
 	 * @return key에 매핑되어 있는 boolean형 변수
 	 */
 	public boolean getBoolean(String key) {
-		boolean value = false;
-		value = (Boolean.valueOf(_bundle.getString(key).trim())).booleanValue();
-		return value;
+		return (Boolean.valueOf(_bundle.getString(key).trim())).booleanValue();
 	}
 
 	/** 
@@ -49,9 +47,11 @@ public class Config {
 	 * @return key에 매핑되어 있는 int형 변수
 	 */
 	public int getInt(String key) {
-		int value = -1;
-		value = Integer.parseInt(_bundle.getString(key).trim());
-		return value;
+		try {
+			return Integer.parseInt(_bundle.getString(key).trim().replaceAll(",", ""));
+		} catch (NumberFormatException e) {
+			return -1;
+		}
 	}
 
 	/** 
@@ -60,9 +60,7 @@ public class Config {
 	 * @return key에 매핑되어 있는 String 객체
 	 */
 	public String getString(String key) {
-		String value = null;
-		value = _bundle.getString(key).trim();
-		return value;
+		return _bundle.getString(key).trim();
 	}
 
 	/**

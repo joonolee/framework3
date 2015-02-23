@@ -11,11 +11,7 @@ import org.apache.commons.logging.LogFactory;
  */
 @SuppressWarnings("serial")
 public abstract class ValueObject implements Serializable {
-	private static Log _logger = LogFactory.getLog(framework.db.ValueObject.class);
-
-	protected Log getLogger() {
-		return ValueObject._logger;
-	}
+	protected static final Log logger = LogFactory.getLog(framework.db.ValueObject.class);
 
 	public abstract Object[] getFieldsValue();
 

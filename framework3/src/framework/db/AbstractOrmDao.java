@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
  * 테이블을 CRUD 하는 DAO를 작성할때 상속받는 클래스
  */
 public abstract class AbstractOrmDao {
-	private static Log _logger = LogFactory.getLog(framework.db.AbstractOrmDao.class);
+	protected static final Log logger = LogFactory.getLog(framework.db.AbstractOrmDao.class);
 	protected DB db = null;
 
 	public AbstractOrmDao(DB db) {
@@ -22,35 +22,53 @@ public abstract class AbstractOrmDao {
 	protected RecordSet executeQuery(String query, Object[] where) {
 		RecordSet rs = null;
 		if (this.db == null) {
-			getLogger().error("executeQuery : Can't open DB Connection!");
+			if (logger.isErrorEnabled()) {
+				logger.error("executeQuery : Can't open DB Connection!");
+			}
 			return null;
 		}
-		SQLPreparedStatement pstmt = this.db.createPrepareStatement(query);
-		if (where != null) {
-			pstmt.set(where);
+		SQLPreparedStatement pstmt = null;
+		try {
+			pstmt = this.db.createPrepareStatement(query);
+			if (where != null) {
+				pstmt.set(where);
+			}
+			rs = pstmt.executeQuery();
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
 		}
-		rs = pstmt.executeQuery();
-		pstmt.close();
 		return rs;
 	}
 
 	protected int execute(String query, Object[] values) {
 		int result = 0;
 		if (this.db == null) {
-			getLogger().error("executeQuery : Can't open DB Connection!");
+			if (logger.isErrorEnabled()) {
+				logger.error("executeQuery : Can't open DB Connection!");
+			}
 			return 0;
 		}
-		SQLPreparedStatement pstmt = this.db.createPrepareStatement(query);
-		pstmt.set(values);
-		result = pstmt.executeUpdate();
-		pstmt.close();
+		SQLPreparedStatement pstmt = null;
+		try {
+			pstmt = this.db.createPrepareStatement(query);
+			pstmt.set(values);
+			result = pstmt.executeUpdate();
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+		}
 		return result;
 	}
 
 	public int[] save(ValueObjectArray voArray) {
 		int result[] = null;
 		if (this.db == null) {
-			getLogger().error("executeQuery : Can't open DB Connection!");
+			if (logger.isErrorEnabled()) {
+				logger.error("executeQuery : Can't open DB Connection!");
+			}
 			return null;
 		}
 		if (voArray.size() == 0) {
@@ -70,14 +88,20 @@ public abstract class AbstractOrmDao {
 	private int _executeArray(ValueObjectArray vo, String type, int[] result, int cnt) {
 		ValueObject[] values = null;
 		values = vo.get(type);
-		if (values == null || values.length < 1)
+		if (values == null || values.length == 0)
 			return 0;
-		SQLPreparedStatement pstmt = this.db.createPrepareStatement(_getSaveSql(type, vo.getUserKeys(), vo.getUserFields()));
-		for (int i = 0; i < values.length; i++) {
-			pstmt.set(_getSaveValue(values[i], type, vo.getUserKeys(), vo.getUserFields()));
-			result[cnt++] = pstmt.executeUpdate();
+		SQLPreparedStatement pstmt = null;
+		try {
+			pstmt = this.db.createPrepareStatement(_getSaveSql(type, vo.getUserKeys(), vo.getUserFields()));
+			for (int i = 0; i < values.length; i++) {
+				pstmt.set(_getSaveValue(values[i], type, vo.getUserKeys(), vo.getUserFields()));
+				result[cnt++] = pstmt.executeUpdate();
+			}
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
 		}
-		pstmt.close();
 		return values.length;
 	}
 
@@ -135,10 +159,6 @@ public abstract class AbstractOrmDao {
 
 	public int userDelete(ValueObject vo, String[] keyNames) {
 		return execute(getUserDeleteSql(keyNames), vo.getUserDeleteValue(keyNames));
-	}
-
-	protected Log getLogger() {
-		return AbstractOrmDao._logger;
 	}
 
 	public abstract String getInsertSql();

@@ -78,14 +78,12 @@ public class XSSFilter implements Filter {
 
 		@Override
 		public String getParameter(String parameter) {
-			String value = super.getParameter(parameter);
-			return stripXSS(value);
+			return stripXSS(super.getParameter(parameter));
 		}
 
 		@Override
 		public String getHeader(String name) {
-			String value = super.getHeader(name);
-			return stripXSS(value);
+			return stripXSS(super.getHeader(name));
 		}
 
 		private String stripXSS(String value) {

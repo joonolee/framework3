@@ -32,7 +32,9 @@ public class SQLStatement extends DBStatement {
 				_stmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
-			getLogger().error("getStatement Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("getStatement Error!");
+			}
 			throw new RuntimeException(e);
 		}
 		return _stmt;
@@ -44,7 +46,9 @@ public class SQLStatement extends DBStatement {
 			try {
 				_stmt.close();
 			} catch (SQLException e) {
-				getLogger().error("close Error!");
+				if (logger.isErrorEnabled()) {
+					logger.error("close Error!");
+				}
 				throw new RuntimeException(e);
 			}
 		}
@@ -52,23 +56,27 @@ public class SQLStatement extends DBStatement {
 
 	public RecordSet executeQuery(int currPage, int pageSize) {
 		if (getSQL() == null) {
-			getLogger().error("Query is Null");
+			if (logger.isErrorEnabled()) {
+				logger.error("Query is Null");
+			}
 			return null;
 		}
 		try {
 			Statement stmt = getStatement();
-			if (getLogger().isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
 				log.append("@Sql Start (STATEMENT) FetchSize : " + stmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getSQL());
-				getLogger().debug(log.toString());
+				logger.debug(log.toString());
 			}
 			_rs = new RecordSet(stmt.executeQuery(getSQL()), currPage, pageSize);
-			if (getLogger().isDebugEnabled()) {
-				getLogger().debug("@Sql End (STATEMENT)");
+			if (logger.isDebugEnabled()) {
+				logger.debug("@Sql End (STATEMENT)");
 			}
 		} catch (SQLException e) {
-			getLogger().error("executeQuery Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("executeQuery Error!");
+			}
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
 		}
 		return _rs;
@@ -90,23 +98,27 @@ public class SQLStatement extends DBStatement {
 
 	public int executeUpdate() {
 		if (getSQL() == null) {
-			getLogger().error("Query is Null");
+			if (logger.isErrorEnabled()) {
+				logger.error("Query is Null");
+			}
 			return 0;
 		}
 		try {
 			Statement stmt = getStatement();
-			if (getLogger().isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
 				log.append("@Sql Start (STATEMENT) FetchSize : " + stmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getSQL());
-				getLogger().debug(log.toString());
+				logger.debug(log.toString());
 			}
 			_upCnt = stmt.executeUpdate(getSQL());
-			if (getLogger().isDebugEnabled()) {
-				getLogger().debug("@Sql End (STATEMENT)");
+			if (logger.isDebugEnabled()) {
+				logger.debug("@Sql End (STATEMENT)");
 			}
 		} catch (SQLException e) {
-			getLogger().error("executeUpdate Error!");
+			if (logger.isErrorEnabled()) {
+				logger.error("executeUpdate Error!");
+			}
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
 		}
 		return _upCnt;
