@@ -71,8 +71,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray) {
-		if (datasetNameArray.length != rsArray.length)
+		if (datasetNameArray.length != rsArray.length) {
 			throw new IllegalArgumentException("DataSet이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		}
 		int rowCount = 0;
 		try {
 			GauceOutputStream gos = getGOS(response);
@@ -82,7 +83,7 @@ public class GauceUtil {
 				rowCount += _appendDataSet(dSet, rsArray[i]);
 				gos.write(dSet);
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -111,8 +112,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet[] dSetArray, RecordSet[] rsArray) {
-		if (dSetArray.length != rsArray.length)
+		if (dSetArray.length != rsArray.length) {
 			throw new IllegalArgumentException("DataSet 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		}
 		int rowCount = 0;
 		try {
 			GauceOutputStream gos = getGOS(response);
@@ -122,7 +124,7 @@ public class GauceUtil {
 				rowCount += _appendDataSet(dSet, rsArray[i]);
 				gos.write(dSet);
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -163,8 +165,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray) {
-		if (datasetNameArray.length != rsArray.length)
+		if (datasetNameArray.length != rsArray.length) {
 			throw new IllegalArgumentException("DataSet이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		}
 		int rowCount = 0;
 		try {
 			GauceOutputStream gos = getGOS(response);
@@ -174,7 +177,7 @@ public class GauceUtil {
 				rowCount += _appendDataSet(dSet, rsArray[i]);
 				gos.write(dSet);
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -203,8 +206,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet[] dSetArray, ResultSet[] rsArray) {
-		if (dSetArray.length != rsArray.length)
+		if (dSetArray.length != rsArray.length) {
 			throw new IllegalArgumentException("DataSet 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		}
 		int rowCount = 0;
 		try {
 			GauceOutputStream gos = getGOS(response);
@@ -214,7 +218,7 @@ public class GauceUtil {
 				rowCount += _appendDataSet(dSet, rsArray[i]);
 				gos.write(dSet);
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -342,13 +346,13 @@ public class GauceUtil {
 		try {
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				String[] colInfo = new String[count];
-				int[] colSize = new int[count];
-				int[] colSizeReal = new int[count];
-				int[] colScale = new int[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				String[] colInfo = new String[cnt];
+				int[] colSize = new int[cnt];
+				int[] colSizeReal = new int[cnt];
+				int[] colScale = new int[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 					//Fiels 의 정보 및 Size 추가
@@ -372,12 +376,26 @@ public class GauceUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -437,7 +455,7 @@ public class GauceUtil {
 				}
 			}
 			dSet.heap();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}

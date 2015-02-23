@@ -76,23 +76,20 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray, int dataFormat) {
-		if (datasetNameArray.length != rsArray.length)
+		if (datasetNameArray.length != rsArray.length) {
 			throw new IllegalArgumentException("Dataset이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
+		}
 		int rowCount = 0;
 		VariableList vl = new VariableList();
 		DatasetList dl = new DatasetList();
-		try {
-			for (int i = 0, len = rsArray.length; i < len; i++) {
-				Dataset dSet = new Dataset(datasetNameArray[i], "utf-8", false, false);
-				rowCount += _appendDataset(dSet, rsArray[i]);
-				dl.addDataset(dSet);
-			}
-			vl.addStr("ErrorCode", "0");
-			vl.addStr("ErrorMsg", "SUCC");
-			sendData(response, vl, dl, dataFormat);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		for (int i = 0, len = rsArray.length; i < len; i++) {
+			Dataset dSet = new Dataset(datasetNameArray[i], "utf-8", false, false);
+			rowCount += _appendDataset(dSet, rsArray[i]);
+			dl.addDataset(dSet);
 		}
+		vl.addStr("ErrorCode", "0");
+		vl.addStr("ErrorMsg", "SUCC");
+		sendData(response, vl, dl, dataFormat);
 		return rowCount;
 	}
 
@@ -121,23 +118,20 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray, int dataFormat) {
-		if (datasetNameArray.length != rsArray.length)
+		if (datasetNameArray.length != rsArray.length) {
 			throw new IllegalArgumentException("Dataset이름 갯수와 ResultSet갯수가 일치하지 않습니다.");
-		int rowCount = 0;
-		try {
-			VariableList vl = new VariableList();
-			DatasetList dl = new DatasetList();
-			for (int i = 0, len = rsArray.length; i < len; i++) {
-				Dataset dSet = new Dataset(datasetNameArray[i], "utf-8", false, false);
-				rowCount += _appendDataset(dSet, rsArray[i]);
-				dl.addDataset(dSet);
-			}
-			vl.addStr("ErrorCode", "0");
-			vl.addStr("ErrorMsg", "SUCC");
-			sendData(response, vl, dl, dataFormat);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
+		int rowCount = 0;
+		VariableList vl = new VariableList();
+		DatasetList dl = new DatasetList();
+		for (int i = 0, len = rsArray.length; i < len; i++) {
+			Dataset dSet = new Dataset(datasetNameArray[i], "utf-8", false, false);
+			rowCount += _appendDataset(dSet, rsArray[i]);
+			dl.addDataset(dSet);
+		}
+		vl.addStr("ErrorCode", "0");
+		vl.addStr("ErrorMsg", "SUCC");
+		sendData(response, vl, dl, dataFormat);
 		return rowCount;
 	}
 
@@ -282,7 +276,7 @@ public class MiPlatformUtil {
 		Double num = null;
 		try {
 			num = Double.valueOf(value);
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			num = Double.valueOf(0);
 		}
 		return num;
@@ -337,7 +331,7 @@ public class MiPlatformUtil {
 		}
 		try {
 			return new BigDecimal(value);
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			return BigDecimal.valueOf(0);
 		}
 	}
@@ -392,11 +386,11 @@ public class MiPlatformUtil {
 		try {
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				int[] colSize = new int[count];
-				int[] colType = new int[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				int[] colSize = new int[cnt];
+				int[] colType = new int[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 					//Field 의 정보 및 Size 추가
@@ -438,12 +432,26 @@ public class MiPlatformUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -452,8 +460,9 @@ public class MiPlatformUtil {
 	 * 마이플랫폼 데이타셋에 RecordSet 한행 추가
 	 */
 	private static void _appendRow(Dataset dSet, RecordSet rs, String[] colNms) {
-		if (rs.getRowCount() == 0)
+		if (rs.getRowCount() == 0) {
 			return;
+		}
 		int row = dSet.appendRow();
 		for (int c = 0; c < colNms.length; c++) {
 			Object value = rs.get(colNms[c]);
@@ -474,8 +483,9 @@ public class MiPlatformUtil {
 	 */
 	private static void _appendRow(Dataset dSet, ResultSet rs, String[] colNms) {
 		try {
-			if (rs.getRow() == 0)
+			if (rs.getRow() == 0) {
 				return;
+			}
 			int row = dSet.appendRow();
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.getObject(colNms[c]);
@@ -489,7 +499,7 @@ public class MiPlatformUtil {
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}

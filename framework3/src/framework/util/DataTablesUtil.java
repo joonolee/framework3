@@ -107,7 +107,7 @@ public class DataTablesUtil {
 	public static String render(RecordSet rs) {
 		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		String[] colNms = rs.getColumns();
 		rs.moveRow(0);
@@ -136,7 +136,7 @@ public class DataTablesUtil {
 	public static String render(RecordSet rs, String[] colNames) {
 		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		rs.moveRow(0);
 		buffer.append("{");
@@ -169,8 +169,8 @@ public class DataTablesUtil {
 			PrintWriter pw = response.getWriter();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
 				pw.print("{");
 				int rowCount = 0;
 				pw.print("\"aaData\":[");
@@ -192,12 +192,26 @@ public class DataTablesUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -239,12 +253,26 @@ public class DataTablesUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -258,14 +286,14 @@ public class DataTablesUtil {
 	 */
 	public static String render(ResultSet rs) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		try {
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
 				int rowCount = 0;
 				buffer.append("{");
 				buffer.append("\"aaData\":[");
@@ -286,10 +314,24 @@ public class DataTablesUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -307,7 +349,7 @@ public class DataTablesUtil {
 	 */
 	public static String render(ResultSet rs, String[] colNames) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		try {
@@ -332,10 +374,24 @@ public class DataTablesUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -352,7 +408,7 @@ public class DataTablesUtil {
 	 */
 	public static String render(List<Map<String, Object>> mapList) {
 		if (mapList == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("{");

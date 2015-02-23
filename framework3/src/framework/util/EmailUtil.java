@@ -306,7 +306,7 @@ public class EmailUtil {
 				message.setContent(multipart);
 			}
 			Transport.send(message);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}

@@ -31,16 +31,20 @@ public class PagingUtil {
 		int l_afterpage = 0;
 		Map<String, Integer> resultMap = new HashMap<String, Integer>();
 		int l_totalpage = l_totcnt / l_pagesize;
-		if (l_totcnt % l_pagesize != 0)
+		if (l_totcnt % l_pagesize != 0) {
 			l_totalpage += 1;
+		}
 		int l_startpage = (((l_pagenum - 1) / l_displaysize) * l_displaysize) + 1;
 		int l_endpage = (((l_pagenum - 1) + l_displaysize) / l_displaysize) * l_displaysize;
-		if (l_totalpage <= l_endpage)
+		if (l_totalpage <= l_endpage) {
 			l_endpage = l_totalpage;
-		if ((l_startpage - l_displaysize) > 0)
+		}
+		if ((l_startpage - l_displaysize) > 0) {
 			l_beforepage = ((((l_pagenum - l_displaysize) - 1) / l_displaysize) * l_displaysize) + 1;
-		if ((l_startpage + l_displaysize) <= l_totalpage)
+		}
+		if ((l_startpage + l_displaysize) <= l_totalpage) {
 			l_afterpage = ((((l_pagenum + l_displaysize) - 1) / l_displaysize) * l_displaysize) + 1;
+		}
 		resultMap.put("totcnt", Integer.valueOf(totcnt));
 		resultMap.put("totalpage", Integer.valueOf(l_totalpage));
 		resultMap.put("pagenum", Integer.valueOf(l_pagenum));

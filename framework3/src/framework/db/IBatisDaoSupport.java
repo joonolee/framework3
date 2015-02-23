@@ -29,7 +29,7 @@ public class IBatisDaoSupport {
 		try {
 			reader = Resources.getResourceAsReader("ibatis-config.xml");
 			sqlMapClient = SqlMapClientBuilder.buildSqlMapClient(reader);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException("Something bad happened while building the SqlMapClient instance." + e, e);
 		} finally {
 			if (reader != null) {
@@ -82,7 +82,7 @@ public class IBatisDaoSupport {
 	public List<?> executeBatchDetailed() {
 		try {
 			return sqlMapSession.executeBatchDetailed();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}

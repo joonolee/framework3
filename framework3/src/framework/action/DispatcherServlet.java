@@ -128,7 +128,7 @@ public class DispatcherServlet extends HttpServlet {
 				if (!_isActionMethod(actionMethod)) {
 					throw new Exception("호출할 수 없는 메소드입니다.");
 				}
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				if (this._defaultServletDispatcher != null) {
 					this._defaultServletDispatcher.forward(request, response);
 				}

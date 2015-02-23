@@ -109,17 +109,17 @@ public class RDUtil {
 		if (rs == null) {
 			return "";
 		}
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		String[] colNms = rs.getColumns();
 		rs.moveRow(0);
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			if (rowCount++ > 0) {
-				buffer.append(lineSep);
+				buf.append(lineSep);
 			}
-			buffer.append(_rdRowStr(rs, colNms, colSep));
+			buf.append(_rdRowStr(rs, colNms, colSep));
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	/**
@@ -132,9 +132,6 @@ public class RDUtil {
 	 * @return 처리건수 
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
-		if (rs == null) {
-			return 0;
-		}
 		return render(response, rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
@@ -156,9 +153,9 @@ public class RDUtil {
 			PrintWriter pw = response.getWriter();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -179,12 +176,26 @@ public class RDUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -214,22 +225,22 @@ public class RDUtil {
 		if (rs == null) {
 			return "";
 		}
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		try {
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
 				while (rs.next()) {
 					if (rowCount++ > 0) {
-						buffer.append(lineSep);
+						buf.append(lineSep);
 					}
-					buffer.append(_rdRowStr(rs, colNms, colSep));
+					buf.append(_rdRowStr(rs, colNms, colSep));
 				}
 			} finally {
 				Statement stmt = null;
@@ -240,15 +251,29 @@ public class RDUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	/**
@@ -275,9 +300,9 @@ public class RDUtil {
 		if (map == null) {
 			return "";
 		}
-		StringBuilder buffer = new StringBuilder();
-		buffer.append(_rdRowStr(map, colSep));
-		return buffer.toString();
+		StringBuilder buf = new StringBuilder();
+		buf.append(_rdRowStr(map, colSep));
+		return buf.toString();
 	}
 
 	/**
@@ -305,15 +330,15 @@ public class RDUtil {
 		if (mapList == null) {
 			return "";
 		}
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		if (mapList.size() > 0) {
 			for (Map<String, Object> map : mapList) {
-				buffer.append(_rdRowStr(map, colSep));
-				buffer.append(lineSep);
+				buf.append(_rdRowStr(map, colSep));
+				buf.append(lineSep);
 			}
-			buffer.delete(buffer.length() - lineSep.length(), buffer.length());
+			buf.delete(buf.length() - lineSep.length(), buf.length());
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
@@ -334,15 +359,15 @@ public class RDUtil {
 	 * RD(리포트디자이너) 용 Row 문자열 생성
 	 */
 	private static String _rdRowStr(Map<String, Object> map, String colSep) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object value = entry.getValue();
 			if (value != null) {
-				buffer.append(_escapeRD(value.toString()));
+				buf.append(_escapeRD(value.toString()));
 			}
-			buffer.append(colSep);
+			buf.append(colSep);
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	/**
@@ -352,31 +377,31 @@ public class RDUtil {
 		if (colNms == null) {
 			return "";
 		}
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		for (int c = 0; c < colNms.length; c++) {
 			if (rs.get(colNms[c]) != null) {
-				buffer.append(_escapeRD(rs.getString(colNms[c])));
+				buf.append(_escapeRD(rs.getString(colNms[c])));
 			}
-			buffer.append(colSep);
+			buf.append(colSep);
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	private static String _rdRowStr(ResultSet rs, String[] colNms, String colSep) {
 		if (colNms == null) {
 			return "";
 		}
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		try {
 			for (int c = 0; c < colNms.length; c++) {
 				if (rs.getObject(colNms[c]) != null) {
-					buffer.append(_escapeRD(rs.getString(colNms[c])));
+					buf.append(_escapeRD(rs.getString(colNms[c])));
 				}
-				buffer.append(colSep);
+				buf.append(colSep);
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 }

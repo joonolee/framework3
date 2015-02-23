@@ -75,7 +75,7 @@ public class Memcached extends AbstractCache {
 		Future<Object> future = _client.asyncGet(key);
 		try {
 			return future.get(1, TimeUnit.SECONDS);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			future.cancel(false);
 		}
 		return null;
@@ -86,7 +86,7 @@ public class Memcached extends AbstractCache {
 		Future<Map<String, Object>> future = _client.asyncGetBulk(keys);
 		try {
 			return future.get(1, TimeUnit.SECONDS);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			future.cancel(false);
 		}
 		return Collections.<String, Object> emptyMap();

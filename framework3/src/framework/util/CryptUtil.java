@@ -284,7 +284,7 @@ public class CryptUtil {
 			Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
 			return new String(Hex.encodeHex(cipher.doFinal(message.getBytes())));
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -301,7 +301,7 @@ public class CryptUtil {
 			Cipher cipher = Cipher.getInstance("AES");
 			cipher.init(Cipher.DECRYPT_MODE, skeySpec);
 			return new String(cipher.doFinal(Hex.decodeHex(message.toCharArray())));
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -318,7 +318,7 @@ public class CryptUtil {
 			Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
 			return Hex.encodeHexString(cipher.doFinal(message.getBytes()));
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -335,7 +335,7 @@ public class CryptUtil {
 			Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 			cipher.init(Cipher.DECRYPT_MODE, skeySpec);
 			return new String(cipher.doFinal(Hex.decodeHex(message.toCharArray())));
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -390,7 +390,7 @@ public class CryptUtil {
 			Mac mac = Mac.getInstance(algorithm);
 			mac.init(skeySpec);
 			return mac.doFinal((message.getBytes()));
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}

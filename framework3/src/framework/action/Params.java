@@ -100,7 +100,7 @@ public class Params extends HashMap<String, String[]> {
 						params._addFileItem(item);
 					}
 				}
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				throw new RuntimeException(e);
 			}
 		}

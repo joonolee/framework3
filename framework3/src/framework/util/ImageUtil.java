@@ -132,7 +132,7 @@ public class ImageUtil {
 			response.reset();
 			response.setContentType("image/png");
 			qrcode(url, response.getOutputStream(), width);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -149,7 +149,7 @@ public class ImageUtil {
 			String l_url = new String(url.getBytes("UTF-8"), "ISO-8859-1");
 			BitMatrix l_bit_matrix = l_qr_writer.encode(l_url, BarcodeFormat.QR_CODE, width, width);
 			MatrixToImageWriter.writeToStream(l_bit_matrix, "png", os);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}

@@ -83,20 +83,20 @@ public class HttpUtil {
 		int statusCode = 0;
 		String content = "";
 		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpGet get = new HttpGet(url);
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpGet httpGet = new HttpGet(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
-					get.addHeader(entry.getKey(), entry.getValue());
+					httpGet.addHeader(entry.getKey(), entry.getValue());
 				}
 			}
-			HttpResponse responseGet = client.execute(get);
+			HttpResponse responseGet = httpClient.execute(httpGet);
 			statusCode = responseGet.getStatusLine().getStatusCode();
 			HttpEntity resEntityGet = responseGet.getEntity();
 			if (resEntityGet != null) {
 				content = EntityUtils.toString(resEntityGet);
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return new Result(statusCode, content);
@@ -132,11 +132,11 @@ public class HttpUtil {
 		int statusCode = 0;
 		String content = "";
 		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost(url);
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
-					post.addHeader(entry.getKey(), entry.getValue());
+					httpPost.addHeader(entry.getKey(), entry.getValue());
 				}
 			}
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -146,14 +146,14 @@ public class HttpUtil {
 				}
 			}
 			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, "UTF-8");
-			post.setEntity(ent);
-			HttpResponse responsePOST = client.execute(post);
+			httpPost.setEntity(ent);
+			HttpResponse responsePOST = httpClient.execute(httpPost);
 			statusCode = responsePOST.getStatusLine().getStatusCode();
 			HttpEntity resEntity = responsePOST.getEntity();
 			if (resEntity != null) {
 				content = EntityUtils.toString(resEntity);
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return new Result(statusCode, content);
@@ -182,11 +182,11 @@ public class HttpUtil {
 		int statusCode = 0;
 		String content = "";
 		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost(url);
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
-					post.addHeader(entry.getKey(), entry.getValue());
+					httpPost.addHeader(entry.getKey(), entry.getValue());
 				}
 			}
 			MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -201,14 +201,14 @@ public class HttpUtil {
 					reqEntity.addPart("userfile", contentBody);
 				}
 			}
-			post.setEntity(reqEntity);
-			HttpResponse response = client.execute(post);
+			httpPost.setEntity(reqEntity);
+			HttpResponse response = httpClient.execute(httpPost);
 			statusCode = response.getStatusLine().getStatusCode();
 			HttpEntity resEntity = response.getEntity();
 			if (resEntity != null) {
 				content = EntityUtils.toString(resEntity);
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return new Result(statusCode, content);

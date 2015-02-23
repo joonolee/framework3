@@ -70,7 +70,7 @@ public class XmlUtil {
 	 */
 	public static String render(RecordSet rs) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		String[] colNms = rs.getColumns();
@@ -93,12 +93,12 @@ public class XmlUtil {
 	 */
 	public static String render(RecordSet rs, String encoding) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
-		StringBuilder buffer = new StringBuilder();
-		buffer.append(_xmlHeaderStr(encoding));
-		buffer.append(render(rs));
-		return buffer.toString();
+		StringBuilder buf = new StringBuilder();
+		buf.append(_xmlHeaderStr(encoding));
+		buf.append(render(rs));
+		return buf.toString();
 	}
 
 	/**
@@ -118,9 +118,9 @@ public class XmlUtil {
 			PrintWriter pw = response.getWriter();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -142,12 +142,26 @@ public class XmlUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -160,15 +174,15 @@ public class XmlUtil {
 	 */
 	public static String render(ResultSet rs) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		try {
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -186,12 +200,26 @@ public class XmlUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		return buffer.toString();
@@ -206,15 +234,11 @@ public class XmlUtil {
 	 */
 	public static String render(ResultSet rs, String encoding) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
-		try {
-			buffer.append(_xmlHeaderStr(encoding));
-			buffer.append(render(rs));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		buffer.append(_xmlHeaderStr(encoding));
+		buffer.append(render(rs));
 		return buffer.toString();
 	}
 
@@ -227,7 +251,7 @@ public class XmlUtil {
 	 */
 	public static String render(Map<String, Object> map) {
 		if (map == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<items>");
@@ -246,7 +270,7 @@ public class XmlUtil {
 	 */
 	public static String render(Map<String, Object> map, String encoding) {
 		if (map == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append(_xmlHeaderStr(encoding));
@@ -263,7 +287,7 @@ public class XmlUtil {
 	 */
 	public static String render(List<Map<String, Object>> mapList) {
 		if (mapList == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<items>");
@@ -284,7 +308,7 @@ public class XmlUtil {
 	 */
 	public static String render(List<Map<String, Object>> mapList, String encoding) {
 		if (mapList == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append(_xmlHeaderStr(encoding));

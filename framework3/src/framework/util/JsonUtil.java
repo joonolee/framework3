@@ -71,22 +71,22 @@ public class JsonUtil {
 	 * @return JSON 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs) {
-		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		String[] colNms = rs.getColumns();
 		rs.moveRow(0);
-		buffer.append("[");
+		StringBuilder buf = new StringBuilder();
+		buf.append("[");
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			if (rowCount++ > 0) {
-				buffer.append(",");
+				buf.append(",");
 			}
-			buffer.append(_jsonRowStr(rs, colNms));
+			buf.append(_jsonRowStr(rs, colNms));
 		}
-		buffer.append("]");
-		return buffer.toString();
+		buf.append("]");
+		return buf.toString();
 	}
 
 	/**
@@ -105,9 +105,9 @@ public class JsonUtil {
 			PrintWriter pw = response.getWriter();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -130,12 +130,26 @@ public class JsonUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -149,15 +163,15 @@ public class JsonUtil {
 	 */
 	public static String render(ResultSet rs) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		try {
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -179,12 +193,26 @@ public class JsonUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return buffer.toString();
@@ -199,7 +227,7 @@ public class JsonUtil {
 	 */
 	public static String render(Map<String, Object> map) {
 		if (map == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append(_jsonRowStr(map));
@@ -215,7 +243,7 @@ public class JsonUtil {
 	 */
 	public static String render(List<Map<String, Object>> mapList) {
 		if (mapList == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		if (mapList.size() > 0) {
@@ -272,35 +300,35 @@ public class JsonUtil {
 	 * @return Object 형식으로 변환된 객체
 	 */
 	public static String pretty(String json, String indent) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		int level = 0;
 		String target = null;
 		for (int i = 0; i < json.length(); i++) {
 			target = json.substring(i, i + 1);
 			if (target.equals("{") || target.equals("[")) {
-				buffer.append(target).append("\n");
+				buf.append(target).append("\n");
 				level++;
 				for (int j = 0; j < level; j++) {
-					buffer.append(indent);
+					buf.append(indent);
 				}
 			} else if (target.equals("}") || target.equals("]")) {
-				buffer.append("\n");
+				buf.append("\n");
 				level--;
 				for (int j = 0; j < level; j++) {
-					buffer.append(indent);
+					buf.append(indent);
 				}
-				buffer.append(target);
+				buf.append(target);
 			} else if (target.equals(",")) {
-				buffer.append(target);
-				buffer.append("\n");
+				buf.append(target);
+				buf.append("\n");
 				for (int j = 0; j < level; j++) {
-					buffer.append(indent);
+					buf.append(indent);
 				}
 			} else {
-				buffer.append(target);
+				buf.append(target);
 			}
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	/**
@@ -321,69 +349,69 @@ public class JsonUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	private static String _jsonRowStr(Map<String, Object> map) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		if (map.entrySet().size() > 0) {
-			buffer.append("{");
+			buf.append("{");
 			for (Entry<String, Object> entry : map.entrySet()) {
 				String key = "\"" + escapeJS(entry.getKey().toLowerCase()) + "\"";
 				Object value = entry.getValue();
 				if (value == null) {
-					buffer.append(key + ":" + "\"\"");
+					buf.append(key + ":" + "\"\"");
 				} else {
 					if (value instanceof Number || value instanceof Boolean) {
-						buffer.append(key + ":" + value.toString());
+						buf.append(key + ":" + value.toString());
 					} else if (value instanceof Map) {
-						buffer.append(key + ":" + render((Map<String, Object>) value));
+						buf.append(key + ":" + render((Map<String, Object>) value));
 					} else if (value instanceof List) {
-						buffer.append(key + ":" + render((List<Map<String, Object>>) value));
+						buf.append(key + ":" + render((List<Map<String, Object>>) value));
 					} else {
-						buffer.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
+						buf.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
 					}
 				}
-				buffer.append(",");
+				buf.append(",");
 			}
-			buffer.delete(buffer.length() - 1, buffer.length());
-			buffer.append("}");
+			buf.delete(buf.length() - 1, buf.length());
+			buf.append("}");
 		} else {
-			buffer.append("{}");
+			buf.append("{}");
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	/**
 	 * JSON 용 Row 문자열 생성
 	 */
 	private static String _jsonRowStr(RecordSet rs, String[] colNms) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		if (colNms != null && colNms.length > 0) {
-			buffer.append("{");
+			buf.append("{");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.get(colNms[c]);
 				String key = "\"" + escapeJS(colNms[c].toLowerCase()) + "\"";
 
 				if (value == null) {
-					buffer.append(key + ":" + "\"\"");
+					buf.append(key + ":" + "\"\"");
 				} else {
 					if (value instanceof Number || value instanceof Boolean) {
-						buffer.append(key + ":" + value.toString());
+						buf.append(key + ":" + value.toString());
 					} else {
-						buffer.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
+						buf.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
 					}
 				}
-				buffer.append(",");
+				buf.append(",");
 			}
-			buffer.delete(buffer.length() - 1, buffer.length());
-			buffer.append("}");
+			buf.delete(buf.length() - 1, buf.length());
+			buf.append("}");
 		} else {
-			buffer.append("{}");
+			buf.append("{}");
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	private static String _jsonRowStr(ResultSet rs, String[] colNms) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		if (colNms.length > 0) {
-			buffer.append("{");
+			buf.append("{");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value;
 				try {
@@ -394,21 +422,21 @@ public class JsonUtil {
 				String key = "\"" + escapeJS(colNms[c].toLowerCase()) + "\"";
 
 				if (value == null) {
-					buffer.append(key + ":" + "\"\"");
+					buf.append(key + ":" + "\"\"");
 				} else {
 					if (value instanceof Number || value instanceof Boolean) {
-						buffer.append(key + ":" + value.toString());
+						buf.append(key + ":" + value.toString());
 					} else {
-						buffer.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
+						buf.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
 					}
 				}
-				buffer.append(",");
+				buf.append(",");
 			}
-			buffer.delete(buffer.length() - 1, buffer.length());
-			buffer.append("}");
+			buf.delete(buf.length() - 1, buf.length());
+			buf.append("}");
 		} else {
-			buffer.append("{}");
+			buf.append("{}");
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 }

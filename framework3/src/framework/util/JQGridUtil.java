@@ -46,8 +46,9 @@ public class JQGridUtil {
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
 		int totalPage = totalCount / rowsPerPage;
-		if (totalCount % rowsPerPage != 0)
+		if (totalCount % rowsPerPage != 0) {
 			totalPage += 1;
+		}
 		PrintWriter pw;
 		try {
 			pw = response.getWriter();
@@ -94,8 +95,9 @@ public class JQGridUtil {
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
 		int totalPage = totalCount / rowsPerPage;
-		if (totalCount % rowsPerPage != 0)
+		if (totalCount % rowsPerPage != 0) {
 			totalPage += 1;
+		}
 		PrintWriter pw;
 		try {
 			pw = response.getWriter();
@@ -134,34 +136,35 @@ public class JQGridUtil {
 	 * @return jqGrid 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage) {
-		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
 		int totalPage = totalCount / rowsPerPage;
-		if (totalCount % rowsPerPage != 0)
+		if (totalCount % rowsPerPage != 0) {
 			totalPage += 1;
+		}
 		String[] colNms = rs.getColumns();
 		rs.moveRow(0);
-		buffer.append("{");
+		StringBuilder buf = new StringBuilder();
+		buf.append("{");
 		int rowCount = 0;
-		buffer.append("\"rows\":[");
+		buf.append("\"rows\":[");
 		while (rs.nextRow()) {
 			if (rowCount++ > 0) {
-				buffer.append(",");
+				buf.append(",");
 			}
-			buffer.append("{");
-			buffer.append("\"id\":" + rowCount + ",");
-			buffer.append("\"cell\":" + _jqGridRowStr(rs, colNms));
-			buffer.append("}");
+			buf.append("{");
+			buf.append("\"id\":" + rowCount + ",");
+			buf.append("\"cell\":" + _jqGridRowStr(rs, colNms));
+			buf.append("}");
 		}
-		buffer.append("],");
-		buffer.append("\"total\":" + totalPage + ",");
-		buffer.append("\"page\":" + currentPage + ",");
-		buffer.append("\"records\":" + totalCount);
-		buffer.append("}");
-		return buffer.toString();
+		buf.append("],");
+		buf.append("\"total\":" + totalPage + ",");
+		buf.append("\"page\":" + currentPage + ",");
+		buf.append("\"records\":" + totalCount);
+		buf.append("}");
+		return buf.toString();
 	}
 
 	/**
@@ -176,33 +179,34 @@ public class JQGridUtil {
 	 * @return jqGrid 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
-		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
 		int totalPage = totalCount / rowsPerPage;
-		if (totalCount % rowsPerPage != 0)
+		if (totalCount % rowsPerPage != 0) {
 			totalPage += 1;
+		}
 		rs.moveRow(0);
-		buffer.append("{");
+		StringBuilder buf = new StringBuilder();
+		buf.append("{");
 		int rowCount = 0;
-		buffer.append("\"rows\":[");
+		buf.append("\"rows\":[");
 		while (rs.nextRow()) {
 			if (rowCount++ > 0) {
-				buffer.append(",");
+				buf.append(",");
 			}
-			buffer.append("{");
-			buffer.append("\"id\":" + rowCount + ",");
-			buffer.append("\"cell\":" + _jqGridRowStr(rs, colNames));
-			buffer.append("}");
+			buf.append("{");
+			buf.append("\"id\":" + rowCount + ",");
+			buf.append("\"cell\":" + _jqGridRowStr(rs, colNames));
+			buf.append("}");
 		}
-		buffer.append("],");
-		buffer.append("\"total\":" + totalPage + ",");
-		buffer.append("\"page\":" + currentPage + ",");
-		buffer.append("\"records\":" + totalCount);
-		buffer.append("}");
-		return buffer.toString();
+		buf.append("],");
+		buf.append("\"total\":" + totalPage + ",");
+		buf.append("\"page\":" + currentPage + ",");
+		buf.append("\"records\":" + totalCount);
+		buf.append("}");
+		return buf.toString();
 	}
 
 	/**
@@ -222,14 +226,15 @@ public class JQGridUtil {
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
 		int totalPage = totalCount / rowsPerPage;
-		if (totalCount % rowsPerPage != 0)
+		if (totalCount % rowsPerPage != 0) {
 			totalPage += 1;
+		}
 		try {
 			PrintWriter pw = response.getWriter();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
 				pw.print("{");
 				int rowCount = 0;
 				pw.print("\"rows\":[");
@@ -257,12 +262,26 @@ public class JQGridUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -285,8 +304,9 @@ public class JQGridUtil {
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
 		int totalPage = totalCount / rowsPerPage;
-		if (totalCount % rowsPerPage != 0)
+		if (totalCount % rowsPerPage != 0) {
 			totalPage += 1;
+		}
 		try {
 			PrintWriter pw = response.getWriter();
 			try {
@@ -317,12 +337,26 @@ public class JQGridUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -339,35 +373,36 @@ public class JQGridUtil {
 	 */
 	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
 		int totalPage = totalCount / rowsPerPage;
-		if (totalCount % rowsPerPage != 0)
+		if (totalCount % rowsPerPage != 0) {
 			totalPage += 1;
-		StringBuilder buffer = new StringBuilder();
+		}
+		StringBuilder buf = new StringBuilder();
 		try {
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
 				int rowCount = 0;
-				buffer.append("{");
-				buffer.append("\"rows\":[");
+				buf.append("{");
+				buf.append("\"rows\":[");
 				while (rs.next()) {
 					if (rowCount++ > 0) {
-						buffer.append(",");
+						buf.append(",");
 					}
-					buffer.append("{");
-					buffer.append("\"id\":" + rowCount + ",");
-					buffer.append("\"cell\":" + _jqGridRowStr(rs, colNms));
-					buffer.append("}");
+					buf.append("{");
+					buf.append("\"id\":" + rowCount + ",");
+					buf.append("\"cell\":" + _jqGridRowStr(rs, colNms));
+					buf.append("}");
 				}
-				buffer.append("],");
-				buffer.append("\"total\":" + totalPage + ",");
-				buffer.append("\"page\":" + currentPage + ",");
-				buffer.append("\"records\":" + totalCount);
-				buffer.append("}");
+				buf.append("],");
+				buf.append("\"total\":" + totalPage + ",");
+				buf.append("\"page\":" + currentPage + ",");
+				buf.append("\"records\":" + totalCount);
+				buf.append("}");
 			} finally {
 				Statement stmt = null;
 				try {
@@ -377,15 +412,29 @@ public class JQGridUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	/**
@@ -401,32 +450,33 @@ public class JQGridUtil {
 	 */
 	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
 		int totalPage = totalCount / rowsPerPage;
-		if (totalCount % rowsPerPage != 0)
+		if (totalCount % rowsPerPage != 0) {
 			totalPage += 1;
-		StringBuilder buffer = new StringBuilder();
+		}
+		StringBuilder buf = new StringBuilder();
 		try {
 			try {
 				int rowCount = 0;
-				buffer.append("{");
-				buffer.append("\"rows\":[");
+				buf.append("{");
+				buf.append("\"rows\":[");
 				while (rs.next()) {
 					if (rowCount++ > 0) {
-						buffer.append(",");
+						buf.append(",");
 					}
-					buffer.append("{");
-					buffer.append("\"id\":" + rowCount + ",");
-					buffer.append("\"cell\":" + _jqGridRowStr(rs, colNames));
-					buffer.append("}");
+					buf.append("{");
+					buf.append("\"id\":" + rowCount + ",");
+					buf.append("\"cell\":" + _jqGridRowStr(rs, colNames));
+					buf.append("}");
 				}
-				buffer.append("],");
-				buffer.append("\"total\":" + totalPage + ",");
-				buffer.append("\"page\":" + currentPage + ",");
-				buffer.append("\"records\":" + totalCount);
-				buffer.append("}");
+				buf.append("],");
+				buf.append("\"total\":" + totalPage + ",");
+				buf.append("\"page\":" + currentPage + ",");
+				buf.append("\"records\":" + totalCount);
+				buf.append("}");
 			} finally {
 				Statement stmt = null;
 				try {
@@ -436,15 +486,29 @@ public class JQGridUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	/**
@@ -459,36 +523,37 @@ public class JQGridUtil {
 	 */
 	public static String render(List<Map<String, Object>> mapList, int totalCount, int currentPage, int rowsPerPage) {
 		if (mapList == null) {
-			return null;
+			return "";
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
 		int totalPage = totalCount / rowsPerPage;
-		if (totalCount % rowsPerPage != 0)
+		if (totalCount % rowsPerPage != 0) {
 			totalPage += 1;
-		StringBuilder buffer = new StringBuilder();
+		}
+		StringBuilder buf = new StringBuilder();
 		int rowCount = 0;
-		buffer.append("{");
-		buffer.append("\"rows\":");
+		buf.append("{");
+		buf.append("\"rows\":");
 		if (mapList.size() > 0) {
-			buffer.append("[");
+			buf.append("[");
 			for (Map<String, Object> map : mapList) {
 				rowCount++;
-				buffer.append("{");
-				buffer.append("\"id\":" + rowCount + ",");
-				buffer.append("\"cell\":" + _jqGridRowStr(map));
-				buffer.append("}");
-				buffer.append(",");
+				buf.append("{");
+				buf.append("\"id\":" + rowCount + ",");
+				buf.append("\"cell\":" + _jqGridRowStr(map));
+				buf.append("}");
+				buf.append(",");
 			}
-			buffer.delete(buffer.length() - 1, buffer.length());
-			buffer.append("],");
+			buf.delete(buf.length() - 1, buf.length());
+			buf.append("],");
 		} else {
-			buffer.append("[],");
+			buf.append("[],");
 		}
-		buffer.append("\"total\":" + totalPage + ",");
-		buffer.append("\"page\":" + currentPage + ",");
-		buffer.append("\"records\":" + totalCount);
-		buffer.append("}");
-		return buffer.toString();
+		buf.append("\"total\":" + totalPage + ",");
+		buf.append("\"page\":" + currentPage + ",");
+		buf.append("\"records\":" + totalCount);
+		buf.append("}");
+		return buf.toString();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////// 유틸리티
@@ -510,54 +575,54 @@ public class JQGridUtil {
 	 * jqGrid 용 Row 문자열 생성
 	 */
 	private static String _jqGridRowStr(Map<String, Object> map) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		if (map.entrySet().size() > 0) {
-			buffer.append("[");
+			buf.append("[");
 			for (Entry<String, Object> entry : map.entrySet()) {
 				Object value = entry.getValue();
 				if (value == null) {
-					buffer.append("\"\"");
+					buf.append("\"\"");
 				} else {
-					buffer.append("\"" + escapeJS(value.toString()) + "\"");
+					buf.append("\"" + escapeJS(value.toString()) + "\"");
 				}
-				buffer.append(",");
+				buf.append(",");
 			}
-			buffer.delete(buffer.length() - 1, buffer.length());
-			buffer.append("]");
+			buf.delete(buf.length() - 1, buf.length());
+			buf.append("]");
 		} else {
-			buffer.append("[]");
+			buf.append("[]");
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	/**
 	 * jqGrid 용 Row 문자열 생성
 	 */
 	private static String _jqGridRowStr(RecordSet rs, String[] colNms) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		if (colNms != null && colNms.length > 0) {
-			buffer.append("[");
+			buf.append("[");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.get(colNms[c].toUpperCase());
 				if (value == null) {
-					buffer.append("\"\"");
+					buf.append("\"\"");
 				} else {
-					buffer.append("\"" + escapeJS(value.toString()) + "\"");
+					buf.append("\"" + escapeJS(value.toString()) + "\"");
 				}
-				buffer.append(",");
+				buf.append(",");
 			}
-			buffer.delete(buffer.length() - 1, buffer.length());
-			buffer.append("]");
+			buf.delete(buf.length() - 1, buf.length());
+			buf.append("]");
 		} else {
-			buffer.append("[]");
+			buf.append("[]");
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 
 	private static String _jqGridRowStr(ResultSet rs, String[] colNms) {
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buf = new StringBuilder();
 		if (colNms.length > 0) {
-			buffer.append("[");
+			buf.append("[");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value;
 				try {
@@ -566,17 +631,17 @@ public class JQGridUtil {
 					throw new RuntimeException(e);
 				}
 				if (value == null) {
-					buffer.append("\"\"");
+					buf.append("\"\"");
 				} else {
-					buffer.append("\"" + escapeJS(value.toString()) + "\"");
+					buf.append("\"" + escapeJS(value.toString()) + "\"");
 				}
-				buffer.append(",");
+				buf.append(",");
 			}
-			buffer.delete(buffer.length() - 1, buffer.length());
-			buffer.append("]");
+			buf.delete(buf.length() - 1, buf.length());
+			buf.append("]");
 		} else {
-			buffer.append("[]");
+			buf.append("[]");
 		}
-		return buffer.toString();
+		return buf.toString();
 	}
 }

@@ -4,6 +4,8 @@ package framework.util;
  * 스트링 처리 라이브러리
  */
 import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
@@ -35,22 +37,18 @@ public class StringUtil {
 		int tokenCount = 0;
 		int index = 0;
 		int len = 0;
-		try {
-			// token이 두개이상 붙어있으면 token과 token 사이에 공백을 넣는다.
-			len = str.length();
-			for (int i = 0; i < len; i++) {
-				if ((index = str.indexOf(token + token)) != -1) {
-					str = str.substring(0, index) + token + " " + token + str.substring(index + 2, str.length());
-				}
+		// token이 두개이상 붙어있으면 token과 token 사이에 공백을 넣는다.
+		len = str.length();
+		for (int i = 0; i < len; i++) {
+			if ((index = str.indexOf(token + token)) != -1) {
+				str = str.substring(0, index) + token + " " + token + str.substring(index + 2, str.length());
 			}
-			st = new StringTokenizer(str, token);
-			tokenCount = st.countTokens();
-			toStr = new String[tokenCount];
-			for (int i = 0; i < tokenCount; i++) {
-				toStr[i] = st.nextToken();
-			}
-		} catch (Exception e) {
-			toStr = null;
+		}
+		st = new StringTokenizer(str, token);
+		tokenCount = st.countTokens();
+		toStr = new String[tokenCount];
+		for (int i = 0; i < tokenCount; i++) {
+			toStr[i] = st.nextToken();
 		}
 		return toStr;
 	}
@@ -69,26 +67,20 @@ public class StringUtil {
 		int scount = 0; // 인자로 넘어온 스트링의 총 글자 수
 		int bindex = 0; // 제한하려 하는 바이트의 인덱스
 		int i = 0;
-		try {
-			bstr = str.getBytes();
-			bcount = bstr.length;
-			if (bcount <= len) {
-				rval = str;
-			} else {
-				scount = str.length();
-				for (i = 0; i < scount - 1; i++) {
-					int btmplen = str.substring(i, i + 1).getBytes().length;
-					bindex += btmplen;
-					if (bindex + 3 >= len) {
-						break;
-					}
+		bstr = str.getBytes();
+		bcount = bstr.length;
+		if (bcount <= len) {
+			rval = str;
+		} else {
+			scount = str.length();
+			for (i = 0; i < scount - 1; i++) {
+				int btmplen = str.substring(i, i + 1).getBytes().length;
+				bindex += btmplen;
+				if (bindex + 3 >= len) {
+					break;
 				}
-				rval = new String(bstr, 0, bindex) + "..";
 			}
-		} catch (Exception e) {
-			if (logger.isErrorEnabled()) {
-				logger.error(e);
-			}
+			rval = new String(bstr, 0, bindex) + "..";
 		}
 		return rval;
 	}
@@ -146,8 +138,9 @@ public class StringUtil {
 	 * @return 찾을 문자열이 바꿀 문자열로 변환된 문자열
 	 */
 	public static String replaceStr(String src, String oldstr, String newstr) {
-		if (src == null)
-			return null;
+		if (src == null) {
+			return "";
+		}
 		StringBuilder dest = new StringBuilder();
 		int len = oldstr.length();
 		int srclen = src.length();
@@ -158,8 +151,9 @@ public class StringUtil {
 			dest.append(newstr);
 			oldpos = pos + len;
 		}
-		if (oldpos < srclen)
+		if (oldpos < srclen) {
 			dest.append(src.substring(oldpos, srclen));
+		}
 		return dest.toString();
 	}
 
@@ -172,12 +166,12 @@ public class StringUtil {
 		double d = 0.0;
 		String ret = "";
 		try {
-			if (stringbyte == null || stringbyte.equals("")) {
+			if (stringbyte == null || "".equals(stringbyte)) {
 				ret = "0 Bytes";
 				return ret;
 			}
 			double dbyte = Double.parseDouble(stringbyte);
-			java.text.MessageFormat mf = new java.text.MessageFormat("{0,number,####.#}");
+			MessageFormat mf = new MessageFormat("{0,number,####.#}");
 			if (dbyte == 0.0) {
 				ret = "0 Bytes";
 			} else if (dbyte >= 1024.0 && dbyte < 1048576.0) {
@@ -201,7 +195,7 @@ public class StringUtil {
 				ret += " Bytes";
 			}
 			return (ret);
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			return "0 Bytes";
 		}
 	}
@@ -215,12 +209,12 @@ public class StringUtil {
 		Long L_byte = Long.valueOf(longbyte);
 		double d = 0.0;
 		String ret = "";
-		if (L_byte.toString() == null || L_byte.toString().equals("")) {
+		if (L_byte.toString() == null || "".equals(L_byte.toString())) {
 			ret = "0 Bytes";
 			return ret;
 		}
 		double dbyte = Double.parseDouble(L_byte.toString());
-		java.text.MessageFormat mf = new java.text.MessageFormat("{0,number,####.#}");
+		MessageFormat mf = new MessageFormat("{0,number,####.#}");
 		if (dbyte == 0.0) {
 			ret = "0 Bytes";
 		} else if (dbyte >= 1024.0 && dbyte < 1048576.0) {
@@ -297,8 +291,8 @@ public class StringUtil {
 	 */
 	public static String numberFormat(String str) {
 		try {
-			return java.text.NumberFormat.getInstance().format(Integer.parseInt(str));
-		} catch (Exception e) {
+			return NumberFormat.getInstance().format(Integer.parseInt(str));
+		} catch (NumberFormatException e) {
 			return "0";
 		}
 	}
@@ -310,10 +304,11 @@ public class StringUtil {
 	 */
 	public static String nullToBlankString(String str) {
 		String rval = "";
-		if (str == null)
+		if (str == null) {
 			rval = "";
-		else
+		} else {
 			rval = str;
+		}
 		return rval;
 	}
 
@@ -325,10 +320,11 @@ public class StringUtil {
 	 */
 	public static String null2Str(String str1, String str2) {
 		String rval = "";
-		if (str1 == null)
+		if (str1 == null) {
 			rval = str2;
-		else
+		} else {
 			rval = str1;
+		}
 		return rval;
 	}
 
@@ -343,10 +339,12 @@ public class StringUtil {
 		String dayVal = calToday00.get(Calendar.DATE) + "";
 		String monthVal = Integer.toString(calToday00.get(Calendar.MONTH) + 1);
 		int ampm = calToday00.get(Calendar.AM_PM);
-		if (Integer.parseInt(dayVal) < 10)
+		if (Integer.parseInt(dayVal) < 10) {
 			dayVal = "0" + dayVal;
-		if (Integer.parseInt(monthVal) < 10)
+		}
+		if (Integer.parseInt(monthVal) < 10) {
 			monthVal = "0" + monthVal;
+		}
 		String dateVal = "";
 		// ===================================================
 		//	1 은 "2000-11-12"
@@ -412,22 +410,25 @@ public class StringUtil {
 		curMonth = Integer.parseInt(curDate.substring(4, 6));
 		curDay = Integer.parseInt(curDate.substring(6, 8));
 		cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"));
-		if (option == 1)
+		if (option == 1) {
 			cal.set(curYear, curMonth - 1, curDay + day); // day 만큼 이후의 날짜.
-		else
+		} else {
 			cal.set(curYear, curMonth - 1, curDay - day); // day 만큼 이전의 날짜.
+		}
 		curYear = cal.get(Calendar.YEAR);
 		curMonth = cal.get(Calendar.MONTH) + 1;
 		curDay = cal.get(Calendar.DATE);
 		destDate = Integer.toString(curYear);
-		if (curMonth < 10)
+		if (curMonth < 10) {
 			destDate += "0" + Integer.toString(curMonth);
-		else
+		} else {
 			destDate += Integer.toString(curMonth);
-		if (curDay < 10)
+		}
+		if (curDay < 10) {
 			destDate += "0" + Integer.toString(curDay);
-		else
+		} else {
 			destDate += Integer.toString(curDay);
+		}
 		return destDate;
 	}
 
@@ -467,7 +468,7 @@ public class StringUtil {
 			regdate = regCal.getTime();
 			diffDay = Math.abs((int) ((current.getTime() - regdate.getTime()) / 1000.0 / 60.0 / 60.0 / 24.0));
 			isnew = (diffDay < interval) ? true : false;
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			isnew = false;
 		}
 		return isnew;
@@ -534,7 +535,7 @@ public class StringUtil {
 	 */
 	public static String escapeHtmlSpecialChars(String src) {
 		if (src == null) {
-			return null;
+			return "";
 		}
 		StringBuilder result = new StringBuilder(src.length());
 		for (int i = 0; i < src.length(); i++) {

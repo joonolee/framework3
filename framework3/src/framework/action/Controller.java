@@ -167,7 +167,7 @@ public abstract class Controller {
 				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 forward 되었습니다");
 			}
 			servlet.getServletContext().getRequestDispatcher(response.encodeURL(url)).forward(request, response);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			if (logger.isErrorEnabled()) {
 				logger.error("Render Error!", e);
 			}
@@ -194,7 +194,7 @@ public abstract class Controller {
 				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 redirect 되었습니다");
 			}
 			response.sendRedirect(url);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			if (logger.isErrorEnabled()) {
 				logger.error("Redirect Error!", e);
 			}
@@ -233,7 +233,7 @@ public abstract class Controller {
 			String jdbcPw = null;
 			try {
 				dsName = getConfig().getString("jdbc." + serviceName + ".datasource");
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				// 설정파일에 데이타소스가 정의되어있지 않으면 실행
 				jdbcDriver = getConfig().getString("jdbc." + serviceName + ".driver");
 				jdbcUrl = getConfig().getString("jdbc." + serviceName + ".url");
@@ -249,7 +249,7 @@ public abstract class Controller {
 				}
 				db.setAutoCommit(false);
 				_dbMap.put(serviceName, db);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				if (logger.isErrorEnabled()) {
 					logger.error("DB Connection Error!", e);
 				}
@@ -533,7 +533,7 @@ public abstract class Controller {
 			_dbMap.clear();
 			params = null;
 			out = null;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			if (logger.isErrorEnabled()) {
 				logger.error("Destroy Error!", e);
 			}

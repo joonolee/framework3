@@ -139,7 +139,7 @@ public class OAuth10aUtil {
 		try {
 			String authorizeUrl = provider.retrieveRequestToken(consumer, callbackUrl);
 			return authorizeUrl;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -153,7 +153,7 @@ public class OAuth10aUtil {
 	public static void getAccessToken(Consumer consumer, Provider provider, String verifier) {
 		try {
 			provider.retrieveAccessToken(consumer, verifier);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -179,21 +179,21 @@ public class OAuth10aUtil {
 		int statusCode = 0;
 		String content = "";
 		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpGet get = new HttpGet(url);
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpGet httpGet = new HttpGet(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
-					get.addHeader(entry.getKey(), entry.getValue());
+					httpGet.addHeader(entry.getKey(), entry.getValue());
 				}
 			}
-			consumer.sign(get);
-			HttpResponse responseGet = client.execute(get);
+			consumer.sign(httpGet);
+			HttpResponse responseGet = httpClient.execute(httpGet);
 			statusCode = responseGet.getStatusLine().getStatusCode();
 			HttpEntity resEntityGet = responseGet.getEntity();
 			if (resEntityGet != null) {
 				content = EntityUtils.toString(resEntityGet);
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return new Result(statusCode, content);
@@ -232,11 +232,11 @@ public class OAuth10aUtil {
 		int statusCode = 0;
 		String content = "";
 		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost(url);
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
-					post.addHeader(entry.getKey(), entry.getValue());
+					httpPost.addHeader(entry.getKey(), entry.getValue());
 				}
 			}
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -246,15 +246,15 @@ public class OAuth10aUtil {
 				}
 			}
 			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, "UTF-8");
-			post.setEntity(ent);
-			consumer.sign(post);
-			HttpResponse responsePOST = client.execute(post);
+			httpPost.setEntity(ent);
+			consumer.sign(httpPost);
+			HttpResponse responsePOST = httpClient.execute(httpPost);
 			statusCode = responsePOST.getStatusLine().getStatusCode();
 			HttpEntity resEntity = responsePOST.getEntity();
 			if (resEntity != null) {
 				content = EntityUtils.toString(resEntity);
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return new Result(statusCode, content);
@@ -285,14 +285,14 @@ public class OAuth10aUtil {
 		int statusCode = 0;
 		String content = "";
 		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost(url);
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
-					post.addHeader(entry.getKey(), entry.getValue());
+					httpPost.addHeader(entry.getKey(), entry.getValue());
 				}
 			}
-			consumer.sign(post);
+			consumer.sign(httpPost);
 			MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 			if (paramMap != null) {
 				for (Entry<String, String> entry : paramMap.entrySet()) {
@@ -305,14 +305,14 @@ public class OAuth10aUtil {
 					reqEntity.addPart("userfile", contentBody);
 				}
 			}
-			post.setEntity(reqEntity);
-			HttpResponse response = client.execute(post);
+			httpPost.setEntity(reqEntity);
+			HttpResponse response = httpClient.execute(httpPost);
 			statusCode = response.getStatusLine().getStatusCode();
 			HttpEntity resEntity = response.getEntity();
 			if (resEntity != null) {
 				content = EntityUtils.toString(resEntity);
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return new Result(statusCode, content);

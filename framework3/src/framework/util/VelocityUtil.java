@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServlet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -18,6 +20,7 @@ import framework.action.Params;
  * Velocity를 이용한 템플릿 처리 라이브러리
  */
 public class VelocityUtil {
+	protected static final Log logger = LogFactory.getLog(framework.util.VelocityUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
@@ -59,7 +62,7 @@ public class VelocityUtil {
 			String template = _readTemplate(servlet, fileName);
 			StringReader reader = new StringReader(template);
 			Velocity.evaluate(context, writer, "framework.util.VelocityUtil", reader);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return writer.toString();
@@ -81,24 +84,33 @@ public class VelocityUtil {
 		FileReader fr = null;
 		BufferedReader br = null;
 		try {
-			try {
-				fr = new FileReader(pathFile);
-				br = new BufferedReader(fr);
-				String line;
-				while ((line = br.readLine()) != null) {
-					ta.append(line + "\n");
-				}
-			} catch (IOException e) {
-				ta.append("Problems reading file" + e.getMessage());
-				throw e;
-			} finally {
-				if (br != null)
-					br.close();
-				if (fr != null)
-					fr.close();
+			fr = new FileReader(pathFile);
+			br = new BufferedReader(fr);
+			String line;
+			while ((line = br.readLine()) != null) {
+				ta.append(line + "\n");
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
+			if (fr != null) {
+				try {
+					fr.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
 		}
 		return ta.toString();
 	}

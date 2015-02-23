@@ -109,7 +109,7 @@ public class DB {
 		try {
 			DriverManager.registerDriver((Driver) Class.forName(jdbcDriver).newInstance());
 			setConnection(DriverManager.getConnection(url, userID, userPW));
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		if (logger.isDebugEnabled()) {
@@ -130,21 +130,24 @@ public class DB {
 			for (DBStatement stmt : _stmtList) {
 				try {
 					stmt.close();
-				} catch (Exception e) {
+				} catch (Throwable e) {
+					if (logger.isErrorEnabled()) {
+						logger.error("Statement close error!", e);
+					}
 				}
 			}
 		}
 		if (getConnection() != null) {
 			try {
 				getConnection().rollback();
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				if (logger.isErrorEnabled()) {
 					logger.error("Connection rollback error!", e);
 				}
 			}
 			try {
 				getConnection().close();
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				if (logger.isErrorEnabled()) {
 					logger.error("Connection close error!", e);
 				}

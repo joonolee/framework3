@@ -3,6 +3,7 @@ package framework.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -58,22 +59,32 @@ public class ExcelUtil {
 	 */
 	public static List<Map<String, String>> parse(FileItem fileItem) {
 		String ext = FileUtil.getFileExtension(fileItem.getName());
-		InputStream is;
+		InputStream is = null;
 		try {
 			is = fileItem.getInputStream();
+			if ("csv".equalsIgnoreCase(ext)) {
+				return _parseCSV(is);
+			} else if ("tsv".equalsIgnoreCase(ext)) {
+				return _parseTSV(is);
+			} else if ("xls".equalsIgnoreCase(ext)) {
+				return _parseExcel2003(is);
+			} else if ("xlsx".equalsIgnoreCase(ext)) {
+				return _parseExcel2007(is);
+			} else {
+				throw new RuntimeException("지원하지 않는 파일포맷입니다.");
+			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}
-		if ("csv".equalsIgnoreCase(ext)) {
-			return _parseCSV(is);
-		} else if ("tsv".equalsIgnoreCase(ext)) {
-			return _parseTSV(is);
-		} else if ("xls".equalsIgnoreCase(ext)) {
-			return _parseExcel2003(is);
-		} else if ("xlsx".equalsIgnoreCase(ext)) {
-			return _parseExcel2007(is);
-		} else {
-			throw new RuntimeException("지원하지 않는 파일포맷입니다.");
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
 		}
 	}
 
@@ -85,18 +96,28 @@ public class ExcelUtil {
 	 */
 	public static List<Map<String, String>> parse(FileItem fileItem, String password) {
 		String ext = FileUtil.getFileExtension(fileItem.getName());
-		InputStream is;
+		InputStream is = null;
 		try {
 			is = fileItem.getInputStream();
+			if ("xls".equalsIgnoreCase(ext)) {
+				return _parseExcel2003(is, password);
+			} else if ("xlsx".equalsIgnoreCase(ext)) {
+				return _parseExcel2007(is, password);
+			} else {
+				throw new RuntimeException("지원하지 않는 파일포맷입니다.");
+			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}
-		if ("xls".equalsIgnoreCase(ext)) {
-			return _parseExcel2003(is, password);
-		} else if ("xlsx".equalsIgnoreCase(ext)) {
-			return _parseExcel2007(is, password);
-		} else {
-			throw new RuntimeException("지원하지 않는 파일포맷입니다.");
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
 		}
 	}
 
@@ -108,27 +129,31 @@ public class ExcelUtil {
 	public static List<Map<String, String>> parse(File file) {
 		FileInputStream fis = null;
 		try {
-			try {
-				String ext = FileUtil.getFileExtension(file);
-				fis = new FileInputStream(file);
-				if ("csv".equalsIgnoreCase(ext)) {
-					return _parseCSV(fis);
-				} else if ("tsv".equalsIgnoreCase(ext)) {
-					return _parseTSV(fis);
-				} else if ("xls".equalsIgnoreCase(ext)) {
-					return _parseExcel2003(fis);
-				} else if ("xlsx".equalsIgnoreCase(ext)) {
-					return _parseExcel2007(fis);
-				} else {
-					throw new RuntimeException("지원하지 않는 파일포맷입니다.");
-				}
-			} finally {
-				if (fis != null) {
+			String ext = FileUtil.getFileExtension(file);
+			fis = new FileInputStream(file);
+			if ("csv".equalsIgnoreCase(ext)) {
+				return _parseCSV(fis);
+			} else if ("tsv".equalsIgnoreCase(ext)) {
+				return _parseTSV(fis);
+			} else if ("xls".equalsIgnoreCase(ext)) {
+				return _parseExcel2003(fis);
+			} else if ("xlsx".equalsIgnoreCase(ext)) {
+				return _parseExcel2007(fis);
+			} else {
+				throw new RuntimeException("지원하지 않는 파일포맷입니다.");
+			}
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (fis != null) {
+				try {
 					fis.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
 				}
 			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
 	}
 
@@ -140,23 +165,27 @@ public class ExcelUtil {
 	public static List<Map<String, String>> parse(File file, String password) {
 		FileInputStream fis = null;
 		try {
-			try {
-				String ext = FileUtil.getFileExtension(file);
-				fis = new FileInputStream(file);
-				if ("xls".equalsIgnoreCase(ext)) {
-					return _parseExcel2003(fis, password);
-				} else if ("xlsx".equalsIgnoreCase(ext)) {
-					return _parseExcel2007(fis, password);
-				} else {
-					throw new RuntimeException("지원하지 않는 파일포맷입니다.");
-				}
-			} finally {
-				if (fis != null) {
+			String ext = FileUtil.getFileExtension(file);
+			fis = new FileInputStream(file);
+			if ("xls".equalsIgnoreCase(ext)) {
+				return _parseExcel2003(fis, password);
+			} else if ("xlsx".equalsIgnoreCase(ext)) {
+				return _parseExcel2007(fis, password);
+			} else {
+				throw new RuntimeException("지원하지 않는 파일포맷입니다.");
+			}
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (fis != null) {
+				try {
 					fis.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
 				}
 			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
 	}
 
@@ -208,7 +237,7 @@ public class ExcelUtil {
 				sheet.autoSizeColumn(i);
 			}
 			workbook.write(os);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -236,10 +265,11 @@ public class ExcelUtil {
 			return 0;
 		}
 		int rowCount = 0;
+		FileOutputStream fos = null;
 		try {
 			Workbook workbook = new HSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			FileOutputStream fos = new FileOutputStream(file);
+			fos = new FileOutputStream(file);
 			String[] colNms = rs.getColumns();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
@@ -256,9 +286,18 @@ public class ExcelUtil {
 				sheet.autoSizeColumn(i);
 			}
 			workbook.write(fos);
-			fos.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
 		}
 		return rowCount;
 	}
@@ -311,7 +350,7 @@ public class ExcelUtil {
 				sheet.autoSizeColumn(i);
 			}
 			workbook.write(os);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -339,10 +378,11 @@ public class ExcelUtil {
 			return 0;
 		}
 		int rowCount = 0;
+		FileOutputStream fos = null;
 		try {
 			Workbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			FileOutputStream fos = new FileOutputStream(file);
+			fos = new FileOutputStream(file);
 			String[] colNms = rs.getColumns();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
@@ -359,9 +399,18 @@ public class ExcelUtil {
 				sheet.autoSizeColumn(i);
 			}
 			workbook.write(fos);
-			fos.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
 		}
 		return rowCount;
 	}
@@ -437,7 +486,7 @@ public class ExcelUtil {
 				}
 				pw.print(_sepRowStr(rs, colNms, sep));
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -455,20 +504,29 @@ public class ExcelUtil {
 			return 0;
 		}
 		int rowCount = 0;
+		FileWriter fw = null;
 		try {
-			FileWriter fw = new FileWriter(file);
+			fw = new FileWriter(file);
 			String[] colNms = rs.getColumns();
 			rs.moveRow(0);
-
 			while (rs.nextRow()) {
 				if (rowCount++ > 0) {
 					fw.write("\n");
 				}
 				fw.write(_sepRowStr(rs, colNms, sep));
 			}
-			fw.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (fw != null) {
+				try {
+					fw.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
 		}
 		return rowCount;
 	}
@@ -483,7 +541,7 @@ public class ExcelUtil {
 	 */
 	public static String renderSep(RecordSet rs, String sep) {
 		if (rs == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		String[] colNms = rs.getColumns();
@@ -531,9 +589,9 @@ public class ExcelUtil {
 			OutputStream os = response.getOutputStream();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -562,12 +620,26 @@ public class ExcelUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -600,9 +672,9 @@ public class ExcelUtil {
 			try {
 				fos = new FileOutputStream(file);
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -631,14 +703,35 @@ public class ExcelUtil {
 						logger.error(e);
 					}
 				}
-				if (fos != null)
-					fos.close();
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (fos != null) {
+					try {
+						fos.close();
+					} catch (IOException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -676,9 +769,9 @@ public class ExcelUtil {
 			OutputStream os = response.getOutputStream();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -707,12 +800,26 @@ public class ExcelUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -745,9 +852,9 @@ public class ExcelUtil {
 			try {
 				fos = new FileOutputStream(file);
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -776,14 +883,35 @@ public class ExcelUtil {
 						logger.error(e);
 					}
 				}
-				if (fos != null)
-					fos.close();
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (fos != null) {
+					try {
+						fos.close();
+					} catch (IOException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -852,9 +980,9 @@ public class ExcelUtil {
 			PrintWriter pw = response.getWriter();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -875,12 +1003,26 @@ public class ExcelUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -901,9 +1043,9 @@ public class ExcelUtil {
 			try {
 				fw = new FileWriter(file);
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -924,14 +1066,35 @@ public class ExcelUtil {
 						logger.error(e);
 					}
 				}
-				if (fw != null)
-					fw.close();
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (fw != null) {
+					try {
+						fw.close();
+					} catch (IOException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -952,9 +1115,9 @@ public class ExcelUtil {
 		try {
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
-				int count = rsmd.getColumnCount();
-				String[] colNms = new String[count];
-				for (int i = 1; i <= count; i++) {
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
@@ -974,12 +1137,26 @@ public class ExcelUtil {
 						logger.error(e);
 					}
 				}
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						if (logger.isErrorEnabled()) {
+							logger.error(e);
+						}
+					}
+				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return buffer.toString();
@@ -995,7 +1172,7 @@ public class ExcelUtil {
 	 */
 	public static String renderSep(Map<String, Object> map, String sep) {
 		if (map == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append(_sepRowStr(map, sep));
@@ -1012,7 +1189,7 @@ public class ExcelUtil {
 	 */
 	public static String renderSep(List<Map<String, Object>> mapList, String sep) {
 		if (mapList == null) {
-			return null;
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		int rowCount = 0;
@@ -1174,7 +1351,7 @@ public class ExcelUtil {
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -1225,7 +1402,7 @@ public class ExcelUtil {
 			Decryptor d = new Decryptor(info);
 			d.verifyPassword(password);
 			workbook = new XSSFWorkbook(d.getDataStream(fs));
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return _parseSheet(workbook.getSheetAt(0));
@@ -1240,26 +1417,33 @@ public class ExcelUtil {
 	}
 
 	private static List<Map<String, String>> _parseSep(InputStream is, String sep) {
-		BufferedReader br = null;
 		List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
+		BufferedReader br = null;
 		try {
-			try {
-				br = new BufferedReader(new InputStreamReader(is));
-				String line = null;
-				while ((line = br.readLine()) != null) {
-					String[] items = line.split(sep);
-					Map<String, String> map = new HashMap<String, String>();
-					for (int i = 0; i < items.length; i++) {
-						map.put(String.valueOf(i), items[i]);
-					}
-					mapList.add(map);
+			br = new BufferedReader(new InputStreamReader(is));
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				String[] items = line.split(sep);
+				Map<String, String> map = new HashMap<String, String>();
+				for (int i = 0; i < items.length; i++) {
+					map.put(String.valueOf(i), items[i]);
 				}
-			} finally {
-				if (br != null)
-					br.close();
+				mapList.add(map);
 			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		} catch (IOException e) {
+			if (logger.isErrorEnabled()) {
+				logger.error(e);
+			}
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
 		}
 		return mapList;
 	}

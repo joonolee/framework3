@@ -44,11 +44,11 @@ public class Cache {
 			try {
 				cache = Memcached.getInstance();
 				cacheName = "Memcached";
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				try {
 					cache = Redis.getInstance();
 					cacheName = "Redis";
-				} catch (Exception e2) {
+				} catch (Throwable e2) {
 					cache = EhCache.getInstance();
 					cacheName = "EhCache";
 				}

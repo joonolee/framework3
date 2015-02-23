@@ -28,7 +28,7 @@ public class MyBatisDaoSupport {
 		try {
 			reader = Resources.getResourceAsReader("mybatis-config.xml");
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new RuntimeException("Something bad happened while building the SqlSessionFactory instance." + e, e);
 		} finally {
 			if (reader != null) {

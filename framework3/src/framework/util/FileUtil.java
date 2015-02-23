@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -97,20 +98,33 @@ public class FileUtil {
 	 * @param dest 대상 파일 객체
 	 */
 	public static void copyFile(java.io.File src, java.io.File dest) {
+		InputStream in = null;
+		OutputStream out = null;
 		try {
-			InputStream in = new FileInputStream(src);
-			try {
-				java.io.OutputStream out = new FileOutputStream(dest);
-				try {
-					copy(in, out);
-				} finally {
-					out.close();
-				}
-			} finally {
-				in.close();
-			}
-		} catch (Exception e) {
+			in = new FileInputStream(src);
+			out = new FileOutputStream(dest);
+			copy(in, out);
+		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
 		}
 	}
 
@@ -120,8 +134,8 @@ public class FileUtil {
 	 * @param out 출력스트림
 	 */
 	public static void copy(InputStream in, OutputStream out) {
-		int availcnt = 1024;
-		byte[] buffer = new byte[availcnt];
+		int size = 1024;
+		byte[] buffer = new byte[size];
 		int read;
 		try {
 			while ((read = in.read(buffer)) > 0) {
@@ -229,26 +243,39 @@ public class FileUtil {
 	}
 
 	private static void _download(HttpServletResponse response, File file) {
-		BufferedInputStream bufferin = null;
-		BufferedOutputStream stream = null;
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
 		try {
 			int readBytes = 0;
 			int available = 1024;
 			byte b[] = new byte[available];
-			bufferin = new BufferedInputStream(new FileInputStream(file));
-			stream = new BufferedOutputStream(response.getOutputStream());
-			while ((readBytes = bufferin.read(b, 0, available)) != -1) {
-				stream.write(b, 0, readBytes);
+			bis = new BufferedInputStream(new FileInputStream(file));
+			bos = new BufferedOutputStream(response.getOutputStream());
+			while ((readBytes = bis.read(b, 0, available)) != -1) {
+				bos.write(b, 0, readBytes);
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			if (logger.isErrorEnabled()) {
 				logger.error(e);
 			}
 		} finally {
-			try {
-				bufferin.close();
-				stream.close();
-			} catch (Exception e) {
+			if (bis != null) {
+				try {
+					bis.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
+			}
+			if (bos != null) {
+				try {
+					bos.close();
+				} catch (IOException e) {
+					if (logger.isErrorEnabled()) {
+						logger.error(e);
+					}
+				}
 			}
 		}
 	}
