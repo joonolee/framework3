@@ -25,7 +25,7 @@ import framework.config.Config;
  */
 public class Redis extends AbstractCache {
 	protected static final Log logger = LogFactory.getLog(framework.cache.Redis.class);
-	
+
 	/**
 	 * ΩÃ±€≈Ê ∞¥√º
 	 */

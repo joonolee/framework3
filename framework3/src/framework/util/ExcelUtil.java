@@ -44,7 +44,7 @@ import framework.db.RecordSet;
  */
 public class ExcelUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.ExcelUtil.class);
-	
+
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */

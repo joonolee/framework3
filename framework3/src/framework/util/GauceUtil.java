@@ -29,7 +29,7 @@ import framework.db.RecordSet;
  */
 public class GauceUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.GauceUtil.class);
-	
+
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
