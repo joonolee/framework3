@@ -1,6 +1,6 @@
 /*
  * @(#)CreateOracleXMLFile.java
- * DAO, VO »ı¼º¿¡ ÇÊ¿äÇÑ ¸ŞÅ¸Á¤º¸ xml ÆÄÀÏÀ» ÃßÃâ
+ * DAO, VO ìƒì„±ì— í•„ìš”í•œ ë©”íƒ€ì •ë³´ xml íŒŒì¼ì„ ì¶”ì¶œ
  */
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,8 +21,7 @@ public class CreateOracleXMLFile {
 	private static final String _jdbcUrl = "jdbc:oracle:thin:@ip:port:sid";
 	private static final String _jdbcUid = "";
 	private static final String _jdbcPw = "";
-	private static List<String> _tableNameList = Arrays.asList(
-	);
+	private static List<String> _tableNameList = Arrays.asList();
 	private static String _filePath = "xml";
 
 	public static void main(String[] args) throws Exception {
@@ -128,7 +127,7 @@ public class CreateOracleXMLFile {
 			if (meta.getColumnName(c).equals("ENTERID") || meta.getColumnName(c).equals("ENTERNAME") || meta.getColumnName(c).equals("ENTERPGM")) {
 				str.append(" update=\"none\"");
 			}
-			// ÀÔ·ÂÀÏ, ¼öÁ¤ÀÏ¿¡ ´ëÇÑ º°µµ Ã³¸®
+			// ì…ë ¥ì¼, ìˆ˜ì •ì¼ì— ëŒ€í•œ ë³„ë„ ì²˜ë¦¬
 			if (meta.getColumnName(c).equals("ENTERDATE")) {
 				str.append(" insert=\"sysdate\" update=\"none\"");
 			}

@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="euc-kr" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
 * @(#) VO.xsl
-*
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-<xsl:output method="text" encoding="EUC-KR" />
+<xsl:output method="text" encoding="UTF-8" />
 <xsl:template match="table">
 /*
  * @(#)<xsl:value-of select="@class"/>VO.java
@@ -31,7 +30,7 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 	public static final String TABLE_DESC = "<xsl:value-of select='description'/>";
 	public static final String PRIMARYKEY_LIST[] = { <xsl:for-each select="columns/column[@primarykey]"><xsl:if test='position()!=1'>,</xsl:if>"<xsl:value-of select='@name'/>"</xsl:for-each> };
 	public static final String FIELD_LIST[] = { <xsl:for-each select='columns/column'><xsl:if test='position()!=1'>,</xsl:if>"<xsl:value-of select='@name'/>"</xsl:for-each> };
-	
+
 	// column name
 	private static Map&lt;String, Integer&gt; columnMap = new HashMap&lt;String, Integer&gt;();
 	// column type
@@ -134,13 +133,13 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 
 	public Object[] getUpdateOnlyValue(String[] fields) {
 		if (fields == null) {
-			getLogger().error("fields Error!");
+			logger.error("fields Error!");
 			return null;
 		}
 		List&lt;Object&gt; list = new ArrayList&lt;Object&gt;();
 		for (String field : fields) {
 			if (field == null) {
-				getLogger().error("field is null!");
+				logger.error("field is null!");
 				return null;
 			}
 			if (!noUpdateList.contains(field.toUpperCase())) {
@@ -155,17 +154,17 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 
 	public Object[] getUserUpdateOnlyValue(String[] fields, String[] keys) {
 		if ( fields == null ) {
-			getLogger().error("fields Error!");
+			logger.error("fields Error!");
 			return null;
 		}
 		if ( keys == null ) {
-			getLogger().error("keys Error!");
+			logger.error("keys Error!");
 			return null;
 		}
 		List&lt;Object&gt; list = new ArrayList&lt;Object&gt;();
 		for (String field : fields) {
 			if (field == null) {
-				getLogger().error("field is null!");
+				logger.error("field is null!");
 				return null;
 			}
 			if (!noUpdateList.contains(field.toUpperCase())) {
@@ -180,7 +179,7 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 
 	public Object[] getUserDeleteValue(String[] keys) {
 		if ( keys == null ) {
-			getLogger().error("keys Error!");
+			logger.error("keys Error!");
 			return null;
 		}
 		List&lt;Object&gt; list = new ArrayList&lt;Object&gt;();

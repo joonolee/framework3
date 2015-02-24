@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="euc-kr" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
 * DAO.xsl
-*
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
-<xsl:output method="text"  encoding="EUC-KR" />
+<xsl:output method="text"  encoding="UTF-8" />
 <xsl:template match="table">
 /*
  * @(#)<xsl:value-of select="@class"/>DAO.java
@@ -93,14 +92,14 @@ public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
 
 	public String getUpdateOnlySql(String[] fields){
 		if (fields == null) {
-			getLogger().error("fields Error!");
+			logger.error("fields Error!");
 			return null;
 		}
 		StringBuilder query = new StringBuilder();
 		query.append("UPDATE <xsl:value-of select='@name'/> SET ");
 		for (String field : fields) {
 			if (field == null) {
-				getLogger().error("getUpdateOnlySql field is null!");
+				logger.error("getUpdateOnlySql field is null!");
 				return null;
 			}
 			if (!updateOnlyMap.containsKey(field.toUpperCase())) {
@@ -118,18 +117,18 @@ public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
 
 	public String getUserUpdateOnlySql(String[] fields, String[] keys){
 		if (fields == null) {
-			getLogger().error("fields Error!");
+			logger.error("fields Error!");
 			return null;
 		}
 		if (keys == null) {
-			getLogger().error("keys Error!");
+			logger.error("keys Error!");
 			return null;
 		}
 		StringBuilder query = new StringBuilder();
 		query.append("UPDATE <xsl:value-of select="@name"/> SET ");
 		for (String field : fields) {
 			if(field == null) {
-				getLogger().error("field is null!");
+				logger.error("field is null!");
 				return null;
 			}
 			if (!updateOnlyMap.containsKey(field.toUpperCase())) {
@@ -148,7 +147,7 @@ public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
 
 	public String getUserDeleteSql(String[] keys) {
 		if (keys == null) {
-			getLogger().error("keys Error!");
+			logger.error("keys Error!");
 			return null;
 		}
 		StringBuilder query = new StringBuilder();
