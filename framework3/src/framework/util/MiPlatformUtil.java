@@ -62,7 +62,9 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String datasetName, RecordSet rs, int dataFormat) {
-		return render(response, new String[] { datasetName }, new RecordSet[] { rs }, dataFormat);
+		String[] datasetNameArray = new String[] { datasetName };
+		RecordSet[] rsArray = new RecordSet[] { rs };
+		return render(response, datasetNameArray, rsArray, dataFormat);
 	}
 
 	/**
@@ -104,7 +106,9 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String datasetName, ResultSet rs, int dataFormat) {
-		return render(response, new String[] { datasetName }, new ResultSet[] { rs }, dataFormat);
+		String[] datasetNameArray = new String[] { datasetName };
+		ResultSet[] rsArray = new ResultSet[] { rs };
+		return render(response, datasetNameArray, rsArray, dataFormat);
 	}
 
 	/**

@@ -25,9 +25,8 @@ import framework.util.StringUtil;
  */
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
-	protected static final Log logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
 	private static final String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
-	private RequestDispatcher _defaultServletDispatcher = null;
+	protected static final Log logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
 
 	/**
 	 * 서블릿 객체를 초기화 한다.
@@ -49,11 +48,12 @@ public class DispatcherServlet extends HttpServlet {
 					}
 				}
 			}
-			this._defaultServletDispatcher = getServletContext().getNamedDispatcher(defaultServletName);
-			if (this._defaultServletDispatcher == null) {
-				logger.info("Default Servlet을 찾을 수 없습니다.");
-			} else {
+			RequestDispatcher dispatcher = getServletContext().getNamedDispatcher(defaultServletName);
+			if (dispatcher != null) {
+				getServletContext().setAttribute("request-dispatcher", dispatcher);
 				logger.info("Default Servlet을 찾았습니다. (" + defaultServletName + ")");
+			} else {
+				logger.info("Default Servlet을 찾을 수 없습니다.");
 			}
 		} catch (MissingResourceException e) {
 			throw new ServletException(e);
@@ -129,8 +129,9 @@ public class DispatcherServlet extends HttpServlet {
 					throw new Exception("호출할 수 없는 메소드입니다.");
 				}
 			} catch (Throwable e) {
-				if (this._defaultServletDispatcher != null) {
-					this._defaultServletDispatcher.forward(request, response);
+				RequestDispatcher dispatcher = (RequestDispatcher) getServletContext().getAttribute("request-dispatcher");
+				if (dispatcher != null) {
+					dispatcher.forward(request, response);
 				}
 				return;
 			}

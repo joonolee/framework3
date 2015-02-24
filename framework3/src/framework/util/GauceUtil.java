@@ -58,7 +58,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String datasetName, RecordSet rs) {
-		return render(response, new String[] { datasetName }, new RecordSet[] { rs });
+		String[] datasetNameArray = new String[] { datasetName };
+		RecordSet[] rsArray = new RecordSet[] { rs };
+		return render(response, datasetNameArray, rsArray);
 	}
 
 	/**
@@ -99,7 +101,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet dSet, RecordSet rs) {
-		return render(response, new GauceDataSet[] { dSet }, new RecordSet[] { rs });
+		GauceDataSet[] dSetArray = new GauceDataSet[] { dSet };
+		RecordSet[] rsArray = new RecordSet[] { rs };
+		return render(response, dSetArray, rsArray);
 	}
 
 	/**
@@ -152,7 +156,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String datasetName, ResultSet rs) {
-		return render(response, new String[] { datasetName }, new ResultSet[] { rs });
+		String[] datasetNameArray = new String[] { datasetName };
+		ResultSet[] rsArray = new ResultSet[] { rs };
+		return render(response, datasetNameArray, rsArray);
 	}
 
 	/**
@@ -193,7 +199,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet dSet, ResultSet rs) {
-		return render(response, new GauceDataSet[] { dSet }, new ResultSet[] { rs });
+		GauceDataSet[] dSetArray = new GauceDataSet[] { dSet };
+		ResultSet[] rsArray = new ResultSet[] { rs };
+		return render(response, dSetArray, rsArray);
 	}
 
 	/**
