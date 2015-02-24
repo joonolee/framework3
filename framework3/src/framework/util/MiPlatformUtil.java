@@ -454,7 +454,7 @@ public class MiPlatformUtil {
 	 * 마이플랫폼 데이타셋에 RecordSet 한행 추가
 	 */
 	private static void _appendRow(Dataset dSet, RecordSet rs, String[] colNms) {
-		if (rs.getRowCount() == 0) {
+		if (colNms == null) {
 			return;
 		}
 		int row = dSet.appendRow();
@@ -476,10 +476,10 @@ public class MiPlatformUtil {
 	 * 마이플랫폼 데이타셋에 ResultSet 한행 추가
 	 */
 	private static void _appendRow(Dataset dSet, ResultSet rs, String[] colNms) {
+		if (colNms == null) {
+			return;
+		}
 		try {
-			if (rs.getRow() == 0) {
-				return;
-			}
 			int row = dSet.appendRow();
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.getObject(colNms[c]);

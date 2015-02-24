@@ -225,8 +225,10 @@ public class ExcelUtil {
 				_appendRow(row, rs, colNms);
 				rowCount++;
 			}
-			for (int i = 0; i < colNms.length; i++) {
-				sheet.autoSizeColumn(i);
+			if (colNms != null) {
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
 			}
 			workbook.write(os);
 		} catch (IOException e) {
@@ -274,8 +276,10 @@ public class ExcelUtil {
 				_appendRow(row, rs, colNms);
 				rowCount++;
 			}
-			for (int i = 0; i < colNms.length; i++) {
-				sheet.autoSizeColumn(i);
+			if (colNms != null) {
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
 			}
 			workbook.write(fos);
 		} catch (IOException e) {
@@ -336,8 +340,10 @@ public class ExcelUtil {
 				_appendRow(row, rs, colNms);
 				rowCount++;
 			}
-			for (int i = 0; i < colNms.length; i++) {
-				sheet.autoSizeColumn(i);
+			if (colNms != null) {
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
 			}
 			workbook.write(os);
 		} catch (IOException e) {
@@ -385,8 +391,10 @@ public class ExcelUtil {
 				_appendRow(row, rs, colNms);
 				rowCount++;
 			}
-			for (int i = 0; i < colNms.length; i++) {
-				sheet.autoSizeColumn(i);
+			if (colNms != null) {
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
 			}
 			workbook.write(fos);
 		} catch (IOException e) {
@@ -592,8 +600,10 @@ public class ExcelUtil {
 					_appendRow(row, rs, colNms);
 					rowCount++;
 				}
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
+				if (colNms != null) {
+					for (int i = 0; i < colNms.length; i++) {
+						sheet.autoSizeColumn(i);
+					}
 				}
 				workbook.write(os);
 				return rowCount;
@@ -669,8 +679,10 @@ public class ExcelUtil {
 					_appendRow(row, rs, colNms);
 					rowCount++;
 				}
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
+				if (colNms != null) {
+					for (int i = 0; i < colNms.length; i++) {
+						sheet.autoSizeColumn(i);
+					}
 				}
 				workbook.write(fos);
 				return rowCount;
@@ -758,8 +770,10 @@ public class ExcelUtil {
 					_appendRow(row, rs, colNms);
 					rowCount++;
 				}
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
+				if (colNms != null) {
+					for (int i = 0; i < colNms.length; i++) {
+						sheet.autoSizeColumn(i);
+					}
 				}
 				workbook.write(os);
 				return rowCount;
@@ -835,8 +849,10 @@ public class ExcelUtil {
 					_appendRow(row, rs, colNms);
 					rowCount++;
 				}
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
+				if (colNms != null) {
+					for (int i = 0; i < colNms.length; i++) {
+						sheet.autoSizeColumn(i);
+					}
 				}
 				workbook.write(fos);
 				return rowCount;
@@ -1249,8 +1265,9 @@ public class ExcelUtil {
 	}
 
 	private static void _appendRow(Row row, RecordSet rs, String[] colNms) {
-		if (rs.getRowCount() == 0)
+		if (colNms == null) {
 			return;
+		}
 		for (int c = 0; c < colNms.length; c++) {
 			Cell cell = row.createCell(c);
 			Object value = rs.get(colNms[c]);
@@ -1270,9 +1287,10 @@ public class ExcelUtil {
 	}
 
 	private static void _appendRow(Row row, ResultSet rs, String[] colNms) {
+		if (colNms == null) {
+			return;
+		}
 		try {
-			if (rs.getRow() == 0)
-				return;
 			for (int c = 0; c < colNms.length; c++) {
 				Cell cell = row.createCell(c);
 				Object value = rs.getObject(colNms[c]);
@@ -1289,7 +1307,7 @@ public class ExcelUtil {
 					}
 				}
 			}
-		} catch (Throwable e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}

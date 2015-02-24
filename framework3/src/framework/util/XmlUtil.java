@@ -367,6 +367,9 @@ public class XmlUtil {
 	}
 
 	private static String _xmlItemStr(ResultSet rs, String[] colNms) {
+		if (colNms == null) {
+			return "<item></item>";
+		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<item>");
 		for (int c = 0; c < colNms.length; c++) {

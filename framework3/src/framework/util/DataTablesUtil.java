@@ -467,7 +467,7 @@ public class DataTablesUtil {
 
 	private static String _dataTablesRowStr(ResultSet rs, String[] colNms) {
 		StringBuilder buffer = new StringBuilder();
-		if (colNms.length > 0) {
+		if (colNms != null && colNms.length > 0) {
 			buffer.append("[");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value;

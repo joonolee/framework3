@@ -394,6 +394,9 @@ public class GauceUtil {
 	 * 가우스 데이타셋에 RecordSet 한행 추가
 	 */
 	private static void _appendRow(GauceDataSet dSet, RecordSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
+		if (colNms == null) {
+			return;
+		}
 		for (int c = 0; c < colNms.length; c++) {
 			Object value = rs.get(colNms[c]);
 			if (value == null) {
@@ -422,6 +425,9 @@ public class GauceUtil {
 	 * 가우스 데이타셋에 ResultSet 한행 추가
 	 */
 	private static void _appendRow(GauceDataSet dSet, ResultSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
+		if (colNms == null) {
+			return;
+		}
 		try {
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.getObject(colNms[c]);
