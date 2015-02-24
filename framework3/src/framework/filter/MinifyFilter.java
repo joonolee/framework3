@@ -37,12 +37,11 @@ public class MinifyFilter implements Filter {
 				PrintWriter writer = response.getWriter();
 				String content = resWrapper.toString();
 				if (contentType.contains("html") || contentType.contains("xml") || contentType.contains("javascript") || contentType.contains("css")) {
-					writer.write(_compressor.compress(content));
+					writer.print(_compressor.compress(content));
 				} else {
-					writer.write(content);
+					writer.print(content);
 				}
 				writer.flush();
-				writer.close();
 			} else {
 				resWrapper.writeTo(response.getOutputStream());
 			}
@@ -92,7 +91,9 @@ public class MinifyFilter implements Filter {
 		}
 
 		public void writeTo(OutputStream os) throws IOException {
-			_bytes.writeTo(new BufferedOutputStream(os));
+			BufferedOutputStream bos = new BufferedOutputStream(os);
+			_bytes.writeTo(bos);
+			bos.flush();
 		}
 
 		public void close() throws IOException {

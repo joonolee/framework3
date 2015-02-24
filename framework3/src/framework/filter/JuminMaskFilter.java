@@ -39,8 +39,6 @@ public class JuminMaskFilter implements Filter {
 				PrintWriter writer = response.getWriter();
 				writer.print(juminMaskData);
 				writer.flush();
-				writer.close();
-				writer = null;
 			} else {
 				resWrapper.writeTo(response.getOutputStream());
 			}
@@ -87,7 +85,9 @@ public class JuminMaskFilter implements Filter {
 		}
 
 		public void writeTo(OutputStream os) throws IOException {
-			_bytes.writeTo(new BufferedOutputStream(os));
+			BufferedOutputStream bos = new BufferedOutputStream(os);
+			_bytes.writeTo(bos);
+			bos.flush();
 		}
 
 		public void close() throws IOException {
