@@ -1,5 +1,6 @@
 package framework.filter;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -71,7 +72,7 @@ public class MinifyFilter implements Filter {
 		public MyResponseWrapper(HttpServletResponse p_res) {
 			super(p_res);
 			_bytes = new ByteArrayOutputStream(8192);
-			_writer = new PrintWriter(_bytes);
+			_writer = new PrintWriter(new BufferedOutputStream(_bytes));
 		}
 
 		@Override
@@ -81,7 +82,7 @@ public class MinifyFilter implements Filter {
 
 		@Override
 		public ServletOutputStream getOutputStream() {
-			return new MyOutputStream(_bytes);
+			return new MyOutputStream(new BufferedOutputStream(_bytes));
 		}
 
 		@Override
@@ -91,7 +92,7 @@ public class MinifyFilter implements Filter {
 		}
 
 		public void writeTo(OutputStream os) throws IOException {
-			_bytes.writeTo(os);
+			_bytes.writeTo(new BufferedOutputStream(os));
 		}
 
 		public void close() throws IOException {
@@ -103,14 +104,14 @@ public class MinifyFilter implements Filter {
 	}
 
 	class MyOutputStream extends ServletOutputStream {
-		private ByteArrayOutputStream _bytes;
+		private OutputStream _bytes;
 
-		public MyOutputStream(ByteArrayOutputStream p_bytes) {
+		public MyOutputStream(OutputStream p_bytes) {
 			_bytes = p_bytes;
 		}
 
 		@Override
-		public void write(int p_c) {
+		public void write(int p_c) throws IOException {
 			_bytes.write(p_c);
 		}
 
