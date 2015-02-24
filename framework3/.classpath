@@ -8,7 +8,7 @@
 	<classpathentry kind="lib" path="lib/commons-codec-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-pool-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/ehcache-core-2.4.3.jar"/>
@@ -43,7 +43,7 @@
 	<classpathentry kind="lib" path="lib/stringtree-json-2.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/velocity-dep-1.5.jar"/>
 	<classpathentry kind="lib" path="lib/xmlbeans-2.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/yuicompressor-2.4.6.jar"/>
+	<classpathentry kind="lib" path="lib/yuicompressor-2.4.8.jar"/>
 	<classpathentry kind="lib" path="lib/zxing-core.jar"/>
 	<classpathentry kind="lib" path="lib/zxing-javase.jar"/>
 	<classpathentry kind="output" path="bin"/>
