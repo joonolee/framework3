@@ -1,10 +1,10 @@
-package framework.db;
+ï»¿package framework.db;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapSession;
 
 /**
- * IBatisSession À» ÀÌ¿ëÇÏ±â À§ÇÑ °´Ã¼
+ * IBatisSession ì„ ì´ìš©í•˜ê¸° ìœ„í•œ ê°ì²´
  */
 public class IBatisSession extends DBStatement {
 	private SqlMapSession _session = null;

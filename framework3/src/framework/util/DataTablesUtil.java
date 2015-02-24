@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,24 +18,24 @@ import org.apache.commons.logging.LogFactory;
 import framework.db.RecordSet;
 
 /**
- * DataTables ¸¦ ÀÌ¿ëÇÏ¿© °³¹ßÇÒ ¶§ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * DataTables ë¥¼ ì´ìš©í•˜ì—¬ ê°œë°œí•  ë•Œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class DataTablesUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.DataTablesUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private DataTablesUtil() {
 	}
 
 	/**
-	 * RecordSetÀ» DataTables Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
+	 * RecordSetì„ DataTables í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ DataTables Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : DataTablesUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs DataTables Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : DataTablesUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
 		if (rs == null) {
@@ -64,13 +64,13 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * RecordSetÀ» DataTables Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
+	 * RecordSetì„ DataTables í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ DataTables Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs DataTables Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param colNames ÄÃ·³ÀÌ¸§ ¹è¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param colNames ì»¬ëŸ¼ì´ë¦„ ë°°ì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, String[] colNames) {
 		if (rs == null) {
@@ -98,11 +98,11 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * RecordSetÀ» DataTables Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * RecordSetì„ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ DataTables Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = DataTablesUtil.render(rs)
-	 * @param rs DataTables Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return DataTables Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = DataTablesUtil.render(rs)
+	 * @param rs DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs) {
 		StringBuilder buffer = new StringBuilder();
@@ -126,12 +126,12 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * RecordSetÀ» DataTables Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * RecordSetì„ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ DataTables Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
-	 * @param rs DataTables Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param colNames ÄÃ·³ÀÌ¸§ ¹è¿­
-	 * @return DataTables Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
+	 * @param rs DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param colNames ì»¬ëŸ¼ì´ë¦„ ë°°ì—´
+	 * @return DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs, String[] colNames) {
 		StringBuilder buffer = new StringBuilder();
@@ -154,12 +154,12 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * ResultSetÀ» DataTables Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù. 
+	 * ResultSetì„ DataTables í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤. 
 	 * <br>
-	 * ex) response·Î rs¸¦ DataTables Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : DataTablesUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs DataTables Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : DataTablesUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
 		if (rs == null) {
@@ -211,13 +211,13 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * ResultSetÀ» DataTables Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
+	 * ResultSetì„ DataTables í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ DataTables Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs DataTables Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param colNames ÄÃ·³ÀÌ¸§ ¹è¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param colNames ì»¬ëŸ¼ì´ë¦„ ë°°ì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, String[] colNames) {
 		if (rs == null) {
@@ -266,11 +266,11 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * ResultSetÀ» DataTables Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * ResultSetì„ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ DataTables Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = DataTablesUtil.render(rs)
-	 * @param rs DataTables Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼
-	 * @return DataTables Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = DataTablesUtil.render(rs)
+	 * @param rs DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´
+	 * @return DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(ResultSet rs) {
 		if (rs == null) {
@@ -322,12 +322,12 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * ResultSetÀ» DataTables Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * ResultSetì„ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ DataTables Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
-	 * @param rs DataTables Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼
-	 * @param colNames ÄÃ·³ÀÌ¸§ ¹è¿­
-	 * @return DataTables Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
+	 * @param rs DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´
+	 * @param colNames ì»¬ëŸ¼ì´ë¦„ ë°°ì—´
+	 * @return DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(ResultSet rs, String[] colNames) {
 		if (rs == null) {
@@ -376,11 +376,11 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * List°´Ã¼¸¦ DataTables Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. DataTablesUtil.format°ú µ¿ÀÏ
+	 * Listê°ì²´ë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. DataTablesUtil.formatê³¼ ë™ì¼
 	 * <br>
-	 * ex1) mapList¸¦ DataTables Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = DataTablesUtil.render(mapList)
-	 * @param mapList º¯È¯ÇÒ List°´Ã¼
-	 * @return DataTables Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex1) mapListë¥¼ DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = DataTablesUtil.render(mapList)
+	 * @param mapList ë³€í™˜í•  Listê°ì²´
+	 * @return DataTables í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(List<Map<String, Object>> mapList) {
 		if (mapList == null) {
@@ -405,8 +405,8 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * ÀÚ¹Ù½ºÅ©¸³Æ®»ó¿¡ Æ¯¼öÇÏ°Ô ÀÎ½ÄµÇ´Â ¹®ÀÚµéÀ» JSONµî¿¡ »ç¿ëÇÏ±â À§ÇØ º¯È¯ÇÏ¿©ÁØ´Ù.
-	 * @param str º¯È¯ÇÒ ¹®ÀÚ¿­
+	 * ìë°”ìŠ¤í¬ë¦½íŠ¸ìƒì— íŠ¹ìˆ˜í•˜ê²Œ ì¸ì‹ë˜ëŠ” ë¬¸ìë“¤ì„ JSONë“±ì— ì‚¬ìš©í•˜ê¸° ìœ„í•´ ë³€í™˜í•˜ì—¬ì¤€ë‹¤.
+	 * @param str ë³€í™˜í•  ë¬¸ìì—´
 	 */
 	public static String escapeJS(String str) {
 		if (str == null) {
@@ -415,10 +415,10 @@ public class DataTablesUtil {
 		return str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"").replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n");
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////// Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////// Private ë©”ì†Œë“œ
 
 	/**
-	 * DataTables ¿ë Row ¹®ÀÚ¿­ »ı¼º
+	 * DataTables ìš© Row ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _dataTablesRowStr(Map<String, Object> map) {
 		StringBuilder buffer = new StringBuilder();
@@ -442,7 +442,7 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * DataTables ¿ë Row ¹®ÀÚ¿­ »ı¼º
+	 * DataTables ìš© Row ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _dataTablesRowStr(RecordSet rs, String[] colNms) {
 		StringBuilder buffer = new StringBuilder();

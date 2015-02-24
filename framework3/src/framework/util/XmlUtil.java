@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,25 +18,25 @@ import org.apache.commons.logging.LogFactory;
 import framework.db.RecordSet;
 
 /**
- * XMLÀ» ÀÌ¿ëÇÏ¿© °³¹ßÇÒ ¶§ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * XMLì„ ì´ìš©í•˜ì—¬ ê°œë°œí•  ë•Œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class XmlUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.XmlUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private XmlUtil() {
 	}
 
 	/**
-	 * RecordSetÀ» xml Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù. (xml Çì´õÆ÷ÇÔ). 
+	 * RecordSetì„ xml í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤. (xml í—¤ë”í¬í•¨). 
 	 * <br>
-	 * ex) response·Î rs¸¦ xml Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : XmlUtil.render(response, rs, "utf-8")
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs xml Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ xml í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : XmlUtil.render(response, rs, "utf-8")
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, String encoding) {
 		if (rs == null) {
@@ -62,11 +62,11 @@ public class XmlUtil {
 	}
 
 	/**
-	 * RecordSetÀ» xml Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. (xml Çì´õ ¹ÌÆ÷ÇÔ).
+	 * RecordSetì„ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. (xml í—¤ë” ë¯¸í¬í•¨).
 	 * <br>
-	 * ex) rs¸¦ xml Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String xml = XmlUtil.render(rs)
-	 * @param rs xml Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return xml Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String xml = XmlUtil.render(rs)
+	 * @param rs xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs) {
 		if (rs == null) {
@@ -84,12 +84,12 @@ public class XmlUtil {
 	}
 
 	/**
-	 * RecordSetÀ» xml Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. (xml Çì´õÆ÷ÇÔ). 
+	 * RecordSetì„ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. (xml í—¤ë”í¬í•¨). 
 	 * <br>
-	 * ex) rs¸¦ xml Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String xml = XmlUtil.render(rs, "utf-8")
-	 * @param rs xml Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @return xml Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String xml = XmlUtil.render(rs, "utf-8")
+	 * @param rs xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @return xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs, String encoding) {
 		if (rs == null) {
@@ -102,13 +102,13 @@ public class XmlUtil {
 	}
 
 	/**
-	 * ResultSetÀ» xml Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù (xml Çì´õÆ÷ÇÔ). 
+	 * ResultSetì„ xml í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤ (xml í—¤ë”í¬í•¨). 
 	 * <br>
-	 * ex) response·Î rs¸¦ xml Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : XmlUtil.render(response, rs, "utf-8")
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs xml Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ xml í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : XmlUtil.render(response, rs, "utf-8")
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, String encoding) {
 		if (rs == null) {
@@ -121,7 +121,7 @@ public class XmlUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				pw.print(_xmlHeaderStr(encoding));
@@ -161,10 +161,10 @@ public class XmlUtil {
 	}
 
 	/**
-	 * ResultSetÀ» xml Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù (xml Çì´õ ¹ÌÆ÷ÇÔ). 
+	 * ResultSetì„ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤ (xml í—¤ë” ë¯¸í¬í•¨). 
 	 * <br>
-	 * ex) rs¸¦ xml Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String xml = XmlUtil.render(rs)
-	 * @param rs xml Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
+	 * ex) rsë¥¼ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String xml = XmlUtil.render(rs)
+	 * @param rs xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
 	 */
 	public static String render(ResultSet rs) {
 		if (rs == null) {
@@ -177,7 +177,7 @@ public class XmlUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				buffer.append("<items>");
@@ -214,11 +214,11 @@ public class XmlUtil {
 	}
 
 	/**
-	 * ResultSetÀ» xml Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù (xml Çì´õÆ÷ÇÔ). 
+	 * ResultSetì„ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤ (xml í—¤ë”í¬í•¨). 
 	 * <br>
-	 * ex) rs¸¦ xml Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String xml = XmlUtil.render(rs, "utf-8")
-	 * @param rs xml Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
+	 * ex) rsë¥¼ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String xml = XmlUtil.render(rs, "utf-8")
+	 * @param rs xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
 	 */
 	public static String render(ResultSet rs, String encoding) {
 		if (rs == null) {
@@ -231,11 +231,11 @@ public class XmlUtil {
 	}
 
 	/**
-	 * Map°´Ã¼¸¦ xml Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù (xml Çì´õ ¹ÌÆ÷ÇÔ). 
+	 * Mapê°ì²´ë¥¼ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤ (xml í—¤ë” ë¯¸í¬í•¨). 
 	 * <br>
-	 * ex) mapÀ» xml Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String xml = XmlUtil.render(map)
-	 * @param map º¯È¯ÇÒ Map°´Ã¼
-	 * @return xml Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) mapì„ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String xml = XmlUtil.render(map)
+	 * @param map ë³€í™˜í•  Mapê°ì²´
+	 * @return xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(Map<String, Object> map) {
 		if (map == null) {
@@ -249,12 +249,12 @@ public class XmlUtil {
 	}
 
 	/**
-	 * Map°´Ã¼¸¦ xml Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù (xml Çì´õÆ÷ÇÔ). 
+	 * Mapê°ì²´ë¥¼ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤ (xml í—¤ë”í¬í•¨). 
 	 * <br>
-	 * ex) mapÀ» xml Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì  : String xml = XmlUtil.render(map, "utf-8")
-	 * @param map º¯È¯ÇÒ Map°´Ã¼
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @return xml Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) mapì„ xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš°  : String xml = XmlUtil.render(map, "utf-8")
+	 * @param map ë³€í™˜í•  Mapê°ì²´
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @return xml í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(Map<String, Object> map, String encoding) {
 		if (map == null) {
@@ -267,11 +267,11 @@ public class XmlUtil {
 	}
 
 	/**
-	 * List°´Ã¼¸¦ xml ÇüÅÂ·Î º¯È¯ÇÑ´Ù (xml Çì´õ ¹ÌÆ÷ÇÔ). 
+	 * Listê°ì²´ë¥¼ xml í˜•íƒœë¡œ ë³€í™˜í•œë‹¤ (xml í—¤ë” ë¯¸í¬í•¨). 
 	 * <br>
-	 * ex) mapList¸¦ xmlÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String xml = XmlUtil.render(mapList)
-	 * @param mapList º¯È¯ÇÒ List°´Ã¼
-	 * @return xmlÇü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) mapListë¥¼ xmlìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String xml = XmlUtil.render(mapList)
+	 * @param mapList ë³€í™˜í•  Listê°ì²´
+	 * @return xmlí˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(List<Map<String, Object>> mapList) {
 		if (mapList == null) {
@@ -287,12 +287,12 @@ public class XmlUtil {
 	}
 
 	/**
-	 * List°´Ã¼¸¦ xml ÇüÅÂ·Î º¯È¯ÇÑ´Ù (xml Çì´õÆ÷ÇÔ).
+	 * Listê°ì²´ë¥¼ xml í˜•íƒœë¡œ ë³€í™˜í•œë‹¤ (xml í—¤ë”í¬í•¨).
 	 * <br>
-	 * ex) mapList¸¦ xmlÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì  : String xml = XmlUtil.render(mapList, "utf-8")
-	 * @param mapList º¯È¯ÇÒ List°´Ã¼
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @return xmlÇü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) mapListë¥¼ xmlìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš°  : String xml = XmlUtil.render(mapList, "utf-8")
+	 * @param mapList ë³€í™˜í•  Listê°ì²´
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @return xmlí˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(List<Map<String, Object>> mapList, String encoding) {
 		if (mapList == null) {
@@ -304,17 +304,17 @@ public class XmlUtil {
 		return buffer.toString();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////// Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////// Private ë©”ì†Œë“œ
 
 	/**
-	 *  xml Çì´õ ¹®ÀÚ¿­ »ı¼º
+	 *  xml í—¤ë” ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _xmlHeaderStr(String encoding) {
 		return "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>";
 	}
 
 	/**
-	 * xml item ¹®ÀÚ¿­ »ı¼º
+	 * xml item ë¬¸ìì—´ ìƒì„±
 	 */
 	@SuppressWarnings("unchecked")
 	private static String _xmlItemStr(Map<String, Object> map) {
@@ -342,7 +342,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * xml item ¹®ÀÚ¿­ »ı¼º
+	 * xml item ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _xmlItemStr(RecordSet rs, String[] colNms) {
 		if (colNms == null) {

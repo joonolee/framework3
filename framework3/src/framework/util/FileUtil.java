@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -16,30 +16,30 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * ÆÄÀÏÃ³¸®, ¾÷·Îµå, ´Ù¿î·Îµå½Ã ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * íŒŒì¼ì²˜ë¦¬, ì—…ë¡œë“œ, ë‹¤ìš´ë¡œë“œì‹œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class FileUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.FileUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private FileUtil() {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î Àü´ŞµÈ °æ·Î¿¡ ÇØ´çÇÏ´Â µğ·ºÅä¸®ÀÇ Å©±â¸¦ byte ´ÜÀ§·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param directoryPath µğ·ºÅä¸® °æ·Î
-	 * @return µğ·ºÅä¸®ÀÇ byte ´ÜÀ§ÀÇ Å©±â
+	 * ì¸ìë¡œ ì „ë‹¬ëœ ê²½ë¡œì— í•´ë‹¹í•˜ëŠ” ë””ë ‰í† ë¦¬ì˜ í¬ê¸°ë¥¼ byte ë‹¨ìœ„ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param directoryPath ë””ë ‰í† ë¦¬ ê²½ë¡œ
+	 * @return ë””ë ‰í† ë¦¬ì˜ byte ë‹¨ìœ„ì˜ í¬ê¸°
 	 */
 	public static long getDirSizeToByteUnit(String directoryPath) {
 		return getDirSizeToByteUnit(new File(directoryPath));
 	}
 
 	/**
-	 * ÀÎÀÚ·Î Àü´ŞµÈ µğ·ºÅä¸®ÀÇ Å©±â¸¦ byte ´ÜÀ§·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param directory µğ·ºÅä¸® ÆÄÀÏ°´Ã¼
-	 * @return µğ·ºÅä¸®ÀÇ byte ´ÜÀ§ÀÇ Å©±â
+	 * ì¸ìë¡œ ì „ë‹¬ëœ ë””ë ‰í† ë¦¬ì˜ í¬ê¸°ë¥¼ byte ë‹¨ìœ„ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param directory ë””ë ‰í† ë¦¬ íŒŒì¼ê°ì²´
+	 * @return ë””ë ‰í† ë¦¬ì˜ byte ë‹¨ìœ„ì˜ í¬ê¸°
 	 */
 	public static long getDirSizeToByteUnit(File directory) {
 		long totalSum = 0;
@@ -57,45 +57,45 @@ public class FileUtil {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î Àü´ŞµÈ ÆÄÀÏÀÇ È®ÀåÀÚ¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param file È®ÀåÀÚ¸¦ ¾Ë°íÀÚ ¿øÇÏ´Â ÆÄÀÏ¸í
-	 * @return È®ÀåÀÚ¸í
+	 * ì¸ìë¡œ ì „ë‹¬ëœ íŒŒì¼ì˜ í™•ì¥ìë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param file í™•ì¥ìë¥¼ ì•Œê³ ì ì›í•˜ëŠ” íŒŒì¼ëª…
+	 * @return í™•ì¥ìëª…
 	 */
 	public static String getFileExtension(File file) {
 		return FileUtil.getFileExtension(file.toString());
 	}
 
 	/**
-	 * ÀÎÀÚ·Î Àü´ŞµÈ ÆÄÀÏ¸íÀÇ È®ÀåÀÚ¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param filePath È®ÀåÀÚ¸¦ ¾Ë°íÀÚ ¿øÇÏ´Â ÆÄÀÏ¸í
-	 * @return È®ÀåÀÚ¸í
+	 * ì¸ìë¡œ ì „ë‹¬ëœ íŒŒì¼ëª…ì˜ í™•ì¥ìë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param filePath í™•ì¥ìë¥¼ ì•Œê³ ì ì›í•˜ëŠ” íŒŒì¼ëª…
+	 * @return í™•ì¥ìëª…
 	 */
 	public static String getFileExtension(String filePath) {
 		return filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
 	}
 
 	/**
-	 * ÀÎÀÚ·Î Àü´ŞµÈ ÆÄÀÏ°æ·Î¿¡¼­ ÆÄÀÏ¸í¸¸ ÃßÃâ(°æ·Î´Â Á¦°Å)ÇÏ´Â ¸Ş¼Òµå
+	 * ì¸ìë¡œ ì „ë‹¬ëœ íŒŒì¼ê²½ë¡œì—ì„œ íŒŒì¼ëª…ë§Œ ì¶”ì¶œ(ê²½ë¡œëŠ” ì œê±°)í•˜ëŠ” ë©”ì†Œë“œ
 	 * @param filePath
-	 * @return °æ·Î°¡ Á¦°ÅµÈ ÆÄÀÏ¸í
+	 * @return ê²½ë¡œê°€ ì œê±°ëœ íŒŒì¼ëª…
 	 */
 	public static String getFileName(String filePath) {
 		return filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length()).substring(filePath.lastIndexOf("\\") + 1, filePath.length());
 	}
 
 	/**
-	 * ÀÎÀÚ·Î Àü´ŞµÈ ÆÄÀÏ°´Ã¼¿¡¼­ ÆÄÀÏ¸í¸¸ ÃßÃâ(°æ·Î´Â Á¦°Å)ÇÏ´Â ¸Ş¼Òµå
+	 * ì¸ìë¡œ ì „ë‹¬ëœ íŒŒì¼ê°ì²´ì—ì„œ íŒŒì¼ëª…ë§Œ ì¶”ì¶œ(ê²½ë¡œëŠ” ì œê±°)í•˜ëŠ” ë©”ì†Œë“œ
 	 * @param file
-	 * @return °æ·Î°¡ Á¦°ÅµÈ ÆÄÀÏ¸í
+	 * @return ê²½ë¡œê°€ ì œê±°ëœ íŒŒì¼ëª…
 	 */
 	public static String getFileName(File file) {
 		return getFileName(file.getPath());
 	}
 
 	/**
-	 * ÆÄÀÏÀ» º¹»çÇÏ´Â ¸Ş¼Òµå
-	 * @param src ¿øº» ÆÄÀÏ °´Ã¼
-	 * @param dest ´ë»ó ÆÄÀÏ °´Ã¼
+	 * íŒŒì¼ì„ ë³µì‚¬í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param src ì›ë³¸ íŒŒì¼ ê°ì²´
+	 * @param dest ëŒ€ìƒ íŒŒì¼ ê°ì²´
 	 */
 	public static void copyFile(java.io.File src, java.io.File dest) {
 		InputStream in = null;
@@ -125,9 +125,9 @@ public class FileUtil {
 	}
 
 	/**
-	 * ÀÔ·Â stream µ¥ÀÌÅÍ¸¦ Ãâ·Â stream À¸·Î º¹»çÇÏ´Â ¸Ş¼Òµå
-	 * @param in ÀÔ·Â½ºÆ®¸²
-	 * @param out Ãâ·Â½ºÆ®¸²
+	 * ì…ë ¥ stream ë°ì´í„°ë¥¼ ì¶œë ¥ stream ìœ¼ë¡œ ë³µì‚¬í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param in ì…ë ¥ìŠ¤íŠ¸ë¦¼
+	 * @param out ì¶œë ¥ìŠ¤íŠ¸ë¦¼
 	 */
 	public static void copy(InputStream in, OutputStream out) {
 		int size = 1024;
@@ -143,36 +143,36 @@ public class FileUtil {
 	}
 
 	/**
-	 * ÆÄÀÏ »èÁ¦ ¸Ş¼Òµå
-	 * @param fileName ÆÄÀÏ °æ·Î
-	 * @return ¼º°ø¿©ºÎ
+	 * íŒŒì¼ ì‚­ì œ ë©”ì†Œë“œ
+	 * @param fileName íŒŒì¼ ê²½ë¡œ
+	 * @return ì„±ê³µì—¬ë¶€
 	 */
 	public static boolean deleteFile(String fileName) {
 		return deleteFile(new File(fileName));
 	}
 
 	/**
-	 * ÆÄÀÏ »èÁ¦ ¸Ş¼Òµå
-	 * @param file ÆÄÀÏ °´Ã¼
-	 * @return ¼º°ø¿©ºÎ
+	 * íŒŒì¼ ì‚­ì œ ë©”ì†Œë“œ
+	 * @param file íŒŒì¼ ê°ì²´
+	 * @return ì„±ê³µì—¬ë¶€
 	 */
 	public static boolean deleteFile(File file) {
 		return file.canWrite() ? file.delete() : false;
 	}
 
 	/**
-	 * µğ·ºÅä¸® »èÁ¦ ¸Ş¼Òµå
-	 * @param directoryPath µğ·ºÅä¸® °æ·Î
-	 * @return ¼º°ø¿©ºÎ
+	 * ë””ë ‰í† ë¦¬ ì‚­ì œ ë©”ì†Œë“œ
+	 * @param directoryPath ë””ë ‰í† ë¦¬ ê²½ë¡œ
+	 * @return ì„±ê³µì—¬ë¶€
 	 */
 	public static boolean deleteDirectory(String directoryPath) {
 		return deleteDirectory(new File(directoryPath));
 	}
 
 	/**
-	 * µğ·ºÅä¸® »èÁ¦ ¸Ş¼Òµå
-	 * @param directory µğ·ºÅä¸® °´Ã¼
-	 * @return ¼º°ø¿©ºÎ
+	 * ë””ë ‰í† ë¦¬ ì‚­ì œ ë©”ì†Œë“œ
+	 * @param directory ë””ë ‰í† ë¦¬ ê°ì²´
+	 * @return ì„±ê³µì—¬ë¶€
 	 */
 	public static boolean deleteDirectory(File directory) {
 		if (directory != null && directory.isDirectory() && directory.exists()) {
@@ -187,7 +187,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * ÀÌ¹ÌÁö µ¥ÀÌÅÍ¸¦ stream À¸·Î Àü´ŞÇÏ´Â ¸Ş¼Òµå
+	 * ì´ë¯¸ì§€ ë°ì´í„°ë¥¼ stream ìœ¼ë¡œ ì „ë‹¬í•˜ëŠ” ë©”ì†Œë“œ
 	 * @param response
 	 * @param file
 	 */
@@ -204,7 +204,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * ºñµğ¿À µ¥ÀÌÅÍ¸¦ stream À¸·Î Àü´ŞÇÏ´Â ¸Ş¼Òµå
+	 * ë¹„ë””ì˜¤ ë°ì´í„°ë¥¼ stream ìœ¼ë¡œ ì „ë‹¬í•˜ëŠ” ë©”ì†Œë“œ
 	 * @param response
 	 * @param file
 	 */
@@ -221,7 +221,7 @@ public class FileUtil {
 	}
 
 	/**
-	 * ÆÄÀÏÀ» stream À¸·Î Àü´ŞÇÏ´Â ¸Ş¼Òµå
+	 * íŒŒì¼ì„ stream ìœ¼ë¡œ ì „ë‹¬í•˜ëŠ” ë©”ì†Œë“œ
 	 * @param response
 	 * @param displayName
 	 * @param file

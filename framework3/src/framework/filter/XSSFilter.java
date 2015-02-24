@@ -1,4 +1,4 @@
-package framework.filter;
+﻿package framework.filter;
 
 import java.io.IOException;
 import java.util.regex.Pattern;

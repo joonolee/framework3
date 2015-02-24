@@ -1,10 +1,10 @@
-package framework.db;
+ï»¿package framework.db;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Å×ÀÌºíÀ» CRUD ÇÏ´Â DAO¸¦ ÀÛ¼ºÇÒ¶§ »ó¼Ó¹Ş´Â Å¬·¡½º
+ * í…Œì´ë¸”ì„ CRUD í•˜ëŠ” DAOë¥¼ ì‘ì„±í• ë•Œ ìƒì†ë°›ëŠ” í´ë˜ìŠ¤
  */
 public abstract class AbstractOrmDao {
 	protected static final Log logger = LogFactory.getLog(framework.db.AbstractOrmDao.class);

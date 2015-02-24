@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -25,59 +25,59 @@ import framework.action.Params;
 import framework.db.RecordSet;
 
 /**
- * ¸¶ÀÌÇÃ·§ÆûÀ» ÀÌ¿ëÇÏ¿© °³¹ßÇÒ ¶§ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * ë§ˆì´í”Œë«í¼ì„ ì´ìš©í•˜ì—¬ ê°œë°œí•  ë•Œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class MiPlatformUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.MiPlatformUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private MiPlatformUtil() {
 	}
 
 	/**
-	 * ¹Ì¾ĞÃà ¹æ½ÄÀÇ ¹ÙÀÌ³Ê¸® ¼Û¼ö½Å Çü½Ä
+	 * ë¯¸ì••ì¶• ë°©ì‹ì˜ ë°”ì´ë„ˆë¦¬ ì†¡ìˆ˜ì‹  í˜•ì‹
 	 */
 	public static final int BIN = PlatformRequest.BIN;
 
 	/**
-	 * ¹Ì¾ĞÃà ¹æ½ÄÀÇ XML ¼Û¼ö½Å Çü½Ä
+	 * ë¯¸ì••ì¶• ë°©ì‹ì˜ XML ì†¡ìˆ˜ì‹  í˜•ì‹
 	 */
 	public static final int XML = PlatformRequest.XML;
 
 	/**
-	 * Zlib ¾ĞÃà ¹æ½ÄÀÇ ¹ÙÀÌ³Ê¸® ¼Û¼ö½Å Çü½Ä
+	 * Zlib ì••ì¶• ë°©ì‹ì˜ ë°”ì´ë„ˆë¦¬ ì†¡ìˆ˜ì‹  í˜•ì‹
 	 */
 	public static final int ZLIB_COMP = PlatformRequest.ZLIB_COMP;
 
 	/**
-	 * RecordSetÀ» ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼Â(¸íÄªÀº datasetName ÀÎÀÚ °ª)À¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * RecordSetì„ ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹(ëª…ì¹­ì€ datasetName ì¸ì ê°’)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅÍ¼Â(¸íÄªÀº result)À¸·Î º¯È¯ÇÏ¿© response·Î XML Çü½ÄÀ¸·Î Àü¼ÛÇÏ´Â °æ¿ì : MiPlatformUtil.render(response, "result", rs, MiPlatformUtil.XML)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param datasetName µ¥ÀÌÅ¸¼Â ÀÌ¸§
-	 * @param rs ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param dataFormat ¼Û¼ö½Å Çü½Ä (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rsë¥¼ ë§ˆì´í”Œë«í¼ ë°ì´í„°ì…‹(ëª…ì¹­ì€ result)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ XML í˜•ì‹ìœ¼ë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : MiPlatformUtil.render(response, "result", rs, MiPlatformUtil.XML)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param datasetName ë°ì´íƒ€ì…‹ ì´ë¦„
+	 * @param rs ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param dataFormat ì†¡ìˆ˜ì‹  í˜•ì‹ (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, String datasetName, RecordSet rs, int dataFormat) {
 		return render(response, new String[] { datasetName }, new RecordSet[] { rs }, dataFormat);
 	}
 
 	/**
-	 * RecordSetÀ» ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼Â(¸íÄªÀº datasetNameArray ÀÎÀÚ °ª)À¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * RecordSetì„ ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹(ëª…ì¹­ì€ datasetNameArray ì¸ì ê°’)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * <br>
-	 * ex) rs1°ú rs2¸¦ ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î XML Çü½ÄÀ¸·Î Àü¼ÛÇÏ´Â °æ¿ì : MiPlatformUtil.render(response, new String[] { "result1", "result2" }, new RecordSet[] { rs1, rs2 }, MiPlatformUtil.XML)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param datasetNameArray µ¥ÀÌÅ¸¼Â ÀÌ¸§ ¹è¿­
-	 * @param rsArray ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼ ¹è¿­
-	 * @param dataFormat ¼Û¼ö½Å Çü½Ä (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rs1ê³¼ rs2ë¥¼ ë§ˆì´í”Œë«í¼ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ XML í˜•ì‹ìœ¼ë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : MiPlatformUtil.render(response, new String[] { "result1", "result2" }, new RecordSet[] { rs1, rs2 }, MiPlatformUtil.XML)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param datasetNameArray ë°ì´íƒ€ì…‹ ì´ë¦„ ë°°ì—´
+	 * @param rsArray ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´ ë°°ì—´
+	 * @param dataFormat ì†¡ìˆ˜ì‹  í˜•ì‹ (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray, int dataFormat) {
 		if (datasetNameArray.length != rsArray.length) {
-			throw new IllegalArgumentException("DatasetÀÌ¸§ °¹¼ö¿Í RecordSet°¹¼ö°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+			throw new IllegalArgumentException("Datasetì´ë¦„ ê°¯ìˆ˜ì™€ RecordSetê°¯ìˆ˜ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		}
 		int rowCount = 0;
 		VariableList vl = new VariableList();
@@ -94,32 +94,32 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ResultSetÀ» ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼Â(¸íÄªÀº datasetName ÀÎÀÚ °ª)À¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * ResultSetì„ ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹(ëª…ì¹­ì€ datasetName ì¸ì ê°’)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅÍ¼Â(¸íÄªÀº result)À¸·Î º¯È¯ÇÏ¿© response·Î XML Çü½ÄÀ¸·Î Àü¼ÛÇÏ´Â °æ¿ì : MiPlatformUtil.render(response, "result", rs, MiPlatformUtil.XML)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param datasetName µ¥ÀÌÅ¸¼Â ÀÌ¸§
-	 * @param rs ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param dataFormat ¼Û¼ö½Å Çü½Ä (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rsë¥¼ ë§ˆì´í”Œë«í¼ ë°ì´í„°ì…‹(ëª…ì¹­ì€ result)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ XML í˜•ì‹ìœ¼ë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : MiPlatformUtil.render(response, "result", rs, MiPlatformUtil.XML)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param datasetName ë°ì´íƒ€ì…‹ ì´ë¦„
+	 * @param rs ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param dataFormat ì†¡ìˆ˜ì‹  í˜•ì‹ (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, String datasetName, ResultSet rs, int dataFormat) {
 		return render(response, new String[] { datasetName }, new ResultSet[] { rs }, dataFormat);
 	}
 
 	/**
-	 * ResultSetÀ» ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼Â(¸íÄªÀº datasetNameArray ÀÎÀÚ °ª)À¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * ResultSetì„ ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹(ëª…ì¹­ì€ datasetNameArray ì¸ì ê°’)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * <br>
-	 * ex) rs1°ú rs2¸¦ ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î XML Çü½ÄÀ¸·Î Àü¼ÛÇÏ´Â °æ¿ì : MiPlatformUtil.render(response, new String[] { "result1", "result2" }, new ResultSet[] { rs1, rs2 }, MiPlatformUtil.XML)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param datasetNameArray µ¥ÀÌÅ¸¼Â ÀÌ¸§ ¹è¿­
-	 * @param rsArray ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼ ¹è¿­, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param dataFormat ¼Û¼ö½Å Çü½Ä (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rs1ê³¼ rs2ë¥¼ ë§ˆì´í”Œë«í¼ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ XML í˜•ì‹ìœ¼ë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : MiPlatformUtil.render(response, new String[] { "result1", "result2" }, new ResultSet[] { rs1, rs2 }, MiPlatformUtil.XML)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param datasetNameArray ë°ì´íƒ€ì…‹ ì´ë¦„ ë°°ì—´
+	 * @param rsArray ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´ ë°°ì—´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param dataFormat ì†¡ìˆ˜ì‹  í˜•ì‹ (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray, int dataFormat) {
 		if (datasetNameArray.length != rsArray.length) {
-			throw new IllegalArgumentException("DatasetÀÌ¸§ °¹¼ö¿Í ResultSet°¹¼ö°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+			throw new IllegalArgumentException("Datasetì´ë¦„ ê°¯ìˆ˜ì™€ ResultSetê°¯ìˆ˜ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		}
 		int rowCount = 0;
 		VariableList vl = new VariableList();
@@ -136,11 +136,11 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ÇØ´ç HttpServletRequest·Î ºÎÅÍ PlatformRequest ¹İÈ¯¹Ş´Â´Ù
+	 * í•´ë‹¹ HttpServletRequestë¡œ ë¶€í„° PlatformRequest ë°˜í™˜ë°›ëŠ”ë‹¤
 	 * <br>
-	 * ex) ¿äÃ»°´Ã¼·Î ºÎÅÍ ¸¶ÀÌÇÃ·§Æû ¿äÃ»°´Ã¼¸¦ ±¸ÇÏ´Â °æ¿ì : PlatformRequest pReq = MiPlatformUtil.getPReq(request)
-	 * @param request Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¿äÃ»µÈ Request °´Ã¼
-	 * @return ¿äÃ»°´Ã¼¿¡¼­ ±¸ÇÑ PlatformRequest °´Ã¼
+	 * ex) ìš”ì²­ê°ì²´ë¡œ ë¶€í„° ë§ˆì´í”Œë«í¼ ìš”ì²­ê°ì²´ë¥¼ êµ¬í•˜ëŠ” ê²½ìš° : PlatformRequest pReq = MiPlatformUtil.getPReq(request)
+	 * @param request í´ë¼ì´ì–¸íŠ¸ì—ì„œ ìš”ì²­ëœ Request ê°ì²´
+	 * @return ìš”ì²­ê°ì²´ì—ì„œ êµ¬í•œ PlatformRequest ê°ì²´
 	 */
 	public static PlatformRequest getPReq(HttpServletRequest request) {
 		PlatformRequest inputPR = null;
@@ -154,12 +154,12 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ÇØ´ç HttpServletRequest·Î ºÎÅÍ encoding Çü½ÄÀÇ PlatformRequest ¹İÈ¯¹Ş´Â´Ù
+	 * í•´ë‹¹ HttpServletRequestë¡œ ë¶€í„° encoding í˜•ì‹ì˜ PlatformRequest ë°˜í™˜ë°›ëŠ”ë‹¤
 	 * <br>
-	 * ex) ¿äÃ»°´Ã¼·Î ºÎÅÍ utf-8 Çü½ÄÀÇ ¸¶ÀÌÇÃ·§Æû ¿äÃ»°´Ã¼¸¦ ±¸ÇÏ´Â °æ¿ì : PlatformRequest pReq = MiPlatformUtil.getPReq(request, "utf-8")
-	 * @param request Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¿äÃ»µÈ Request °´Ã¼
-	 * @param encoding ÀÎÄÚµùÇÒ Çü½Ä
-	 * @return ¿äÃ»°´Ã¼¿¡¼­ ±¸ÇÑ PlatformRequest °´Ã¼
+	 * ex) ìš”ì²­ê°ì²´ë¡œ ë¶€í„° utf-8 í˜•ì‹ì˜ ë§ˆì´í”Œë«í¼ ìš”ì²­ê°ì²´ë¥¼ êµ¬í•˜ëŠ” ê²½ìš° : PlatformRequest pReq = MiPlatformUtil.getPReq(request, "utf-8")
+	 * @param request í´ë¼ì´ì–¸íŠ¸ì—ì„œ ìš”ì²­ëœ Request ê°ì²´
+	 * @param encoding ì¸ì½”ë”©í•  í˜•ì‹
+	 * @return ìš”ì²­ê°ì²´ì—ì„œ êµ¬í•œ PlatformRequest ê°ì²´
 	 */
 	public static PlatformRequest getPReq(HttpServletRequest request, String encoding) {
 		PlatformRequest inputPR = null;
@@ -173,12 +173,12 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ÇØ´ç HttpServletResponse·Î ºÎÅÍ PlatformResponse ¹İÈ¯¹Ş´Â´Ù
+	 * í•´ë‹¹ HttpServletResponseë¡œ ë¶€í„° PlatformResponse ë°˜í™˜ë°›ëŠ”ë‹¤
 	 * <br>
-	 * ex) ÀÀ´ä°´Ã¼·Î ºÎÅÍ XML ¼Û¼ö½Å Çü½ÄÀÇ ¸¶ÀÌÇÃ·§Æû ÀÀ´ä°´Ã¼¸¦ ±¸ÇÏ´Â °æ¿ì : PlatformResponse pRes = MiPlatformUtil.getPRes(response, MiPlatformUtil.XML)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param dataFormat ¼Û¼ö½Å Çü½Ä (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
-	 * @return ÀÀ´ä°´Ã¼¿¡¼­ ±¸ÇÑ PlatformResponse °´Ã¼
+	 * ex) ì‘ë‹µê°ì²´ë¡œ ë¶€í„° XML ì†¡ìˆ˜ì‹  í˜•ì‹ì˜ ë§ˆì´í”Œë«í¼ ì‘ë‹µê°ì²´ë¥¼ êµ¬í•˜ëŠ” ê²½ìš° : PlatformResponse pRes = MiPlatformUtil.getPRes(response, MiPlatformUtil.XML)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param dataFormat ì†¡ìˆ˜ì‹  í˜•ì‹ (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
+	 * @return ì‘ë‹µê°ì²´ì—ì„œ êµ¬í•œ PlatformResponse ê°ì²´
 	 */
 	public static PlatformResponse getPRes(HttpServletResponse response, int dataFormat) {
 		PlatformResponse inputPRes = null;
@@ -191,13 +191,13 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ÇØ´ç HttpServletResponse·Î ºÎÅÍ encoding Çü½ÄÀÇ PlatformResponse ¹İÈ¯¹Ş´Â´Ù
+	 * í•´ë‹¹ HttpServletResponseë¡œ ë¶€í„° encoding í˜•ì‹ì˜ PlatformResponse ë°˜í™˜ë°›ëŠ”ë‹¤
 	 * <br>
-	 * ex) ÀÀ´ä°´Ã¼·Î ºÎÅÍ utf-8 Çü½ÄÀÇ XML ¼Û¼ö½Å Çü½ÄÀÇ ¸¶ÀÌÇÃ·§Æû ÀÀ´ä°´Ã¼¸¦ ±¸ÇÏ´Â °æ¿ì : PlatformResponse pRes = MiPlatformUtil.getPRes(response, MiPlatformUtil.XML, "utf-8")
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param dataFormat ¼Û¼ö½Å Çü½Ä (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
-	 * @param encoding ÀÎÄÚµùÇÒ Çü½Ä
-	 * @return ÀÀ´ä°´Ã¼¿¡¼­ ±¸ÇÑ PlatformResponse °´Ã¼ 
+	 * ex) ì‘ë‹µê°ì²´ë¡œ ë¶€í„° utf-8 í˜•ì‹ì˜ XML ì†¡ìˆ˜ì‹  í˜•ì‹ì˜ ë§ˆì´í”Œë«í¼ ì‘ë‹µê°ì²´ë¥¼ êµ¬í•˜ëŠ” ê²½ìš° : PlatformResponse pRes = MiPlatformUtil.getPRes(response, MiPlatformUtil.XML, "utf-8")
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param dataFormat ì†¡ìˆ˜ì‹  í˜•ì‹ (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
+	 * @param encoding ì¸ì½”ë”©í•  í˜•ì‹
+	 * @return ì‘ë‹µê°ì²´ì—ì„œ êµ¬í•œ PlatformResponse ê°ì²´ 
 	 */
 	public static PlatformResponse getPRes(HttpServletResponse response, int dataFormat, String encoding) {
 		PlatformResponse inputPRes = null;
@@ -210,15 +210,15 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ÇØ´ç DataSet·Î ºÎÅÍ Param¸¦ ¹İÈ¯¹Ş´Â´Ù
+	 * í•´ë‹¹ DataSetë¡œ ë¶€í„° Paramë¥¼ ë°˜í™˜ë°›ëŠ”ë‹¤
 	 * <br>
-	 * ex) DataSetÀ¸·Î ºÎÅÍ Param¸¦ ±¸ÇÏ´Â °æ¿ì : Param box = MiPlatformUtil.getParam(dSet)
-	 * @param dSet Box·Î º¯È¯ÇÒ DataSet °´Ã¼
-	 * @return DataSet¿¡¼­ ±¸ÇÑ Box °´Ã¼
+	 * ex) DataSetìœ¼ë¡œ ë¶€í„° Paramë¥¼ êµ¬í•˜ëŠ” ê²½ìš° : Param box = MiPlatformUtil.getParam(dSet)
+	 * @param dSet Boxë¡œ ë³€í™˜í•  DataSet ê°ì²´
+	 * @return DataSetì—ì„œ êµ¬í•œ Box ê°ì²´
 	 */
 	public static Params getParam(Dataset dSet) {
-		if (dSet.getRowCount() != 1) { // row ¼ö°¡ 1°³°¡ ¾Æ´Ï¸é Àß¸øµÈ ÀÎÀÚ
-			throw new IllegalArgumentException("row ¼ö´Â 1°³ ÀÌ¾î¾ß ÇÕ´Ï´Ù.");
+		if (dSet.getRowCount() != 1) { // row ìˆ˜ê°€ 1ê°œê°€ ì•„ë‹ˆë©´ ì˜ëª»ëœ ì¸ì
+			throw new IllegalArgumentException("row ìˆ˜ëŠ” 1ê°œ ì´ì–´ì•¼ í•©ë‹ˆë‹¤.");
 		}
 		Params box = new Params("miplatform");
 		for (int i = 0, col = dSet.getColumnCount(); i < col; i++) {
@@ -229,13 +229,13 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * VariableList¿Í DatasetList¸¦ ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * VariableListì™€ DatasetListë¥¼ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * <br>
-	 * ex) vl°ú dlÀ» response·Î XML Çü½ÄÀ¸·Î Àü¼ÛÇÏ´Â °æ¿ì : MiPlatformUtil.sendData(response, vl, dl, MiPlatformUtil.XML)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param vl ¸¶ÀÌÇÃ·§Æû VariableList °´Ã¼
-	 * @param dl ¸¶ÀÌÇÃ·§Æû DatasetList °´Ã¼
-	 * @param dataFormat ¼Û¼ö½Å Çü½Ä (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
+	 * ex) vlê³¼ dlì„ responseë¡œ XML í˜•ì‹ìœ¼ë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : MiPlatformUtil.sendData(response, vl, dl, MiPlatformUtil.XML)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param vl ë§ˆì´í”Œë«í¼ VariableList ê°ì²´
+	 * @param dl ë§ˆì´í”Œë«í¼ DatasetList ê°ì²´
+	 * @param dataFormat ì†¡ìˆ˜ì‹  í˜•ì‹ (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
 	 */
 	public static void sendData(HttpServletResponse response, VariableList vl, DatasetList dl, int dataFormat) {
 		try {
@@ -247,11 +247,11 @@ public class MiPlatformUtil {
 	}
 
 	/** 
-	 * DatasetÀÇ °ªÀ» ÃßÃâÇÏ¿© String °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param dSet °ªÀ» ÃßÃâÇÒ Dataset
-	 * @param row ÃßÃâÇÒ Çà¹øÈ£
-	 * @param colName ÃßÃâÇÒ ¿­ÀÌ¸§
-	 * @return ÃßÃâµÈ °ªÀ» ´ã°í ÀÖ´Â String °´Ã¼
+	 * Datasetì˜ ê°’ì„ ì¶”ì¶œí•˜ì—¬ String ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param dSet ê°’ì„ ì¶”ì¶œí•  Dataset
+	 * @param row ì¶”ì¶œí•  í–‰ë²ˆí˜¸
+	 * @param colName ì¶”ì¶œí•  ì—´ì´ë¦„
+	 * @return ì¶”ì¶œëœ ê°’ì„ ë‹´ê³  ìˆëŠ” String ê°ì²´
 	 */
 	public static String getString(Dataset dSet, int row, String colName) {
 		String str = dSet.getColumnAsString(row, colName);
@@ -262,11 +262,11 @@ public class MiPlatformUtil {
 	}
 
 	/** 
-	 * DatasetÀÇ °ªÀ» ÃßÃâÇÏ¿© Double °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param dSet °ªÀ» ÃßÃâÇÒ Dataset
-	 * @param row ÃßÃâÇÒ Çà¹øÈ£
-	 * @param colName ÃßÃâÇÒ ¿­ÀÌ¸§
-	 * @return ÃßÃâµÈ °ªÀ» ´ã°í ÀÖ´Â Double °´Ã¼
+	 * Datasetì˜ ê°’ì„ ì¶”ì¶œí•˜ì—¬ Double ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param dSet ê°’ì„ ì¶”ì¶œí•  Dataset
+	 * @param row ì¶”ì¶œí•  í–‰ë²ˆí˜¸
+	 * @param colName ì¶”ì¶œí•  ì—´ì´ë¦„
+	 * @return ì¶”ì¶œëœ ê°’ì„ ë‹´ê³  ìˆëŠ” Double ê°ì²´
 	 */
 	public static Double getDouble(Dataset dSet, int row, String colName) {
 		String value = getString(dSet, row, colName).trim().replaceAll(",", "");
@@ -283,11 +283,11 @@ public class MiPlatformUtil {
 	}
 
 	/** 
-	 * DatasetÀÇ °ªÀ» ÃßÃâÇÏ¿© Long °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param dSet °ªÀ» ÃßÃâÇÒ Dataset
-	 * @param row ÃßÃâÇÒ Çà¹øÈ£
-	 * @param colName ÃßÃâÇÒ ¿­ÀÌ¸§
-	 * @return ÃßÃâµÈ °ªÀ» ´ã°í ÀÖ´Â Long °´Ã¼
+	 * Datasetì˜ ê°’ì„ ì¶”ì¶œí•˜ì—¬ Long ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param dSet ê°’ì„ ì¶”ì¶œí•  Dataset
+	 * @param row ì¶”ì¶œí•  í–‰ë²ˆí˜¸
+	 * @param colName ì¶”ì¶œí•  ì—´ì´ë¦„
+	 * @return ì¶”ì¶œëœ ê°’ì„ ë‹´ê³  ìˆëŠ” Long ê°ì²´
 	 */
 	public static Long getLong(Dataset dSet, int row, String colName) {
 		Double value = getDouble(dSet, row, colName);
@@ -295,11 +295,11 @@ public class MiPlatformUtil {
 	}
 
 	/** 
-	 * DatasetÀÇ °ªÀ» ÃßÃâÇÏ¿© Integer °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param dSet °ªÀ» ÃßÃâÇÒ Dataset
-	 * @param row ÃßÃâÇÒ Çà¹øÈ£
-	 * @param colName ÃßÃâÇÒ ¿­ÀÌ¸§
-	 * @return ÃßÃâµÈ °ªÀ» ´ã°í ÀÖ´Â Integer °´Ã¼
+	 * Datasetì˜ ê°’ì„ ì¶”ì¶œí•˜ì—¬ Integer ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param dSet ê°’ì„ ì¶”ì¶œí•  Dataset
+	 * @param row ì¶”ì¶œí•  í–‰ë²ˆí˜¸
+	 * @param colName ì¶”ì¶œí•  ì—´ì´ë¦„
+	 * @return ì¶”ì¶œëœ ê°’ì„ ë‹´ê³  ìˆëŠ” Integer ê°ì²´
 	 */
 	public static Integer getInteger(Dataset dSet, int row, String colName) {
 		Double value = getDouble(dSet, row, colName);
@@ -307,22 +307,22 @@ public class MiPlatformUtil {
 	}
 
 	/** 
-	 * DatasetÀÇ °ªÀ» ÃßÃâÇÏ¿© Float °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param dSet °ªÀ» ÃßÃâÇÒ Dataset
-	 * @param row ÃßÃâÇÒ Çà¹øÈ£
-	 * @param colName ÃßÃâÇÒ ¿­ÀÌ¸§
-	 * @return ÃßÃâµÈ °ªÀ» ´ã°í ÀÖ´Â Float °´Ã¼
+	 * Datasetì˜ ê°’ì„ ì¶”ì¶œí•˜ì—¬ Float ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param dSet ê°’ì„ ì¶”ì¶œí•  Dataset
+	 * @param row ì¶”ì¶œí•  í–‰ë²ˆí˜¸
+	 * @param colName ì¶”ì¶œí•  ì—´ì´ë¦„
+	 * @return ì¶”ì¶œëœ ê°’ì„ ë‹´ê³  ìˆëŠ” Float ê°ì²´
 	 */
 	public static Float getFloat(Dataset dSet, int row, String colName) {
 		return new Float(getDouble(dSet, row, colName).doubleValue());
 	}
 
 	/** 
-	 * DatasetÀÇ °ªÀ» ÃßÃâÇÏ¿© BigDecimal °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param dSet °ªÀ» ÃßÃâÇÒ Dataset
-	 * @param row ÃßÃâÇÒ Çà¹øÈ£
-	 * @param colName ÃßÃâÇÒ ¿­ÀÌ¸§
-	 * @return ÃßÃâµÈ °ªÀ» ´ã°í ÀÖ´Â BigDecimal °´Ã¼
+	 * Datasetì˜ ê°’ì„ ì¶”ì¶œí•˜ì—¬ BigDecimal ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param dSet ê°’ì„ ì¶”ì¶œí•  Dataset
+	 * @param row ì¶”ì¶œí•  í–‰ë²ˆí˜¸
+	 * @param colName ì¶”ì¶œí•  ì—´ì´ë¦„
+	 * @return ì¶”ì¶œëœ ê°’ì„ ë‹´ê³  ìˆëŠ” BigDecimal ê°ì²´
 	 */
 	public static BigDecimal getBigDecimal(Dataset dSet, int row, String colName) {
 		String value = getString(dSet, row, colName).trim().replaceAll(",", "");
@@ -336,10 +336,10 @@ public class MiPlatformUtil {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////// Private ¸Ş¼Òµå
+	//////////////////////////////////////////////////////////////////////////////////////// Private ë©”ì†Œë“œ
 
 	/**
-	 * RecordSetÀ» ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * RecordSetì„ ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 */
 	private static int _appendDataset(Dataset dSet, RecordSet rs) {
 		if (rs == null) {
@@ -348,7 +348,7 @@ public class MiPlatformUtil {
 		String[] colNms = rs.getColumns();
 		int[] colSize = rs.getColumnsSize();
 		int[] colType = rs.getColumnsType();
-		// ÄÃ·³ ·¹ÀÌ¾Æ¿ô ¼ÂÆÃ
+		// ì»¬ëŸ¼ ë ˆì´ì•„ì›ƒ ì…‹íŒ…
 		for (int c = 0; c < colNms.length; c++) {
 			switch (colType[c]) {
 			case Types.BIGINT:
@@ -367,7 +367,7 @@ public class MiPlatformUtil {
 				break;
 			}
 		}
-		rs.moveRow(0); // rsÀÇ À§Ä¡¸¦ 1¹øÂ°·Î ÀÌµ¿ 
+		rs.moveRow(0); // rsì˜ ìœ„ì¹˜ë¥¼ 1ë²ˆì§¸ë¡œ ì´ë™ 
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			rowCount++;
@@ -377,7 +377,7 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ResultSetÀ» ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * ResultSetì„ ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 */
 	private static int _appendDataset(Dataset dSet, ResultSet rs) {
 		if (rs == null) {
@@ -391,14 +391,14 @@ public class MiPlatformUtil {
 				int[] colSize = new int[cnt];
 				int[] colType = new int[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-					//Field ÀÇ Á¤º¸ ¹× Size Ãß°¡
+					//Field ì˜ ì •ë³´ ë° Size ì¶”ê°€
 					colSize[i - 1] = rsmd.getColumnDisplaySize(i);
-					// Field ÀÇ Å¸ÀÔ Ãß°¡
+					// Field ì˜ íƒ€ì… ì¶”ê°€
 					colType[i - 1] = rsmd.getColumnType(i);
 				}
-				// ÄÃ·³ ·¹ÀÌ¾Æ¿ô ¼ÂÆÃ
+				// ì»¬ëŸ¼ ë ˆì´ì•„ì›ƒ ì…‹íŒ…
 				for (int c = 0; c < colNms.length; c++) {
 					switch (colType[c]) {
 					case Types.BIGINT:
@@ -451,7 +451,7 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼Â¿¡ RecordSet ÇÑÇà Ãß°¡
+	 * ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹ì— RecordSet í•œí–‰ ì¶”ê°€
 	 */
 	private static void _appendRow(Dataset dSet, RecordSet rs, String[] colNms) {
 		if (rs.getRowCount() == 0) {
@@ -473,7 +473,7 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ¸¶ÀÌÇÃ·§Æû µ¥ÀÌÅ¸¼Â¿¡ ResultSet ÇÑÇà Ãß°¡
+	 * ë§ˆì´í”Œë«í¼ ë°ì´íƒ€ì…‹ì— ResultSet í•œí–‰ ì¶”ê°€
 	 */
 	private static void _appendRow(Dataset dSet, ResultSet rs, String[] colNms) {
 		try {

@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -24,23 +24,23 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 /**
- * ÀÌ¹ÌÁö Æ÷¸Ë º¯°æ, Å©±â º¯°æ½Ã ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * ì´ë¯¸ì§€ í¬ë§· ë³€ê²½, í¬ê¸° ë³€ê²½ì‹œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class ImageUtil {
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private ImageUtil() {
 	}
 
 	/**
-	 * ÀÌ¹ÌÁö¸¦ ¸®»çÀÌÁî ÇÑ´Ù. 
-	 * ¼Ò½º ÀÌ¹ÌÁö ÆÄÀÏÀÇ width, height Áß Å©±â°¡ Å« ÂÊÀ» ±âÁØÀ¸·Î ÇÏ¿© ºñÀ²À» À¯ÁöÇÑÃ¤ ÀÌ¹ÌÁö¸¦ »ı¼ºÇÑ´Ù.
-	 * @param srcPath ¼Ò½º ÀÌ¹ÌÁö °æ·Î
-	 * @param destPath ´ë»ó ÀÌ¹ÌÁö °æ·Î
-	 * @param width ¸®»çÀÌÁîÇÒ °¡·Î »çÀÌÁî
-	 * @param height ¸®»çÀÌÁîÇÒ ¼¼·Î »çÀÌÁî
+	 * ì´ë¯¸ì§€ë¥¼ ë¦¬ì‚¬ì´ì¦ˆ í•œë‹¤. 
+	 * ì†ŒìŠ¤ ì´ë¯¸ì§€ íŒŒì¼ì˜ width, height ì¤‘ í¬ê¸°ê°€ í° ìª½ì„ ê¸°ì¤€ìœ¼ë¡œ í•˜ì—¬ ë¹„ìœ¨ì„ ìœ ì§€í•œì±„ ì´ë¯¸ì§€ë¥¼ ìƒì„±í•œë‹¤.
+	 * @param srcPath ì†ŒìŠ¤ ì´ë¯¸ì§€ ê²½ë¡œ
+	 * @param destPath ëŒ€ìƒ ì´ë¯¸ì§€ ê²½ë¡œ
+	 * @param width ë¦¬ì‚¬ì´ì¦ˆí•  ê°€ë¡œ ì‚¬ì´ì¦ˆ
+	 * @param height ë¦¬ì‚¬ì´ì¦ˆí•  ì„¸ë¡œ ì‚¬ì´ì¦ˆ
 	 */
 	public static void resize(String srcPath, String destPath, int width, int height) {
 		File srcFile = new File(srcPath);
@@ -49,17 +49,17 @@ public class ImageUtil {
 	}
 
 	/**
-	 * ÀÌ¹ÌÁö¸¦ ¸®»çÀÌÁî ÇÑ´Ù. 
-	 * ¼Ò½º ÀÌ¹ÌÁö ÆÄÀÏÀÇ width, height Áß Å©±â°¡ Å« ÂÊÀ» ±âÁØÀ¸·Î ÇÏ¿© ºñÀ²À» À¯ÁöÇÑÃ¤ ÀÌ¹ÌÁö¸¦ »ı¼ºÇÑ´Ù.
-	 * @param srcFile ¼Ò½º ÀÌ¹ÌÁö ÆÄÀÏ
-	 * @param destFile ´ë»ó ÀÌ¹ÌÁö ÆÄÀÏ
-	 * @param width ¸®»çÀÌÁîÇÒ °¡·Î »çÀÌÁî
-	 * @param height ¸®»çÀÌÁîÇÒ ¼¼·Î »çÀÌÁî
+	 * ì´ë¯¸ì§€ë¥¼ ë¦¬ì‚¬ì´ì¦ˆ í•œë‹¤. 
+	 * ì†ŒìŠ¤ ì´ë¯¸ì§€ íŒŒì¼ì˜ width, height ì¤‘ í¬ê¸°ê°€ í° ìª½ì„ ê¸°ì¤€ìœ¼ë¡œ í•˜ì—¬ ë¹„ìœ¨ì„ ìœ ì§€í•œì±„ ì´ë¯¸ì§€ë¥¼ ìƒì„±í•œë‹¤.
+	 * @param srcFile ì†ŒìŠ¤ ì´ë¯¸ì§€ íŒŒì¼
+	 * @param destFile ëŒ€ìƒ ì´ë¯¸ì§€ íŒŒì¼
+	 * @param width ë¦¬ì‚¬ì´ì¦ˆí•  ê°€ë¡œ ì‚¬ì´ì¦ˆ
+	 * @param height ë¦¬ì‚¬ì´ì¦ˆí•  ì„¸ë¡œ ì‚¬ì´ì¦ˆ
 	 */
 	public static void resize(File srcFile, File destFile, int width, int height) {
 		Image image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
 		if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
-			throw new IllegalArgumentException("ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			throw new IllegalArgumentException("íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		}
 		double scale = _getScale(width, height, image.getWidth(null), image.getHeight(null));
 		int scaleWidth = (int) (scale * image.getWidth(null));
@@ -74,21 +74,21 @@ public class ImageUtil {
 	}
 
 	/**
-	 * CAPTCHA ÀÌ¹ÌÁö¸¦ ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÏ°í, »ı¼ºµÈ ¹®ÀÚ¿­À» ¸®ÅÏÇÑ´Ù.
-	 * ±âº»»çÀÌÁî´Â °¡·Î 200px, ¼¼·Î 50pxÀ¸·Î ÇÑ´Ù.
-	 * @param response captcha ÀÌ¹ÌÁö¸¦ Àü¼ÛÇÒ ÀÀ´ä°´Ã¼
-	 * @return »ı¼ºµÈ ¹®ÀÚ¿­
+	 * CAPTCHA ì´ë¯¸ì§€ë¥¼ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•˜ê³ , ìƒì„±ëœ ë¬¸ìì—´ì„ ë¦¬í„´í•œë‹¤.
+	 * ê¸°ë³¸ì‚¬ì´ì¦ˆëŠ” ê°€ë¡œ 200px, ì„¸ë¡œ 50pxìœ¼ë¡œ í•œë‹¤.
+	 * @param response captcha ì´ë¯¸ì§€ë¥¼ ì „ì†¡í•  ì‘ë‹µê°ì²´
+	 * @return ìƒì„±ëœ ë¬¸ìì—´
 	 */
 	public static String captcha(HttpServletResponse response) {
 		return captcha(response, 200, 50);
 	}
 
 	/**
-	 * CAPTCHA ÀÌ¹ÌÁö¸¦ ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÏ°í, »ı¼ºµÈ ¹®ÀÚ¿­À» ¸®ÅÏÇÑ´Ù.
-	 * @param response captcha ÀÌ¹ÌÁö¸¦ Àü¼ÛÇÒ ÀÀ´ä°´Ã¼
-	 * @param width °¡·Î »çÀÌÁî ÇÈ¼¿
-	 * @param height ¼¼·Î »çÀÌÁî ÇÈ¼¿
-	 * @return »ı¼ºµÈ ¹®ÀÚ¿­
+	 * CAPTCHA ì´ë¯¸ì§€ë¥¼ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•˜ê³ , ìƒì„±ëœ ë¬¸ìì—´ì„ ë¦¬í„´í•œë‹¤.
+	 * @param response captcha ì´ë¯¸ì§€ë¥¼ ì „ì†¡í•  ì‘ë‹µê°ì²´
+	 * @param width ê°€ë¡œ ì‚¬ì´ì¦ˆ í”½ì…€
+	 * @param height ì„¸ë¡œ ì‚¬ì´ì¦ˆ í”½ì…€
+	 * @return ìƒì„±ëœ ë¬¸ìì—´
 	 */
 	public static String captcha(HttpServletResponse response, int width, int height) {
 		response.reset();
@@ -98,20 +98,20 @@ public class ImageUtil {
 	}
 
 	/**
-	 * QRCode ÀÌ¹ÌÁö¸¦ »ı¼ºÇÑ´Ù.
-	 * @param url QRCode ½ºÄµ ½Ã ÀÌµ¿ÇÒ °÷ÀÇ URL
-	 * @param destPath QRCode ÆÄÀÏ¸í
-	 * @param width QRCode ÀÌ¹ÌÁö °¡·Î ±æÀÌ
+	 * QRCode ì´ë¯¸ì§€ë¥¼ ìƒì„±í•œë‹¤.
+	 * @param url QRCode ìŠ¤ìº” ì‹œ ì´ë™í•  ê³³ì˜ URL
+	 * @param destPath QRCode íŒŒì¼ëª…
+	 * @param width QRCode ì´ë¯¸ì§€ ê°€ë¡œ ê¸¸ì´
 	 */
 	public static void qrcode(String url, String destPath, int width) {
 		qrcode(url, new File(destPath), width);
 	}
 
 	/**
-	 * QRCode ÀÌ¹ÌÁö¸¦ »ı¼ºÇÑ´Ù.
-	 * @param url QRCode ½ºÄµ ½Ã ÀÌµ¿ÇÒ °÷ÀÇ URL
-	 * @param destFile QRCode ÀÌ¹ÌÁö ÆÄÀÏ °´Ã¼
-	 * @param width QRCode ÀÌ¹ÌÁö ±æÀÌ
+	 * QRCode ì´ë¯¸ì§€ë¥¼ ìƒì„±í•œë‹¤.
+	 * @param url QRCode ìŠ¤ìº” ì‹œ ì´ë™í•  ê³³ì˜ URL
+	 * @param destFile QRCode ì´ë¯¸ì§€ íŒŒì¼ ê°ì²´
+	 * @param width QRCode ì´ë¯¸ì§€ ê¸¸ì´
 	 */
 	public static void qrcode(String url, File destFile, int width) {
 		try {
@@ -122,10 +122,10 @@ public class ImageUtil {
 	}
 
 	/**
-	 * QRCode ÀÌ¹ÌÁö¸¦ »ı¼ºÇÑ´Ù.
-	 * @param url QRCode ½ºÄµ ½Ã ÀÌµ¿ÇÒ °÷ÀÇ URL
-	 * @param response qrcode ÀÌ¹ÌÁö¸¦ Àü¼ÛÇÒ ÀÀ´ä°´Ã¼
-	 * @param width QRCode ÀÌ¹ÌÁö ±æÀÌ
+	 * QRCode ì´ë¯¸ì§€ë¥¼ ìƒì„±í•œë‹¤.
+	 * @param url QRCode ìŠ¤ìº” ì‹œ ì´ë™í•  ê³³ì˜ URL
+	 * @param response qrcode ì´ë¯¸ì§€ë¥¼ ì „ì†¡í•  ì‘ë‹µê°ì²´
+	 * @param width QRCode ì´ë¯¸ì§€ ê¸¸ì´
 	 */
 	public static void qrcode(String url, HttpServletResponse response, int width) {
 		try {
@@ -138,10 +138,10 @@ public class ImageUtil {
 	}
 
 	/**
-	 * QRCode ÀÌ¹ÌÁö¸¦ »ı¼ºÇÑ´Ù.
-	 * @param url QRCode ½ºÄµ ½Ã ÀÌµ¿ÇÒ °÷ÀÇ URL
-	 * @param os Ãâ·Â ½ºÆ®¸²
-	 * @param width QRCode ÀÌ¹ÌÁö ±æÀÌ
+	 * QRCode ì´ë¯¸ì§€ë¥¼ ìƒì„±í•œë‹¤.
+	 * @param url QRCode ìŠ¤ìº” ì‹œ ì´ë™í•  ê³³ì˜ URL
+	 * @param os ì¶œë ¥ ìŠ¤íŠ¸ë¦¼
+	 * @param width QRCode ì´ë¯¸ì§€ ê¸¸ì´
 	 */
 	public static void qrcode(String url, OutputStream os, int width) {
 		QRCodeWriter l_qr_writer = new QRCodeWriter();
@@ -154,16 +154,16 @@ public class ImageUtil {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå
+	//////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ
 
 	/**
-	 * ¿øº» ÀÌ¹ÌÁö »çÀÌÁî¿Í ¸®»çÀÌÁîÇÒ »çÀÌÁî·Î ÀÌ¹ÌÁö ½ºÄÉÀÏ ºñÀ²À» ±¸ÇÑ´Ù. 
-	 * Å©±â°¡ Å« ÆøÀ» ±âÁØÀ¸·Î µ¿ÀÏ ºñÀ²·Î ÇÑ´Ù.
-	 * @param resizeWidth ¸®»çÀÌÁîÇÒ °¡·Î »çÀÌÁî
-	 * @param resizeHeight ¸®»çÀÌÁîÇÒ ¼¼·Î »çÀÌÁî
-	 * @param imageWidth ¿øº» ÀÌ¹ÌÁöÀÇ °¡·Î »çÀÌÁî
-	 * @param imageHeight ¿øº» ÀÌ¹ÌÁöÀÇ ¼¼·Î »çÀÌÁî
-	 * @return ½ºÄÉÀÏ ¹ÙÀ²
+	 * ì›ë³¸ ì´ë¯¸ì§€ ì‚¬ì´ì¦ˆì™€ ë¦¬ì‚¬ì´ì¦ˆí•  ì‚¬ì´ì¦ˆë¡œ ì´ë¯¸ì§€ ìŠ¤ì¼€ì¼ ë¹„ìœ¨ì„ êµ¬í•œë‹¤. 
+	 * í¬ê¸°ê°€ í° í­ì„ ê¸°ì¤€ìœ¼ë¡œ ë™ì¼ ë¹„ìœ¨ë¡œ í•œë‹¤.
+	 * @param resizeWidth ë¦¬ì‚¬ì´ì¦ˆí•  ê°€ë¡œ ì‚¬ì´ì¦ˆ
+	 * @param resizeHeight ë¦¬ì‚¬ì´ì¦ˆí•  ì„¸ë¡œ ì‚¬ì´ì¦ˆ
+	 * @param imageWidth ì›ë³¸ ì´ë¯¸ì§€ì˜ ê°€ë¡œ ì‚¬ì´ì¦ˆ
+	 * @param imageHeight ì›ë³¸ ì´ë¯¸ì§€ì˜ ì„¸ë¡œ ì‚¬ì´ì¦ˆ
+	 * @return ìŠ¤ì¼€ì¼ ë°”ìœ¨
 	 */
 	private static double _getScale(int resizeWidth, int resizeHeight, int imageWidth, int imageHeight) {
 		double widthScale = (double) resizeWidth / imageWidth;
@@ -176,9 +176,9 @@ public class ImageUtil {
 	}
 
 	/**
-	 * ÀÌ¹ÌÁö¸¦ PNG Çü½ÄÀ¸·Î ÀúÀåÇÑ´Ù.
-	 * @param image ÀúÀåÇÒ ÀÌ¹ÌÁö °´Ã¼
-	 * @param destFile ´ë»ó ÀÌ¹ÌÁö ÆÄÀÏ
+	 * ì´ë¯¸ì§€ë¥¼ PNG í˜•ì‹ìœ¼ë¡œ ì €ì¥í•œë‹¤.
+	 * @param image ì €ì¥í•  ì´ë¯¸ì§€ ê°ì²´
+	 * @param destFile ëŒ€ìƒ ì´ë¯¸ì§€ íŒŒì¼
 	 */
 	private static void _writePNG(Image image, File destFile) {
 		BufferedImage bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);

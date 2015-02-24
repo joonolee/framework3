@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,49 +18,49 @@ import org.apache.commons.logging.LogFactory;
 import framework.db.RecordSet;
 
 /**
- * RD(Report Designer)¸¦ ÀÌ¿ëÇÏ¿© °³¹ßÇÒ ¶§ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * RD(Report Designer)ë¥¼ ì´ìš©í•˜ì—¬ ê°œë°œí•  ë•Œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class RDUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.RDUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private RDUtil() {
 	}
 
 	/**
-	 * µğÆúÆ® ¿­ ±¸ºĞÀÚ
+	 * ë””í´íŠ¸ ì—´ êµ¬ë¶„ì
 	 */
 	private static final String _DEFAULT_COLSEP = "##";
 
 	/**
-	 * µğÆúÆ® Çà ±¸ºĞÀÚ
+	 * ë””í´íŠ¸ í–‰ êµ¬ë¶„ì
 	 */
 	private static final String _DEFAULT_LINESEP = "\n";
 
 	/**
-	 * RecordSetÀ» RD ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
-	 * Çà, ¿­ ±¸ºĞÀÚ·Î µğÆúÆ® ±¸ºĞÀÚ¸¦ »ç¿ëÇÑ´Ù.
+	 * RecordSetì„ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
+	 * í–‰, ì—´ êµ¬ë¶„ìë¡œ ë””í´íŠ¸ êµ¬ë¶„ìë¥¼ ì‚¬ìš©í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : RDUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : RDUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
 		return render(response, rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
-	 * RecordSetÀ» RD ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
+	 * RecordSetì„ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : RDUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param colSep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @param lineSep Çà ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : RDUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param colSep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @param lineSep í–‰ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, String colSep, String lineSep) {
 		if (rs == null) {
@@ -85,25 +85,25 @@ public class RDUtil {
 	}
 
 	/**
-	 * RecordSetÀ» RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
-	 * Çà, ¿­ ±¸ºĞÀÚ·Î µğÆúÆ® ±¸ºĞÀÚ¸¦ »ç¿ëÇÑ´Ù.
+	 * RecordSetì„ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
+	 * í–‰, ì—´ êµ¬ë¶„ìë¡œ ë””í´íŠ¸ êµ¬ë¶„ìë¥¼ ì‚¬ìš©í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rd = RDUtil.render(rs)
-	 * @param rs º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rd = RDUtil.render(rs)
+	 * @param rs ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs) {
 		return render(rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
-	 * RecordSetÀ» RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * RecordSetì„ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ ¿­±¸ºĞÀÚ ##, Çà±¸ºĞÀÚ !! ÀÎ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rd = RDUtil.render(rs, "##", "!!")
-	 * @param rs º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param colSep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @param lineSep Çà ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ ì—´êµ¬ë¶„ì ##, í–‰êµ¬ë¶„ì !! ì¸ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rd = RDUtil.render(rs, "##", "!!")
+	 * @param rs ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param colSep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @param lineSep í–‰ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs, String colSep, String lineSep) {
 		if (rs == null) {
@@ -123,27 +123,27 @@ public class RDUtil {
 	}
 
 	/**
-	 * ResultSetÀ» RD ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
-	 * Çà, ¿­ ±¸ºĞÀÚ·Î µğÆúÆ® ±¸ºĞÀÚ¸¦ »ç¿ëÇÑ´Ù.
+	 * ResultSetì„ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
+	 * í–‰, ì—´ êµ¬ë¶„ìë¡œ ë””í´íŠ¸ êµ¬ë¶„ìë¥¼ ì‚¬ìš©í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : RDUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @return Ã³¸®°Ç¼ö 
+	 * ex) responseë¡œ rsë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : RDUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @return ì²˜ë¦¬ê±´ìˆ˜ 
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
 		return render(response, rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
-	 * ResultSetÀ» RD ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù. 
+	 * ResultSetì„ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤. 
 	 * <br>
-	 * ex) response·Î rs¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : RDUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param colSep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @param lineSep Çà ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : RDUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param colSep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @param lineSep í–‰ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, String colSep, String lineSep) {
 		if (rs == null) {
@@ -156,7 +156,7 @@ public class RDUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
@@ -195,25 +195,25 @@ public class RDUtil {
 	}
 
 	/**
-	 * ResultSetÀ» RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
-	 * Çà, ¿­ ±¸ºĞÀÚ·Î µğÆúÆ® ±¸ºĞÀÚ¸¦ »ç¿ëÇÑ´Ù. 
+	 * ResultSetì„ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
+	 * í–‰, ì—´ êµ¬ë¶„ìë¡œ ë””í´íŠ¸ êµ¬ë¶„ìë¥¼ ì‚¬ìš©í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rd = RDUtil.render(rs)
-	 * @param rs º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @return RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rd = RDUtil.render(rs)
+	 * @param rs ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @return RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(ResultSet rs) {
 		return render(rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
-	 * ResultSetÀ» RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * ResultSetì„ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ ¿­±¸ºĞÀÚ ##, Çà±¸ºĞÀÚ !! ÀÎ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rd = RDUtil.render(rs, "##", "!!")
-	 * @param rs º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param colSep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @param lineSep Çà ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ ì—´êµ¬ë¶„ì ##, í–‰êµ¬ë¶„ì !! ì¸ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rd = RDUtil.render(rs, "##", "!!")
+	 * @param rs ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param colSep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @param lineSep í–‰ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(ResultSet rs, String colSep, String lineSep) {
 		if (rs == null) {
@@ -226,7 +226,7 @@ public class RDUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
@@ -265,24 +265,24 @@ public class RDUtil {
 	}
 
 	/**
-	 * Map°´Ã¼¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
-	 * ¿­ ±¸ºĞÀÚ·Î µğÆúÆ® ±¸ºĞÀÚ¸¦ »ç¿ëÇÑ´Ù. 
+	 * Mapê°ì²´ë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
+	 * ì—´ êµ¬ë¶„ìë¡œ ë””í´íŠ¸ êµ¬ë¶„ìë¥¼ ì‚¬ìš©í•œë‹¤. 
 	 * <br>
-	 * ex) mapÀ» RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rd = RDUtil.render(map)
-	 * @param map º¯È¯ÇÒ Map°´Ã¼
-	 * @return RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) mapì„ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rd = RDUtil.render(map)
+	 * @param map ë³€í™˜í•  Mapê°ì²´
+	 * @return RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(Map<String, Object> map) {
 		return render(map, _DEFAULT_COLSEP);
 	}
 
 	/**
-	 * Map°´Ã¼¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * Mapê°ì²´ë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex) mapÀ» ¿­±¸ºĞÀÚ ## ÀÎ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rd = RDUtil.render(map, "##")
-	 * @param map º¯È¯ÇÒ Map°´Ã¼
-	 * @param colSep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) mapì„ ì—´êµ¬ë¶„ì ## ì¸ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rd = RDUtil.render(map, "##")
+	 * @param map ë³€í™˜í•  Mapê°ì²´
+	 * @param colSep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(Map<String, Object> map, String colSep) {
 		if (map == null) {
@@ -294,25 +294,25 @@ public class RDUtil {
 	}
 
 	/**
-	 * List°´Ã¼¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
-	 * Çà, ¿­ ±¸ºĞÀÚ·Î µğÆúÆ® ±¸ºĞÀÚ¸¦ »ç¿ëÇÑ´Ù.
+	 * Listê°ì²´ë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
+	 * í–‰, ì—´ êµ¬ë¶„ìë¡œ ë””í´íŠ¸ êµ¬ë¶„ìë¥¼ ì‚¬ìš©í•œë‹¤.
 	 * <br>
-	 * ex1) mapList¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rd = RDUtil.render(mapList)
-	 * @param mapList º¯È¯ÇÒ List°´Ã¼
-	 * @return RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex1) mapListë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rd = RDUtil.render(mapList)
+	 * @param mapList ë³€í™˜í•  Listê°ì²´
+	 * @return RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(List<Map<String, Object>> mapList) {
 		return render(mapList, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
 	/**
-	 * List°´Ã¼¸¦ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * Listê°ì²´ë¥¼ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex1) mapList¸¦ ¿­±¸ºĞÀÚ ##, Çà±¸ºĞÀÚ !! ÀÎ RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rd = RDUtil.render(mapList, "##", "!!")
-	 * @param mapList º¯È¯ÇÒ List°´Ã¼
-	 * @param colSep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @param lineSep Çà ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return RD ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex1) mapListë¥¼ ì—´êµ¬ë¶„ì ##, í–‰êµ¬ë¶„ì !! ì¸ RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rd = RDUtil.render(mapList, "##", "!!")
+	 * @param mapList ë³€í™˜í•  Listê°ì²´
+	 * @param colSep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @param lineSep í–‰ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return RD íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(List<Map<String, Object>> mapList, String colSep, String lineSep) {
 		if (mapList == null) {
@@ -329,12 +329,12 @@ public class RDUtil {
 		return buf.toString();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////// Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////// Private ë©”ì†Œë“œ
 
 	/**
-	 * Ä³¸®Áö¸®ÅÏ, ¶óÀÎÇÇµå ¹®ÀÚµéÀ» º¯È¯ÇÏ¿©ÁØ´Ù.
+	 * ìºë¦¬ì§€ë¦¬í„´, ë¼ì¸í”¼ë“œ ë¬¸ìë“¤ì„ ë³€í™˜í•˜ì—¬ì¤€ë‹¤.
 	 * 
-	 * @param str º¯È¯ÇÒ ¹®ÀÚ¿­
+	 * @param str ë³€í™˜í•  ë¬¸ìì—´
 	 */
 	private static String _escapeRD(String str) {
 		if (str == null) {
@@ -344,7 +344,7 @@ public class RDUtil {
 	}
 
 	/**
-	 * RD(¸®Æ÷Æ®µğÀÚÀÌ³Ê) ¿ë Row ¹®ÀÚ¿­ »ı¼º
+	 * RD(ë¦¬í¬íŠ¸ë””ìì´ë„ˆ) ìš© Row ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _rdRowStr(Map<String, Object> map, String colSep) {
 		StringBuilder buf = new StringBuilder();
@@ -359,7 +359,7 @@ public class RDUtil {
 	}
 
 	/**
-	 * RD(¸®Æ÷Æ®µğÀÚÀÌ³Ê) ¿ë Row ¹®ÀÚ¿­ »ı¼º
+	 * RD(ë¦¬í¬íŠ¸ë””ìì´ë„ˆ) ìš© Row ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _rdRowStr(RecordSet rs, String[] colNms, String colSep) {
 		if (colNms == null) {

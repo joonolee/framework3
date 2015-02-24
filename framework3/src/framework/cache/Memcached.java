@@ -1,4 +1,4 @@
-package framework.cache;
+ï»¿package framework.cache;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -13,22 +13,22 @@ import net.spy.memcached.MemcachedClient;
 import framework.config.Config;
 
 /**
- * Memcached Ä³½Ã ±¸ÇöÃ¼ (http://memcached.org/)
+ * Memcached ìºì‹œ êµ¬í˜„ì²´ (http://memcached.org/)
  */
 public class Memcached extends AbstractCache {
 
 	/**
-	 * ½Ì±ÛÅæ °´Ã¼
+	 * ì‹±ê¸€í†¤ ê°ì²´
 	 */
 	private static Memcached _uniqueInstance;
 
 	/**
-	 * Ä³½Ã Å¬¶óÀÌ¾ğÆ®
+	 * ìºì‹œ í´ë¼ì´ì–¸íŠ¸
 	 */
 	private MemcachedClient _client;
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private Memcached() {
 		System.setProperty("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.Log4JLogger");
@@ -44,7 +44,7 @@ public class Memcached extends AbstractCache {
 			}
 			addrList = AddrUtil.getAddresses(buffer.toString());
 		} else {
-			throw new RuntimeException("memcachedÀÇ È£½ºÆ®¼³Á¤ÀÌ ´©¶ôµÇ¾ú½À´Ï´Ù.");
+			throw new RuntimeException("memcachedì˜ í˜¸ìŠ¤íŠ¸ì„¤ì •ì´ ëˆ„ë½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 		try {
 			_client = new MemcachedClient(addrList);
@@ -54,9 +54,9 @@ public class Memcached extends AbstractCache {
 	}
 
 	/** 
-	 * °´Ã¼ÀÇ ÀÎ½ºÅÏ½º¸¦ ¸®ÅÏÇØÁØ´Ù.
+	 * ê°ì²´ì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë¦¬í„´í•´ì¤€ë‹¤.
 	 * 
-	 * @return Memcached °´Ã¼ÀÇ ÀÎ½ºÅÏ½º
+	 * @return Memcached ê°ì²´ì˜ ì¸ìŠ¤í„´ìŠ¤
 	 */
 	public synchronized static Memcached getInstance() {
 		if (_uniqueInstance == null) {
@@ -112,11 +112,11 @@ public class Memcached extends AbstractCache {
 		_client.flush();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ
 
 	/**
-	 * ¼³Á¤ÆÄÀÏ(config.properties)¿¡¼­ °ªÀ» ÀĞ¾î¿À´Â Å¬·¡½º¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @return ¼³Á¤°´Ã¼
+	 * ì„¤ì •íŒŒì¼(config.properties)ì—ì„œ ê°’ì„ ì½ì–´ì˜¤ëŠ” í´ë˜ìŠ¤ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @return ì„¤ì •ê°ì²´
 	 */
 	private Config _getConfig() {
 		return Config.getInstance();

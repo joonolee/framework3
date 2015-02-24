@@ -1,16 +1,16 @@
-package framework.db;
+ï»¿package framework.db;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /** 
- * ¸ğµç SQL ¹®ÀåÀ» Ã³¸®ÇÏ´Â Å¬·¡½º°¡ »ó¼Ó¹Ş¾Æ¾ß ÇÒ Ãß»óÅ¬·¡½ºÀÌ´Ù.
+ * ëª¨ë“  SQL ë¬¸ì¥ì„ ì²˜ë¦¬í•˜ëŠ” í´ë˜ìŠ¤ê°€ ìƒì†ë°›ì•„ì•¼ í•  ì¶”ìƒí´ë˜ìŠ¤ì´ë‹¤.
  */
 public abstract class DBStatement {
 	protected static final Log logger = LogFactory.getLog(framework.db.DBStatement.class);
 
 	/** 
-	 * StatementÀÇ close ¸¦ ±¸ÇöÇÏ±â À§ÇÑ Ãß»ó ¸Ş¼Òµå
+	 * Statementì˜ close ë¥¼ êµ¬í˜„í•˜ê¸° ìœ„í•œ ì¶”ìƒ ë©”ì†Œë“œ
 	 */
 	public abstract void close();
 }

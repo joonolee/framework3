@@ -1,58 +1,58 @@
-package framework.cache;
+ï»¿package framework.cache;
 
 import java.util.Map;
 
 /**
- * Ä³½Ã±¸ÇöÃ¼°¡ »ó¼Ó¹Ş¾Æ¾ß ÇÏ´Â Ãß»óÅ¬·¡½º
+ * ìºì‹œêµ¬í˜„ì²´ê°€ ìƒì†ë°›ì•„ì•¼ í•˜ëŠ” ì¶”ìƒí´ë˜ìŠ¤
  */
 public abstract class AbstractCache {
 
 	/**
-	 * Å°¿Í °ªÀ» Ä³½Ã¿¡ ¼³Á¤ÇÑ´Ù.
-	 * @param key Å°
-	 * @param value °ª
-	 * @param seconds Ä³½Ã½Ã°£(ÃÊ´ÜÀ§)
+	 * í‚¤ì™€ ê°’ì„ ìºì‹œì— ì„¤ì •í•œë‹¤.
+	 * @param key í‚¤
+	 * @param value ê°’
+	 * @param seconds ìºì‹œì‹œê°„(ì´ˆë‹¨ìœ„)
 	 */
 	public abstract void set(String key, Object value, int seconds);
 
 	/**
-	 * Ä³½Ã¿¡¼­ Å°·Î °ªÀ» ¾ò¾î¿Â´Ù.
-	 * @param key Å°
-	 * @return °ª
+	 * ìºì‹œì—ì„œ í‚¤ë¡œ ê°’ì„ ì–»ì–´ì˜¨ë‹¤.
+	 * @param key í‚¤
+	 * @return ê°’
 	 */
 	public abstract Object get(String key);
 
 	/**
-	 * Ä³½Ã¿¡¼­ Å°ÀÇ ¹è¿­·Î °ªµéÀ» ¾ò¾î¿Â´Ù.
-	 * @param keys Å°
-	 * @return °ª
+	 * ìºì‹œì—ì„œ í‚¤ì˜ ë°°ì—´ë¡œ ê°’ë“¤ì„ ì–»ì–´ì˜¨ë‹¤.
+	 * @param keys í‚¤
+	 * @return ê°’
 	 */
 	public abstract Map<String, Object> get(String[] keys);
 
 	/**
-	 * Å°ÀÇ °ªÀ» by ¸¸Å­ Áõ°¡½ÃÅ²´Ù.
-	 * @param key Å°
-	 * @param by Áõ°¡½ÃÅ³ °ª
-	 * @return Áõ°¡µÈ ÈÄ °ª
+	 * í‚¤ì˜ ê°’ì„ by ë§Œí¼ ì¦ê°€ì‹œí‚¨ë‹¤.
+	 * @param key í‚¤
+	 * @param by ì¦ê°€ì‹œí‚¬ ê°’
+	 * @return ì¦ê°€ëœ í›„ ê°’
 	 */
 	public abstract long incr(String key, int by);
 
 	/**
-	 * Å°ÀÇ °ªÀ» by ¸¸Å­ °¨¼Ò½ÃÅ²´Ù.
-	 * @param key Å°
-	 * @param by °¨¼Ò½ÃÅ³ °ª
-	 * @return °¨¼ÒµÈ ÈÄ °ª
+	 * í‚¤ì˜ ê°’ì„ by ë§Œí¼ ê°ì†Œì‹œí‚¨ë‹¤.
+	 * @param key í‚¤
+	 * @param by ê°ì†Œì‹œí‚¬ ê°’
+	 * @return ê°ì†Œëœ í›„ ê°’
 	 */
 	public abstract long decr(String key, int by);
 
 	/**
-	 * Å°¿Í °ªÀ» Ä³½Ã¿¡¼­ »èÁ¦ÇÑ´Ù.
-	 * @param key Å°
+	 * í‚¤ì™€ ê°’ì„ ìºì‹œì—ì„œ ì‚­ì œí•œë‹¤.
+	 * @param key í‚¤
 	 */
 	public abstract void delete(String key);
 
 	/**
-	 * Ä³½Ã¸¦ ¸ğµÎ ºñ¿î´Ù.
+	 * ìºì‹œë¥¼ ëª¨ë‘ ë¹„ìš´ë‹¤.
 	 */
 	public abstract void clear();
 }

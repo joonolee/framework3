@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.File;
 import java.util.Properties;
@@ -18,112 +18,112 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
 /**
- * JavaMailÀ» ÀÌ¿ëÇØ ¸ŞÀÏÀ» ¹ß¼ÛÇÏ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * JavaMailì„ ì´ìš©í•´ ë©”ì¼ì„ ë°œì†¡í•˜ëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class EmailUtil {
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private EmailUtil() {
 	}
 
 	/**
-	 * ±âº» ÀÎÄÚµù °ª
+	 * ê¸°ë³¸ ì¸ì½”ë”© ê°’
 	 */
 	private static final String _DEFAULT_CHARSET = "utf-8";
 
-	//////////////////////////////////////////////////////////////////////////////////////////SMTP¼­¹ö°¡ ÀÎÁõÀÌ ÇÊ¿äÇÑ °æ¿ì
+	//////////////////////////////////////////////////////////////////////////////////////////SMTPì„œë²„ê°€ ì¸ì¦ì´ í•„ìš”í•œ ê²½ìš°
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõÀ» ÅëÇÏ¿© ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù.
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì„ í†µí•˜ì—¬ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤.
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailAuth("mail.xxx.co.kr", "25", "id", "password", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿");
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param smtpUser º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾ÆÀÌµğ
-	 * @param smtpPassword º¸³»´Â SMTP ¼­¹ö ÀÎÁõºñ¹Ğ¹øÈ£
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailAuth("mail.xxx.co.kr", "25", "id", "password", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™");
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param smtpUser ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì•„ì´ë””
+	 * @param smtpPassword ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ë¹„ë°€ë²ˆí˜¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
 	 */
 	public static void sendMailAuth(String smtpHost, String smtpPort, String smtpUser, String smtpPassword, String subject, String content, String toEmail, String fromEmail, String fromName) {
 		sendMailAuth(smtpHost, smtpPort, smtpUser, smtpPassword, subject, content, toEmail, fromEmail, fromName, _DEFAULT_CHARSET, null);
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõÀ» ÅëÇÏ¿© ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù. (º¸¾È¿¬°á-SSL ÀÌ ÇÊ¿äÇÒ¶§)
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì„ í†µí•˜ì—¬ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤. (ë³´ì•ˆì—°ê²°-SSL ì´ í•„ìš”í• ë•Œ)
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailAuthSSL("mail.xxx.co.kr", "465", "id", "password", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿");
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param smtpUser º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾ÆÀÌµğ
-	 * @param smtpPassword º¸³»´Â SMTP ¼­¹ö ÀÎÁõºñ¹Ğ¹øÈ£
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailAuthSSL("mail.xxx.co.kr", "465", "id", "password", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™");
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param smtpUser ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì•„ì´ë””
+	 * @param smtpPassword ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ë¹„ë°€ë²ˆí˜¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
 	 */
 	public static void sendMailAuthSSL(String smtpHost, String smtpPort, String smtpUser, String smtpPassword, String subject, String content, String toEmail, String fromEmail, String fromName) {
 		sendMailAuthSSL(smtpHost, smtpPort, smtpUser, smtpPassword, subject, content, toEmail, fromEmail, fromName, _DEFAULT_CHARSET, null);
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõÀ» ÅëÇÏ¿© ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù.
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì„ í†µí•˜ì—¬ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤.
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailAuth("mail.xxx.co.kr", "25", "id", "password", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿", "euc-kr");
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param smtpUser º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾ÆÀÌµğ
-	 * @param smtpPassword º¸³»´Â SMTP ¼­¹ö ÀÎÁõºñ¹Ğ¹øÈ£
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
-	 * @param charset ÀÎÄÚµù Ä³¸¯ÅÍ¼Â
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailAuth("mail.xxx.co.kr", "25", "id", "password", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™", "euc-kr");
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param smtpUser ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì•„ì´ë””
+	 * @param smtpPassword ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ë¹„ë°€ë²ˆí˜¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
+	 * @param charset ì¸ì½”ë”© ìºë¦­í„°ì…‹
 	 */
 	public static void sendMailAuth(String smtpHost, String smtpPort, String smtpUser, String smtpPassword, String subject, String content, String toEmail, String fromEmail, String fromName, String charset) {
 		sendMailAuth(smtpHost, smtpPort, smtpUser, smtpPassword, subject, content, toEmail, fromEmail, fromName, charset, null);
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõÀ» ÅëÇÏ¿© ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù. (º¸¾È¿¬°á-SSL ÀÌ ÇÊ¿äÇÒ¶§)
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì„ í†µí•˜ì—¬ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤. (ë³´ì•ˆì—°ê²°-SSL ì´ í•„ìš”í• ë•Œ)
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailAuthSSL("mail.xxx.co.kr", "465", "id", "password", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿", "euc-kr");
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param smtpUser º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾ÆÀÌµğ
-	 * @param smtpPassword º¸³»´Â SMTP ¼­¹ö ÀÎÁõºñ¹Ğ¹øÈ£
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
-	 * @param charset ÀÎÄÚµù Ä³¸¯ÅÍ¼Â
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailAuthSSL("mail.xxx.co.kr", "465", "id", "password", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™", "euc-kr");
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param smtpUser ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì•„ì´ë””
+	 * @param smtpPassword ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ë¹„ë°€ë²ˆí˜¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
+	 * @param charset ì¸ì½”ë”© ìºë¦­í„°ì…‹
 	 */
 	public static void sendMailAuthSSL(String smtpHost, String smtpPort, String smtpUser, String smtpPassword, String subject, String content, String toEmail, String fromEmail, String fromName, String charset) {
 		sendMailAuthSSL(smtpHost, smtpPort, smtpUser, smtpPassword, subject, content, toEmail, fromEmail, fromName, charset, null);
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõÀ» ÅëÇÏ¿© ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù.
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì„ í†µí•˜ì—¬ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤.
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailAuth("mail.xxx.co.kr", "25", "id", "password", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿", "euc-kr", new File[] { f1, f2 });
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param smtpUser º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾ÆÀÌµğ
-	 * @param smtpPassword º¸³»´Â SMTP ¼­¹ö ÀÎÁõºñ¹Ğ¹øÈ£
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
-	 * @param charset ÀÎÄÚµù Ä³¸¯ÅÍ¼Â
-	 * @param attachFiles Ã·ºÎÆÄÀÏ ¹è¿­
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailAuth("mail.xxx.co.kr", "25", "id", "password", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™", "euc-kr", new File[] { f1, f2 });
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param smtpUser ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì•„ì´ë””
+	 * @param smtpPassword ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ë¹„ë°€ë²ˆí˜¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
+	 * @param charset ì¸ì½”ë”© ìºë¦­í„°ì…‹
+	 * @param attachFiles ì²¨ë¶€íŒŒì¼ ë°°ì—´
 	 */
 	public static void sendMailAuth(String smtpHost, String smtpPort, String smtpUser, String smtpPassword, String subject, String content, String toEmail, String fromEmail, String fromName, String charset, File[] attachFiles) {
 		Properties props = new Properties();
@@ -137,20 +137,20 @@ public class EmailUtil {
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõÀ» ÅëÇÏ¿© ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù. (º¸¾È¿¬°á-SSL ÀÌ ÇÊ¿äÇÒ¶§)
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì„ í†µí•˜ì—¬ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤. (ë³´ì•ˆì—°ê²°-SSL ì´ í•„ìš”í• ë•Œ)
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailAuthSSL("mail.xxx.co.kr", "465", "id", "password", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿", "euc-kr", new File[] { f1, f2 });
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param smtpUser º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾ÆÀÌµğ
-	 * @param smtpPassword º¸³»´Â SMTP ¼­¹ö ÀÎÁõºñ¹Ğ¹øÈ£
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
-	 * @param charset ÀÎÄÚµù Ä³¸¯ÅÍ¼Â
-	 * @param attachFiles Ã·ºÎÆÄÀÏ ¹è¿­
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailAuthSSL("mail.xxx.co.kr", "465", "id", "password", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™", "euc-kr", new File[] { f1, f2 });
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param smtpUser ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì•„ì´ë””
+	 * @param smtpPassword ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ë¹„ë°€ë²ˆí˜¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
+	 * @param charset ì¸ì½”ë”© ìºë¦­í„°ì…‹
+	 * @param attachFiles ì²¨ë¶€íŒŒì¼ ë°°ì—´
 	 */
 	public static void sendMailAuthSSL(String smtpHost, String smtpPort, String smtpUser, String smtpPassword, String subject, String content, String toEmail, String fromEmail, String fromName, String charset, File[] attachFiles) {
 		Properties props = new Properties();
@@ -164,87 +164,87 @@ public class EmailUtil {
 		_sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////SMTP¼­¹ö°¡ ÀÎÁõÀÌ ÇÊ¿ä¾ø´Â °æ¿ì
+	//////////////////////////////////////////////////////////////////////////////////////////SMTPì„œë²„ê°€ ì¸ì¦ì´ í•„ìš”ì—†ëŠ” ê²½ìš°
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾øÀÌ ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù.
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì—†ì´ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤.
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailNoAuth("mail.xxx.co.kr", "25", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿");
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailNoAuth("mail.xxx.co.kr", "25", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™");
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
 	 */
 	public static void sendMailNoAuth(String smtpHost, String smtpPort, String subject, String content, String toEmail, String fromEmail, String fromName) {
 		sendMailNoAuth(smtpHost, smtpPort, subject, content, toEmail, fromEmail, fromName, _DEFAULT_CHARSET, null);
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾øÀÌ ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù. (º¸¾È¿¬°á-SSL ÀÌ ÇÊ¿äÇÒ¶§)
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì—†ì´ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤. (ë³´ì•ˆì—°ê²°-SSL ì´ í•„ìš”í• ë•Œ)
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailNoAuthSSL("mail.xxx.co.kr", "465", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿");
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailNoAuthSSL("mail.xxx.co.kr", "465", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™");
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
 	 */
 	public static void sendMailNoAuthSSL(String smtpHost, String smtpPort, String subject, String content, String toEmail, String fromEmail, String fromName) {
 		sendMailNoAuthSSL(smtpHost, smtpPort, subject, content, toEmail, fromEmail, fromName, _DEFAULT_CHARSET, null);
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾øÀÌ ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù.
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì—†ì´ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤.
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailNoAuth("mail.xxx.co.kr", "25", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿", "euc-kr");
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
-	 * @param charset ÀÎÄÚµù Ä³¸¯ÅÍ¼Â
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailNoAuth("mail.xxx.co.kr", "25", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™", "euc-kr");
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
+	 * @param charset ì¸ì½”ë”© ìºë¦­í„°ì…‹
 	 */
 	public static void sendMailNoAuth(String smtpHost, String smtpPort, String subject, String content, String toEmail, String fromEmail, String fromName, String charset) {
 		sendMailNoAuth(smtpHost, smtpPort, subject, content, toEmail, fromEmail, fromName, charset, null);
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾øÀÌ ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù. (º¸¾È¿¬°á-SSL ÀÌ ÇÊ¿äÇÒ¶§)
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì—†ì´ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤. (ë³´ì•ˆì—°ê²°-SSL ì´ í•„ìš”í• ë•Œ)
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailNoAuthSSL("mail.xxx.co.kr", "465", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿", "euc-kr");	
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
-	 * @param charset ÀÎÄÚµù Ä³¸¯ÅÍ¼Â
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailNoAuthSSL("mail.xxx.co.kr", "465", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™", "euc-kr");	
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
+	 * @param charset ì¸ì½”ë”© ìºë¦­í„°ì…‹
 	 */
 	public static void sendMailNoAuthSSL(String smtpHost, String smtpPort, String subject, String content, String toEmail, String fromEmail, String fromName, String charset) {
 		sendMailNoAuthSSL(smtpHost, smtpPort, subject, content, toEmail, fromEmail, fromName, charset, null);
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾øÀÌ ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù.
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì—†ì´ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤.
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailNoAuth("mail.xxx.co.kr", "25", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿", "euc-kr", new File[] { f1, f2 });
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
-	 * @param charset ÀÎÄÚµù Ä³¸¯ÅÍ¼Â
-	 * @param attachFiles Ã·ºÎÆÄÀÏ ¹è¿­
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailNoAuth("mail.xxx.co.kr", "25", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™", "euc-kr", new File[] { f1, f2 });
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
+	 * @param charset ì¸ì½”ë”© ìºë¦­í„°ì…‹
+	 * @param attachFiles ì²¨ë¶€íŒŒì¼ ë°°ì—´
 	 */
 	public static void sendMailNoAuth(String smtpHost, String smtpPort, String subject, String content, String toEmail, String fromEmail, String fromName, String charset, File[] attachFiles) {
 		Properties props = new Properties();
@@ -255,18 +255,18 @@ public class EmailUtil {
 	}
 
 	/**
-	 * º¸³»´Â SMTP ¼­¹ö ÀÎÁõ¾øÀÌ ÀüÀÚ¸ŞÀÏÀ» ¹ß¼ÛÇÑ´Ù. (º¸¾È¿¬°á-SSL ÀÌ ÇÊ¿äÇÒ¶§)
+	 * ë³´ë‚´ëŠ” SMTP ì„œë²„ ì¸ì¦ì—†ì´ ì „ìë©”ì¼ì„ ë°œì†¡í•œë‹¤. (ë³´ì•ˆì—°ê²°-SSL ì´ í•„ìš”í• ë•Œ)
 	 * <br>
-	 * ex) receiver@xxx.co.kr °¡ sender@xxx.co.kr ¿¡°Ô ¸ŞÀÏÀ» º¸³»´Â °æ¿ì : EmailUtil.sendMailNoAuthSSL("mail.xxx.co.kr", "465", "Á¦¸ñ", "³»¿ë", "receiver@xxx.co.kr", "sender@xxx.co.kr", "È«±æµ¿", "euc-kr", new File[] { f1, f2 });
-	 * @param smtpHost º¸³»´Â SMTP ¼­¹öÁÖ¼Ò
-	 * @param smtpPort º¸³»´Â SMTP Æ÷Æ®
-	 * @param subject ¸ŞÀÏÁ¦¸ñ
-	 * @param content ¸ŞÀÏ³»¿ë
-	 * @param toEmail ¹Ş´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromEmail º¸³»´Â»ç¶÷ ¸ŞÀÏÁÖ¼Ò
-	 * @param fromName º¸³»´Â»ç¶÷ ÀÌ¸§
-	 * @param charset ÀÎÄÚµù Ä³¸¯ÅÍ¼Â
-	 * @param attachFiles Ã·ºÎÆÄÀÏ ¹è¿­
+	 * ex) receiver@xxx.co.kr ê°€ sender@xxx.co.kr ì—ê²Œ ë©”ì¼ì„ ë³´ë‚´ëŠ” ê²½ìš° : EmailUtil.sendMailNoAuthSSL("mail.xxx.co.kr", "465", "ì œëª©", "ë‚´ìš©", "receiver@xxx.co.kr", "sender@xxx.co.kr", "í™ê¸¸ë™", "euc-kr", new File[] { f1, f2 });
+	 * @param smtpHost ë³´ë‚´ëŠ” SMTP ì„œë²„ì£¼ì†Œ
+	 * @param smtpPort ë³´ë‚´ëŠ” SMTP í¬íŠ¸
+	 * @param subject ë©”ì¼ì œëª©
+	 * @param content ë©”ì¼ë‚´ìš©
+	 * @param toEmail ë°›ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromEmail ë³´ë‚´ëŠ”ì‚¬ëŒ ë©”ì¼ì£¼ì†Œ
+	 * @param fromName ë³´ë‚´ëŠ”ì‚¬ëŒ ì´ë¦„
+	 * @param charset ì¸ì½”ë”© ìºë¦­í„°ì…‹
+	 * @param attachFiles ì²¨ë¶€íŒŒì¼ ë°°ì—´
 	 */
 	public static void sendMailNoAuthSSL(String smtpHost, String smtpPort, String subject, String content, String toEmail, String fromEmail, String fromName, String charset, File[] attachFiles) {
 		Properties props = new Properties();
@@ -277,10 +277,10 @@ public class EmailUtil {
 		_sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå ¹× °´Ã¼
+	//////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ ë° ê°ì²´
 
 	/**
-	 * ¸ŞÀÏ¹ß¼Û ¹× Ã·ºÎÆÄÀÏ Ã³¸®
+	 * ë©”ì¼ë°œì†¡ ë° ì²¨ë¶€íŒŒì¼ ì²˜ë¦¬
 	 */
 	private static void _sendMail(String subject, String content, String toEmail, String fromEmail, String fromName, String charset, File[] attachFiles, Session session) {
 		MimeMessage message = new MimeMessage(session);
@@ -312,7 +312,7 @@ public class EmailUtil {
 	}
 
 	/**
-	 * ¸ŞÀÏÀÎÁõÀ» À§ÇÑ °´Ã¼
+	 * ë©”ì¼ì¸ì¦ì„ ìœ„í•œ ê°ì²´
 	 */
 	private static class MyAuthenticator extends Authenticator {
 		private String _id;

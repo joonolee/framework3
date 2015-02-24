@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -41,21 +41,21 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import framework.db.RecordSet;
 
 /**
- * Excel Ãâ·ÂÀ» À§ÇØ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * Excel ì¶œë ¥ì„ ìœ„í•´ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class ExcelUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.ExcelUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private ExcelUtil() {
 	}
 
 	/**
-	 * È®ÀåÀÚ¿¡ ÀÇÇØ¼­ ¿¢¼¿ÆÄÀÏÀ» ÆÄ½ÌÇÑ´Ù.
-	 * @param fileItem ÆÄÀÏ¾ÆÀÌÅÛ
-	 * @return µ¥ÀÌÅÍÀÇ ¸®½ºÆ®
+	 * í™•ì¥ìì— ì˜í•´ì„œ ì—‘ì…€íŒŒì¼ì„ íŒŒì‹±í•œë‹¤.
+	 * @param fileItem íŒŒì¼ì•„ì´í…œ
+	 * @return ë°ì´í„°ì˜ ë¦¬ìŠ¤íŠ¸
 	 */
 	public static List<Map<String, String>> parse(FileItem fileItem) {
 		String ext = FileUtil.getFileExtension(fileItem.getName());
@@ -71,7 +71,7 @@ public class ExcelUtil {
 			} else if ("xlsx".equalsIgnoreCase(ext)) {
 				return _parseExcel2007(is);
 			} else {
-				throw new RuntimeException("Áö¿øÇÏÁö ¾Ê´Â ÆÄÀÏÆ÷¸ËÀÔ´Ï´Ù.");
+				throw new RuntimeException("ì§€ì›í•˜ì§€ ì•ŠëŠ” íŒŒì¼í¬ë§·ì…ë‹ˆë‹¤.");
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -87,10 +87,10 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ¾ÏÈ£È­µÈ ¿¢¼¿ÆÄÀÏÀ» ÆÄ½ÌÇÑ´Ù.
-	 * @param fileItem ÆÄÀÏ¾ÆÀÌÅÛ
-	 * @param password ºñ¹Ğ¹øÈ£
-	 * @return µ¥ÀÌÅÍÀÇ ¸®½ºÆ®
+	 * ì•”í˜¸í™”ëœ ì—‘ì…€íŒŒì¼ì„ íŒŒì‹±í•œë‹¤.
+	 * @param fileItem íŒŒì¼ì•„ì´í…œ
+	 * @param password ë¹„ë°€ë²ˆí˜¸
+	 * @return ë°ì´í„°ì˜ ë¦¬ìŠ¤íŠ¸
 	 */
 	public static List<Map<String, String>> parse(FileItem fileItem, String password) {
 		String ext = FileUtil.getFileExtension(fileItem.getName());
@@ -102,7 +102,7 @@ public class ExcelUtil {
 			} else if ("xlsx".equalsIgnoreCase(ext)) {
 				return _parseExcel2007(is, password);
 			} else {
-				throw new RuntimeException("Áö¿øÇÏÁö ¾Ê´Â ÆÄÀÏÆ÷¸ËÀÔ´Ï´Ù.");
+				throw new RuntimeException("ì§€ì›í•˜ì§€ ì•ŠëŠ” íŒŒì¼í¬ë§·ì…ë‹ˆë‹¤.");
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -118,9 +118,9 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * È®ÀåÀÚ¿¡ ÀÇÇØ¼­ ¿¢¼¿ÆÄÀÏÀ» ÆÄ½ÌÇÑ´Ù.
-	 * @param file ÆÄÀÏ
-	 * @return µ¥ÀÌÅÍÀÇ ¸®½ºÆ®
+	 * í™•ì¥ìì— ì˜í•´ì„œ ì—‘ì…€íŒŒì¼ì„ íŒŒì‹±í•œë‹¤.
+	 * @param file íŒŒì¼
+	 * @return ë°ì´í„°ì˜ ë¦¬ìŠ¤íŠ¸
 	 */
 	public static List<Map<String, String>> parse(File file) {
 		FileInputStream fis = null;
@@ -136,7 +136,7 @@ public class ExcelUtil {
 			} else if ("xlsx".equalsIgnoreCase(ext)) {
 				return _parseExcel2007(fis);
 			} else {
-				throw new RuntimeException("Áö¿øÇÏÁö ¾Ê´Â ÆÄÀÏÆ÷¸ËÀÔ´Ï´Ù.");
+				throw new RuntimeException("ì§€ì›í•˜ì§€ ì•ŠëŠ” íŒŒì¼í¬ë§·ì…ë‹ˆë‹¤.");
 			}
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
@@ -152,9 +152,9 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ¾ÏÈ£È­µÈ ¿¢¼¿ÆÄÀÏÀ» ÆÄ½ÌÇÑ´Ù.
-	 * @param file ÆÄÀÏ
-	 * @return µ¥ÀÌÅÍÀÇ ¸®½ºÆ®
+	 * ì•”í˜¸í™”ëœ ì—‘ì…€íŒŒì¼ì„ íŒŒì‹±í•œë‹¤.
+	 * @param file íŒŒì¼
+	 * @return ë°ì´í„°ì˜ ë¦¬ìŠ¤íŠ¸
 	 */
 	public static List<Map<String, String>> parse(File file, String password) {
 		FileInputStream fis = null;
@@ -166,7 +166,7 @@ public class ExcelUtil {
 			} else if ("xlsx".equalsIgnoreCase(ext)) {
 				return _parseExcel2007(fis, password);
 			} else {
-				throw new RuntimeException("Áö¿øÇÏÁö ¾Ê´Â ÆÄÀÏÆ÷¸ËÀÔ´Ï´Ù.");
+				throw new RuntimeException("ì§€ì›í•˜ì§€ ì•ŠëŠ” íŒŒì¼í¬ë§·ì…ë‹ˆë‹¤.");
 			}
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
@@ -182,23 +182,23 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * RecordSetÀ» ¿¢¼¿2003 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * RecordSetì„ ì—‘ì…€2003 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * @param response
 	 * @param rs
 	 * @param fileName
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderExcel2003(HttpServletResponse response, RecordSet rs, String fileName) {
 		return renderExcel2003(response, rs, fileName, null);
 	}
 
 	/**
-	 * RecordSetÀ» ¿¢¼¿2003 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * RecordSetì„ ì—‘ì…€2003 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * @param response
 	 * @param rs
 	 * @param fileName
 	 * @param header
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderExcel2003(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
 		if (rs == null) {
@@ -236,21 +236,21 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * RecordSetÀ» ¿¢¼¿2003 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * RecordSetì„ ì—‘ì…€2003 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeExcel2003(File file, RecordSet rs) {
 		return writeExcel2003(file, rs, null);
 	}
 
 	/**
-	 * RecordSetÀ» ¿¢¼¿2003 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * RecordSetì„ ì—‘ì…€2003 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
 	 * @param header
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeExcel2003(File file, RecordSet rs, String[] header) {
 		if (rs == null) {
@@ -293,23 +293,23 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * RecordSetÀ» ¿¢¼¿2007 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * RecordSetì„ ì—‘ì…€2007 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * @param response
 	 * @param rs
 	 * @param fileName
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName) {
 		return renderExcel2007(response, rs, fileName, null);
 	}
 
 	/**
-	 * RecordSetÀ» ¿¢¼¿2007 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * RecordSetì„ ì—‘ì…€2007 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * @param response
 	 * @param rs
 	 * @param fileName
 	 * @param header
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
 		if (rs == null) {
@@ -347,21 +347,21 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * RecordSetÀ» ¿¢¼¿2007 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * RecordSetì„ ì—‘ì…€2007 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeExcel2007(File file, RecordSet rs) {
 		return writeExcel2007(file, rs, null);
 	}
 
 	/**
-	 * RecordSetÀ» ¿¢¼¿2007 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * RecordSetì„ ì—‘ì…€2007 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
 	 * @param header
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeExcel2007(File file, RecordSet rs, String[] header) {
 		if (rs == null) {
@@ -404,56 +404,56 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * RecordSetÀ» CSV Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * RecordSetì„ CSV í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * @param response
 	 * @param rs
 	 * @param fileName
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderCSV(HttpServletResponse response, RecordSet rs, String fileName) {
 		return renderSep(response, rs, fileName, ",");
 	}
 
 	/**
-	 * RecordSetÀ» CSV Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * RecordSetì„ CSV í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeCSV(File file, RecordSet rs) {
 		return writeSep(file, rs, ",");
 	}
 
 	/**
-	 * RecordSetÀ» TSV Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * RecordSetì„ TSV í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * @param response
 	 * @param rs
 	 * @param fileName
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderTSV(HttpServletResponse response, RecordSet rs, String fileName) {
 		return renderSep(response, rs, fileName, "\t");
 	}
 
 	/**
-	 * RecordSetÀ» TSV Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * RecordSetì„ TSV í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeTSV(File file, RecordSet rs) {
 		return writeSep(file, rs, "\t");
 	}
 
 	/**
-	 * RecordSetÀ» ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù. 
+	 * RecordSetì„ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤. 
 	 * <br>
-	 * ex) response·Î rs¸¦ ¿­±¸ºĞÀÚ ÄŞ¸¶(,) ÀÎ ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì => ExcelUtil.renderSep(response, rs, ",")
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
+	 * ex) responseë¡œ rsë¥¼ ì—´êµ¬ë¶„ì ì½¤ë§ˆ(,) ì¸ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° => ExcelUtil.renderSep(response, rs, ",")
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
 	 * @param fileName
-	 * @param sep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * @param sep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderSep(HttpServletResponse response, RecordSet rs, String fileName, String sep) {
 		if (rs == null) {
@@ -481,11 +481,11 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * RecordSetÀ» ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * RecordSetì„ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
 	 * @param sep
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeSep(File file, RecordSet rs, String sep) {
 		if (rs == null) {
@@ -518,12 +518,12 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * RecordSetÀ» ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * RecordSetì„ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ ¿­±¸ºĞÀÚ ÄŞ¸¶(,) ÀÎ ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String csv = ExcelUtil.renderSep(rs, ",")
-	 * @param rs º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param sep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ ì—´êµ¬ë¶„ì ì½¤ë§ˆ(,) ì¸ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String csv = ExcelUtil.renderSep(rs, ",")
+	 * @param rs ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param sep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String renderSep(RecordSet rs, String sep) {
 		if (rs == null) {
@@ -543,23 +543,23 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ResultSetÀ» ¿¢¼¿2003 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * ResultSetì„ ì—‘ì…€2003 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * @param response
 	 * @param rs
 	 * @param fileName
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderExcel2003(HttpServletResponse response, ResultSet rs, String fileName) {
 		return renderExcel2003(response, rs, fileName, null);
 	}
 
 	/**
-	 * ResultSetÀ» ¿¢¼¿2003 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * ResultSetì„ ì—‘ì…€2003 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * @param response
 	 * @param rs
 	 * @param fileName
 	 * @param header
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderExcel2003(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
 		if (rs == null) {
@@ -578,7 +578,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
@@ -625,21 +625,21 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ResultSetÀ» ¿¢¼¿2003 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * ResultSetì„ ì—‘ì…€2003 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeExcel2003(File file, ResultSet rs) {
 		return writeExcel2003(file, rs, null);
 	}
 
 	/**
-	 * ResultSetÀ» ¿¢¼¿2003 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * ResultSetì„ ì—‘ì…€2003 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
 	 * @param header
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeExcel2003(File file, ResultSet rs, String[] header) {
 		if (rs == null) {
@@ -655,7 +655,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
@@ -709,23 +709,23 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ResultSetÀ» ¿¢¼¿2007 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * ResultSetì„ ì—‘ì…€2007 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * @param response
 	 * @param rs
 	 * @param fileName
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName) {
 		return renderExcel2007(response, rs, fileName, null);
 	}
 
 	/**
-	 * ResultSetÀ» ¿¢¼¿2007 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * ResultSetì„ ì—‘ì…€2007 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * @param response
 	 * @param rs
 	 * @param fileName
 	 * @param header
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
 		if (rs == null) {
@@ -744,7 +744,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
@@ -791,21 +791,21 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ResultSetÀ» ¿¢¼¿2007 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * ResultSetì„ ì—‘ì…€2007 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeExcel2007(File file, ResultSet rs) {
 		return writeExcel2007(file, rs, null);
 	}
 
 	/**
-	 * ResultSetÀ» ¿¢¼¿2007 Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * ResultSetì„ ì—‘ì…€2007 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
 	 * @param header
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeExcel2007(File file, ResultSet rs, String[] header) {
 		if (rs == null) {
@@ -821,7 +821,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
@@ -875,56 +875,56 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ResultSetÀ» CSV Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * ResultSetì„ CSV í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * @param response
 	 * @param rs
 	 * @param fileName
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderCSV(HttpServletResponse response, ResultSet rs, String fileName) {
 		return renderSep(response, rs, fileName, ",");
 	}
 
 	/**
-	 * ResultSetÀ» CSV Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * ResultSetì„ CSV í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeCSV(File file, ResultSet rs) {
 		return writeSep(file, rs, ",");
 	}
 
 	/**
-	 * ResultSetÀ» TSV Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * ResultSetì„ TSV í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * @param response
 	 * @param rs
 	 * @param fileName
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderTSV(HttpServletResponse response, ResultSet rs, String fileName) {
 		return renderSep(response, rs, fileName, "\t");
 	}
 
 	/**
-	 * ResultSetÀ» TSV Çü½ÄÀ¸·Î º¯È¯ÇÏ¿© ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * ResultSetì„ TSV í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeTSV(File file, ResultSet rs) {
 		return writeSep(file, rs, "\t");
 	}
 
 	/**
-	 * ResultSetÀ» ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù. 
+	 * ResultSetì„ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤. 
 	 * <br>
-	 * ex) response·Î rs¸¦ ¿­±¸ºĞÀÚ ÄŞ¸¶(,) ÀÎ ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì => ExcelUtil.renderSep(response, rs, ",")
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
+	 * ex) responseë¡œ rsë¥¼ ì—´êµ¬ë¶„ì ì½¤ë§ˆ(,) ì¸ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° => ExcelUtil.renderSep(response, rs, ",")
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
 	 * @param fileName
-	 * @param sep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * @param sep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int renderSep(HttpServletResponse response, ResultSet rs, String fileName, String sep) {
 		if (rs == null) {
@@ -941,7 +941,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
@@ -980,11 +980,11 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ResultSetÀ» ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î ÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * ResultSetì„ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ íŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param file
 	 * @param rs
 	 * @param sep
-	 * @return Ã³¸®°Ç¼ö
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int writeSep(File file, ResultSet rs, String sep) {
 		if (rs == null) {
@@ -998,7 +998,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
@@ -1044,12 +1044,12 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ResultSetÀ» ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * ResultSetì„ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ ¿­±¸ºĞÀÚ ÄŞ¸¶(,) ÀÎ ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String csv = ExcelUtil.renderSep(rs, ",")
-	 * @param rs º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param sep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ ì—´êµ¬ë¶„ì ì½¤ë§ˆ(,) ì¸ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String csv = ExcelUtil.renderSep(rs, ",")
+	 * @param rs ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param sep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String renderSep(ResultSet rs, String sep) {
 		if (rs == null) {
@@ -1062,7 +1062,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				int rowCount = 0;
@@ -1101,12 +1101,12 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * Map°´Ã¼¸¦ ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * Mapê°ì²´ë¥¼ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex) mapÀ» ¿­±¸ºĞÀÚ ÄŞ¸¶(,) ÀÎ ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String csv = ExcelUtil.renderSep(map, ",")
-	 * @param map º¯È¯ÇÒ Map°´Ã¼
-	 * @param sep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) mapì„ ì—´êµ¬ë¶„ì ì½¤ë§ˆ(,) ì¸ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String csv = ExcelUtil.renderSep(map, ",")
+	 * @param map ë³€í™˜í•  Mapê°ì²´
+	 * @param sep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String renderSep(Map<String, Object> map, String sep) {
 		if (map == null) {
@@ -1118,12 +1118,12 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * List°´Ã¼¸¦ ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * Listê°ì²´ë¥¼ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex1) mapList¸¦ ¿­±¸ºĞÀÚ ÄŞ¸¶(,) ÀÎ ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String csv = ExcelUtil.renderSep(mapList, ",")
-	 * @param mapList º¯È¯ÇÒ List°´Ã¼
-	 * @param sep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
-	 * @return ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex1) mapListë¥¼ ì—´êµ¬ë¶„ì ì½¤ë§ˆ(,) ì¸ êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String csv = ExcelUtil.renderSep(mapList, ",")
+	 * @param mapList ë³€í™˜í•  Listê°ì²´
+	 * @param sep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
+	 * @return êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String renderSep(List<Map<String, Object>> mapList, String sep) {
 		if (mapList == null) {
@@ -1141,9 +1141,9 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ±¸ºĞÀÚ·Î ¾²ÀÌ´Â ¹®ÀÚ¿­ ¶Ç´Â °³Çà¹®ÀÚ°¡ °ª¿¡ Æ÷ÇÔµÇ¾î ÀÖÀ» °æ¿ì °ªÀ» ½Öµû¿ÈÇ¥·Î µÑ·¯½Îµµ·Ï º¯È¯ÇÑ´Ù.
-	 * @param str º¯È¯ÇÒ ¹®ÀÚ¿­
-	 * @param sep ¿­ ±¸ºĞÀÚ·Î ¾²ÀÏ ¹®ÀÚ¿­
+	 * êµ¬ë¶„ìë¡œ ì“°ì´ëŠ” ë¬¸ìì—´ ë˜ëŠ” ê°œí–‰ë¬¸ìê°€ ê°’ì— í¬í•¨ë˜ì–´ ìˆì„ ê²½ìš° ê°’ì„ ìŒë”°ì˜´í‘œë¡œ ë‘˜ëŸ¬ì‹¸ë„ë¡ ë³€í™˜í•œë‹¤.
+	 * @param str ë³€í™˜í•  ë¬¸ìì—´
+	 * @param sep ì—´ êµ¬ë¶„ìë¡œ ì“°ì¼ ë¬¸ìì—´
 	 */
 	public static String escapeSep(String str, String sep) {
 		if (str == null) {
@@ -1152,11 +1152,11 @@ public class ExcelUtil {
 		return (str.contains(sep) || str.contains("\n")) ? "\"" + str + "\"" : str;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////// Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////// Private ë©”ì†Œë“œ
 
 	/**
-	 * ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ »ı¼º¿ë Row ¹®ÀÚ¿­ »ı¼º
-	 * µ¥ÀÌÅ¸°¡ ¼ıÀÚ°¡ ¾Æ´Ò¶§¿¡´Â ±¸ºĞÀÚ·Î ¾²ÀÎ ¹®ÀÚ¿­ ¶Ç´Â °³Çà¹®ÀÚ¸¦ escape ÇÏ±â À§ÇØ °ªÀ» ½Öµû¿ÈÇ¥·Î µÑ·¯½Ñ´Ù.
+	 * êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ ìƒì„±ìš© Row ë¬¸ìì—´ ìƒì„±
+	 * ë°ì´íƒ€ê°€ ìˆ«ìê°€ ì•„ë‹ë•Œì—ëŠ” êµ¬ë¶„ìë¡œ ì“°ì¸ ë¬¸ìì—´ ë˜ëŠ” ê°œí–‰ë¬¸ìë¥¼ escape í•˜ê¸° ìœ„í•´ ê°’ì„ ìŒë”°ì˜´í‘œë¡œ ë‘˜ëŸ¬ì‹¼ë‹¤.
 	 */
 	private static String _sepRowStr(Map<String, Object> map, String sep) {
 		StringBuilder buffer = new StringBuilder();
@@ -1181,8 +1181,8 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ »ı¼º¿ë Row ¹®ÀÚ¿­ »ı¼º
-	 * µ¥ÀÌÅ¸°¡ ¼ıÀÚ°¡ ¾Æ´Ò¶§¿¡´Â ±¸ºĞÀÚ·Î ¾²ÀÎ ¹®ÀÚ¿­ ¶Ç´Â °³Çà¹®ÀÚ¸¦ escape ÇÏ±â À§ÇØ °ªÀ» ½Öµû¿ÈÇ¥·Î µÑ·¯½Ñ´Ù.
+	 * êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ ìƒì„±ìš© Row ë¬¸ìì—´ ìƒì„±
+	 * ë°ì´íƒ€ê°€ ìˆ«ìê°€ ì•„ë‹ë•Œì—ëŠ” êµ¬ë¶„ìë¡œ ì“°ì¸ ë¬¸ìì—´ ë˜ëŠ” ê°œí–‰ë¬¸ìë¥¼ escape í•˜ê¸° ìœ„í•´ ê°’ì„ ìŒë”°ì˜´í‘œë¡œ ë‘˜ëŸ¬ì‹¼ë‹¤.
 	 */
 	private static String _sepRowStr(RecordSet rs, String[] colNms, String sep) {
 		if (colNms == null) {
@@ -1209,8 +1209,8 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ±¸ºĞÀÚ(CSV, TSV µî)ÆÄÀÏ »ı¼º¿ë Row ¹®ÀÚ¿­ »ı¼º
-	 * µ¥ÀÌÅ¸°¡ ¼ıÀÚ°¡ ¾Æ´Ò¶§¿¡´Â ±¸ºĞÀÚ·Î ¾²ÀÎ ¹®ÀÚ¿­ ¶Ç´Â °³Çà¹®ÀÚ¸¦ escape ÇÏ±â À§ÇØ °ªÀ» ½Öµû¿ÈÇ¥·Î µÑ·¯½Ñ´Ù.
+	 * êµ¬ë¶„ì(CSV, TSV ë“±)íŒŒì¼ ìƒì„±ìš© Row ë¬¸ìì—´ ìƒì„±
+	 * ë°ì´íƒ€ê°€ ìˆ«ìê°€ ì•„ë‹ë•Œì—ëŠ” êµ¬ë¶„ìë¡œ ì“°ì¸ ë¬¸ìì—´ ë˜ëŠ” ê°œí–‰ë¬¸ìë¥¼ escape í•˜ê¸° ìœ„í•´ ê°’ì„ ìŒë”°ì˜´í‘œë¡œ ë‘˜ëŸ¬ì‹¼ë‹¤.
 	 */
 	private static String _sepRowStr(ResultSet rs, String[] colNms, String sep) {
 		StringBuilder buffer = new StringBuilder();
@@ -1383,7 +1383,7 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * ¿¢¼¿ ½ÃÆ®ÀÇ µ¥ÀÌÅÍ ÆÄ½ÌÇÏ¿© ¸ÊÀÇ ¸®½ºÆ®·Î ¸®ÅÏ
+	 * ì—‘ì…€ ì‹œíŠ¸ì˜ ë°ì´í„° íŒŒì‹±í•˜ì—¬ ë§µì˜ ë¦¬ìŠ¤íŠ¸ë¡œ ë¦¬í„´
 	 */
 	private static List<Map<String, String>> _parseSheet(Sheet sheet) {
 		List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
@@ -1400,9 +1400,9 @@ public class ExcelUtil {
 				} else {
 					switch (cell.getCellType()) {
 					case Cell.CELL_TYPE_ERROR:
-						throw new RuntimeException("EXCEL¿¡ ¼ö½Ä ¿¡·¯°¡ Æ÷ÇÔµÇ¾î ÀÖ¾î ºĞ¼®¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+						throw new RuntimeException("EXCELì— ìˆ˜ì‹ ì—ëŸ¬ê°€ í¬í•¨ë˜ì–´ ìˆì–´ ë¶„ì„ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 					case Cell.CELL_TYPE_FORMULA:
-						throw new RuntimeException("EXCEL¿¡ ¼ö½ÄÀÌ Æ÷ÇÔµÇ¾î ÀÖ¾î ºĞ¼®¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+						throw new RuntimeException("EXCELì— ìˆ˜ì‹ì´ í¬í•¨ë˜ì–´ ìˆì–´ ë¶„ì„ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 					case Cell.CELL_TYPE_NUMERIC:
 						cell.setCellType(Cell.CELL_TYPE_STRING);
 						item = cell.getStringCellValue();

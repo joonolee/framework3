@@ -1,4 +1,4 @@
-package framework.cache;
+ï»¿package framework.cache;
 
 import java.io.NotSerializableException;
 import java.io.Serializable;
@@ -11,33 +11,33 @@ import org.apache.commons.logging.LogFactory;
 public class Cache {
 
 	/**
-	 * ·Î°Å°´Ã¼ Á¤ÀÇ
+	 * ë¡œê±°ê°ì²´ ì •ì˜
 	 */
 	protected static final Log logger = LogFactory.getLog(framework.cache.Cache.class);
 
 	/**
-	 * Ä³½Ã±¸ÇöÃ¼
+	 * ìºì‹œêµ¬í˜„ì²´
 	 */
 	public static AbstractCache cache = null;
 
 	/**
-	 * Ä³½Ã±¸ÇöÃ¼ ÀÌ¸§
+	 * ìºì‹œêµ¬í˜„ì²´ ì´ë¦„
 	 */
 	public static String cacheName = null;
 
 	/**
-	 * ±âº» Ä³½Ã ½Ã°£ (30ÀÏ)
+	 * ê¸°ë³¸ ìºì‹œ ì‹œê°„ (30ì¼)
 	 */
 	private final static int _DEFAULT_DURATION = 60 * 60 * 24 * 30;
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤ 
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì • 
 	 */
 	private Cache() {
 	}
 
 	/**
-	 * Ä³½Ã ÃÊ±âÈ­, ¼³Á¤ÆÄÀÏÀ» ÀĞ¾î Ä³½Ã ±¸ÇöÃ¼¸¦ ¼ÂÆÃÇÑ´Ù.
+	 * ìºì‹œ ì´ˆê¸°í™”, ì„¤ì •íŒŒì¼ì„ ì½ì–´ ìºì‹œ êµ¬í˜„ì²´ë¥¼ ì…‹íŒ…í•œë‹¤.
 	 */
 	public synchronized static void init() {
 		if (cache == null) {
@@ -53,14 +53,14 @@ public class Cache {
 					cacheName = "EhCache";
 				}
 			}
-			logger.info(String.format("[ %s ] init : ÃÊ±âÈ­ ¼º°ø", cacheName));
+			logger.info(String.format("[ %s ] init : ì´ˆê¸°í™” ì„±ê³µ", cacheName));
 		}
 	}
 
 	/**
-	 * Å°¿Í °ªÀ» Ä³½Ã¿¡ ¼³Á¤ÇÑ´Ù.
-	 * @param key Å°
-	 * @param value °ª
+	 * í‚¤ì™€ ê°’ì„ ìºì‹œì— ì„¤ì •í•œë‹¤.
+	 * @param key í‚¤
+	 * @param value ê°’
 	 */
 	public static void set(String key, Object value) {
 		_isSerializable(value);
@@ -71,10 +71,10 @@ public class Cache {
 	}
 
 	/**
-	 * Å°¿Í °ªÀ» Ä³½Ã¿¡ ¼³Á¤ÇÑ´Ù.
-	 * @param key Å°
-	 * @param value °ª
-	 * @param seconds Ä³½Ã½Ã°£(ÃÊ´ÜÀ§)
+	 * í‚¤ì™€ ê°’ì„ ìºì‹œì— ì„¤ì •í•œë‹¤.
+	 * @param key í‚¤
+	 * @param value ê°’
+	 * @param seconds ìºì‹œì‹œê°„(ì´ˆë‹¨ìœ„)
 	 */
 	public static void set(String key, Object value, int seconds) {
 		_isSerializable(value);
@@ -85,9 +85,9 @@ public class Cache {
 	}
 
 	/**
-	 * Å°ÀÇ °ªÀ» 1¸¸Å­ Áõ°¡½ÃÅ²´Ù.
-	 * @param key Å°
-	 * @return Áõ°¡µÈ ÈÄ °ª
+	 * í‚¤ì˜ ê°’ì„ 1ë§Œí¼ ì¦ê°€ì‹œí‚¨ë‹¤.
+	 * @param key í‚¤
+	 * @return ì¦ê°€ëœ í›„ ê°’
 	 */
 	public static long incr(String key) {
 		long result = cache.incr(key, 1);
@@ -98,10 +98,10 @@ public class Cache {
 	}
 
 	/**
-	 * Å°ÀÇ °ªÀ» by ¸¸Å­ Áõ°¡½ÃÅ²´Ù.
-	 * @param key Å°
-	 * @param by Áõ°¡½ÃÅ³ °ª
-	 * @return Áõ°¡µÈ ÈÄ °ª
+	 * í‚¤ì˜ ê°’ì„ by ë§Œí¼ ì¦ê°€ì‹œí‚¨ë‹¤.
+	 * @param key í‚¤
+	 * @param by ì¦ê°€ì‹œí‚¬ ê°’
+	 * @return ì¦ê°€ëœ í›„ ê°’
 	 */
 	public static long incr(String key, int by) {
 		long result = cache.incr(key, by);
@@ -112,9 +112,9 @@ public class Cache {
 	}
 
 	/**
-	 * Å°ÀÇ °ªÀ» 1¸¸Å­ °¨¼Ò½ÃÅ²´Ù.
-	 * @param key Å°
-	 * @return °¨¼ÒµÈ ÈÄ °ª
+	 * í‚¤ì˜ ê°’ì„ 1ë§Œí¼ ê°ì†Œì‹œí‚¨ë‹¤.
+	 * @param key í‚¤
+	 * @return ê°ì†Œëœ í›„ ê°’
 	 */
 	public static long decr(String key) {
 		long result = cache.decr(key, 1);
@@ -124,10 +124,10 @@ public class Cache {
 		return result;
 	}
 
-	/**Å°ÀÇ °ªÀ» by ¸¸Å­ °¨¼Ò½ÃÅ²´Ù.
-	 * @param key Å°
-	 * @param by °¨¼Ò½ÃÅ³ °ª
-	 * @return °¨¼ÒµÈ ÈÄ °ª
+	/**í‚¤ì˜ ê°’ì„ by ë§Œí¼ ê°ì†Œì‹œí‚¨ë‹¤.
+	 * @param key í‚¤
+	 * @param by ê°ì†Œì‹œí‚¬ ê°’
+	 * @return ê°ì†Œëœ í›„ ê°’
 	 */
 	public static long decr(String key, int by) {
 		long result = cache.decr(key, by);
@@ -138,9 +138,9 @@ public class Cache {
 	}
 
 	/**
-	 * Ä³½Ã¿¡¼­ Å°·Î °ªÀ» ¾ò¾î¿Â´Ù.
-	 * @param key Å°
-	 * @return °ª
+	 * ìºì‹œì—ì„œ í‚¤ë¡œ ê°’ì„ ì–»ì–´ì˜¨ë‹¤.
+	 * @param key í‚¤
+	 * @return ê°’
 	 */
 	public static Object get(String key) {
 		Object value = cache.get(key);
@@ -151,9 +151,9 @@ public class Cache {
 	}
 
 	/**
-	 * Ä³½Ã¿¡¼­ Å°ÀÇ ¹è¿­·Î °ªµéÀ» ¾ò¾î¿Â´Ù.
-	 * @param keys Å°
-	 * @return °ª
+	 * ìºì‹œì—ì„œ í‚¤ì˜ ë°°ì—´ë¡œ ê°’ë“¤ì„ ì–»ì–´ì˜¨ë‹¤.
+	 * @param keys í‚¤
+	 * @return ê°’
 	 */
 	public static Map<String, Object> get(String... keys) {
 		Map<String, Object> valueMap = cache.get(keys);
@@ -164,8 +164,8 @@ public class Cache {
 	}
 
 	/**
-	 * Å°¿Í °ªÀ» Ä³½Ã¿¡¼­ »èÁ¦ÇÑ´Ù.
-	 * @param key Å°
+	 * í‚¤ì™€ ê°’ì„ ìºì‹œì—ì„œ ì‚­ì œí•œë‹¤.
+	 * @param key í‚¤
 	 */
 	public static void delete(String key) {
 		cache.delete(key);
@@ -175,19 +175,19 @@ public class Cache {
 	}
 
 	/**
-	 * Ä³½Ã¸¦ ¸ğµÎ ºñ¿î´Ù.
+	 * ìºì‹œë¥¼ ëª¨ë‘ ë¹„ìš´ë‹¤.
 	 */
 	public static void clear() {
 		cache.clear();
 		if (logger.isDebugEnabled()) {
-			logger.debug(String.format("[ %s ] clear : Ä³½Ã Å¬¸®¾î ¼º°ø", cacheName));
+			logger.debug(String.format("[ %s ] clear : ìºì‹œ í´ë¦¬ì–´ ì„±ê³µ", cacheName));
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå
+	//////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ
 
 	/**
-	 * Á÷·ÄÈ­ °¡´É °´Ã¼ÀÎÁö ÆÇº°ÇÑ´Ù.
+	 * ì§ë ¬í™” ê°€ëŠ¥ ê°ì²´ì¸ì§€ íŒë³„í•œë‹¤.
 	 */
 	private static void _isSerializable(Object value) {
 		if (value != null && !(value instanceof Serializable)) {

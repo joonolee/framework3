@@ -1,10 +1,10 @@
-package framework.db;
+ï»¿package framework.db;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 /**
- * MyBatisSession À» ÀÌ¿ëÇÏ±â À§ÇÑ °´Ã¼
+ * MyBatisSession ì„ ì´ìš©í•˜ê¸° ìœ„í•œ ê°ì²´
  */
 public class MyBatisSession extends DBStatement {
 	private SqlSession _session = null;

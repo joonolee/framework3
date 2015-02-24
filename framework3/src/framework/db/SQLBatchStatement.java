@@ -1,4 +1,4 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * StatementÀÇ Batch Ã³¸®¸¦ ÀÌ¿ëÇÏ±â À§ÇÑ °´Ã¼
+ * Statementì˜ Batch ì²˜ë¦¬ë¥¼ ì´ìš©í•˜ê¸° ìœ„í•œ ê°ì²´
  */
 public class SQLBatchStatement extends DBStatement {
 	private List<String> _sqlList = new ArrayList<String>();

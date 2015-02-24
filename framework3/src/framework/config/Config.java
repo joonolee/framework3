@@ -1,10 +1,10 @@
-package framework.config;
+ï»¿package framework.config;
 
 import java.util.ResourceBundle;
 
 /** 
- * ¼³Á¤ÆÄÀÏ(config.properties)¿¡¼­ °ªÀ» ÀĞ¾î¿À´Â Å¬·¡½ºÀÌ´Ù. 
- * ½Ì±ÛÅæ ÆĞÅÏÀ¸·Î ¼³Á¤ÆÄÀÏ¿¡ Á¢±ÙÇÏ´Â °´Ã¼ÀÇ ÀÎ½ºÅÏ½º°¡ ¿ÀÁ÷ ÇÑ°³¸¸ »ı¼ºÀÌ µÈ´Ù.
+ * ì„¤ì •íŒŒì¼(config.properties)ì—ì„œ ê°’ì„ ì½ì–´ì˜¤ëŠ” í´ë˜ìŠ¤ì´ë‹¤. 
+ * ì‹±ê¸€í†¤ íŒ¨í„´ìœ¼ë¡œ ì„¤ì •íŒŒì¼ì— ì ‘ê·¼í•˜ëŠ” ê°ì²´ì˜ ì¸ìŠ¤í„´ìŠ¤ê°€ ì˜¤ì§ í•œê°œë§Œ ìƒì„±ì´ ëœë‹¤.
  */
 public class Config {
 	private static Config _instance = new Config();
@@ -16,35 +16,35 @@ public class Config {
 	}
 
 	/** 
-	 * °´Ã¼ÀÇ ÀÎ½ºÅÏ½º¸¦ ¸®ÅÏÇØÁØ´Ù.
-	 * @return Configuration °´Ã¼ÀÇ ÀÎ½ºÅÏ½º
+	 * ê°ì²´ì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë¦¬í„´í•´ì¤€ë‹¤.
+	 * @return Configuration ê°ì²´ì˜ ì¸ìŠ¤í„´ìŠ¤
 	 */
 	public static Config getInstance() {
 		return _instance;
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â String ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â String °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” String ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” String ê°ì²´
 	 */
 	public String get(String key) {
 		return getString(key);
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â booleanÇü º¯¼ö¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â booleanÇü º¯¼ö
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” booleaní˜• ë³€ìˆ˜ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” booleaní˜• ë³€ìˆ˜
 	 */
 	public boolean getBoolean(String key) {
 		return (Boolean.valueOf(_bundle.getString(key).trim())).booleanValue();
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â intÇü º¯¼ö¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â intÇü º¯¼ö
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” intí˜• ë³€ìˆ˜ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” intí˜• ë³€ìˆ˜
 	 */
 	public int getInt(String key) {
 		try {
@@ -55,18 +55,18 @@ public class Config {
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â String ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â String °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” String ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” String ê°ì²´
 	 */
 	public String getString(String key) {
 		return _bundle.getString(key).trim();
 	}
 
 	/**
-	 * Å°(key)°¡ Æ÷ÇÔµÇ¾îÀÖ´ÂÁö ¿©ºÎ¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­s
-	 * @return keyÀÇ Æ÷ÇÔ¿©ºÎ
+	 * í‚¤(key)ê°€ í¬í•¨ë˜ì–´ìˆëŠ”ì§€ ì—¬ë¶€ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´s
+	 * @return keyì˜ í¬í•¨ì—¬ë¶€
 	 */
 	public boolean containsKey(String key) {
 		return _bundle.containsKey(key);

@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,27 +18,27 @@ import org.apache.commons.logging.LogFactory;
 import framework.db.RecordSet;
 
 /**
- * jqGrid ¸¦ ÀÌ¿ëÇÏ¿© °³¹ßÇÒ ¶§ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * jqGrid ë¥¼ ì´ìš©í•˜ì—¬ ê°œë°œí•  ë•Œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class JQGridUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.JQGridUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private JQGridUtil() {
 	}
 
 	/**
-	 * RecordSetÀ» jqGrid Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
+	 * RecordSetì„ jqGrid í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ jqGrid Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param totalCount ÀüÃ¼ÆäÀÌÁö¼ö
-	 * @param currentPage ÇöÀçÆäÀÌÁö¼ö
-	 * @param rowsPerPage ÇÑÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ·Î¿ì¼ö
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param totalCount ì „ì²´í˜ì´ì§€ìˆ˜
+	 * @param currentPage í˜„ì¬í˜ì´ì§€ìˆ˜
+	 * @param rowsPerPage í•œí˜ì´ì§€ì— í‘œì‹œí•  ë¡œìš°ìˆ˜
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage) {
 		if (rs == null) {
@@ -78,16 +78,16 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * RecordSetÀ» jqGrid Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù. 
+	 * RecordSetì„ jqGrid í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤. 
 	 * <br>
-	 * ex) response·Î rs¸¦ jqGrid Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param totalCount ÀüÃ¼ÆäÀÌÁö¼ö
-	 * @param currentPage ÇöÀçÆäÀÌÁö¼ö
-	 * @param rowsPerPage ÇÑÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ·Î¿ì¼ö
-	 * @param colNames ÄÃ·³ÀÌ¸§ ¹è¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param totalCount ì „ì²´í˜ì´ì§€ìˆ˜
+	 * @param currentPage í˜„ì¬í˜ì´ì§€ìˆ˜
+	 * @param rowsPerPage í•œí˜ì´ì§€ì— í‘œì‹œí•  ë¡œìš°ìˆ˜
+	 * @param colNames ì»¬ëŸ¼ì´ë¦„ ë°°ì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
 		if (rs == null) {
@@ -126,14 +126,14 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * RecordSetÀ» jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * RecordSetì„ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage)
-	 * @param rs jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param totalCount ÀüÃ¼ÆäÀÌÁö¼ö
-	 * @param currentPage ÇöÀçÆäÀÌÁö¼ö
-	 * @param rowsPerPage ÇÑÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ·Î¿ì¼ö
-	 * @return jqGrid Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage)
+	 * @param rs jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param totalCount ì „ì²´í˜ì´ì§€ìˆ˜
+	 * @param currentPage í˜„ì¬í˜ì´ì§€ìˆ˜
+	 * @param rowsPerPage í•œí˜ì´ì§€ì— í‘œì‹œí•  ë¡œìš°ìˆ˜
+	 * @return jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage) {
 		if (rs == null) {
@@ -168,15 +168,15 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * RecordSetÀ» jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * RecordSetì„ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
-	 * @param rs jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param totalCount ÀüÃ¼ÆäÀÌÁö¼ö
-	 * @param currentPage ÇöÀçÆäÀÌÁö¼ö
-	 * @param rowsPerPage ÇÑÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ·Î¿ì¼ö
-	 * @param colNames ÄÃ·³ÀÌ¸§ ¹è¿­
-	 * @return jqGrid Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
+	 * @param rs jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param totalCount ì „ì²´í˜ì´ì§€ìˆ˜
+	 * @param currentPage í˜„ì¬í˜ì´ì§€ìˆ˜
+	 * @param rowsPerPage í•œí˜ì´ì§€ì— í‘œì‹œí•  ë¡œìš°ìˆ˜
+	 * @param colNames ì»¬ëŸ¼ì´ë¦„ ë°°ì—´
+	 * @return jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
 		if (rs == null) {
@@ -210,15 +210,15 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * ResultSetÀ» jqGrid Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
+	 * ResultSetì„ jqGrid í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ jqGrid Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param totalCount ÀüÃ¼ÆäÀÌÁö¼ö
-	 * @param currentPage ÇöÀçÆäÀÌÁö¼ö
-	 * @param rowsPerPage ÇÑÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ·Î¿ì¼ö
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param totalCount ì „ì²´í˜ì´ì§€ìˆ˜
+	 * @param currentPage í˜„ì¬í˜ì´ì§€ìˆ˜
+	 * @param rowsPerPage í•œí˜ì´ì§€ì— í‘œì‹œí•  ë¡œìš°ìˆ˜
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
 		if (rs == null) {
@@ -281,16 +281,16 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * ResultSetÀ» jqGrid Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù. 
+	 * ResultSetì„ jqGrid í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤. 
 	 * <br>
-	 * ex) response·Î rs¸¦ jqGrid Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param totalCount ÀüÃ¼ÆäÀÌÁö¼ö
-	 * @param currentPage ÇöÀçÆäÀÌÁö¼ö
-	 * @param rowsPerPage ÇÑÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ·Î¿ì¼ö
-	 * @param colNames ÄÃ·³ÀÌ¸§ ¹è¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param totalCount ì „ì²´í˜ì´ì§€ìˆ˜
+	 * @param currentPage í˜„ì¬í˜ì´ì§€ìˆ˜
+	 * @param rowsPerPage í•œí˜ì´ì§€ì— í‘œì‹œí•  ë¡œìš°ìˆ˜
+	 * @param colNames ì»¬ëŸ¼ì´ë¦„ ë°°ì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
 		if (rs == null) {
@@ -350,14 +350,14 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * ResultSetÀ» jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * ResultSetì„ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage)
-	 * @param rs jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼
-	 * @param totalCount ÀüÃ¼ÆäÀÌÁö¼ö
-	 * @param currentPage ÇöÀçÆäÀÌÁö¼ö
-	 * @param rowsPerPage ÇÑÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ·Î¿ì¼ö
-	 * @return jqGrid Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage)
+	 * @param rs jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´
+	 * @param totalCount ì „ì²´í˜ì´ì§€ìˆ˜
+	 * @param currentPage í˜„ì¬í˜ì´ì§€ìˆ˜
+	 * @param rowsPerPage í•œí˜ì´ì§€ì— í‘œì‹œí•  ë¡œìš°ìˆ˜
+	 * @return jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
 		if (rs == null) {
@@ -420,15 +420,15 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * ResultSetÀ» jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * ResultSetì„ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
-	 * @param rs jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼
-	 * @param totalCount ÀüÃ¼ÆäÀÌÁö¼ö
-	 * @param currentPage ÇöÀçÆäÀÌÁö¼ö
-	 * @param rowsPerPage ÇÑÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ·Î¿ì¼ö
-	 * @param colNames ÄÃ·³ÀÌ¸§ ¹è¿­
-	 * @return jqGrid Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
+	 * @param rs jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´
+	 * @param totalCount ì „ì²´í˜ì´ì§€ìˆ˜
+	 * @param currentPage í˜„ì¬í˜ì´ì§€ìˆ˜
+	 * @param rowsPerPage í•œí˜ì´ì§€ì— í‘œì‹œí•  ë¡œìš°ìˆ˜
+	 * @param colNames ì»¬ëŸ¼ì´ë¦„ ë°°ì—´
+	 * @return jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
 		if (rs == null) {
@@ -488,14 +488,14 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * List°´Ã¼¸¦ jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. 
+	 * Listê°ì²´ë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. 
 	 * <br>
-	 * ex1) mapList¸¦ jqGrid Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JQGridUtil.render(mapList, totalCount, currentPage, rowsPerPage)
-	 * @param mapList º¯È¯ÇÒ List°´Ã¼
-	 * @param totalCount ÀüÃ¼ÆäÀÌÁö¼ö
-	 * @param currentPage ÇöÀçÆäÀÌÁö¼ö
-	 * @param rowsPerPage ÇÑÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ·Î¿ì¼ö
-	 * @return jqGrid Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex1) mapListë¥¼ jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JQGridUtil.render(mapList, totalCount, currentPage, rowsPerPage)
+	 * @param mapList ë³€í™˜í•  Listê°ì²´
+	 * @param totalCount ì „ì²´í˜ì´ì§€ìˆ˜
+	 * @param currentPage í˜„ì¬í˜ì´ì§€ìˆ˜
+	 * @param rowsPerPage í•œí˜ì´ì§€ì— í‘œì‹œí•  ë¡œìš°ìˆ˜
+	 * @return jqGrid í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(List<Map<String, Object>> mapList, int totalCount, int currentPage, int rowsPerPage) {
 		if (mapList == null) {
@@ -532,11 +532,11 @@ public class JQGridUtil {
 		return buf.toString();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////// À¯Æ¿¸®Æ¼
+	////////////////////////////////////////////////////////////////////////////////////////// ìœ í‹¸ë¦¬í‹°
 
 	/**
-	 * ÀÚ¹Ù½ºÅ©¸³Æ®»ó¿¡ Æ¯¼öÇÏ°Ô ÀÎ½ÄµÇ´Â ¹®ÀÚµéÀ» JSONµî¿¡ »ç¿ëÇÏ±â À§ÇØ º¯È¯ÇÏ¿©ÁØ´Ù.
-	 * @param str º¯È¯ÇÒ ¹®ÀÚ¿­
+	 * ìë°”ìŠ¤í¬ë¦½íŠ¸ìƒì— íŠ¹ìˆ˜í•˜ê²Œ ì¸ì‹ë˜ëŠ” ë¬¸ìë“¤ì„ JSONë“±ì— ì‚¬ìš©í•˜ê¸° ìœ„í•´ ë³€í™˜í•˜ì—¬ì¤€ë‹¤.
+	 * @param str ë³€í™˜í•  ë¬¸ìì—´
 	 */
 	public static String escapeJS(String str) {
 		if (str == null) {
@@ -545,10 +545,10 @@ public class JQGridUtil {
 		return str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"").replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n");
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////// Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////// Private ë©”ì†Œë“œ
 
 	/**
-	 * jqGrid ¿ë Row ¹®ÀÚ¿­ »ı¼º
+	 * jqGrid ìš© Row ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _jqGridRowStr(Map<String, Object> map) {
 		StringBuilder buf = new StringBuilder();
@@ -572,7 +572,7 @@ public class JQGridUtil {
 	}
 
 	/**
-	 * jqGrid ¿ë Row ¹®ÀÚ¿­ »ı¼º
+	 * jqGrid ìš© Row ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _jqGridRowStr(RecordSet rs, String[] colNms) {
 		StringBuilder buf = new StringBuilder();

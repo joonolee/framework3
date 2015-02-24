@@ -1,4 +1,4 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -15,7 +15,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 /**
- * MyBatis¸¦ ÀÌ¿ëÇÑ DAO¸¦ ÀÛ¼ºÇÒ¶§ »ó¼Ó¹Ş´Â ºÎ¸ğ Å¬·¡½ºÀÌ´Ù.
+ * MyBatisë¥¼ ì´ìš©í•œ DAOë¥¼ ì‘ì„±í• ë•Œ ìƒì†ë°›ëŠ” ë¶€ëª¨ í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class MyBatisDaoSupport {
 	protected static final Log logger = LogFactory.getLog(framework.db.MyBatisDaoSupport.class);

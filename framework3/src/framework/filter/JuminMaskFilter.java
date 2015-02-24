@@ -1,4 +1,4 @@
-package framework.filter;
+ï»¿package framework.filter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import framework.util.StringUtil;
 
 /**
- * ÀÀ´äµ¥ÀÌÅÍ¿¡¼­ ÁÖ¹Î¹øÈ£ ÆĞÅÏ ¸¶½ºÅ· ÇÊÅÍ
+ * ì‘ë‹µë°ì´í„°ì—ì„œ ì£¼ë¯¼ë²ˆí˜¸ íŒ¨í„´ ë§ˆìŠ¤í‚¹ í•„í„°
  */
 public class JuminMaskFilter implements Filter {
 	private Pattern _juminPattern = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])?", Pattern.MULTILINE);

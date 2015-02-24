@@ -1,4 +1,4 @@
-package framework.cache;
+ï»¿package framework.cache;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,32 +7,32 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
 /**
- * ±âº» Ä³½Ã ±¸ÇöÃ¼ (http://ehcache.org/)
+ * ê¸°ë³¸ ìºì‹œ êµ¬í˜„ì²´ (http://ehcache.org/)
  */
 public class EhCache extends AbstractCache {
 
 	/**
-	 * ½Ì±ÛÅæ °´Ã¼
+	 * ì‹±ê¸€í†¤ ê°ì²´
 	 */
 	private static EhCache _uniqueInstance;
 
 	/**
-	 * Ä³½Ã ¸Å´ÏÀú
+	 * ìºì‹œ ë§¤ë‹ˆì €
 	 */
 	private CacheManager _cacheManager;
 
 	/**
-	 * Ä³½Ã ¿ÀºêÁ§Æ®
+	 * ìºì‹œ ì˜¤ë¸Œì íŠ¸
 	 */
 	private net.sf.ehcache.Cache _cache;
 
 	/**
-	 * ±âº» Ä³½Ã ÀÌ¸§
+	 * ê¸°ë³¸ ìºì‹œ ì´ë¦„
 	 */
 	private static final String _CACHE_NAME = "framework3";
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private EhCache() {
 		_cacheManager = CacheManager.create();
@@ -41,9 +41,9 @@ public class EhCache extends AbstractCache {
 	}
 
 	/** 
-	 * °´Ã¼ÀÇ ÀÎ½ºÅÏ½º¸¦ ¸®ÅÏÇØÁØ´Ù.
+	 * ê°ì²´ì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë¦¬í„´í•´ì¤€ë‹¤.
 	 * 
-	 * @return EhCache °´Ã¼ÀÇ ÀÎ½ºÅÏ½º
+	 * @return EhCache ê°ì²´ì˜ ì¸ìŠ¤í„´ìŠ¤
 	 */
 	public synchronized static EhCache getInstance() {
 		if (_uniqueInstance == null) {

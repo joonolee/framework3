@@ -1,26 +1,26 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ³×ºñ°ÔÀÌ¼Ç °ü·Ã ÆäÀÌÂ¡ Á¤º¸ ÃßÃâ ¶óÀÌºê·¯¸®
+ * ë„¤ë¹„ê²Œì´ì…˜ ê´€ë ¨ í˜ì´ì§• ì •ë³´ ì¶”ì¶œ ë¼ì´ë¸ŒëŸ¬ë¦¬
  */
 public class PagingUtil {
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private PagingUtil() {
 	}
 
 	/**
-	 * ÆäÀÌÂ¡À» À§ÇØ ÇÊ¿äÇÑ Á¤º¸¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param totcnt ÀüÃ¼ ·¹ÄÚµå °Ç¼ö
-	 * @param pagenum ÇöÀç ÆäÀÌÁö ¹øÈ£ 
-	 * @param pagesize ÇÑÆäÀÌÁö¿¡ º¸¿©Áú »çÀÌÁî
-	 * @param displaysize ³×ºñ°ÔÀÌ¼Ç ÆäÀÌÂ¡ »çÀÌÁî
-	 * @return totcnt(ÀüÃ¼ ·¹ÄÚµå °Ç¼ö), pagesize(ÇÑÆäÀÌÁö¿¡ º¸¿©Áú »çÀÌÁî), totalpage(ÀüÃ¼ÆäÀÌÁö¼ö), pagenum(ÇöÀçÆäÀÌÁö), startpage(½ÃÀÛÆäÀÌÁö), endpage(³¡ÆäÀÌÁö), beforepage(ÀÌÀüÆäÀÌÁö), afterpage(ÀÌÈÄÆäÀÌÁö) Á¤º¸¸¦ ´ã°í ÀÖ´Â ¸Ê °´Ã¼
+	 * í˜ì´ì§•ì„ ìœ„í•´ í•„ìš”í•œ ì •ë³´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param totcnt ì „ì²´ ë ˆì½”ë“œ ê±´ìˆ˜
+	 * @param pagenum í˜„ì¬ í˜ì´ì§€ ë²ˆí˜¸ 
+	 * @param pagesize í•œí˜ì´ì§€ì— ë³´ì—¬ì§ˆ ì‚¬ì´ì¦ˆ
+	 * @param displaysize ë„¤ë¹„ê²Œì´ì…˜ í˜ì´ì§• ì‚¬ì´ì¦ˆ
+	 * @return totcnt(ì „ì²´ ë ˆì½”ë“œ ê±´ìˆ˜), pagesize(í•œí˜ì´ì§€ì— ë³´ì—¬ì§ˆ ì‚¬ì´ì¦ˆ), totalpage(ì „ì²´í˜ì´ì§€ìˆ˜), pagenum(í˜„ì¬í˜ì´ì§€), startpage(ì‹œì‘í˜ì´ì§€), endpage(ëí˜ì´ì§€), beforepage(ì´ì „í˜ì´ì§€), afterpage(ì´í›„í˜ì´ì§€) ì •ë³´ë¥¼ ë‹´ê³  ìˆëŠ” ë§µ ê°ì²´
 	 */
 	public static Map<String, Integer> getPagingMap(Integer totcnt, Integer pagenum, Integer pagesize, Integer displaysize) {
 		int l_totcnt = totcnt.intValue();

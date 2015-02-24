@@ -1,4 +1,4 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * µ¥ÀÌÅÍº£ÀÌ½º Äõ¸®¸¦ ¼öÇàÇÑ ÈÄ ±× °á°ú¿¡ ´ëÇÑ Á¢±Ù ±â¹İÀ» Á¦°øÇÏ´Â Å¬·¡½ºÀÌ´Ù.
+ * ë°ì´í„°ë² ì´ìŠ¤ ì¿¼ë¦¬ë¥¼ ìˆ˜í–‰í•œ í›„ ê·¸ ê²°ê³¼ì— ëŒ€í•œ ì ‘ê·¼ ê¸°ë°˜ì„ ì œê³µí•˜ëŠ” í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	private static final long serialVersionUID = -1248669129395067939L;
 	/**
-	 * DBÀÇ columns ÀÌ¸§
+	 * DBì˜ columns ì´ë¦„
 	 */
 	private String[] _colNms = null;
 	private int[] _colSize = null;
@@ -27,7 +27,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	private int[] _colScale = null;
 	private String[] _colInfo = null;
 	private int[] _columnsType = null;
-	//RowsÀÇ °ª
+	//Rowsì˜ ê°’
 	private List<Map<String, Object>> _rows = new ArrayList<Map<String, Object>>();
 	private int _currow = 0;
 
@@ -35,17 +35,17 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	};
 
 	/**
-	 * RecordSetÀÇ »ı¼ºÀÚ
+	 * RecordSetì˜ ìƒì„±ì
 	 */
 	public RecordSet(ResultSet rs) {
 		this(rs, 0, 0);
 	}
 
 	/**
-	 * ÁÖ¾îÁø ¹üÀ§¿¡ Æ÷ÇÔµÇ´Â »õ·Î¿î RecordSet °´Ã¼¸¦ »ı¼ºÇÑ´Ù
-	 * @param rs Äõ¸® ½ÇÇà°á°ú
-	 * @param curpage ÇöÀç Ç¥½ÃÇÒ ÆäÀÌÁö
-	 * @param pagesize ÇÑ ÆäÀÌÁö¿¡ Ç¥½ÃÇÒ µ¥ÀÌÅÍ °¹¼ö
+	 * ì£¼ì–´ì§„ ë²”ìœ„ì— í¬í•¨ë˜ëŠ” ìƒˆë¡œìš´ RecordSet ê°ì²´ë¥¼ ìƒì„±í•œë‹¤
+	 * @param rs ì¿¼ë¦¬ ì‹¤í–‰ê²°ê³¼
+	 * @param curpage í˜„ì¬ í‘œì‹œí•  í˜ì´ì§€
+	 * @param pagesize í•œ í˜ì´ì§€ì— í‘œì‹œí•  ë°ì´í„° ê°¯ìˆ˜
 	 */
 	public RecordSet(ResultSet rs, int curpage, int pagesize) {
 		if (rs == null) {
@@ -59,13 +59,13 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 			_colSize = new int[cnt];
 			_colSizeReal = new int[cnt];
 			_colScale = new int[cnt];
-			// byte[] µ¥ÀÌÅÍ Ã³¸®¸¦ À§ÇØ¼­ Ãß°¡
+			// byte[] ë°ì´í„° ì²˜ë¦¬ë¥¼ ìœ„í•´ì„œ ì¶”ê°€
 			_columnsType = new int[cnt];
 			for (int i = 1; i <= cnt; i++) {
-				//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+				//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 				_colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				_columnsType[i - 1] = rsmd.getColumnType(i);
-				//Fiels ÀÇ Á¤º¸ ¹× Size Ãß°¡ 
+				//Fiels ì˜ ì •ë³´ ë° Size ì¶”ê°€ 
 				_colSize[i - 1] = rsmd.getColumnDisplaySize(i);
 				_colSizeReal[i - 1] = rsmd.getPrecision(i);
 				_colScale[i - 1] = rsmd.getScale(i);
@@ -74,7 +74,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 			rs.setFetchSize(100);
 			int num = 0;
 			while (rs.next()) {
-				// ÇöÀç Row ÀúÀå °´Ã¼
+				// í˜„ì¬ Row ì €ì¥ ê°ì²´
 				Map<String, Object> columns = new HashMap<String, Object>(cnt);
 				num++;
 				if (curpage != 0 && (num < (curpage - 1) * pagesize + 1)) {
@@ -106,7 +106,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÁÖ¾îÁø Äõ¸®¸¦ ¼öÇà ÈÄ ÄÃ·³¸íÀ» String[] ·Î ¹İÈ¯
+	 * ì£¼ì–´ì§„ ì¿¼ë¦¬ë¥¼ ìˆ˜í–‰ í›„ ì»¬ëŸ¼ëª…ì„ String[] ë¡œ ë°˜í™˜
 	 * @return String[]
 	 */
 	public String[] getColumns() {
@@ -117,7 +117,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÁÖ¾îÁø Äõ¸®¸¦ ¼öÇà ÈÄ ÄÃ·³ÀÇ SizeÀ» int[] ·Î ¹İÈ¯ 
+	 * ì£¼ì–´ì§„ ì¿¼ë¦¬ë¥¼ ìˆ˜í–‰ í›„ ì»¬ëŸ¼ì˜ Sizeì„ int[] ë¡œ ë°˜í™˜ 
 	 * @return String[]
 	 */
 	public int[] getColumnsSize() {
@@ -128,7 +128,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÁÖ¾îÁø Äõ¸®¸¦ ¼öÇà ÈÄ ÄÃ·³ÀÇ ½ÇÁ¦ Size(¼ıÀÚ¼Ó¼º¿¡ »ç¿ë)À» int[] ·Î ¹İÈ¯ 
+	 * ì£¼ì–´ì§„ ì¿¼ë¦¬ë¥¼ ìˆ˜í–‰ í›„ ì»¬ëŸ¼ì˜ ì‹¤ì œ Size(ìˆ«ìì†ì„±ì— ì‚¬ìš©)ì„ int[] ë¡œ ë°˜í™˜ 
 	 * @return String[]
 	 */
 	public int[] getColumnsSizeReal() {
@@ -139,7 +139,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÁÖ¾îÁø Äõ¸®¸¦ ¼öÇà ÈÄ ÄÃ·³ÀÇ ¼Ò¼ıÁ¡ ¾Æ·¡ »çÀÌÁî¸¦ int[] ·Î ¹İÈ¯ 
+	 * ì£¼ì–´ì§„ ì¿¼ë¦¬ë¥¼ ìˆ˜í–‰ í›„ ì»¬ëŸ¼ì˜ ì†Œìˆ«ì  ì•„ë˜ ì‚¬ì´ì¦ˆë¥¼ int[] ë¡œ ë°˜í™˜ 
 	 * @return String[]
 	 */
 	public int[] getColumnsScale() {
@@ -150,7 +150,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÁÖ¾îÁø Äõ¸®¸¦ ¼öÇà ÈÄ ÄÃ·³ÀÇ ¼º°İÀ»  String[] ·Î ¹İÈ¯
+	 * ì£¼ì–´ì§„ ì¿¼ë¦¬ë¥¼ ìˆ˜í–‰ í›„ ì»¬ëŸ¼ì˜ ì„±ê²©ì„  String[] ë¡œ ë°˜í™˜
 	 * @return String[]
 	 */
 	public String[] getColumnsInfo() {
@@ -161,7 +161,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÁÖ¾îÁø Äõ¸®¸¦ ¼öÇà ÈÄ ÄÃ·³ÀÇ Å¸ÀÔÀ» int[] ·Î ¹İÈ¯ 
+	 * ì£¼ì–´ì§„ ì¿¼ë¦¬ë¥¼ ìˆ˜í–‰ í›„ ì»¬ëŸ¼ì˜ íƒ€ì…ì„ int[] ë¡œ ë°˜í™˜ 
 	 * @return String[]
 	 */
 	public int[] getColumnsType() {
@@ -172,7 +172,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÁÖ¾îÁø Äõ¸®¸¦ ¼öÇà ÈÄ °á°ú¸¦  ArrayList ·Î ¹İÈ¯
+	 * ì£¼ì–´ì§„ ì¿¼ë¦¬ë¥¼ ìˆ˜í–‰ í›„ ê²°ê³¼ë¥¼  ArrayList ë¡œ ë°˜í™˜
 	 * @return ArrayList
 	 */
 	public List<Map<String, Object>> getRows() {
@@ -182,8 +182,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÁÖ¾îÁø Äõ¸® ¼öÇà ÈÄ °á°ú columnÀÇ °¹¼ö¸¦ ±¸ÇÑ´Ù
-	 * @return	int ÄÃ·³ÀÇ °¹¼ö
+	 * ì£¼ì–´ì§„ ì¿¼ë¦¬ ìˆ˜í–‰ í›„ ê²°ê³¼ columnì˜ ê°¯ìˆ˜ë¥¼ êµ¬í•œë‹¤
+	 * @return	int ì»¬ëŸ¼ì˜ ê°¯ìˆ˜
 	 */
 	public int getColumnCount() {
 		if (_colNms == null) {
@@ -193,8 +193,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÁÖ¾îÁø Äõ¸® ¼öÇà ÈÄ °á°ú rowÀÇ °¹¼ö¸¦ ±¸ÇÑ´Ù
-	 * @return	int RowÀÇ °¹¼ö
+	 * ì£¼ì–´ì§„ ì¿¼ë¦¬ ìˆ˜í–‰ í›„ ê²°ê³¼ rowì˜ ê°¯ìˆ˜ë¥¼ êµ¬í•œë‹¤
+	 * @return	int Rowì˜ ê°¯ìˆ˜
 	 */
 	public int getRowCount() {
 		if (_rows == null) {
@@ -204,17 +204,17 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇöÀç ÂüÁ¶ÇÏ°í ÀÖ´Â rowÀÇ À§Ä¡¸¦ ±¸ÇÑ´Ù.
-	 * @return	int ÇöÀç RowÀÇ À§Ä¡
+	 * í˜„ì¬ ì°¸ì¡°í•˜ê³  ìˆëŠ” rowì˜ ìœ„ì¹˜ë¥¼ êµ¬í•œë‹¤.
+	 * @return	int í˜„ì¬ Rowì˜ ìœ„ì¹˜
 	 */
 	public int getCurrentRow() {
 		return _currow;
 	}
 
 	/**
-	 * Äõ¸® ¼öÇà¿¡ ÀÇÇØ ¾ò¾îÁø °á°úÀÇ Æ¯Á¤ columnÀÇ ÀÌ¸§À» ¾ò´Â´Ù
-	 * @param	index	¾ò°íÀÚ ÇÏ´Â ÄÃ·³ À§Ä¡, Ã¹¹øÂ° ÄÃ·³Àº 1
-	 * @return	String ÇØ´ç columnÀÇ ÀÌ¸§
+	 * ì¿¼ë¦¬ ìˆ˜í–‰ì— ì˜í•´ ì–»ì–´ì§„ ê²°ê³¼ì˜ íŠ¹ì • columnì˜ ì´ë¦„ì„ ì–»ëŠ”ë‹¤
+	 * @param	index	ì–»ê³ ì í•˜ëŠ” ì»¬ëŸ¼ ìœ„ì¹˜, ì²«ë²ˆì§¸ ì»¬ëŸ¼ì€ 1
+	 * @return	String í•´ë‹¹ columnì˜ ì´ë¦„
 	 */
 	public String getColumnLabel(int index) {
 		if (index < 1) {
@@ -228,7 +228,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ Ã³À½À¸·Î ÀÌµ¿ÇÑ´Ù.
+	 * RecordSetì˜ ì²˜ìŒìœ¼ë¡œ ì´ë™í•œë‹¤.
 	 * @return boolean
 	 */
 	public boolean firstRow() {
@@ -236,7 +236,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ Ã³À½rowÀÎÁö ¾Æ´ÑÁö ¿©ºÎ ÆÇ´Ü.
+	 * RecordSetì˜ ì²˜ìŒrowì¸ì§€ ì•„ë‹Œì§€ ì—¬ë¶€ íŒë‹¨.
 	 * @return boolean
 	 */
 	public boolean isFirst() {
@@ -244,7 +244,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ ¸¶Áö¸·rowÀÎÁö ¾Æ´ÑÁö ¿©ºÎ ÆÇ´Ü.
+	 * RecordSetì˜ ë§ˆì§€ë§‰rowì¸ì§€ ì•„ë‹Œì§€ ì—¬ë¶€ íŒë‹¨.
 	 * @return boolean
 	 */
 	public boolean isLast() {
@@ -252,7 +252,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ ¸¶Áö¸·À¸·Î ÀÌµ¿ÇÑ´Ù.
+	 * RecordSetì˜ ë§ˆì§€ë§‰ìœ¼ë¡œ ì´ë™í•œë‹¤.
 	 * @return boolean
 	 */
 	public boolean lastRow() {
@@ -264,7 +264,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSet¿¡¼­ ÇöÀç rowÀÇ ´ÙÀ½ row·Î ÀÌµ¿ÇÑ´Ù.
+	 * RecordSetì—ì„œ í˜„ì¬ rowì˜ ë‹¤ìŒ rowë¡œ ì´ë™í•œë‹¤.
 	 * @return boolean
 	 */
 	public boolean nextRow() {
@@ -276,7 +276,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ ÇöÀç rowÀÇ ÀÌÀü row·Î ÀÌµ¿ÇÑ´Ù.
+	 * RecordSetì˜ í˜„ì¬ rowì˜ ì´ì „ rowë¡œ ì´ë™í•œë‹¤.
 	 * @return boolean
 	 */
 	public boolean preRow() {
@@ -288,7 +288,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇØ´çÇÏ´Â ÇÏ´Â row·Î ÀÌµ¿
+	 * í•´ë‹¹í•˜ëŠ” í•˜ëŠ” rowë¡œ ì´ë™
 	 */
 	public boolean moveRow(int row) {
 		if (_rows != null && _rows.size() != 0 && row <= _rows.size()) {
@@ -299,7 +299,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * Recordset µ¥ÀÌÅ¸¸¦ ¾ò¾î¿Â´Ù.
+	 * Recordset ë°ì´íƒ€ë¥¼ ì–»ì–´ì˜¨ë‹¤.
 	 * @param row cnt : start 1
 	 * @param column name
 	 */
@@ -308,9 +308,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ column °ªÀ» StringÀ¸·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param row  row number, Ã¹¹øÂ° row´Â 1
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ column ê°’ì„ Stringìœ¼ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param row  row number, ì²«ë²ˆì§¸ rowëŠ” 1
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return String  column data
 	 */
 	public String getString(int row, String column) {
@@ -321,9 +321,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ column °ªÀ» int·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param row  row number, Ã¹¹øÂ° row´Â 1
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ column ê°’ì„ intë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param row  row number, ì²«ë²ˆì§¸ rowëŠ” 1
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return int  column data
 	 */
 	public int getInt(int row, String column) {
@@ -331,9 +331,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/** 
-	 * RecordSetÀÇ column °ªÀ» int·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param row  row number, Ã¹¹øÂ° row´Â 1
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ column ê°’ì„ intë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param row  row number, ì²«ë²ˆì§¸ rowëŠ” 1
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return int  column data   
 	 */
 	public int getInteger(int row, String column) {
@@ -341,9 +341,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ column °ªÀ» long ÇüÀ¸·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param row  row number, Ã¹¹øÂ° row´Â 1
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ column ê°’ì„ long í˜•ìœ¼ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param row  row number, ì²«ë²ˆì§¸ rowëŠ” 1
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return long  column data
 	 */
 	public long getLong(int row, String column) {
@@ -351,9 +351,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ Column °ªÀ» double ·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param row  row number, Ã¹¹øÂ° row´Â 1
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ Column ê°’ì„ double ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param row  row number, ì²«ë²ˆì§¸ rowëŠ” 1
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return double column data
 	 */
 	public double getDouble(int row, String column) {
@@ -361,9 +361,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ Column °ªÀ» BigDecimal ·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param row  row number, Ã¹¹øÂ° row´Â 1
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ Column ê°’ì„ BigDecimal ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param row  row number, ì²«ë²ˆì§¸ rowëŠ” 1
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return BigDecimal column data
 	 */
 	public BigDecimal getBigDecimal(int row, String column) {
@@ -374,8 +374,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ Column °ªÀ» BigDecimal ·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ Column ê°’ì„ BigDecimal ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return BigDecimal column data
 	 */
 	public BigDecimal getBigDecimal(String column) {
@@ -383,9 +383,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ column °ªÀ» float·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param row  row number, Ã¹¹øÂ° row´Â 1
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ column ê°’ì„ floatë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param row  row number, ì²«ë²ˆì§¸ rowëŠ” 1
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return float  column data
 	 */
 	public float getFloat(int row, String column) {
@@ -393,10 +393,10 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ column °ªÀ» DateÇüÀ¸·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * YYYY-MM-DD ·Î ¹İÈ¯
-	 * @param row  row number, Ã¹¹øÂ° row´Â 1
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ column ê°’ì„ Dateí˜•ìœ¼ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * YYYY-MM-DD ë¡œ ë°˜í™˜
+	 * @param row  row number, ì²«ë²ˆì§¸ rowëŠ” 1
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return float  column data
 	 */
 	public Date getDate(int row, String column) {
@@ -404,10 +404,10 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * RecordSetÀÇ column °ªÀ» TimestampÇüÀ¸·Î ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * YYYY-MM-DD ·Î ¹İÈ¯
-	 * @param row  row number, Ã¹¹øÂ° row´Â 1
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * RecordSetì˜ column ê°’ì„ Timestampí˜•ìœ¼ë¡œ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * YYYY-MM-DD ë¡œ ë°˜í™˜
+	 * @param row  row number, ì²«ë²ˆì§¸ rowëŠ” 1
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return float  column data
 	 */
 	public Timestamp getTimestamp(int row, String column) {
@@ -419,8 +419,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇöÀç pointing µÈ rowÀÇ column µ¥ÀÌÅÍ¸¦ ÀĞ´Â´Ù
-	 * @param	column	column number, Ã¹¹øÂ° column Àº 1
+	 * í˜„ì¬ pointing ëœ rowì˜ column ë°ì´í„°ë¥¼ ì½ëŠ”ë‹¤
+	 * @param	column	column number, ì²«ë²ˆì§¸ column ì€ 1
 	 * @return String column data
 	 */
 	public Object get(int column) {
@@ -428,8 +428,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇöÀçÇàÀÇ RecordSetÀÇ int °ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * í˜„ì¬í–‰ì˜ RecordSetì˜ int ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return int
 	 */
 	public int getInt(int column) {
@@ -437,8 +437,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇöÀçÇàÀÇ RecordSetÀÇ int °ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * í˜„ì¬í–‰ì˜ RecordSetì˜ int ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return Integer
 	 */
 	public int getInteger(int column) {
@@ -446,8 +446,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇöÀç ÇàÀÇ RecordSetÀÇ long °ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * í˜„ì¬ í–‰ì˜ RecordSetì˜ long ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return long
 	 */
 	public long getLong(int column) {
@@ -455,8 +455,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇöÀç ÇàÀÇ RecordSetÀÇ float °ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * í˜„ì¬ í–‰ì˜ RecordSetì˜ float ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return float
 	 */
 	public float getFloat(int column) {
@@ -464,8 +464,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇöÀç ÇàÀÇ RecordSetÀÇ double °ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * í˜„ì¬ í–‰ì˜ RecordSetì˜ double ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return double
 	 */
 	public double getDouble(int column) {
@@ -473,9 +473,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇöÀç ÇàÀÇ RecordSetÀÇ Date °ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	 * YYYY-MM-DD ·Î ¹İÈ¯
-	 * @param column  column number, Ã¹¹øÂ° columnÀº 1
+	 * í˜„ì¬ í–‰ì˜ RecordSetì˜ Date ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	 * YYYY-MM-DD ë¡œ ë°˜í™˜
+	 * @param column  column number, ì²«ë²ˆì§¸ columnì€ 1
 	 * @return Date
 	 */
 	public Date getDate(int column) {
@@ -483,7 +483,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÇöÀç ÇüÀÇ RecordSetÀÇ Timestamp °ªÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	 * í˜„ì¬ í˜•ì˜ RecordSetì˜ Timestamp ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	 * @param column
 	 * @return Timestamp
 	 */
@@ -492,8 +492,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â ÇöÀç pointingµÈ rowÀÇ column µ¥ÀÌÅÍ¸¦ ±¸ÇÑ´Ù
-	 * @param	name	ÀĞ°íÀÚ ÇÏ´Â column ÀÌ¸§
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” í˜„ì¬ pointingëœ rowì˜ column ë°ì´í„°ë¥¼ êµ¬í•œë‹¤
+	 * @param	name	ì½ê³ ì í•˜ëŠ” column ì´ë¦„
 	 * @return	column data
 	 */
 	public Object get(String name) {
@@ -501,8 +501,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â ÇöÀç pointingµÈ rowÀÇ intÇü column µ¥ÀÌÅÍ¸¦ ±¸ÇÑ´Ù
-	 * @param name ÀĞ°íÀÚ ÇÏ´Â column ÀÌ¸§
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” í˜„ì¬ pointingëœ rowì˜ intí˜• column ë°ì´í„°ë¥¼ êµ¬í•œë‹¤
+	 * @param name ì½ê³ ì í•˜ëŠ” column ì´ë¦„
 	 * @return int
 	 */
 	public int getInt(String name) {
@@ -510,8 +510,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â ÇöÀç pointingµÈ rowÀÇ intÇü column µ¥ÀÌÅÍ¸¦ ±¸ÇÑ´Ù
-	 * @param name ÀĞ°íÀÚ ÇÏ´Â column ÀÌ¸§
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” í˜„ì¬ pointingëœ rowì˜ intí˜• column ë°ì´í„°ë¥¼ êµ¬í•œë‹¤
+	 * @param name ì½ê³ ì í•˜ëŠ” column ì´ë¦„
 	 * @return Integer
 	 */
 	public Integer getInteger(String name) {
@@ -521,9 +521,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â ÇöÀç pointingµÈ rowÀÇ longÇü column µ¥ÀÌÅÍ¸¦ ±¸ÇÑ´Ù
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” í˜„ì¬ pointingëœ rowì˜ longí˜• column ë°ì´í„°ë¥¼ êµ¬í•œë‹¤
 	 * 
-	 * @param name ÀĞ°íÀÚ ÇÏ´Â column ÀÌ¸§
+	 * @param name ì½ê³ ì í•˜ëŠ” column ì´ë¦„
 	 * 
 	 * @return long
 	 */
@@ -532,9 +532,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/** 
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â ÇöÀç pointingµÈ rowÀÇ StringÇü column µ¥ÀÌÅÍ¸¦ ±¸ÇÑ´Ù
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” í˜„ì¬ pointingëœ rowì˜ Stringí˜• column ë°ì´í„°ë¥¼ êµ¬í•œë‹¤
 	 * 
-	 * @param name ÀĞ°íÀÚ ÇÏ´Â column ÀÌ¸§
+	 * @param name ì½ê³ ì í•˜ëŠ” column ì´ë¦„
 	 * 
 	 * @return String
 	 */
@@ -543,8 +543,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â ÇöÀç pointingµÈ rowÀÇ floatÇü column µ¥ÀÌÅÍ¸¦ ±¸ÇÑ´Ù
-	 * @param name ÀĞ°íÀÚ ÇÏ´Â column ÀÌ¸§
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” í˜„ì¬ pointingëœ rowì˜ floatí˜• column ë°ì´í„°ë¥¼ êµ¬í•œë‹¤
+	 * @param name ì½ê³ ì í•˜ëŠ” column ì´ë¦„
 	 * @return float
 	 */
 	public float getFloat(String name) {
@@ -552,8 +552,8 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â ÇöÀç pointingµÈ rowÀÇ doubleÇü column µ¥ÀÌÅÍ¸¦ ±¸ÇÑ´Ù
-	 * @param name ÀĞ°íÀÚ ÇÏ´Â column ÀÌ¸§
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” í˜„ì¬ pointingëœ rowì˜ doubleí˜• column ë°ì´í„°ë¥¼ êµ¬í•œë‹¤
+	 * @param name ì½ê³ ì í•˜ëŠ” column ì´ë¦„
 	 * @return double
 	 */
 	public double getDouble(String name) {
@@ -561,9 +561,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â ÇöÀç pointingµÈ rowÀÇ DateÇü column µ¥ÀÌÅÍ¸¦ ±¸ÇÑ´Ù
-	 * YYYY-MM-DD·Î ¹İÈ¯
-	 * @param name ÀĞ°íÀÚ ÇÏ´Â column ÀÌ¸§
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” í˜„ì¬ pointingëœ rowì˜ Dateí˜• column ë°ì´í„°ë¥¼ êµ¬í•œë‹¤
+	 * YYYY-MM-DDë¡œ ë°˜í™˜
+	 * @param name ì½ê³ ì í•˜ëŠ” column ì´ë¦„
 	 * @return Date
 	 */
 	public Date getDate(String name) {
@@ -571,9 +571,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â ÇöÀç pointingµÈ rowÀÇ DateÇü column µ¥ÀÌÅÍ¸¦ ±¸ÇÑ´Ù
-	 * YYYY-MM-DD·Î ¹İÈ¯
-	 * @param name ÀĞ°íÀÚ ÇÏ´Â column ÀÌ¸§
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” í˜„ì¬ pointingëœ rowì˜ Dateí˜• column ë°ì´í„°ë¥¼ êµ¬í•œë‹¤
+	 * YYYY-MM-DDë¡œ ë°˜í™˜
+	 * @param name ì½ê³ ì í•˜ëŠ” column ì´ë¦„
 	 * @return Date
 	 */
 	public Timestamp getTimestamp(String name) {
@@ -581,9 +581,9 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÎÀÚ·Î ÀüÇØÁø ÀÌ¸§À» °¡Áö´Â columnÀÇ À§Ä¡¸¦ ±¸ÇÑ´Ù.
-	 * @param	name 	column ÀÌ¸§
-	 * @return column index, Ã£Áö ¸øÇÏ¸é -1
+	 * ì¸ìë¡œ ì „í•´ì§„ ì´ë¦„ì„ ê°€ì§€ëŠ” columnì˜ ìœ„ì¹˜ë¥¼ êµ¬í•œë‹¤.
+	 * @param	name 	column ì´ë¦„
+	 * @return column index, ì°¾ì§€ ëª»í•˜ë©´ -1
 	 */
 	public int findColumn(String name) {
 		if (name == null || _colNms == null) {
@@ -599,7 +599,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ·¹ÄÚµå ¼ö°¡ 0 ÀÎÁö check
+	 * ë ˆì½”ë“œ ìˆ˜ê°€ 0 ì¸ì§€ check
 	 * @return boolean True if there are no records in this object, false otherwise
 	 */
 	public boolean isEmpty() {
@@ -611,7 +611,7 @@ public class RecordSet implements Iterable<Map<String, Object>>, Serializable {
 	}
 
 	/**
-	 * ÀÌÅÍ·¹ÀÌÅÍ¸¦ ¹İÈ¯ÇÑ´Ù.
+	 * ì´í„°ë ˆì´í„°ë¥¼ ë°˜í™˜í•œë‹¤.
 	 */
 	@Override
 	public Iterator<Map<String, Object>> iterator() {

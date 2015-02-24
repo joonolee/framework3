@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,13 +18,13 @@ import org.apache.commons.logging.LogFactory;
 import framework.db.RecordSet;
 
 /**
- * RSS¸¦ ÀÌ¿ëÇÏ¿© °³¹ßÇÒ ¶§ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * RSSë¥¼ ì´ìš©í•˜ì—¬ ê°œë°œí•  ë•Œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class RssUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.RssUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private RssUtil() {
 	}
@@ -32,7 +32,7 @@ public class RssUtil {
 	private static final String _BR = System.getProperty("line.separator");
 
 	/**
-	 * RssItem °´Ã¼
+	 * RssItem ê°ì²´
 	 */
 	public static class RssItem {
 		private String _title = null;
@@ -104,33 +104,33 @@ public class RssUtil {
 	}
 
 	/**
-	 * ÀÔ·ÂÇÑ °ªÀ¸·Î RssItemÀ» »ı¼ºÇÑ´Ù.
+	 * ì…ë ¥í•œ ê°’ìœ¼ë¡œ RssItemì„ ìƒì„±í•œë‹¤.
 	 * <br>
-	 * ex) titie, link, description, author, category, pubDate·Î RssItem°´Ã¼¸¦ »ı¼ºÇÏ´Â °æ¿ì : RssUtil.makeRssItem(title, link, description, author, category, pubDate) 
-	 * @param title Á¦¸ñ
-	 * @param link ¸µÅ©(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â url¿¡ ¾ÚÆÛ¼¾µåµîÀº ¿£ÅÍÆ¼Ç¥±â¸¦ »ç¿ëÇÏ¿©¾ß ÇÔ)
-	 * @param description ¼³¸í
-	 * @param author ÀÛ¼ºÀÚ(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â "ÀÌ¸ŞÀÏÁÖ¼Ò(ÀÌ¸§)" Çü½ÄÀ¸·Î Ç¥±âÇÏ¿©¾ß ÇÔ)
-	 * @param category ºĞ·ù
-	 * @param pubDate ÀÛ¼ºÀÏ
-	 * @return RssItem °´Ã¼
+	 * ex) titie, link, description, author, category, pubDateë¡œ RssItemê°ì²´ë¥¼ ìƒì„±í•˜ëŠ” ê²½ìš° : RssUtil.makeRssItem(title, link, description, author, category, pubDate) 
+	 * @param title ì œëª©
+	 * @param link ë§í¬(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” urlì— ì•°í¼ì„¼ë“œë“±ì€ ì—”í„°í‹°í‘œê¸°ë¥¼ ì‚¬ìš©í•˜ì—¬ì•¼ í•¨)
+	 * @param description ì„¤ëª…
+	 * @param author ì‘ì„±ì(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” "ì´ë©”ì¼ì£¼ì†Œ(ì´ë¦„)" í˜•ì‹ìœ¼ë¡œ í‘œê¸°í•˜ì—¬ì•¼ í•¨)
+	 * @param category ë¶„ë¥˜
+	 * @param pubDate ì‘ì„±ì¼
+	 * @return RssItem ê°ì²´
 	 */
 	public static RssItem makeRssItem(String title, String link, String description, String author, String category, Date pubDate) {
 		return new RssItem(title, link, description, author, category, pubDate);
 	}
 
 	/**
-	 * RecordSetÀ» RSS 2.0 Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù. RecordSet¿¡´Â ´ÙÀ½ÄÃ·³ÀÌ ¹İµå½Ã Æ÷ÇÔµÇ¾î¾ß ÇÑ´Ù.(title, link, description, author, category, pubDate). 
+	 * RecordSetì„ RSS 2.0 í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤. RecordSetì—ëŠ” ë‹¤ìŒì»¬ëŸ¼ì´ ë°˜ë“œì‹œ í¬í•¨ë˜ì–´ì•¼ í•œë‹¤.(title, link, description, author, category, pubDate). 
 	 * <br>
-	 * ex) response·Î rs¸¦ RSS Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : RssUtil.render(response, rs, "utf-8", "Á¦¸ñ", "http://www.xxx.com", "¼³¸í", "admin@xxx.com")
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs RSS Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @param title Á¦¸ñ : ÇÊ¼ö
-	 * @param link ¸µÅ©(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â url¿¡ ¾ÚÆÛ¼¾µåµîÀº ¿£ÅÍÆ¼Ç¥±â¸¦ »ç¿ëÇÏ¿©¾ß ÇÔ) : ÇÊ¼ö
-	 * @param description ¼³¸í : ÇÊ¼ö
-	 * @param webMaster À¥¸¶½ºÅÍ e-mail ÁÖ¼Ò(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â "ÀÌ¸ŞÀÏÁÖ¼Ò(ÀÌ¸§)" Çü½ÄÀ¸·Î Ç¥±âÇÏ¿©¾ß ÇÔ) : ¿É¼Ç
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ RSS í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : RssUtil.render(response, rs, "utf-8", "ì œëª©", "http://www.xxx.com", "ì„¤ëª…", "admin@xxx.com")
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs RSS í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @param title ì œëª© : í•„ìˆ˜
+	 * @param link ë§í¬(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” urlì— ì•°í¼ì„¼ë“œë“±ì€ ì—”í„°í‹°í‘œê¸°ë¥¼ ì‚¬ìš©í•˜ì—¬ì•¼ í•¨) : í•„ìˆ˜
+	 * @param description ì„¤ëª… : í•„ìˆ˜
+	 * @param webMaster ì›¹ë§ˆìŠ¤í„° e-mail ì£¼ì†Œ(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” "ì´ë©”ì¼ì£¼ì†Œ(ì´ë¦„)" í˜•ì‹ìœ¼ë¡œ í‘œê¸°í•˜ì—¬ì•¼ í•¨) : ì˜µì…˜
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, String encoding, String title, String link, String description, String webMaster) {
 		if (rs == null) {
@@ -166,16 +166,16 @@ public class RssUtil {
 	}
 
 	/**
-	 * RecordSetÀ» RSS 2.0 Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. RecordSet¿¡´Â ´ÙÀ½ÄÃ·³ÀÌ ¹İµå½Ã Æ÷ÇÔµÇ¾î¾ß ÇÑ´Ù.(title, link, description, author, category, pubDate). 
+	 * RecordSetì„ RSS 2.0 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. RecordSetì—ëŠ” ë‹¤ìŒì»¬ëŸ¼ì´ ë°˜ë“œì‹œ í¬í•¨ë˜ì–´ì•¼ í•œë‹¤.(title, link, description, author, category, pubDate). 
 	 * <br>
-	 * ex) rs¸¦ RSS Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rss = RssUtil.render(rs, "utf-8", "Á¦¸ñ", "http://www.xxx.com", "¼³¸í", "admin@xxx.com")
-	 * @param rs RSS Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @param title Á¦¸ñ : ÇÊ¼ö
-	 * @param link ¸µÅ©(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â url¿¡ ¾ÚÆÛ¼¾µåµîÀº ¿£ÅÍÆ¼Ç¥±â¸¦ »ç¿ëÇÏ¿©¾ß ÇÔ) : ÇÊ¼ö
-	 * @param description ¼³¸í : ÇÊ¼ö
-	 * @param webMaster À¥¸¶½ºÅÍ e-mail ÁÖ¼Ò(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â "ÀÌ¸ŞÀÏÁÖ¼Ò(ÀÌ¸§)" Çü½ÄÀ¸·Î Ç¥±âÇÏ¿©¾ß ÇÔ) : ¿É¼Ç
-	 * @return RSS Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ RSS í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rss = RssUtil.render(rs, "utf-8", "ì œëª©", "http://www.xxx.com", "ì„¤ëª…", "admin@xxx.com")
+	 * @param rs RSS í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @param title ì œëª© : í•„ìˆ˜
+	 * @param link ë§í¬(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” urlì— ì•°í¼ì„¼ë“œë“±ì€ ì—”í„°í‹°í‘œê¸°ë¥¼ ì‚¬ìš©í•˜ì—¬ì•¼ í•¨) : í•„ìˆ˜
+	 * @param description ì„¤ëª… : í•„ìˆ˜
+	 * @param webMaster ì›¹ë§ˆìŠ¤í„° e-mail ì£¼ì†Œ(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” "ì´ë©”ì¼ì£¼ì†Œ(ì´ë¦„)" í˜•ì‹ìœ¼ë¡œ í‘œê¸°í•˜ì—¬ì•¼ í•¨) : ì˜µì…˜
+	 * @return RSS í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs, String encoding, String title, String link, String description, String webMaster) {
 		if (rs == null) {
@@ -204,17 +204,17 @@ public class RssUtil {
 	}
 
 	/**
-	 * ResultSetÀ» RSS 2.0 Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù. ResultSet¿¡´Â ´ÙÀ½ÄÃ·³ÀÌ ¹İµå½Ã Æ÷ÇÔµÇ¾î¾ß ÇÑ´Ù.(title, link, description, author, category, pubDate).
+	 * ResultSetì„ RSS 2.0 í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤. ResultSetì—ëŠ” ë‹¤ìŒì»¬ëŸ¼ì´ ë°˜ë“œì‹œ í¬í•¨ë˜ì–´ì•¼ í•œë‹¤.(title, link, description, author, category, pubDate).
 	 * <br>
-	 * ex) response·Î rs¸¦ RSS Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : RssUtil.render(response, rs, "utf-8", "Á¦¸ñ", "http://www.xxx.com", "¼³¸í", "admin@xxx.com")
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs RSS Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @param title Á¦¸ñ : ÇÊ¼ö
-	 * @param link ¸µÅ©(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â url¿¡ ¾ÚÆÛ¼¾µåµîÀº ¿£ÅÍÆ¼Ç¥±â¸¦ »ç¿ëÇÏ¿©¾ß ÇÔ) : ÇÊ¼ö
-	 * @param description ¼³¸í : ÇÊ¼ö
-	 * @param webMaster À¥¸¶½ºÅÍ e-mail ÁÖ¼Ò(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â "ÀÌ¸ŞÀÏÁÖ¼Ò(ÀÌ¸§)" Çü½ÄÀ¸·Î Ç¥±âÇÏ¿©¾ß ÇÔ) : ¿É¼Ç
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ RSS í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : RssUtil.render(response, rs, "utf-8", "ì œëª©", "http://www.xxx.com", "ì„¤ëª…", "admin@xxx.com")
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs RSS í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @param title ì œëª© : í•„ìˆ˜
+	 * @param link ë§í¬(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” urlì— ì•°í¼ì„¼ë“œë“±ì€ ì—”í„°í‹°í‘œê¸°ë¥¼ ì‚¬ìš©í•˜ì—¬ì•¼ í•¨) : í•„ìˆ˜
+	 * @param description ì„¤ëª… : í•„ìˆ˜
+	 * @param webMaster ì›¹ë§ˆìŠ¤í„° e-mail ì£¼ì†Œ(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” "ì´ë©”ì¼ì£¼ì†Œ(ì´ë¦„)" í˜•ì‹ìœ¼ë¡œ í‘œê¸°í•˜ì—¬ì•¼ í•¨) : ì˜µì…˜
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, String encoding, String title, String link, String description, String webMaster) {
 		if (rs == null) {
@@ -271,15 +271,15 @@ public class RssUtil {
 	}
 
 	/**
-	 * ResultSetÀ» RSS 2.0 Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù. ResultSet¿¡´Â ´ÙÀ½ÄÃ·³ÀÌ ¹İµå½Ã Æ÷ÇÔµÇ¾î¾ß ÇÑ´Ù.(title, link, description, author, category, pubDate).
+	 * ResultSetì„ RSS 2.0 í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤. ResultSetì—ëŠ” ë‹¤ìŒì»¬ëŸ¼ì´ ë°˜ë“œì‹œ í¬í•¨ë˜ì–´ì•¼ í•œë‹¤.(title, link, description, author, category, pubDate).
 	 * <br>
-	 * ex) rs¸¦ RSS Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String rss = RssUtil.render(rs, "utf-8", "Á¦¸ñ", "http://www.xxx.com", "¼³¸í", "admin@xxx.com")
-	 * @param rs RSS Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @param title Á¦¸ñ : ÇÊ¼ö
-	 * @param link ¸µÅ©(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â url¿¡ ¾ÚÆÛ¼¾µåµîÀº ¿£ÅÍÆ¼Ç¥±â¸¦ »ç¿ëÇÏ¿©¾ß ÇÔ) : ÇÊ¼ö
-	 * @param description ¼³¸í : ÇÊ¼ö
-	 * @param webMaster À¥¸¶½ºÅÍ e-mail ÁÖ¼Ò(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â "ÀÌ¸ŞÀÏÁÖ¼Ò(ÀÌ¸§)" Çü½ÄÀ¸·Î Ç¥±âÇÏ¿©¾ß ÇÔ) : ¿É¼Ç
+	 * ex) rsë¥¼ RSS í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String rss = RssUtil.render(rs, "utf-8", "ì œëª©", "http://www.xxx.com", "ì„¤ëª…", "admin@xxx.com")
+	 * @param rs RSS í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @param title ì œëª© : í•„ìˆ˜
+	 * @param link ë§í¬(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” urlì— ì•°í¼ì„¼ë“œë“±ì€ ì—”í„°í‹°í‘œê¸°ë¥¼ ì‚¬ìš©í•˜ì—¬ì•¼ í•¨) : í•„ìˆ˜
+	 * @param description ì„¤ëª… : í•„ìˆ˜
+	 * @param webMaster ì›¹ë§ˆìŠ¤í„° e-mail ì£¼ì†Œ(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” "ì´ë©”ì¼ì£¼ì†Œ(ì´ë¦„)" í˜•ì‹ìœ¼ë¡œ í‘œê¸°í•˜ì—¬ì•¼ í•¨) : ì˜µì…˜
 	 */
 	public static String render(ResultSet rs, String encoding, String title, String link, String description, String webMaster) {
 		if (rs == null) {
@@ -334,16 +334,16 @@ public class RssUtil {
 	}
 
 	/**
-	 * List°´Ã¼¸¦ RSS 2.0 ÇüÅÂ·Î º¯È¯ÇÑ´Ù.
+	 * Listê°ì²´ë¥¼ RSS 2.0 í˜•íƒœë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex) rssItemList¸¦ RSS ·Î º¯È¯ÇÏ´Â °æ¿ì  : String rss = RssUtil.render(rssItemList, "utf-8", "Á¦¸ñ", "http://www.xxx.com", "¼³¸í", "admin@xxx.com")
-	 * @param rssItemList º¯È¯ÇÒ List°´Ã¼
-	 * @param encoding Çì´õ¿¡ Æ÷ÇÔµÉ ÀÎÄÚµù
-	 * @param title Á¦¸ñ : ÇÊ¼ö
-	 * @param link ¸µÅ©(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â url¿¡ ¾ÚÆÛ¼¾µåµîÀº ¿£ÅÍÆ¼Ç¥±â¸¦ »ç¿ëÇÏ¿©¾ß ÇÔ) : ÇÊ¼ö
-	 * @param description ¼³¸í : ÇÊ¼ö
-	 * @param webMaster À¥¸¶½ºÅÍ e-mail ÁÖ¼Ò(validator¸¦ Åë°úÇÏ±â À§ÇØ¼­´Â "ÀÌ¸ŞÀÏÁÖ¼Ò(ÀÌ¸§)" Çü½ÄÀ¸·Î Ç¥±âÇÏ¿©¾ß ÇÔ) : ¿É¼Ç
-	 * @return RSS Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rssItemListë¥¼ RSS ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš°  : String rss = RssUtil.render(rssItemList, "utf-8", "ì œëª©", "http://www.xxx.com", "ì„¤ëª…", "admin@xxx.com")
+	 * @param rssItemList ë³€í™˜í•  Listê°ì²´
+	 * @param encoding í—¤ë”ì— í¬í•¨ë  ì¸ì½”ë”©
+	 * @param title ì œëª© : í•„ìˆ˜
+	 * @param link ë§í¬(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” urlì— ì•°í¼ì„¼ë“œë“±ì€ ì—”í„°í‹°í‘œê¸°ë¥¼ ì‚¬ìš©í•˜ì—¬ì•¼ í•¨) : í•„ìˆ˜
+	 * @param description ì„¤ëª… : í•„ìˆ˜
+	 * @param webMaster ì›¹ë§ˆìŠ¤í„° e-mail ì£¼ì†Œ(validatorë¥¼ í†µê³¼í•˜ê¸° ìœ„í•´ì„œëŠ” "ì´ë©”ì¼ì£¼ì†Œ(ì´ë¦„)" í˜•ì‹ìœ¼ë¡œ í‘œê¸°í•˜ì—¬ì•¼ í•¨) : ì˜µì…˜
+	 * @return RSS í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(List<RssItem> rssItemList, String encoding, String title, String link, String description, String webMaster) {
 		if (rssItemList == null) {
@@ -370,21 +370,21 @@ public class RssUtil {
 		return buf.toString();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////// Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////// Private ë©”ì†Œë“œ
 
 	/**
-	 *  xml Çì´õ ¹®ÀÚ¿­ »ı¼º
+	 *  xml í—¤ë” ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _xmlHeaderStr(String encoding) {
 		return "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>";
 	}
 
 	/**
-	 * rss item ¹®ÀÚ¿­ »ı¼º
+	 * rss item ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _rssItemStr(RssItem item) {
 		StringBuilder buf = new StringBuilder();
-		buf.append("    "); // µé¿©¾²±â¿ë
+		buf.append("    "); // ë“¤ì—¬ì“°ê¸°ìš©
 		buf.append("<item>");
 		if (item.getTitle() != null && !"".equals(item.getTitle()))
 			buf.append("<title>" + "<![CDATA[" + item.getTitle() + "]]>" + "</title>");
@@ -405,14 +405,14 @@ public class RssUtil {
 	}
 
 	/**
-	 * rss item ¹®ÀÚ¿­ »ı¼º
+	 * rss item ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _rssItemStr(RecordSet rs) {
 		return _rssItemStr(makeRssItem(rs.getString("TITLE"), rs.getString("LINK"), rs.getString("DESCRIPTION"), rs.getString("AUTHOR"), rs.getString("CATEGORY"), rs.getTimestamp("PUBDATE")));
 	}
 
 	/**
-	 * rss item ¹®ÀÚ¿­ »ı¼º
+	 * rss item ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _rssItemStr(ResultSet rs) {
 		String title = null;
@@ -435,9 +435,9 @@ public class RssUtil {
 	}
 
 	/**
-	 * ³¯Â¥¸¦ Rfc822 ³¯Â¥Çü½ÄÀ¸·Î º¯È¯
-	 * @param date º¯È¯ÇÒ ³¯Â¥
-	 * @return Rfc822 Çü½ÄÀÇ ³¯Â¥ ¹®ÀÚ¿­
+	 * ë‚ ì§œë¥¼ Rfc822 ë‚ ì§œí˜•ì‹ìœ¼ë¡œ ë³€í™˜
+	 * @param date ë³€í™˜í•  ë‚ ì§œ
+	 * @return Rfc822 í˜•ì‹ì˜ ë‚ ì§œ ë¬¸ìì—´
 	 */
 	private static String _toRfc822DateFormat(Date date) {
 		SimpleDateFormat rfc822DateFormat = new SimpleDateFormat("EEE', 'dd' 'MMM' 'yyyy' 'HH:mm:ss' 'Z", Locale.US);

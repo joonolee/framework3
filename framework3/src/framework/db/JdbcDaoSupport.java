@@ -1,10 +1,10 @@
-package framework.db;
+ï»¿package framework.db;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * JDBC¸¦ ÀÌ¿ëÇÑ DAO¸¦ ÀÛ¼ºÇÒ¶§ »ó¼Ó¹Ş´Â ºÎ¸ğ Å¬·¡½ºÀÌ´Ù.
+ * JDBCë¥¼ ì´ìš©í•œ DAOë¥¼ ì‘ì„±í• ë•Œ ìƒì†ë°›ëŠ” ë¶€ëª¨ í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class JdbcDaoSupport {
 	protected static final Log logger = LogFactory.getLog(framework.db.JdbcDaoSupport.class);

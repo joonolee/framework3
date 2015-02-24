@@ -1,4 +1,4 @@
-package framework.cache;
+ï»¿package framework.cache;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -21,28 +21,28 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 import framework.config.Config;
 
 /**
- * Redis Ä³½Ã ±¸ÇöÃ¼ (http://redis.io/)
+ * Redis ìºì‹œ êµ¬í˜„ì²´ (http://redis.io/)
  */
 public class Redis extends AbstractCache {
 	protected static final Log logger = LogFactory.getLog(framework.cache.Redis.class);
 
 	/**
-	 * ½Ì±ÛÅæ °´Ã¼
+	 * ì‹±ê¸€í†¤ ê°ì²´
 	 */
 	private static Redis _uniqueInstance;
 
 	/** 
-	 * Å¸ÀÓ¾Æ¿ô °ª (ms)
+	 * íƒ€ì„ì•„ì›ƒ ê°’ (ms)
 	 */
 	private static final int _TIMEOUT = 500;
 
 	/**
-	 * Ä³½Ã Å¬¶óÀÌ¾ğÆ® Pool
+	 * ìºì‹œ í´ë¼ì´ì–¸íŠ¸ Pool
 	 */
 	private ShardedJedisPool _pool;
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private Redis() {
 		List<JedisShardInfo> shards;
@@ -57,15 +57,15 @@ public class Redis extends AbstractCache {
 			}
 			shards = _getAddresses(buffer.toString());
 		} else {
-			throw new RuntimeException("redisÀÇ È£½ºÆ®¼³Á¤ÀÌ ´©¶ôµÇ¾ú½À´Ï´Ù.");
+			throw new RuntimeException("redisì˜ í˜¸ìŠ¤íŠ¸ì„¤ì •ì´ ëˆ„ë½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 		_pool = new ShardedJedisPool(new JedisPoolConfig(), shards);
 	}
 
 	/** 
-	 * °´Ã¼ÀÇ ÀÎ½ºÅÏ½º¸¦ ¸®ÅÏÇØÁØ´Ù.
+	 * ê°ì²´ì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë¦¬í„´í•´ì¤€ë‹¤.
 	 * 
-	 * @return Redis °´Ã¼ÀÇ ÀÎ½ºÅÏ½º
+	 * @return Redis ê°ì²´ì˜ ì¸ìŠ¤í„´ìŠ¤
 	 */
 	public synchronized static Redis getInstance() {
 		if (_uniqueInstance == null) {
@@ -215,24 +215,24 @@ public class Redis extends AbstractCache {
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ
 
 	/**
-	* ¼³Á¤ÆÄÀÏ(config.properties)¿¡¼­ °ªÀ» ÀĞ¾î¿À´Â Å¬·¡½º¸¦ ¸®ÅÏÇÑ´Ù.
-	* @return ¼³Á¤°´Ã¼
+	* ì„¤ì •íŒŒì¼(config.properties)ì—ì„œ ê°’ì„ ì½ì–´ì˜¤ëŠ” í´ë˜ìŠ¤ë¥¼ ë¦¬í„´í•œë‹¤.
+	* @return ì„¤ì •ê°ì²´
 	*/
 	private Config _getConfig() {
 		return Config.getInstance();
 	}
 
 	/**
-	 * ¹®ÀÚ¿­¿¡¼­ redis È£½ºÆ® ÁÖ¼Ò¸¦ ÆÄ½ÌÇÏ¿© ¸®ÅÏÇÑ´Ù.
-	 * @param str ½ºÆäÀÌ½º·Î ±¸ºĞµÈ ÁÖ¼Ò¹®ÀÚ¿­
-	 * @return »şµåÁÖ¼Ò°´Ã¼
+	 * ë¬¸ìì—´ì—ì„œ redis í˜¸ìŠ¤íŠ¸ ì£¼ì†Œë¥¼ íŒŒì‹±í•˜ì—¬ ë¦¬í„´í•œë‹¤.
+	 * @param str ìŠ¤í˜ì´ìŠ¤ë¡œ êµ¬ë¶„ëœ ì£¼ì†Œë¬¸ìì—´
+	 * @return ìƒ¤ë“œì£¼ì†Œê°ì²´
 	 */
 	private List<JedisShardInfo> _getAddresses(String str) {
 		if (str == null || "".equals(str.trim())) {
-			throw new IllegalArgumentException("redisÀÇ È£½ºÆ®¼³Á¤ÀÌ ´©¶ôµÇ¾ú½À´Ï´Ù.");
+			throw new IllegalArgumentException("redisì˜ í˜¸ìŠ¤íŠ¸ì„¤ì •ì´ ëˆ„ë½ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 		ArrayList<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
 		for (String addr : str.split("(?:\\s|,)+")) {
@@ -241,18 +241,18 @@ public class Redis extends AbstractCache {
 			}
 			int sep = addr.lastIndexOf(':');
 			if (sep < 1) {
-				throw new IllegalArgumentException("¼­¹ö¼³Á¤ÀÌ Àß¸øµÇ¾ú½À´Ï´Ù. Çü½Ä=>È£½ºÆ®:Æ÷Æ®");
+				throw new IllegalArgumentException("ì„œë²„ì„¤ì •ì´ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤. í˜•ì‹=>í˜¸ìŠ¤íŠ¸:í¬íŠ¸");
 			}
 			shards.add(new JedisShardInfo(addr.substring(0, sep), Integer.valueOf(addr.substring(sep + 1)), _TIMEOUT));
 		}
-		assert !shards.isEmpty() : "redisÀÇ È£½ºÆ®¼³Á¤ÀÌ ´©¶ôµÇ¾ú½À´Ï´Ù.";
+		assert !shards.isEmpty() : "redisì˜ í˜¸ìŠ¤íŠ¸ì„¤ì •ì´ ëˆ„ë½ë˜ì—ˆìŠµë‹ˆë‹¤.";
 		return shards;
 	}
 
 	/**
-	 * °´Ã¼¸¦ ¹ÙÀÌÆ®¹è¿­·Î Á÷·ÄÈ­ ÇÑ´Ù.
-	 * @param obj Á÷·ÄÈ­ÇÒ °´Ã¼
-	 * @return ¹ÙÀÌÆ®¹è¿­
+	 * ê°ì²´ë¥¼ ë°”ì´íŠ¸ë°°ì—´ë¡œ ì§ë ¬í™” í•œë‹¤.
+	 * @param obj ì§ë ¬í™”í•  ê°ì²´
+	 * @return ë°”ì´íŠ¸ë°°ì—´
 	 */
 	public byte[] _serialize(Object obj) {
 		ObjectOutputStream oos = null;
@@ -269,9 +269,9 @@ public class Redis extends AbstractCache {
 	}
 
 	/**
-	 * ¹ÙÀÌÆ®¹è¿­À» °´Ã¼·Î ¿ªÁ÷·ÄÈ­ ÇÑ´Ù.
-	 * @param bytes ¹ÙÀÌÆ®¹è¿­
-	 * @return ¿ªÁ÷·ÄÈ­µÈ °´Ã¼
+	 * ë°”ì´íŠ¸ë°°ì—´ì„ ê°ì²´ë¡œ ì—­ì§ë ¬í™” í•œë‹¤.
+	 * @param bytes ë°”ì´íŠ¸ë°°ì—´
+	 * @return ì—­ì§ë ¬í™”ëœ ê°ì²´
 	 */
 	public Object _deserialize(byte[] bytes) {
 		ByteArrayInputStream bais = null;

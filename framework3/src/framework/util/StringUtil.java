@@ -1,7 +1,7 @@
-package framework.util;
+ï»¿package framework.util;
 
 /**
- * ½ºÆ®¸µ Ã³¸® ¶óÀÌºê·¯¸®
+ * ìŠ¤íŠ¸ë§ ì²˜ë¦¬ ë¼ì´ë¸ŒëŸ¬ë¦¬
  */
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
@@ -18,18 +18,18 @@ public class StringUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.StringUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private StringUtil() {
 	}
 
 	/**
-	 * Æ¯Á¤ ±âÈ£¸¦ ±âÁØÀ¸·Î ½ºÆ®¸µÀ» Àß¶ó¼­ ¹è¿­·Î ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+	 * íŠ¹ì • ê¸°í˜¸ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ìŠ¤íŠ¸ë§ì„ ì˜ë¼ì„œ ë°°ì—´ë¡œ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
 	 * <br>
 	 * ex) abc||def||efg -> array[0]:"abc", array[1]:"def", array[2]:"efg"
-	 * @param str ¿øº» ¹®ÀÚ¿­
-	 * @param token ÅäÅ« ¹®ÀÚ¿­
-	 * @return ÅäÅ«À¸·Î ºĞ¸®µÈ ¹®ÀÚ¿­ÀÇ ¹è¿­
+	 * @param str ì›ë³¸ ë¬¸ìì—´
+	 * @param token í† í° ë¬¸ìì—´
+	 * @return í† í°ìœ¼ë¡œ ë¶„ë¦¬ëœ ë¬¸ìì—´ì˜ ë°°ì—´
 	 */
 	public static String[] tokenFn(String str, String token) {
 		StringTokenizer st = null;
@@ -37,7 +37,7 @@ public class StringUtil {
 		int tokenCount = 0;
 		int index = 0;
 		int len = 0;
-		// tokenÀÌ µÎ°³ÀÌ»ó ºÙ¾îÀÖÀ¸¸é token°ú token »çÀÌ¿¡ °ø¹éÀ» ³Ö´Â´Ù.
+		// tokenì´ ë‘ê°œì´ìƒ ë¶™ì–´ìˆìœ¼ë©´ tokenê³¼ token ì‚¬ì´ì— ê³µë°±ì„ ë„£ëŠ”ë‹¤.
 		len = str.length();
 		for (int i = 0; i < len; i++) {
 			if ((index = str.indexOf(token + token)) != -1) {
@@ -54,18 +54,18 @@ public class StringUtil {
 	}
 
 	/**
-	 * Á¤ÇØÁø ±æÀÌº¸´Ù ¹®ÀÚ¿­ÀÌ Å©¸é ¹®ÀÚ¿­À» Àß¶ó¼­ ".."¸¦ Ãß°¡ÇØ ÁÖ´Â ±â´É.
-	 * °Ô½ÃÆÇ Á¦¸ñ °°Àº °÷¿¡¼­ »ç¿ëµÊ.
-	 * @param str ¿øº» ¹®ÀÚ¿­
-	 * @param len À¯È¿ ¹®ÀÚ¿­ ±æÀÌ
-	 * @return À¯È¿¹®ÀÚ¿­¿¡ "..." ÀÌ ¿¬°áµÈ ¹®ÀÚ¿­
+	 * ì •í•´ì§„ ê¸¸ì´ë³´ë‹¤ ë¬¸ìì—´ì´ í¬ë©´ ë¬¸ìì—´ì„ ì˜ë¼ì„œ ".."ë¥¼ ì¶”ê°€í•´ ì£¼ëŠ” ê¸°ëŠ¥.
+	 * ê²Œì‹œíŒ ì œëª© ê°™ì€ ê³³ì—ì„œ ì‚¬ìš©ë¨.
+	 * @param str ì›ë³¸ ë¬¸ìì—´
+	 * @param len ìœ íš¨ ë¬¸ìì—´ ê¸¸ì´
+	 * @return ìœ íš¨ë¬¸ìì—´ì— "..." ì´ ì—°ê²°ëœ ë¬¸ìì—´
 	 */
 	public static String limitString(String str, int len) {
 		String rval = "";
 		byte[] bstr = null;
-		int bcount = 0; // ÀÎÀÚ·Î ³Ñ¾î¿Â ½ºÆ®¸µÀÇ ÃÑ ¹ÙÀÌÆ® ¼ö
-		int scount = 0; // ÀÎÀÚ·Î ³Ñ¾î¿Â ½ºÆ®¸µÀÇ ÃÑ ±ÛÀÚ ¼ö
-		int bindex = 0; // Á¦ÇÑÇÏ·Á ÇÏ´Â ¹ÙÀÌÆ®ÀÇ ÀÎµ¦½º
+		int bcount = 0; // ì¸ìë¡œ ë„˜ì–´ì˜¨ ìŠ¤íŠ¸ë§ì˜ ì´ ë°”ì´íŠ¸ ìˆ˜
+		int scount = 0; // ì¸ìë¡œ ë„˜ì–´ì˜¨ ìŠ¤íŠ¸ë§ì˜ ì´ ê¸€ì ìˆ˜
+		int bindex = 0; // ì œí•œí•˜ë ¤ í•˜ëŠ” ë°”ì´íŠ¸ì˜ ì¸ë±ìŠ¤
 		int i = 0;
 		bstr = str.getBytes();
 		bcount = bstr.length;
@@ -86,7 +86,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * ½ºÆ®¸µ Å¸ÀÔÀÇ ³¯Â¥ µ¥ÀÌÅ¸¸¦ Á¤ÇØÁø Æ÷¸ËÀ¸·Î º¯È¯ÇÏ´Â ÇÔ¼ö
+	 * ìŠ¤íŠ¸ë§ íƒ€ì…ì˜ ë‚ ì§œ ë°ì´íƒ€ë¥¼ ì •í•´ì§„ í¬ë§·ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
 	 * <br>
 	 * ex1) StringUtil.nalDesign("20080101090000", 1) : "2008-01-01"
 	 * <br>
@@ -100,19 +100,19 @@ public class StringUtil {
 	 * <br>
 	 * ex6) StringUtil.nalDesign("20080101090000", 6) : "01-01 09:00"
 	 * <br>
-	 * ex7) StringUtil.nalDesign("20080101090000", 7) : "2008³â 01¿ù 01ÀÏ"
-	 * @param str ¿øº» ¹®ÀÚ¿­
-	 * @param option ³¯Â¥ ¿É¼Ç
-	 * @return Æ÷¸ËµÈ ³¯Â¥ ¹®ÀÚ¿­
+	 * ex7) StringUtil.nalDesign("20080101090000", 7) : "2008ë…„ 01ì›” 01ì¼"
+	 * @param str ì›ë³¸ ë¬¸ìì—´
+	 * @param option ë‚ ì§œ ì˜µì…˜
+	 * @return í¬ë§·ëœ ë‚ ì§œ ë¬¸ìì—´
 	 */
 	public static String nalDesign(String str, int option) {
 		String returnValue = "";
 		if (str != null && str.length() > 7) {
 			if (option == 1)
 				returnValue = str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8);
-			else if (option == 2) // 12ÀÚ¸® ÀÌ»óÀÇ ³¯Â¥¸¦ ÀÎÀÚ·Î ¹Ş¾Æ¼­ ³â ¿ù ÀÏ »çÀÌ¿¡ "/" ½Ã ºĞ »çÀÌ¿¡ ":"¸¦ ³¢¿ö ³Ö´Â´Ù.
+			else if (option == 2) // 12ìë¦¬ ì´ìƒì˜ ë‚ ì§œë¥¼ ì¸ìë¡œ ë°›ì•„ì„œ ë…„ ì›” ì¼ ì‚¬ì´ì— "/" ì‹œ ë¶„ ì‚¬ì´ì— ":"ë¥¼ ë¼ì›Œ ë„£ëŠ”ë‹¤.
 				returnValue = str.substring(2, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8) + " " + str.substring(8, 10) + ":" + str.substring(10, 12);
-			else if (option == 3) // 12ÀÚ¸® ÀÌ»óÀÇ ³¯Â¥¸¦ ÀÎÀÚ·Î ¹Ş¾Æ¼­ ½Ã ºĞ »çÀÌ¿¡ ":"¸¦ ³¢¿ö ³Ö´Â´Ù.(½Ã,ºĞ ¸¸ ¸®ÅÏÇÑ´Ù.)
+			else if (option == 3) // 12ìë¦¬ ì´ìƒì˜ ë‚ ì§œë¥¼ ì¸ìë¡œ ë°›ì•„ì„œ ì‹œ ë¶„ ì‚¬ì´ì— ":"ë¥¼ ë¼ì›Œ ë„£ëŠ”ë‹¤.(ì‹œ,ë¶„ ë§Œ ë¦¬í„´í•œë‹¤.)
 				returnValue = str.substring(8, 10) + ":" + str.substring(10, 12);
 			else if (option == 4)
 				returnValue = str.substring(4, 6) + "-" + str.substring(6, 8);
@@ -120,8 +120,8 @@ public class StringUtil {
 				returnValue = str.substring(2, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8);
 			else if (option == 6)
 				returnValue = str.substring(4, 6) + "-" + str.substring(6, 8) + " " + str.substring(8, 10) + ":" + str.substring(10, 12);
-			else if (option == 7) // 8ÀÚ¸® ³¯Â¥¸¦ ÀÎÀÚ·Î ¹Ş¾Æ¼­ 2006³â 03¿ù 28ÀÏ Çü½ÄÀ¸·Î ¸¸µç´Ù.
-				returnValue = str.substring(0, 4) + "³â " + str.substring(4, 6) + "¿ù " + str.substring(6, 8) + "ÀÏ";
+			else if (option == 7) // 8ìë¦¬ ë‚ ì§œë¥¼ ì¸ìë¡œ ë°›ì•„ì„œ 2006ë…„ 03ì›” 28ì¼ í˜•ì‹ìœ¼ë¡œ ë§Œë“ ë‹¤.
+				returnValue = str.substring(0, 4) + "ë…„ " + str.substring(4, 6) + "ì›” " + str.substring(6, 8) + "ì¼";
 			else
 				returnValue = "";
 		} else {
@@ -131,11 +131,11 @@ public class StringUtil {
 	}
 
 	/**
-	 * ½ºÆ®¸µÀÇ Æ¯Á¤ ºÎºĞÀ» ´Ù¸¥ ±âÈ£·Î º¯È¯ÇÏ´Â ÇÔ¼ö
-	 * @param src ¿øº» ¹®ÀÚ¿­
-	 * @param oldstr Ã£À» ¹®ÀÚ¿­
-	 * @param newstr ¹Ù²Ü ¹®ÀÚ¿­
-	 * @return Ã£À» ¹®ÀÚ¿­ÀÌ ¹Ù²Ü ¹®ÀÚ¿­·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ìŠ¤íŠ¸ë§ì˜ íŠ¹ì • ë¶€ë¶„ì„ ë‹¤ë¥¸ ê¸°í˜¸ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * @param src ì›ë³¸ ë¬¸ìì—´
+	 * @param oldstr ì°¾ì„ ë¬¸ìì—´
+	 * @param newstr ë°”ê¿€ ë¬¸ìì—´
+	 * @return ì°¾ì„ ë¬¸ìì—´ì´ ë°”ê¿€ ë¬¸ìì—´ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String replaceStr(String src, String oldstr, String newstr) {
 		if (src == null) {
@@ -158,9 +158,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * ½ºÆ®¸µ Å¸ÀÔÀÇ ¹ÙÀÌÆ® ´ÜÀ§¸¦ »ç¶÷ÀÌ ÀĞ±â ÁÁÀº ÇüÅÂ·Î º¯È¯(KByte, MByte, GByte)
-	 * @param stringbyte ½ºÆ®¸µÀ¸·Î Ç¥±âµÈ ¹ÙÀÌÆ® ¹®ÀÚ¿­
-	 * @return »ç¶÷ÀÌ ÀĞ±â ÁÁÀº ÇüÅÂÀÇ ¹®ÀÚ¿­ 
+	 * ìŠ¤íŠ¸ë§ íƒ€ì…ì˜ ë°”ì´íŠ¸ ë‹¨ìœ„ë¥¼ ì‚¬ëŒì´ ì½ê¸° ì¢‹ì€ í˜•íƒœë¡œ ë³€í™˜(KByte, MByte, GByte)
+	 * @param stringbyte ìŠ¤íŠ¸ë§ìœ¼ë¡œ í‘œê¸°ëœ ë°”ì´íŠ¸ ë¬¸ìì—´
+	 * @return ì‚¬ëŒì´ ì½ê¸° ì¢‹ì€ í˜•íƒœì˜ ë¬¸ìì—´ 
 	 */
 	public static String byteToHumanReadable(String stringbyte) {
 		double d = 0.0;
@@ -201,9 +201,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * long Å¸ÀÔÀÇ ¹ÙÀÌÆ® ´ÜÀ§¸¦ »ç¶÷ÀÌ ÀĞ±â ÁÁÀº ÇüÅÂ·Î º¯È¯(KByte, MByte, GByte)
-	 * @param longbyte longÅ¸ÀÔÀ¸·Î Ç¥±âµÈ ¹ÙÀÌÆ® °ª
-	 * @return »ç¶÷ÀÌ ÀĞ±â ÁÁÀº ÇüÅÂÀÇ ¹®ÀÚ¿­
+	 * long íƒ€ì…ì˜ ë°”ì´íŠ¸ ë‹¨ìœ„ë¥¼ ì‚¬ëŒì´ ì½ê¸° ì¢‹ì€ í˜•íƒœë¡œ ë³€í™˜(KByte, MByte, GByte)
+	 * @param longbyte longíƒ€ì…ìœ¼ë¡œ í‘œê¸°ëœ ë°”ì´íŠ¸ ê°’
+	 * @return ì‚¬ëŒì´ ì½ê¸° ì¢‹ì€ í˜•íƒœì˜ ë¬¸ìì—´
 	 */
 	public static String byteToHumanReadable(long longbyte) {
 		Long L_byte = Long.valueOf(longbyte);
@@ -241,9 +241,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÎÀÚ¿¡ ÇØ´çÇÏ´Â ½ºÆ®¸µÀÇ charter-setÀ» ÇÑ±Û·Î º¯È¯ÇÏ´Â ÇÔ¼ö
-	 * @param str ¿øº» ¹®ÀÚ¿­
-	 * @return ÇÑ±Û(EUC-KR)·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ì¸ìì— í•´ë‹¹í•˜ëŠ” ìŠ¤íŠ¸ë§ì˜ charter-setì„ í•œê¸€ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * @param str ì›ë³¸ ë¬¸ìì—´
+	 * @return í•œê¸€(EUC-KR)ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String convertKorean(String str) {
 		try {
@@ -254,9 +254,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÎÀÚ¿¡ ÇØ´çÇÏ´Â ½ºÆ®¸µÀÇ charter-setÀ» utf-8·Î º¯È¯ÇÏ´Â ÇÔ¼ö
-	 * @param str ¿øº» ¹®ÀÚ¿­
-	 * @return À¯´ÏÄÚµå(UTF-8)·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ì¸ìì— í•´ë‹¹í•˜ëŠ” ìŠ¤íŠ¸ë§ì˜ charter-setì„ utf-8ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * @param str ì›ë³¸ ë¬¸ìì—´
+	 * @return ìœ ë‹ˆì½”ë“œ(UTF-8)ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String convertUTF8(String str) {
 		try {
@@ -267,27 +267,27 @@ public class StringUtil {
 	}
 
 	/**
-	 * int Å¸ÀÔÀÇ ¼ıÀÚ¸¦ ¼ıÀÚÇüÅÂ(¼¼ÀÚ¸®¸¶´Ù ,·Î ±¸ºĞ)·Î º¯È¯ÇÏ´Â ÇÔ¼ö
-	 * @param num ¿øº» intÇü ¼ıÀÚ
-	 * @return ¼¼ÀÚ¸®¸¶´Ù ÄŞ¸¶(,)·Î ±¸ºĞµÈ ¹®ÀÚ¿­
+	 * int íƒ€ì…ì˜ ìˆ«ìë¥¼ ìˆ«ìí˜•íƒœ(ì„¸ìë¦¬ë§ˆë‹¤ ,ë¡œ êµ¬ë¶„)ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * @param num ì›ë³¸ intí˜• ìˆ«ì
+	 * @return ì„¸ìë¦¬ë§ˆë‹¤ ì½¤ë§ˆ(,)ë¡œ êµ¬ë¶„ëœ ë¬¸ìì—´
 	 */
 	public static String numberFormat(int num) {
 		return numberFormat(Integer.toString(num));
 	}
 
 	/**
-	 * long Å¸ÀÔÀÇ ¼ıÀÚ¸¦ ¼ıÀÚÇüÅÂ(¼¼ÀÚ¸®¸¶´Ù ,·Î ±¸ºĞ)·Î º¯È¯ÇÏ´Â ÇÔ¼ö
-	 * @param num ¿øº» longÇü ¼ıÀÚ
-	 * @return ¼¼ÀÚ¸®¸¶´Ù ÄŞ¸¶(,)·Î ±¸ºĞµÈ ¹®ÀÚ¿­
+	 * long íƒ€ì…ì˜ ìˆ«ìë¥¼ ìˆ«ìí˜•íƒœ(ì„¸ìë¦¬ë§ˆë‹¤ ,ë¡œ êµ¬ë¶„)ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * @param num ì›ë³¸ longí˜• ìˆ«ì
+	 * @return ì„¸ìë¦¬ë§ˆë‹¤ ì½¤ë§ˆ(,)ë¡œ êµ¬ë¶„ëœ ë¬¸ìì—´
 	 */
 	public static String numberFormat(long num) {
 		return numberFormat(Long.toString(num));
 	}
 
 	/**
-	 * ½ºÆ®¸µ Å¸ÀÔÀÇ ¼ıÀÚ¸¦ ¼ıÀÚÇüÅÂ(¼¼ÀÚ¸®¸¶´Ù ,·Î ±¸ºĞ)·Î º¯È¯ÇÏ´Â ÇÔ¼ö
-	 * @param str ¿øº» ¹®ÀÚ¿­
-	 * @return ¼¼ÀÚ¸®¸¶´Ù ÄŞ¸¶(,)·Î ±¸ºĞµÈ ¹®ÀÚ¿­
+	 * ìŠ¤íŠ¸ë§ íƒ€ì…ì˜ ìˆ«ìë¥¼ ìˆ«ìí˜•íƒœ(ì„¸ìë¦¬ë§ˆë‹¤ ,ë¡œ êµ¬ë¶„)ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * @param str ì›ë³¸ ë¬¸ìì—´
+	 * @return ì„¸ìë¦¬ë§ˆë‹¤ ì½¤ë§ˆ(,)ë¡œ êµ¬ë¶„ëœ ë¬¸ìì—´
 	 */
 	public static String numberFormat(String str) {
 		try {
@@ -298,9 +298,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÎÀÚ¿¡ ÇØ´çÇÏ´Â ½ºÆ®¸µÀÌ nullÀÌ¸é ½ºÆ®¸µ Å¸ÀÔÀÇ null("")·Î º¯È¯ÇÏ´Â ÇÔ¼ö
-	 * @param str ¿øº» ¹®ÀÚ¿­
-	 * @return ³Î(null)°ªÀ» ºó¹®ÀÚ("") ·Î º¯È¯ÇÑ ¹®ÀÚ¿­
+	 * ì¸ìì— í•´ë‹¹í•˜ëŠ” ìŠ¤íŠ¸ë§ì´ nullì´ë©´ ìŠ¤íŠ¸ë§ íƒ€ì…ì˜ null("")ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * @param str ì›ë³¸ ë¬¸ìì—´
+	 * @return ë„(null)ê°’ì„ ë¹ˆë¬¸ì("") ë¡œ ë³€í™˜í•œ ë¬¸ìì—´
 	 */
 	public static String nullToBlankString(String str) {
 		String rval = "";
@@ -313,10 +313,10 @@ public class StringUtil {
 	}
 
 	/**
-	 * Ã¹¹øÂ° ÀÎÀÚ¿¡ ÇØ´çÇÏ´Â ½ºÆ®¸µÀÌ nullÀÌ¸é µÎ¹øÂ° ÀÎÀÚÀÇ °ªÀ» ¹İÈ¯ÇÏ´Â ÇÔ¼ö
-	 * @param str1 ¿øº» ¹®ÀÚ¿­
-	 * @param str2 ½ºÆ®¸µÀÌ null ÀÌ¸é ¸®ÅÏÇÒ ¹®ÀÚ¿­
-	 * @return ³Î(null)°ªÀ» µÎ¹øÂ° ÀÎÀÚÀÇ °ª ¹®ÀÚ¿­
+	 * ì²«ë²ˆì§¸ ì¸ìì— í•´ë‹¹í•˜ëŠ” ìŠ¤íŠ¸ë§ì´ nullì´ë©´ ë‘ë²ˆì§¸ ì¸ìì˜ ê°’ì„ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * @param str1 ì›ë³¸ ë¬¸ìì—´
+	 * @param str2 ìŠ¤íŠ¸ë§ì´ null ì´ë©´ ë¦¬í„´í•  ë¬¸ìì—´
+	 * @return ë„(null)ê°’ì„ ë‘ë²ˆì§¸ ì¸ìì˜ ê°’ ë¬¸ìì—´
 	 */
 	public static String null2Str(String str1, String str2) {
 		String rval = "";
@@ -329,9 +329,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * ¿À´Ã ³¯Â¥¸¦ ÀÎÀÚ¿¡ ÇØ´çÇÏ´Â ÇüÅÂ·Î °¡Á®¿À´Â ÇÔ¼ö
-	 * @param option 1 Àº "2000-11-12", 2 ´Â "2000", 3 Àº "11", 4 ´Â "12", 5 ´Â "20001112", 6 Àº ½Ã, 7 Àº ºĞ, 8 Àº ÃÊ, 9 ´Â ¿äÀÏº° Á¤¼öÀüÈ¯, 10Àº ¿À´ÃÀÌ ¸î¹øÂ° ÁÖÀÎÁö
-	 * @return ¿À´Ã³¯Â¥¸¦ Æ÷¸ËÇÑ ¹®ÀÚ¿­
+	 * ì˜¤ëŠ˜ ë‚ ì§œë¥¼ ì¸ìì— í•´ë‹¹í•˜ëŠ” í˜•íƒœë¡œ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜
+	 * @param option 1 ì€ "2000-11-12", 2 ëŠ” "2000", 3 ì€ "11", 4 ëŠ” "12", 5 ëŠ” "20001112", 6 ì€ ì‹œ, 7 ì€ ë¶„, 8 ì€ ì´ˆ, 9 ëŠ” ìš”ì¼ë³„ ì •ìˆ˜ì „í™˜, 10ì€ ì˜¤ëŠ˜ì´ ëª‡ë²ˆì§¸ ì£¼ì¸ì§€
+	 * @return ì˜¤ëŠ˜ë‚ ì§œë¥¼ í¬ë§·í•œ ë¬¸ìì—´
 	 */
 	public static String makeToday(int option) {
 		Calendar calToday00;
@@ -347,16 +347,16 @@ public class StringUtil {
 		}
 		String dateVal = "";
 		// ===================================================
-		//	1 Àº "2000-11-12"
-		//	2 ´Â "2000"
-		//	3 Àº "11"
-		//	4 ´Â "12"
-		//	5 ´Â "20001112"
-		//	6 Àº ½Ã
-		//	7 Àº ºĞ
-		//	8 Àº ÃÊ
-		//	9 ´Â ¿äÀÏº° Á¤¼öÀüÈ¯
-		//	10Àº ¿À´ÃÀÌ ¸î¹øÂ° ÁÖÀÎÁö
+		//	1 ì€ "2000-11-12"
+		//	2 ëŠ” "2000"
+		//	3 ì€ "11"
+		//	4 ëŠ” "12"
+		//	5 ëŠ” "20001112"
+		//	6 ì€ ì‹œ
+		//	7 ì€ ë¶„
+		//	8 ì€ ì´ˆ
+		//	9 ëŠ” ìš”ì¼ë³„ ì •ìˆ˜ì „í™˜
+		//	10ì€ ì˜¤ëŠ˜ì´ ëª‡ë²ˆì§¸ ì£¼ì¸ì§€
 		// ===================================================
 		switch (option) {
 		case 1:
@@ -394,11 +394,11 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÎÀÚ¿¡ ÇØ´çÇÏ´Â ³¯Â¥·ÎºÎÅÍ ¸î ÀÏ ÀÌµ¿ÇÑ ³¯Â¥¸¦ °¡Á®¿À´Â ÇÔ¼ö
-	 * @param curDate ±âÁØ ³¯Â¥
-	 * @param option 1Àº day ¸¸Å­ ÀÌÈÄÀÇ ³¯Â¥, 2´Â day ¸¸Å­ ÀÌÀüÀÇ ³¯Â¥
-	 * @param day ÀÌÈÄ, ÀÌÀüÀ¸·Î °è»êÇÒ ÀÏÀÚ(ÀÏ ´ÜÀ§)
-	 * @return º¯È¯µÈ ¹®ÀÚ¿­
+	 * ì¸ìì— í•´ë‹¹í•˜ëŠ” ë‚ ì§œë¡œë¶€í„° ëª‡ ì¼ ì´ë™í•œ ë‚ ì§œë¥¼ ê°€ì ¸ì˜¤ëŠ” í•¨ìˆ˜
+	 * @param curDate ê¸°ì¤€ ë‚ ì§œ
+	 * @param option 1ì€ day ë§Œí¼ ì´í›„ì˜ ë‚ ì§œ, 2ëŠ” day ë§Œí¼ ì´ì „ì˜ ë‚ ì§œ
+	 * @param day ì´í›„, ì´ì „ìœ¼ë¡œ ê³„ì‚°í•  ì¼ì(ì¼ ë‹¨ìœ„)
+	 * @return ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String moveDate(String curDate, int option, int day) {
 		String destDate = "";
@@ -411,9 +411,9 @@ public class StringUtil {
 		curDay = Integer.parseInt(curDate.substring(6, 8));
 		cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"));
 		if (option == 1) {
-			cal.set(curYear, curMonth - 1, curDay + day); // day ¸¸Å­ ÀÌÈÄÀÇ ³¯Â¥.
+			cal.set(curYear, curMonth - 1, curDay + day); // day ë§Œí¼ ì´í›„ì˜ ë‚ ì§œ.
 		} else {
-			cal.set(curYear, curMonth - 1, curDay - day); // day ¸¸Å­ ÀÌÀüÀÇ ³¯Â¥.
+			cal.set(curYear, curMonth - 1, curDay - day); // day ë§Œí¼ ì´ì „ì˜ ë‚ ì§œ.
 		}
 		curYear = cal.get(Calendar.YEAR);
 		curMonth = cal.get(Calendar.MONTH) + 1;
@@ -433,10 +433,10 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÎÀÚ¿¡ ÇØ´çÇÏ´Â ³¯Â¥¿Í ÇöÀç ³¯Â¥ÀÇ °£°İÀÌ interval¿¡ Æ÷ÇÔµÇ¸é true, Æ÷ÇÔµÇÁö ¾ÊÀ¸¸é false¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
-	 * interval ÀÇ ±âº»°ªÀº 1ÀÏ·Î ¼³Á¤µÈ´Ù.
-	 * @param regday µî·Ï ³¯Â¥ ¹®ÀÚ¿­
-	 * @return interval º¸´Ù ÀÛÀ¸¸é true, °°°Å³ª Å©¸é false
+	 * ì¸ìì— í•´ë‹¹í•˜ëŠ” ë‚ ì§œì™€ í˜„ì¬ ë‚ ì§œì˜ ê°„ê²©ì´ intervalì— í¬í•¨ë˜ë©´ true, í¬í•¨ë˜ì§€ ì•Šìœ¼ë©´ falseë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * interval ì˜ ê¸°ë³¸ê°’ì€ 1ì¼ë¡œ ì„¤ì •ëœë‹¤.
+	 * @param regday ë“±ë¡ ë‚ ì§œ ë¬¸ìì—´
+	 * @return interval ë³´ë‹¤ ì‘ìœ¼ë©´ true, ê°™ê±°ë‚˜ í¬ë©´ false
 	 */
 	public static boolean isNew(String regday) {
 		int default_interval = 1;
@@ -444,10 +444,10 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÎÀÚ¿¡ ÇØ´çÇÏ´Â ³¯Â¥¿Í ÇöÀç ³¯Â¥ÀÇ °£°İÀÌ interval¿¡ Æ÷ÇÔµÇ¸é true, Æ÷ÇÔµÇÁö ¾ÊÀ¸¸é false¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
-	 * @param regday µî·Ï ³¯Â¥ ¹®ÀÚ¿­
-	 * @param interval ºñ±³ÇÒ ½Ã°£ °£°İ(ÀÏ ´ÜÀ§)
-	 * @return interval º¸´Ù ÀÛÀ¸¸é true, °°°Å³ª Å©¸é false 
+	 * ì¸ìì— í•´ë‹¹í•˜ëŠ” ë‚ ì§œì™€ í˜„ì¬ ë‚ ì§œì˜ ê°„ê²©ì´ intervalì— í¬í•¨ë˜ë©´ true, í¬í•¨ë˜ì§€ ì•Šìœ¼ë©´ falseë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
+	 * @param regday ë“±ë¡ ë‚ ì§œ ë¬¸ìì—´
+	 * @param interval ë¹„êµí•  ì‹œê°„ ê°„ê²©(ì¼ ë‹¨ìœ„)
+	 * @return interval ë³´ë‹¤ ì‘ìœ¼ë©´ true, ê°™ê±°ë‚˜ í¬ë©´ false 
 	 */
 	public static boolean isNew(String regday, int interval) {
 		Calendar today = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"));
@@ -475,9 +475,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÎÀÚ¿¡ Æ÷ÇÔµÈ ¸ğµç ÅÂÅ©¸¦ Á¦°ÅÇÏ´Â ÇÔ¼ö
-	 * @param src ¿øº»¹®ÀÚ¿­
-	 * @return ÅÂ±×°¡ Á¦°ÅµÈ ¹®ÀÚ¿­
+	 * ì¸ìì— í¬í•¨ëœ ëª¨ë“  íƒœí¬ë¥¼ ì œê±°í•˜ëŠ” í•¨ìˆ˜
+	 * @param src ì›ë³¸ë¬¸ìì—´
+	 * @return íƒœê·¸ê°€ ì œê±°ëœ ë¬¸ìì—´
 	 */
 	public static String stripTag(String src) {
 		StringBuilder noTagContent = new StringBuilder();
@@ -519,9 +519,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÎÀÚ¿¡ Æ÷ÇÔµÈ ½ºÅ©¸³Æ® ÅÂÅ©¸¦ Á¦°ÅÇÏ´Â ÇÔ¼ö
-	 * @param src ¿øº»¹®ÀÚ¿­
-	 * @return ½ºÅ©¸³Æ® ÅÂ±×°¡ Á¦°ÅµÈ ¹®ÀÚ¿­
+	 * ì¸ìì— í¬í•¨ëœ ìŠ¤í¬ë¦½íŠ¸ íƒœí¬ë¥¼ ì œê±°í•˜ëŠ” í•¨ìˆ˜
+	 * @param src ì›ë³¸ë¬¸ìì—´
+	 * @return ìŠ¤í¬ë¦½íŠ¸ íƒœê·¸ê°€ ì œê±°ëœ ë¬¸ìì—´
 	 */
 	public static String stripScriptTag(String src) {
 		String pattern = "<\\s*[s|S][c|C][r|R][i|I][p|P][t|T].*>.*<\\s*/\\s*[s|S][c|C][r|R][i|I][p|P][t|T]\\s*>";
@@ -529,9 +529,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * html Æ¯¼ö¹®ÀÚ¸¦ ÀÏÄ¡ÇÏ´Â ¹®ÀÚ ¿£Æ¼Æ¼·Î º¯È¯ÇÏ´Â ÇÔ¼ö 
-	 * @param src ¿øº»¹®ÀÚ¿­
-	 * @return html Æ¯¼ö¹®ÀÚ°¡ escape µÈ ¹®ÀÚ¿­
+	 * html íŠ¹ìˆ˜ë¬¸ìë¥¼ ì¼ì¹˜í•˜ëŠ” ë¬¸ì ì—”í‹°í‹°ë¡œ ë³€í™˜í•˜ëŠ” í•¨ìˆ˜ 
+	 * @param src ì›ë³¸ë¬¸ìì—´
+	 * @return html íŠ¹ìˆ˜ë¬¸ìê°€ escape ëœ ë¬¸ìì—´
 	 */
 	public static String escapeHtmlSpecialChars(String src) {
 		if (src == null) {

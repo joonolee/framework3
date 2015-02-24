@@ -1,14 +1,14 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Á¤±ÔÇ¥Çö½Ä ÆĞÅÏ ¶óÀÌºê·¯¸®
+ * ì •ê·œí‘œí˜„ì‹ íŒ¨í„´ ë¼ì´ë¸ŒëŸ¬ë¦¬
  */
 public class PatternUtil {
 	/**
-	 * ÁÖ¹Îµî·Ï¹øÈ£ ÆĞÅÏ
+	 * ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern RESIDENT_REGISTRATION_NO = Pattern.compile("\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*-?(?:\\s|&nbsp;)*[1-8]\\d{6}", Pattern.MULTILINE);
 
@@ -17,7 +17,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * ÁÖ¹Îµî·Ï¹øÈ£ ÆĞÅÏ
+	 * ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern JUMIN_NO = RESIDENT_REGISTRATION_NO;
 
@@ -26,7 +26,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * ¹ıÀÎ¹øÈ£ ÆĞÅÏ
+	 * ë²•ì¸ë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern CORPORATION_REGISTRATION_NO = Pattern.compile("\\d{6}(?:\\s|&nbsp;)*-?(?:\\s|&nbsp;)*\\d{7}");
 
@@ -35,7 +35,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * »ç¾÷ÀÚµî·Ï¹øÈ£ ÆĞÅÏ
+	 * ì‚¬ì—…ìë“±ë¡ë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern BUSINESS_REGISTRATION_NO = Pattern.compile("[0-9]{3}(?:\\s|&nbsp;)*-(?:\\s|&nbsp;)*[0-9]{2}(?:\\s|&nbsp;)*-(?:\\s|&nbsp;)*[0-9]{5}", Pattern.MULTILINE);
 
@@ -44,7 +44,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * ½Å¿ëÄ«µå¹øÈ£ ÆĞÅÏ
+	 * ì‹ ìš©ì¹´ë“œë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern CREDIT_CARD_NO = Pattern.compile("(?:5[1-5]\\d{14})|(?:4\\d{12}(\\d{3})?)|(?:3[47]\\d{13})|(?:6011\\d{12})|(?:(?:30[0-5]|36\\d|38\\d)\\d{11})", Pattern.MULTILINE);
 
@@ -53,7 +53,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * ¿©±Ç¹øÈ£ ÆĞÅÏ
+	 * ì—¬ê¶Œë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern PASSPORT_NO = Pattern.compile("");
 
@@ -62,7 +62,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * ¿îÀü¸éÇã¹øÈ£ ÆĞÅÏ
+	 * ìš´ì „ë©´í—ˆë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern DRIVERS_LICENSE_NO = Pattern.compile("");
 
@@ -71,7 +71,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * ÈŞ´ëÆù¹øÈ£ ÆĞÅÏ
+	 * íœ´ëŒ€í°ë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern CELLPHONE_NO = Pattern.compile("01(?:0|1|6|7|8|9)(?:\\s|&nbsp;)*-?(?:\\s|&nbsp;)*(?:\\d{4}|\\d{3})(?:\\s|&nbsp;)*-?(?:\\s|&nbsp;)*\\d{4}", Pattern.MULTILINE);
 
@@ -80,7 +80,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * ÀÏ¹İÀüÈ­¹øÈ£ ÆĞÅÏ
+	 * ì¼ë°˜ì „í™”ë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern TELEPHONE_NO = Pattern.compile("(?:02|0[3-9]{1}[0-9]{1})(?:\\s|&nbsp;)*(?:\\)|-)?(?:\\s|&nbsp;)*(?:\\d{4}|\\d{3})(?:\\s|&nbsp;)*-?(?:\\s|&nbsp;)*\\d{4}", Pattern.MULTILINE);
 
@@ -89,7 +89,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * °Ç°­º¸Çè¹øÈ£ ÆĞÅÏ
+	 * ê±´ê°•ë³´í—˜ë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern HEALTH_INSURANCE_NO = Pattern.compile("");
 
@@ -98,7 +98,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * °èÁÂ¹øÈ£ ÆĞÅÏ
+	 * ê³„ì¢Œë²ˆí˜¸ íŒ¨í„´
 	 */
 	public static final Pattern BANK_ACCOUNT_NO = Pattern.compile("");
 
@@ -107,7 +107,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * ÀÌ¸ŞÀÏÁÖ¼Ò ÆĞÅÏ
+	 * ì´ë©”ì¼ì£¼ì†Œ íŒ¨í„´
 	 */
 	public static final Pattern EMAIL_ADDRESS = Pattern.compile("(?:\\w+\\.)*\\w+@(?:\\w+\\.)+[A-Za-z]+", Pattern.MULTILINE);
 
@@ -116,7 +116,7 @@ public class PatternUtil {
 	}
 
 	/**
-	 * ¾ÆÀÌÇÇÁÖ¼Ò ÆĞÅÏ
+	 * ì•„ì´í”¼ì£¼ì†Œ íŒ¨í„´
 	 */
 	public static final Pattern IP_ADDRESS = Pattern.compile("(?:(?:(?:\\d{1,2})|(?:1\\d{2})|(?:2[0-4]\\d)|(?:25[0-5]))\\.){3}(?:(?:\\d{1,2})|(?:1\\d{2})|(?:2[0-4]\\d)|(?:25[0-5]))", Pattern.MULTILINE);
 

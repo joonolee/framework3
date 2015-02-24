@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,24 +20,24 @@ import org.stringtree.json.JSONWriter;
 import framework.db.RecordSet;
 
 /**
- * JSON(JavaScript Object Notation)¸¦ ÀÌ¿ëÇÏ¿© °³¹ßÇÒ ¶§ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * JSON(JavaScript Object Notation)ë¥¼ ì´ìš©í•˜ì—¬ ê°œë°œí•  ë•Œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class JsonUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.JsonUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private JsonUtil() {
 	}
 
 	/**
-	 * RecordSetÀ» JSON Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
+	 * RecordSetì„ JSON í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ JSON Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : JsonUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs JSON Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : JsonUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
 		if (rs == null) {
@@ -64,11 +64,11 @@ public class JsonUtil {
 	}
 
 	/**
-	 * RecordSetÀ» Json ¹è¿­ ÇüÅÂ·Î º¯È¯ÇÑ´Ù.
+	 * RecordSetì„ Json ë°°ì—´ í˜•íƒœë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ JSON Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JsonUtil.render(rs) 
-	 * @param rs JSON Çü½ÄÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return JSON Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JsonUtil.render(rs) 
+	 * @param rs JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(RecordSet rs) {
 		if (rs == null) {
@@ -90,12 +90,12 @@ public class JsonUtil {
 	}
 
 	/**
-	 * ResultSetÀ» JSON Çü½ÄÀ¸·Î Ãâ·ÂÇÑ´Ù.
+	 * ResultSetì„ JSON í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•œë‹¤.
 	 * <br>
-	 * ex) response·Î rs¸¦ JSON Çü½ÄÀ¸·Î Ãâ·ÂÇÏ´Â °æ¿ì : JsonUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs JSON Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) responseë¡œ rsë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ì¶œë ¥í•˜ëŠ” ê²½ìš° : JsonUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
 		if (rs == null) {
@@ -108,7 +108,7 @@ public class JsonUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				pw.print("[");
@@ -149,11 +149,11 @@ public class JsonUtil {
 	}
 
 	/**
-	 * ResultSetÀ» Json ¹è¿­ ÇüÅÂ·Î º¯È¯ÇÑ´Ù.
+	 * ResultSetì„ Json ë°°ì—´ í˜•íƒœë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ JSON Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JsonUtil.render(rs)
-	 * @param rs JSON Çü½ÄÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼
-	 * @return JSON Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) rsë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JsonUtil.render(rs)
+	 * @param rs JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´
+	 * @return JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(ResultSet rs) {
 		if (rs == null) {
@@ -166,7 +166,7 @@ public class JsonUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
 				buffer.append("[");
@@ -207,11 +207,11 @@ public class JsonUtil {
 	}
 
 	/**
-	 * Map°´Ã¼¸¦ JSON Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * Mapê°ì²´ë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex) mapÀ» JSON Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JsonUtil.render(map)
-	 * @param map º¯È¯ÇÒ Map°´Ã¼
-	 * @return JSON Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex) mapì„ JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JsonUtil.render(map)
+	 * @param map ë³€í™˜í•  Mapê°ì²´
+	 * @return JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(Map<String, Object> map) {
 		if (map == null) {
@@ -223,11 +223,11 @@ public class JsonUtil {
 	}
 
 	/**
-	 * List°´Ã¼¸¦ JSON Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * Listê°ì²´ë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex1) mapList¸¦ JSON Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JsonUtil.render(mapList)
-	 * @param mapList º¯È¯ÇÒ List°´Ã¼
-	 * @return JSON Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex1) mapListë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JsonUtil.render(mapList)
+	 * @param mapList ë³€í™˜í•  Listê°ì²´
+	 * @return JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String render(List<Map<String, Object>> mapList) {
 		if (mapList == null) {
@@ -249,11 +249,11 @@ public class JsonUtil {
 	}
 
 	/**
-	 * °´Ã¼¸¦ JSON Çü½ÄÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * ê°ì²´ë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex1) obj¸¦ JSON Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : String json = JsonUtil.stringify(obj)
-	 * @param obj º¯È¯ÇÒ °´Ã¼
-	 * @return JSON Çü½ÄÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * ex1) objë¥¼ JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : String json = JsonUtil.stringify(obj)
+	 * @param obj ë³€í™˜í•  ê°ì²´
+	 * @return JSON í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public static String stringify(Object obj) {
 		JSONWriter writer = new JSONWriter();
@@ -261,11 +261,11 @@ public class JsonUtil {
 	}
 
 	/**
-	 * JSON ¹®ÀÚ¿­À» Object ·Î º¯È¯ÇÑ´Ù.
+	 * JSON ë¬¸ìì—´ì„ Object ë¡œ ë³€í™˜í•œë‹¤.
 	 * <br>
-	 * ex1) json¸¦ Object Çü½ÄÀ¸·Î º¯È¯ÇÏ´Â °æ¿ì : Object obj = JsonUtil.parse(json)
-	 * @param json º¯È¯ÇÒ JSON ¹®ÀÚ¿­
-	 * @return Object Çü½ÄÀ¸·Î º¯È¯µÈ °´Ã¼
+	 * ex1) jsonë¥¼ Object í˜•ì‹ìœ¼ë¡œ ë³€í™˜í•˜ëŠ” ê²½ìš° : Object obj = JsonUtil.parse(json)
+	 * @param json ë³€í™˜í•  JSON ë¬¸ìì—´
+	 * @return Object í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ê°ì²´
 	 */
 	public static Object parse(String json) {
 		JSONReader reader = new JSONReader();
@@ -273,19 +273,19 @@ public class JsonUtil {
 	}
 
 	/**
-	 * JSON ¹®ÀÚ¿­À» ¿¹»Ú°Ô µé¿©¾²±â¸¦ Àû¿ëÇÏ¿© Á¤·ÄÇÑ´Ù.
-	 * @param json json º¯È¯ÇÒ JSON ¹®ÀÚ¿­
-	 * @return Object Çü½ÄÀ¸·Î º¯È¯µÈ °´Ã¼
+	 * JSON ë¬¸ìì—´ì„ ì˜ˆì˜ê²Œ ë“¤ì—¬ì“°ê¸°ë¥¼ ì ìš©í•˜ì—¬ ì •ë ¬í•œë‹¤.
+	 * @param json json ë³€í™˜í•  JSON ë¬¸ìì—´
+	 * @return Object í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ê°ì²´
 	 */
 	public static String pretty(String json) {
 		return pretty(json, "    ");
 	}
 
 	/**
-	 * JSON ¹®ÀÚ¿­À» ¿¹»Ú°Ô µé¿©¾²±â¸¦ Àû¿ëÇÏ¿© Á¤·ÄÇÑ´Ù.
-	 * @param json json json º¯È¯ÇÒ JSON ¹®ÀÚ¿­
-	 * @param indent µé¿©¾²±â¿¡ »ç¿ëÇÒ ¹®ÀÚ¿­
-	 * @return Object Çü½ÄÀ¸·Î º¯È¯µÈ °´Ã¼
+	 * JSON ë¬¸ìì—´ì„ ì˜ˆì˜ê²Œ ë“¤ì—¬ì“°ê¸°ë¥¼ ì ìš©í•˜ì—¬ ì •ë ¬í•œë‹¤.
+	 * @param json json json ë³€í™˜í•  JSON ë¬¸ìì—´
+	 * @param indent ë“¤ì—¬ì“°ê¸°ì— ì‚¬ìš©í•  ë¬¸ìì—´
+	 * @return Object í˜•ì‹ìœ¼ë¡œ ë³€í™˜ëœ ê°ì²´
 	 */
 	public static String pretty(String json, String indent) {
 		StringBuilder buf = new StringBuilder();
@@ -320,8 +320,8 @@ public class JsonUtil {
 	}
 
 	/**
-	 * ÀÚ¹Ù½ºÅ©¸³Æ®»ó¿¡ Æ¯¼öÇÏ°Ô ÀÎ½ÄµÇ´Â ¹®ÀÚµéÀ» JSONµî¿¡ »ç¿ëÇÏ±â À§ÇØ º¯È¯ÇÏ¿©ÁØ´Ù.
-	 * @param str º¯È¯ÇÒ ¹®ÀÚ¿­
+	 * ìë°”ìŠ¤í¬ë¦½íŠ¸ìƒì— íŠ¹ìˆ˜í•˜ê²Œ ì¸ì‹ë˜ëŠ” ë¬¸ìë“¤ì„ JSONë“±ì— ì‚¬ìš©í•˜ê¸° ìœ„í•´ ë³€í™˜í•˜ì—¬ì¤€ë‹¤.
+	 * @param str ë³€í™˜í•  ë¬¸ìì—´
 	 */
 	public static String escapeJS(String str) {
 		if (str == null) {
@@ -330,10 +330,10 @@ public class JsonUtil {
 		return str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"").replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n").replaceAll("\t", "\\\\t");
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////// Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////// Private ë©”ì†Œë“œ
 
 	/**
-	 * JSON ¿ë Row ¹®ÀÚ¿­ »ı¼º
+	 * JSON ìš© Row ë¬¸ìì—´ ìƒì„±
 	 */
 	@SuppressWarnings("unchecked")
 	private static String _jsonRowStr(Map<String, Object> map) {
@@ -367,7 +367,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * JSON ¿ë Row ¹®ÀÚ¿­ »ı¼º
+	 * JSON ìš© Row ë¬¸ìì—´ ìƒì„±
 	 */
 	private static String _jsonRowStr(RecordSet rs, String[] colNms) {
 		StringBuilder buf = new StringBuilder();

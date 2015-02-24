@@ -1,4 +1,4 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -20,7 +20,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 /**
- * µ¥ÀÌÅ¸º£ÀÌ½º ÄÁ³Ø¼ÇÀ» °ü¸®ÇÏ´Â Å¬·¡½º
+ * ë°ì´íƒ€ë² ì´ìŠ¤ ì»¨ë„¥ì…˜ì„ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
  */
 public class DB {
 	private static Map<String, DataSource> _dsMap = new HashMap<String, DataSource>();
@@ -101,7 +101,7 @@ public class DB {
 			throw new RuntimeException(e);
 		}
 		if (logger.isDebugEnabled()) {
-			logger.debug("DB¿¬°á ¼º°ø! : " + _dsName);
+			logger.debug("DBì—°ê²° ì„±ê³µ! : " + _dsName);
 		}
 	}
 
@@ -113,7 +113,7 @@ public class DB {
 			throw new RuntimeException(e);
 		}
 		if (logger.isDebugEnabled()) {
-			logger.debug("DB¿¬°á ¼º°ø! : " + url);
+			logger.debug("DBì—°ê²° ì„±ê³µ! : " + url);
 		}
 	}
 
@@ -147,7 +147,7 @@ public class DB {
 				logger.error("Connection close error!", e);
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("DB¿¬°á Á¾·á! : " + _dsName);
+				logger.debug("DBì—°ê²° ì¢…ë£Œ! : " + _dsName);
 			}
 		} else {
 			if (logger.isDebugEnabled()) {

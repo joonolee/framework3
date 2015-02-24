@@ -1,50 +1,50 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * SQL ¹®Àå¿¡¼­ Á¶°ÇÁ¶È¸½Ã ÇÊ¿äÇÑ °Ë»öÁ¶°ÇÀ» ´ã´Â °´Ã¼ Å¬·¡½ºÀÌ´Ù.
- * °Ë»ö Á¶°ÇÀº PreparedStatement ½ÇÇà½Ã ¹ÙÀÎµå µÇ¾îÁö¸ç ·Î±× Ãâ·Â½Ã ¹®ÀÚ¿­°ú ¹ÙÀÎµå µÇ¾î Ãâ·ÂµÈ´Ù.
+ * SQL ë¬¸ì¥ì—ì„œ ì¡°ê±´ì¡°íšŒì‹œ í•„ìš”í•œ ê²€ìƒ‰ì¡°ê±´ì„ ë‹´ëŠ” ê°ì²´ í´ë˜ìŠ¤ì´ë‹¤.
+ * ê²€ìƒ‰ ì¡°ê±´ì€ PreparedStatement ì‹¤í–‰ì‹œ ë°”ì¸ë“œ ë˜ì–´ì§€ë©° ë¡œê·¸ ì¶œë ¥ì‹œ ë¬¸ìì—´ê³¼ ë°”ì¸ë“œ ë˜ì–´ ì¶œë ¥ëœë‹¤.
  */
 public class SelectConditionObject {
 	private List<Object> _param = new ArrayList<Object>();
 
 	/**
-	 * °Ë»ö Á¶°ÇÀ¸·Î ¹ÙÀÎµùÇÒ °´Ã¼(Object)¸¦ ¼ÂÆÃÇÑ´Ù.
-	 * @param obj ¹ÙÀÎµùÇÒ °´Ã¼
+	 * ê²€ìƒ‰ ì¡°ê±´ìœ¼ë¡œ ë°”ì¸ë”©í•  ê°ì²´(Object)ë¥¼ ì…‹íŒ…í•œë‹¤.
+	 * @param obj ë°”ì¸ë”©í•  ê°ì²´
 	 */
 	public void setObject(Object obj) {
 		_param.add(obj);
 	}
 
 	/**
-	 * °Ë»ö Á¶°ÇÀ¸·Î ¹ÙÀÎµùÇÒ intÇü º¯¼ö¸¦ ¼ÂÆÃÇÑ´Ù.
-	 * @param i ¹ÙÀÎµùÇÒ intÇü º¯¼ö
+	 * ê²€ìƒ‰ ì¡°ê±´ìœ¼ë¡œ ë°”ì¸ë”©í•  intí˜• ë³€ìˆ˜ë¥¼ ì…‹íŒ…í•œë‹¤.
+	 * @param i ë°”ì¸ë”©í•  intí˜• ë³€ìˆ˜
 	 */
 	public void setInt(int i) {
 		setObject(Integer.valueOf(i));
 	}
 
 	/**
-	 * °Ë»ö Á¶°ÇÀ¸·Î ¹ÙÀÎµùÇÒ longÇü º¯¼ö¸¦ ¼ÂÆÃÇÑ´Ù.
-	 * @param l ¹ÙÀÎµùÇÒ longÇü º¯¼ö
+	 * ê²€ìƒ‰ ì¡°ê±´ìœ¼ë¡œ ë°”ì¸ë”©í•  longí˜• ë³€ìˆ˜ë¥¼ ì…‹íŒ…í•œë‹¤.
+	 * @param l ë°”ì¸ë”©í•  longí˜• ë³€ìˆ˜
 	 */
 	public void setLong(long l) {
 		setObject(Long.valueOf(l));
 	}
 
 	/**
-	 * °Ë»ö Á¶°ÇÀ¸·Î ¹ÙÀÎµùÇÒ doubleÇü º¯¼ö¸¦ ¼ÂÆÃÇÑ´Ù.
-	 * @param d ¹ÙÀÎµùÇÒ doubleÇü º¯¼ö
+	 * ê²€ìƒ‰ ì¡°ê±´ìœ¼ë¡œ ë°”ì¸ë”©í•  doubleí˜• ë³€ìˆ˜ë¥¼ ì…‹íŒ…í•œë‹¤.
+	 * @param d ë°”ì¸ë”©í•  doubleí˜• ë³€ìˆ˜
 	 */
 	public void setDouble(double d) {
 		setObject(Double.valueOf(d));
 	}
 
 	/**
-	 * °Ë»öÁ¶°ÇÀ¸·Î ¹ÙÀÎµù ÇÒ ¸ğµç ÆÄ¶ó¹ÌÅÍ¸¦ ¿ÀºêÁ§Æ® ¹è¿­·Î ¸®ÅÏÇÑ´Ù.
-	 * @return ¹ÙÀÎµùÇÒ ¿ÀºêÁ§Æ® ÆÄ¶ó¹ÌÅÍ
+	 * ê²€ìƒ‰ì¡°ê±´ìœ¼ë¡œ ë°”ì¸ë”© í•  ëª¨ë“  íŒŒë¼ë¯¸í„°ë¥¼ ì˜¤ë¸Œì íŠ¸ ë°°ì—´ë¡œ ë¦¬í„´í•œë‹¤.
+	 * @return ë°”ì¸ë”©í•  ì˜¤ë¸Œì íŠ¸ íŒŒë¼ë¯¸í„°
 	 */
 	public Object[] getParameter() {
 		if (_param == null) {

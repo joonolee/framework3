@@ -1,4 +1,4 @@
-package framework.action;
+ï»¿package framework.action;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,18 +6,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ¾×¼Ç¸Ş¼Òµå¿¡¼­ ¿¹¿Ü°¡ ¹ßÇàÇÑ ÈÄ¿¡ È£ÃâÇÒ ¸Ş¼Òµå¿¡ Àû¿ëÇÑ´Ù.
+ * ì•¡ì…˜ë©”ì†Œë“œì—ì„œ ì˜ˆì™¸ê°€ ë°œí–‰í•œ í›„ì— í˜¸ì¶œí•  ë©”ì†Œë“œì— ì ìš©í•œë‹¤.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Catch {
 	/**
-	 * ¿¹¿ÜÅ¬·¡½º°¡ ÀÏÄ¡ÇÏ°Å³ª ÇÏÀ§ Å¬·¡½ºÀÏ ¶§ µ¿ÀÛÇÑ´Ù. 
+	 * ì˜ˆì™¸í´ë˜ìŠ¤ê°€ ì¼ì¹˜í•˜ê±°ë‚˜ í•˜ìœ„ í´ë˜ìŠ¤ì¼ ë•Œ ë™ì‘í•œë‹¤. 
 	 */
 	Class<? extends Exception>[] value() default {};
 
 	/** 
-	 * ¿ì¼±¼øÀ§
+	 * ìš°ì„ ìˆœìœ„
 	 */
 	int priority() default 0;
 }

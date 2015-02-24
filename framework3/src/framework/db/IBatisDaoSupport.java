@@ -1,4 +1,4 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -16,7 +16,7 @@ import com.ibatis.sqlmap.client.SqlMapSession;
 import com.ibatis.sqlmap.client.event.RowHandler;
 
 /**
- * iBatis¸¦ ÀÌ¿ëÇÑ DAO¸¦ ÀÛ¼ºÇÒ¶§ »ó¼Ó¹Ş´Â ºÎ¸ğ Å¬·¡½ºÀÌ´Ù.
+ * iBatisë¥¼ ì´ìš©í•œ DAOë¥¼ ì‘ì„±í• ë•Œ ìƒì†ë°›ëŠ” ë¶€ëª¨ í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class IBatisDaoSupport {
 	protected static final Log logger = LogFactory.getLog(framework.db.IBatisDaoSupport.class);

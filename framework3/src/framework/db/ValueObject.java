@@ -1,4 +1,4 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -7,7 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Å×ÀÌºíÀÇ °ªÀ» ´ã´Â VO¸¦ ÀÛ¼ºÇÒ¶§ »ó¼Ó¹Ş´Â Å¬·¡½º
+ * í…Œì´ë¸”ì˜ ê°’ì„ ë‹´ëŠ” VOë¥¼ ì‘ì„±í• ë•Œ ìƒì†ë°›ëŠ” í´ë˜ìŠ¤
  */
 @SuppressWarnings("serial")
 public abstract class ValueObject implements Serializable {

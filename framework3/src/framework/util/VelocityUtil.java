@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,35 +17,35 @@ import org.apache.velocity.app.Velocity;
 import framework.action.Params;
 
 /**
- * Velocity¸¦ ÀÌ¿ëÇÑ ÅÛÇÃ¸´ Ã³¸® ¶óÀÌºê·¯¸®
+ * Velocityë¥¼ ì´ìš©í•œ í…œí”Œë¦¿ ì²˜ë¦¬ ë¼ì´ë¸ŒëŸ¬ë¦¬
  */
 public class VelocityUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.VelocityUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private VelocityUtil() {
 	}
 
 	/**
-	 * mapping.properties ÆÄÀÏ¿¡ ¼³Á¤µÈ key¿Í ¿¬°áµÈ ÅÛÇÃ¸´ ÆÄÀÏ¿¡¼­ statement¿¡ Á¤ÀÇµÈ COMMANDÀÇ ¹®ÀÚ¿­À» ÆÄ¶ó¹ÌÅÍ¸¦ 
-	 * Àû¿ëÇÑ ¹®ÀÚ¿­À» »ı¼ºÇÑ´Ù. VelocityUtil.evalutate°ú µ¿ÀÏ
+	 * mapping.properties íŒŒì¼ì— ì„¤ì •ëœ keyì™€ ì—°ê²°ëœ í…œí”Œë¦¿ íŒŒì¼ì—ì„œ statementì— ì •ì˜ëœ COMMANDì˜ ë¬¸ìì—´ì„ íŒŒë¼ë¯¸í„°ë¥¼ 
+	 * ì ìš©í•œ ë¬¸ìì—´ì„ ìƒì„±í•œë‹¤. VelocityUtil.evalutateê³¼ ë™ì¼
 	 * <br>
-	 * Sql ¹®Àå»ı¼º ¹× ÀÌ¸ŞÀÏ ¹ß¼ÛÀ» À§ÇÑ ÅÛÇÃ¸´ »ı¼ºÇÒ¶§ ÀÀ¿ëÇÒ ¼ö ÀÖ´Ù.
-	 * @param servlet ¼­ºí¸´ °´Ã¼
-	 * @param key routes.properties¿¡ µî·ÏÇÑ ÅÛÇÃ¸´ÀÇ Å° ¹®ÀÚ¿­ 
-	 * @param statement ¹®Àå½Äº° ¹®ÀÚ¿­
-	 * @param param ÆÄ¶ó¹ÌÅÍ Param °´Ã¼
-	 * @return ÅÛÇÃ¸´ÀÌ Àû¿ëµÈ ¹®ÀÚ¿­
+	 * Sql ë¬¸ì¥ìƒì„± ë° ì´ë©”ì¼ ë°œì†¡ì„ ìœ„í•œ í…œí”Œë¦¿ ìƒì„±í• ë•Œ ì‘ìš©í•  ìˆ˜ ìˆë‹¤.
+	 * @param servlet ì„œë¸”ë¦¿ ê°ì²´
+	 * @param key routes.propertiesì— ë“±ë¡í•œ í…œí”Œë¦¿ì˜ í‚¤ ë¬¸ìì—´ 
+	 * @param statement ë¬¸ì¥ì‹ë³„ ë¬¸ìì—´
+	 * @param param íŒŒë¼ë¯¸í„° Param ê°ì²´
+	 * @return í…œí”Œë¦¿ì´ ì ìš©ëœ ë¬¸ìì—´
 	 */
 	public static String render(HttpServlet servlet, String key, String statement, Params param) {
 		return _evaluate(servlet, key, statement, param);
 	}
 
 	/**
-	 * routes.properties ÆÄÀÏ¿¡ ¼³Á¤µÈ key¿Í ¿¬°áµÈ ÅÛÇÃ¸´ ÆÄÀÏ¿¡¼­ statement¿¡ Á¤ÀÇµÈ COMMANDÀÇ ¹®ÀÚ¿­À» ÆÄ¶ó¹ÌÅÍ¸¦ 
-	 * Àû¿ëÇÑ ¹®ÀÚ¿­À» »ı¼ºÇÑ´Ù.
+	 * routes.properties íŒŒì¼ì— ì„¤ì •ëœ keyì™€ ì—°ê²°ëœ í…œí”Œë¦¿ íŒŒì¼ì—ì„œ statementì— ì •ì˜ëœ COMMANDì˜ ë¬¸ìì—´ì„ íŒŒë¼ë¯¸í„°ë¥¼ 
+	 * ì ìš©í•œ ë¬¸ìì—´ì„ ìƒì„±í•œë‹¤.
 	 */
 	private static String _evaluate(HttpServlet servlet, String key, String statement, Params param) {
 		StringWriter writer = new StringWriter();
@@ -69,7 +69,7 @@ public class VelocityUtil {
 	}
 
 	/**
-	 * ÅÛÇÃ¸´ÆÄÀÏÀ» ÀĞ¾îµéÀÎ´Ù.
+	 * í…œí”Œë¦¿íŒŒì¼ì„ ì½ì–´ë“¤ì¸ë‹¤.
 	 */
 	private static String _readTemplate(HttpServlet servlet, String fileName) {
 		String pathFile = servlet.getServletContext().getRealPath(fileName);
@@ -77,7 +77,7 @@ public class VelocityUtil {
 	}
 
 	/** 
-	 * ÆÄÀÏÀÇ path¸¦ °¡Áö ÆÄÀÏ¸íÀ¸·Î ÆÄÀÏ ³»¿ë ÀĞ¾î¼­ StringÀ¸·Î ¸®ÅÏÇÑ´Ù 
+	 * íŒŒì¼ì˜ pathë¥¼ ê°€ì§€ íŒŒì¼ëª…ìœ¼ë¡œ íŒŒì¼ ë‚´ìš© ì½ì–´ì„œ Stringìœ¼ë¡œ ë¦¬í„´í•œë‹¤ 
 	 */
 	private static String _read(String pathFile) {
 		StringBuilder ta = new StringBuilder();

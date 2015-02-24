@@ -1,4 +1,4 @@
-package framework.action;
+ï»¿package framework.action;
 
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
@@ -25,81 +25,81 @@ import framework.config.Config;
 import framework.db.DB;
 
 /** 
- * ºñÁö´Ï½º ·ÎÁ÷À» Ã³¸®ÇÏ´Â Å¬·¡½º°¡ »ó¼Ó¹Ş¾Æ¾ß ÇÒ Ãß»óÅ¬·¡½ºÀÌ´Ù.
- * ºäÆäÀÌÁö(jsp ÆäÀÌÁö)°¡ ½ÇÇàµÇ±â Àü¿¡ Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¼­¹ö·Î Àü¼ÛµÈ µ¥ÀÌÅÍ¸¦ Æí¸®ÇÏ°Ô ¾÷¹«·ÎÁ÷¿¡ ¹İ¿µÇÏ±â 
- * À§ÇÑ ÀüÃ³¸®(Pre-processing)¸ğµâÀÌ´Ù. ÇÏ³ªÀÇ ¼­ºñ½º¿¡ ´ëÇØ ¿©·¯°³ÀÇ ¾÷¹«·ÎÁ÷À» ÄÄÆ÷³ÍÆ® ÇüÅÂ·Î Á¦ÀÛÇÏ¿© µî·ÏÇÒ ¼ö ÀÖ´Ù. 
- * ÀÛ¼ºµÈ Controller´Â routes.properties¿¡ µî·ÏÇÑ´Ù.
+ * ë¹„ì§€ë‹ˆìŠ¤ ë¡œì§ì„ ì²˜ë¦¬í•˜ëŠ” í´ë˜ìŠ¤ê°€ ìƒì†ë°›ì•„ì•¼ í•  ì¶”ìƒí´ë˜ìŠ¤ì´ë‹¤.
+ * ë·°í˜ì´ì§€(jsp í˜ì´ì§€)ê°€ ì‹¤í–‰ë˜ê¸° ì „ì— í´ë¼ì´ì–¸íŠ¸ì—ì„œ ì„œë²„ë¡œ ì „ì†¡ëœ ë°ì´í„°ë¥¼ í¸ë¦¬í•˜ê²Œ ì—…ë¬´ë¡œì§ì— ë°˜ì˜í•˜ê¸° 
+ * ìœ„í•œ ì „ì²˜ë¦¬(Pre-processing)ëª¨ë“ˆì´ë‹¤. í•˜ë‚˜ì˜ ì„œë¹„ìŠ¤ì— ëŒ€í•´ ì—¬ëŸ¬ê°œì˜ ì—…ë¬´ë¡œì§ì„ ì»´í¬ë„ŒíŠ¸ í˜•íƒœë¡œ ì œì‘í•˜ì—¬ ë“±ë¡í•  ìˆ˜ ìˆë‹¤. 
+ * ì‘ì„±ëœ ControllerëŠ” routes.propertiesì— ë“±ë¡í•œë‹¤.
  */
 public abstract class Controller {
 	private Map<String, DB> _dbMap = new HashMap<String, DB>();
 
 	/**
-	 * Controller¸¦ È£ÃâÇÑ ¼­ºí¸´ °´Ã¼
+	 * Controllerë¥¼ í˜¸ì¶œí•œ ì„œë¸”ë¦¿ ê°ì²´
 	 */
 	protected HttpServlet servlet = null;
 
 	/**
-	 * HTTP Å¬¶óÀÌ¾ğÆ® ¿äÃ»°´Ã¼
+	 * HTTP í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ê°ì²´
 	 */
 	protected HttpServletRequest request = null;
 
 	/**
-	 * ¿äÃ»ÆÄ¶ó¹ÌÅÍÀÇ °ªÀ» ´ã´Â ÇØ½ÃÅ×ÀÌºí
+	 * ìš”ì²­íŒŒë¼ë¯¸í„°ì˜ ê°’ì„ ë‹´ëŠ” í•´ì‹œí…Œì´ë¸”
 	 */
 	protected Params params = null;
 
 	/**
-	 * ÄíÅ°°ªÀ» ´ã´Â ÇØ½ÃÅ×ÀÌºí
+	 * ì¿ í‚¤ê°’ì„ ë‹´ëŠ” í•´ì‹œí…Œì´ë¸”
 	 */
 	protected Params cookies = null;
 
 	/**
-	 * Çì´õ°ªÀ» ´ã´Â ÇØ½ÃÅ×ÀÌºí
+	 * í—¤ë”ê°’ì„ ë‹´ëŠ” í•´ì‹œí…Œì´ë¸”
 	 */
 	protected Params headers = null;
 
 	/**
-	 * Å¬¶óÀÌ¾ğÆ®ÀÇ ¼¼¼Ç °´Ã¼
+	 * í´ë¼ì´ì–¸íŠ¸ì˜ ì„¸ì…˜ ê°ì²´
 	 */
 	protected HttpSession session = null;
 
 	/**
-	 * HTTP Å¬¶óÀÌ¾ğÆ® ÀÀ´ä°´Ã¼
+	 * HTTP í´ë¼ì´ì–¸íŠ¸ ì‘ë‹µê°ì²´
 	 */
 	protected HttpServletResponse response = null;
 
 	/**
-	 * ÀÀ´ä°´Ã¼ÀÇ PrintWriter °´Ã¼
+	 * ì‘ë‹µê°ì²´ì˜ PrintWriter ê°ì²´
 	 */
 	protected PrintWriter out = null;
 
 	/**
-	 * ÄÁÆ®·Ñ·¯ ÀÌ¸§
+	 * ì»¨íŠ¸ë¡¤ëŸ¬ ì´ë¦„
 	 */
 	protected String controller = null;
 
 	/**
-	 * ¾×¼Ç¸Ş¼Òµå ÀÌ¸§
+	 * ì•¡ì…˜ë©”ì†Œë“œ ì´ë¦„
 	 */
 	protected String actionMethod = null;
 
 	/**
-	 * ¾×¼Ç ÀÌ¸§(ÄÁÆ®·Ñ·¯.¾×¼Ç¸Ş¼Òµå)
+	 * ì•¡ì…˜ ì´ë¦„(ì»¨íŠ¸ë¡¤ëŸ¬.ì•¡ì…˜ë©”ì†Œë“œ)
 	 */
 	protected String action = null;
 
 	/**
-	 * ControllerÀÇ ·Î°Å°´Ã¼
+	 * Controllerì˜ ë¡œê±°ê°ì²´
 	 */
 	protected static final Log logger = LogFactory.getLog(framework.action.Controller.class);
 
 	/** 
-	 * Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¼­ºñ½º¸¦ È£ÃâÇÒ ¶§ ¿äÃ» url¿¡ ¼³Á¤µÈ °ªÀ» Âü°íÇÏ¿© ÇØ´ç ¸Ş¼Òµå¸¦ ½ÇÇàÇÑ´Ù.
-	 * Á¤ÀÇµÇÁö ¾ÊÀº ¸Ş¼Òµå¸¦ È£ÃâÇÒ °æ¿ì ·Î±×¿¡ ¿À·ù¸Ş½ÃÁö°¡ ±â·ÏµÇ¸ç ¸Ş¼Òµå ½ÇÇàÀ» ¸¶Ä£ ÈÄ µ¥ÀÌÅÍº£ÀÌ½º ÄÁ³ØÀ» ÀÚµ¿À¸·Î ´İ¾ÆÁØ´Ù.
-	 * @param servlet ¼­ºí¸´ °´Ã¼
-	 * @param request Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¿äÃ»µÈ Request°´Ã¼
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response°´Ã¼
-	 * @param method ¸Ş¼Òµå
+	 * í´ë¼ì´ì–¸íŠ¸ì—ì„œ ì„œë¹„ìŠ¤ë¥¼ í˜¸ì¶œí•  ë•Œ ìš”ì²­ urlì— ì„¤ì •ëœ ê°’ì„ ì°¸ê³ í•˜ì—¬ í•´ë‹¹ ë©”ì†Œë“œë¥¼ ì‹¤í–‰í•œë‹¤.
+	 * ì •ì˜ë˜ì§€ ì•Šì€ ë©”ì†Œë“œë¥¼ í˜¸ì¶œí•  ê²½ìš° ë¡œê·¸ì— ì˜¤ë¥˜ë©”ì‹œì§€ê°€ ê¸°ë¡ë˜ë©° ë©”ì†Œë“œ ì‹¤í–‰ì„ ë§ˆì¹œ í›„ ë°ì´í„°ë² ì´ìŠ¤ ì»¨ë„¥ì„ ìë™ìœ¼ë¡œ ë‹«ì•„ì¤€ë‹¤.
+	 * @param servlet ì„œë¸”ë¦¿ ê°ì²´
+	 * @param request í´ë¼ì´ì–¸íŠ¸ì—ì„œ ìš”ì²­ëœ Requestê°ì²´
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Responseê°ì²´
+	 * @param method ë©”ì†Œë“œ
 	 * @throws Throwable 
 	 */
 	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Throwable {
@@ -144,25 +144,25 @@ public abstract class Controller {
 	}
 
 	/**
-	 * ¾×¼ÇÁøÇàÀ» Áß´ÜÇÑ´Ù.
+	 * ì•¡ì…˜ì§„í–‰ì„ ì¤‘ë‹¨í•œë‹¤.
 	 */
 	protected void stop() {
 		throw new _ActionStopException();
 	}
 
 	/**
-	 * ¿äÃ»À» JSPÆäÀÌÁö·Î Æ÷¿öµå(Forward) ÇÑ´Ù.
-	 * ÀÛ¼ºµÈ JSPÆäÀÌÁö´Â routes.properties¿¡ µî·ÏÇÑ´Ù.
+	 * ìš”ì²­ì„ JSPí˜ì´ì§€ë¡œ í¬ì›Œë“œ(Forward) í•œë‹¤.
+	 * ì‘ì„±ëœ JSPí˜ì´ì§€ëŠ” routes.propertiesì— ë“±ë¡í•œë‹¤.
 	 * <br>
-	 * ex) Å°°¡ search-jsp ÀÎ JSPÆäÀÌÁö·Î Æ÷¿öµù ÇÒ °æ¿ì : render("search-jsp")
-	 * @param key routes.properties ÆÄÀÏ¿¡ µî·ÏµÈ JSP ÆäÀÌÁöÀÇ Å°
+	 * ex) í‚¤ê°€ search-jsp ì¸ JSPí˜ì´ì§€ë¡œ í¬ì›Œë”© í•  ê²½ìš° : render("search-jsp")
+	 * @param key routes.properties íŒŒì¼ì— ë“±ë¡ëœ JSP í˜ì´ì§€ì˜ í‚¤
 	 */
 	protected void render(String key) {
 		try {
 			ResourceBundle bundle = (ResourceBundle) servlet.getServletContext().getAttribute("routes-mapping");
 			String url = ((String) bundle.getObject(key)).trim();
 			if (logger.isDebugEnabled()) {
-				logger.debug("¡Ù¡Ù¡Ù " + request.getRemoteAddr() + " ·Î ºÎÅÍ \"" + request.getMethod() + " " + request.getRequestURI() + "\" ¿äÃ»ÀÌ \"" + url + "\" ·Î forward µÇ¾ú½À´Ï´Ù");
+				logger.debug("â˜†â˜†â˜† " + request.getRemoteAddr() + " ë¡œ ë¶€í„° \"" + request.getMethod() + " " + request.getRequestURI() + "\" ìš”ì²­ì´ \"" + url + "\" ë¡œ forward ë˜ì—ˆìŠµë‹ˆë‹¤");
 			}
 			servlet.getServletContext().getRequestDispatcher(response.encodeURL(url)).forward(request, response);
 		} catch (Throwable e) {
@@ -171,11 +171,11 @@ public abstract class Controller {
 	}
 
 	/** 
-	 * ¿äÃ»À» JSPÆäÀÌÁö·Î ÀçÁöÇâ(Redirect) ÇÑ´Ù.
-	 * ÀÛ¼ºµÈ JSPÆäÀÌÁö´Â  routes.properties¿¡ µî·ÏÇÑ´Ù.
+	 * ìš”ì²­ì„ JSPí˜ì´ì§€ë¡œ ì¬ì§€í–¥(Redirect) í•œë‹¤.
+	 * ì‘ì„±ëœ JSPí˜ì´ì§€ëŠ”  routes.propertiesì— ë“±ë¡í•œë‹¤.
 	 * <br>
-	 * ex) Å°°¡ search-jsp ÀÎ JSPÆäÀÌÁö·Î ÀçÁöÇâ ÇÒ °æ¿ì : redirect("search-jsp")
-	 * @param key routes.properties ÆÄÀÏ¿¡ µî·ÏµÈ JSP ÆäÀÌÁöÀÇ Å°
+	 * ex) í‚¤ê°€ search-jsp ì¸ JSPí˜ì´ì§€ë¡œ ì¬ì§€í–¥ í•  ê²½ìš° : redirect("search-jsp")
+	 * @param key routes.properties íŒŒì¼ì— ë“±ë¡ëœ JSP í˜ì´ì§€ì˜ í‚¤
 	 */
 	protected void redirect(String key) {
 		try {
@@ -187,7 +187,7 @@ public abstract class Controller {
 				url = response.encodeRedirectURL(key);
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("¡Ù¡Ù¡Ù " + request.getRemoteAddr() + " ·Î ºÎÅÍ \"" + request.getMethod() + " " + request.getRequestURI() + "\" ¿äÃ»ÀÌ \"" + url + "\" ·Î redirect µÇ¾ú½À´Ï´Ù");
+				logger.debug("â˜†â˜†â˜† " + request.getRemoteAddr() + " ë¡œ ë¶€í„° \"" + request.getMethod() + " " + request.getRequestURI() + "\" ìš”ì²­ì´ \"" + url + "\" ë¡œ redirect ë˜ì—ˆìŠµë‹ˆë‹¤");
 			}
 			response.sendRedirect(url);
 		} catch (Throwable e) {
@@ -196,27 +196,27 @@ public abstract class Controller {
 	}
 
 	/** 
-	 * µ¥ÀÌÅ¸º£ÀÌ½º °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
+	 * ë°ì´íƒ€ë² ì´ìŠ¤ ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
 	 * <br>
-	 * config.properties¿¡ datasource°¡ µî·ÏµÇ¾î ÀÖÀ¸¸é JNDI¿¡ µî·ÏµÇ¾îÀÖ´Â µ¥ÀÌÅ¸¼Ò½º¿¡¼­ ÄÁ³Ø¼ÇÀ» »ı¼ºÇÑ´Ù.
-	 * datasource°¡ µî·ÏµÇ¾î ÀÖÁö ¾Ê´Â °æ¿ì ¿¬°áÁ¤º¸¸¦ ¹ÙÅÁÀ¸·Î jdbc ÄÁ³Ø¼ÇÀ» »ı¼ºÇÑ´Ù.
-	 * ¾÷¹«¸íÀÌ default¿¡ ÇØ´çÇÏ´Â ¼³Á¤ÆÄÀÏ Á¤º¸¸¦ ÀÌ¿ëÇÏ¿© ÄÁ³Ø¼ÇÀ» »ı¼ºÇÑ´Ù.
-	 * »ı¼ºµÈ ÄÁ³Ø¼ÇÀÇ autoCommit ¼Ó¼ºÀº false ·Î ¼ÂÆÃµÈ´Ù.
-	 * @return DB °´Ã¼
+	 * config.propertiesì— datasourceê°€ ë“±ë¡ë˜ì–´ ìˆìœ¼ë©´ JNDIì— ë“±ë¡ë˜ì–´ìˆëŠ” ë°ì´íƒ€ì†ŒìŠ¤ì—ì„œ ì»¨ë„¥ì…˜ì„ ìƒì„±í•œë‹¤.
+	 * datasourceê°€ ë“±ë¡ë˜ì–´ ìˆì§€ ì•ŠëŠ” ê²½ìš° ì—°ê²°ì •ë³´ë¥¼ ë°”íƒ•ìœ¼ë¡œ jdbc ì»¨ë„¥ì…˜ì„ ìƒì„±í•œë‹¤.
+	 * ì—…ë¬´ëª…ì´ defaultì— í•´ë‹¹í•˜ëŠ” ì„¤ì •íŒŒì¼ ì •ë³´ë¥¼ ì´ìš©í•˜ì—¬ ì»¨ë„¥ì…˜ì„ ìƒì„±í•œë‹¤.
+	 * ìƒì„±ëœ ì»¨ë„¥ì…˜ì˜ autoCommit ì†ì„±ì€ false ë¡œ ì…‹íŒ…ëœë‹¤.
+	 * @return DB ê°ì²´
 	 */
 	protected DB getDB() {
 		return getDB("default");
 	}
 
 	/** 
-	 * µ¥ÀÌÅ¸º£ÀÌ½º °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
+	 * ë°ì´íƒ€ë² ì´ìŠ¤ ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
 	 * <br>
-	 * config.properties¿¡ datasource°¡ µî·ÏµÇ¾î ÀÖÀ¸¸é JNDI¿¡ µî·ÏµÇ¾îÀÖ´Â µ¥ÀÌÅ¸¼Ò½º¿¡¼­ ÄÁ³Ø¼ÇÀ» »ı¼ºÇÑ´Ù.
-	 * datasource°¡ µî·ÏµÇ¾î ÀÖÁö ¾Ê´Â °æ¿ì ¿¬°áÁ¤º¸¸¦ ¹ÙÅÁÀ¸·Î jdbc ÄÁ³Ø¼ÇÀ» »ı¼ºÇÑ´Ù.
-	 * ÆÄ¶ó¹ÌÅÍ·Î ³Ñ°ÜÁø ¾÷¹«¸í¿¡ ÇØ´çÇÏ´Â ¼³Á¤ÆÄÀÏ Á¤º¸¸¦ ÀÌ¿ëÇÏ¿© ÄÁ³Ø¼ÇÀ» »ı¼ºÇÑ´Ù.
-	 * »ı¼ºµÈ ÄÁ³Ø¼ÇÀÇ autoCommit ¼Ó¼ºÀº false ·Î ¼ÂÆÃµÈ´Ù.
-	 * @param serviceName ¼­ºñ½º¸í(¾÷¹«¸í)
-	 * @return DB °´Ã¼
+	 * config.propertiesì— datasourceê°€ ë“±ë¡ë˜ì–´ ìˆìœ¼ë©´ JNDIì— ë“±ë¡ë˜ì–´ìˆëŠ” ë°ì´íƒ€ì†ŒìŠ¤ì—ì„œ ì»¨ë„¥ì…˜ì„ ìƒì„±í•œë‹¤.
+	 * datasourceê°€ ë“±ë¡ë˜ì–´ ìˆì§€ ì•ŠëŠ” ê²½ìš° ì—°ê²°ì •ë³´ë¥¼ ë°”íƒ•ìœ¼ë¡œ jdbc ì»¨ë„¥ì…˜ì„ ìƒì„±í•œë‹¤.
+	 * íŒŒë¼ë¯¸í„°ë¡œ ë„˜ê²¨ì§„ ì—…ë¬´ëª…ì— í•´ë‹¹í•˜ëŠ” ì„¤ì •íŒŒì¼ ì •ë³´ë¥¼ ì´ìš©í•˜ì—¬ ì»¨ë„¥ì…˜ì„ ìƒì„±í•œë‹¤.
+	 * ìƒì„±ëœ ì»¨ë„¥ì…˜ì˜ autoCommit ì†ì„±ì€ false ë¡œ ì…‹íŒ…ëœë‹¤.
+	 * @param serviceName ì„œë¹„ìŠ¤ëª…(ì—…ë¬´ëª…)
+	 * @return DB ê°ì²´
 	 */
 	protected DB getDB(String serviceName) {
 		if (!_dbMap.containsKey(serviceName)) {
@@ -228,7 +228,7 @@ public abstract class Controller {
 			try {
 				dsName = getConfig().getString("jdbc." + serviceName + ".datasource");
 			} catch (Throwable e) {
-				// ¼³Á¤ÆÄÀÏ¿¡ µ¥ÀÌÅ¸¼Ò½º°¡ Á¤ÀÇµÇ¾îÀÖÁö ¾ÊÀ¸¸é ½ÇÇà
+				// ì„¤ì •íŒŒì¼ì— ë°ì´íƒ€ì†ŒìŠ¤ê°€ ì •ì˜ë˜ì–´ìˆì§€ ì•Šìœ¼ë©´ ì‹¤í–‰
 				jdbcDriver = getConfig().getString("jdbc." + serviceName + ".driver");
 				jdbcUrl = getConfig().getString("jdbc." + serviceName + ".url");
 				jdbcUid = getConfig().getString("jdbc." + serviceName + ".uid");
@@ -251,71 +251,71 @@ public abstract class Controller {
 	}
 
 	/** 
-	 * ¼³Á¤Á¤º¸¸¦ °¡Áö°í ÀÖ´Â °´Ã¼¸¦ »ı¼ºÇÏ¿© ¸®ÅÏÇÑ´Ù.
-	 * @return config.propertiesÀÇ ¼³Á¤Á¤º¸¸¦ °¡Áö°í ÀÖ´Â °´Ã¼
+	 * ì„¤ì •ì •ë³´ë¥¼ ê°€ì§€ê³  ìˆëŠ” ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë¦¬í„´í•œë‹¤.
+	 * @return config.propertiesì˜ ì„¤ì •ì •ë³´ë¥¼ ê°€ì§€ê³  ìˆëŠ” ê°ì²´
 	 */
 	protected Config getConfig() {
 		return Config.getInstance();
 	}
 
 	/** 
-	 * ¼¼¼Ç°´Ã¼¿¡¼­ ÇØ´ç Å°¿¡ ÇØ´çÇÏ´Â ¿ÀºêÁ§Æ®¸¦ ¸®ÅÏÇÑ´Ù.
+	 * ì„¸ì…˜ê°ì²´ì—ì„œ í•´ë‹¹ í‚¤ì— í•´ë‹¹í•˜ëŠ” ì˜¤ë¸Œì íŠ¸ë¥¼ ë¦¬í„´í•œë‹¤.
 	 * <br>
-	 * ex) ¼¼¼Ç¿¡¼­ result¶ó´Â Å°·Î ¿ÀºêÁ§Æ®¸¦ ¸®ÅÏ¹Ş´Â °æ¿ì : Object obj = getSessionAttribute("result")
-	 * @param key ¼¼¼Ç°´Ã¼ÀÇ Á¶È¸Å°
-	 * @return ¼¼¼Ç°´Ã¼¿¡¼­ ¾ò¾î¿Â ¿ÀºêÁ§Æ®
+	 * ex) ì„¸ì…˜ì—ì„œ resultë¼ëŠ” í‚¤ë¡œ ì˜¤ë¸Œì íŠ¸ë¥¼ ë¦¬í„´ë°›ëŠ” ê²½ìš° : Object obj = getSessionAttribute("result")
+	 * @param key ì„¸ì…˜ê°ì²´ì˜ ì¡°íšŒí‚¤
+	 * @return ì„¸ì…˜ê°ì²´ì—ì„œ ì–»ì–´ì˜¨ ì˜¤ë¸Œì íŠ¸
 	 */
 	protected Object getSessionAttribute(String key) {
 		return session.getAttribute(key);
 	}
 
 	/**
-	 * ÀÀ´ä°´Ã¼¸¦ Å¬¶óÀÌ¾ğÆ®¿¡°Ô Àü¼ÛÇÏ±â Àü¿¡ ÄÁÅÙÃ÷Å¸ÀÔÀ» ¼³Á¤ÇÑ´Ù. 
+	 * ì‘ë‹µê°ì²´ë¥¼ í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ì „ì†¡í•˜ê¸° ì „ì— ì»¨í…ì¸ íƒ€ì…ì„ ì„¤ì •í•œë‹¤. 
 	 * <br>
-	 * ex1) xmlÆÄÀÏÀ» Àü¼Û ÇÏ´Â °æ¿ì : setContentType("text/xml; charset=utf-8")
+	 * ex1) xmlíŒŒì¼ì„ ì „ì†¡ í•˜ëŠ” ê²½ìš° : setContentType("text/xml; charset=utf-8")
 	 * <br>
-	 * ex2) ÅØ½ºÆ® ÆÄÀÏÀ» Àü¼ÛÇÏ´Â °æ¿ì : setContentType("text/plain; charset=euc-kr")
-	 * @param contentType ÀÀ´ä°´Ã¼¿¡ ¼³Á¤ÇÒ ÄÁÅÙÃ÷ Å¸ÀÔ
+	 * ex2) í…ìŠ¤íŠ¸ íŒŒì¼ì„ ì „ì†¡í•˜ëŠ” ê²½ìš° : setContentType("text/plain; charset=euc-kr")
+	 * @param contentType ì‘ë‹µê°ì²´ì— ì„¤ì •í•  ì»¨í…ì¸  íƒ€ì…
 	 */
 	protected void setContentType(String contentType) {
 		response.setContentType(contentType);
 	}
 
 	/** 
-	 * ¿äÃ»°´Ã¼¿¡ Å°,°ª ¼Ó¼ºÀ» ¼³Á¤ÇÑ´Ù.
-	 * Controller¿¡¼­ Ã³¸®ÇÑ °á°ú¸¦ ºä ·Î ³Ñ±æ¶§ ¿äÃ»°´Ã¼¿¡ ¼Ó¼ºÀ» ¼³Á¤ÇÏ¿© ¶ó¿ìÆÃÇÑ´Ù.
+	 * ìš”ì²­ê°ì²´ì— í‚¤,ê°’ ì†ì„±ì„ ì„¤ì •í•œë‹¤.
+	 * Controllerì—ì„œ ì²˜ë¦¬í•œ ê²°ê³¼ë¥¼ ë·° ë¡œ ë„˜ê¸¸ë•Œ ìš”ì²­ê°ì²´ì— ì†ì„±ì„ ì„¤ì •í•˜ì—¬ ë¼ìš°íŒ…í•œë‹¤.
 	 * <br>
-	 * ex) rs¶ó´Â RecordSet °´Ã¼¸¦ result ¶ó´Â Å°·Î ¿äÃ»°´Ã¼¿¡ ¼³Á¤ÇÏ´Â °æ¿ì : setAttribute("result", re) 
-	 * @param key ¼Ó¼ºÀÇ Å° ¹®ÀÚ¿­
-	 * @param value ¼Ó¼ºÀÇ °ª °´Ã¼
+	 * ex) rsë¼ëŠ” RecordSet ê°ì²´ë¥¼ result ë¼ëŠ” í‚¤ë¡œ ìš”ì²­ê°ì²´ì— ì„¤ì •í•˜ëŠ” ê²½ìš° : setAttribute("result", re) 
+	 * @param key ì†ì„±ì˜ í‚¤ ë¬¸ìì—´
+	 * @param value ì†ì„±ì˜ ê°’ ê°ì²´
 	 */
 	protected void setAttribute(String key, Object value) {
 		request.setAttribute(key, value);
 	}
 
 	/** 
-	 * ¼¼¼Ç°´Ã¼¿¡ Å°,°ª ¼Ó¼ºÀ» ¼³Á¤ÇÑ´Ù.
-	 * Controller¿¡¼­ Ã³¸®ÇÑ °á°ú¸¦ ¼¼¼Ç¿¡ ÀúÀåÇÑ´Ù.
+	 * ì„¸ì…˜ê°ì²´ì— í‚¤,ê°’ ì†ì„±ì„ ì„¤ì •í•œë‹¤.
+	 * Controllerì—ì„œ ì²˜ë¦¬í•œ ê²°ê³¼ë¥¼ ì„¸ì…˜ì— ì €ì¥í•œë‹¤.
 	 * <br>
-	 * ex) userinfo ¶ó´Â »ç¿ëÀÚÁ¤º¸°´Ã¼¸¦ userinfo ¶ó´Â Å°·Î ¼¼¼Ç°´Ã¼¿¡ ¼³Á¤ÇÏ´Â °æ¿ì : setSessionAttribute("userinfo", userinfo)
-	 * @param key ¼Ó¼ºÀÇ Å° ¹®ÀÚ¿­
-	 * @param value ¼Ó¼ºÀÇ °ª °´Ã¼
+	 * ex) userinfo ë¼ëŠ” ì‚¬ìš©ìì •ë³´ê°ì²´ë¥¼ userinfo ë¼ëŠ” í‚¤ë¡œ ì„¸ì…˜ê°ì²´ì— ì„¤ì •í•˜ëŠ” ê²½ìš° : setSessionAttribute("userinfo", userinfo)
+	 * @param key ì†ì„±ì˜ í‚¤ ë¬¸ìì—´
+	 * @param value ì†ì„±ì˜ ê°’ ê°ì²´
 	 */
 	protected void setSessionAttribute(String key, Object value) {
 		session.setAttribute(key, value);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå
+	//////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ
 
 	/*
-	 * ¾×¼ÇÁøÇàÀ» Áß´ÜÇÏ±â À§ÇØ ³»ºÎÀûÀ¸·Î »ç¿ëÇÏ´Â ¿¹¿Ü
+	 * ì•¡ì…˜ì§„í–‰ì„ ì¤‘ë‹¨í•˜ê¸° ìœ„í•´ ë‚´ë¶€ì ìœ¼ë¡œ ì‚¬ìš©í•˜ëŠ” ì˜ˆì™¸
 	 */
 	private class _ActionStopException extends RuntimeException {
 		private static final long serialVersionUID = -4449840322691459821L;
 	}
 
 	/*
-	 * Play framework Âü°í
+	 * Play framework ì°¸ê³ 
 	 */
 	private void _before() throws Throwable {
 		List<Method> beforeMethods = _getAnnotationMethods(Before.class);
@@ -365,7 +365,7 @@ public abstract class Controller {
 	}
 
 	/*
-	 * Play framework Âü°í
+	 * Play framework ì°¸ê³ 
 	 */
 	private void _after() throws Throwable {
 		List<Method> afterMethods = _getAnnotationMethods(After.class);
@@ -415,7 +415,7 @@ public abstract class Controller {
 	}
 
 	/*
-	 * Play framework Âü°í
+	 * Play framework ì°¸ê³ 
 	 */
 	private void _catch(Throwable e) throws Throwable {
 		List<Method> catchMethods = _getAnnotationMethods(Catch.class);
@@ -450,7 +450,7 @@ public abstract class Controller {
 	}
 
 	/*
-	 * Play framework Âü°í
+	 * Play framework ì°¸ê³ 
 	 */
 	private void _finally() throws Throwable {
 		List<Method> finallyMethods = _getAnnotationMethods(Finally.class);
@@ -510,7 +510,7 @@ public abstract class Controller {
 	}
 
 	/*
-	 * DB ÄÁ³Ø¼Ç Á¤¸®
+	 * DB ì»¨ë„¥ì…˜ ì •ë¦¬
 	 */
 	private void _destroy() {
 		try {

@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,271 +12,271 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 
 /**
- * ¾Ï/º¹È£È­ °ü·Ã ±â´ÉÀ» ÇÏ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * ì•”/ë³µí˜¸í™” ê´€ë ¨ ê¸°ëŠ¥ì„ í•˜ëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class CryptUtil {
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private CryptUtil() {
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ MD5 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ MD5 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashMD5HexString(String message) {
 		return _hashHexString(message, "MD5");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ MD5 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ MD5 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashMD5Base64String(String message) {
 		return _hashBase64String(message, "MD5");
 	}
 
 	/**
-	 * salt¸¦ Àû¿ëÇÏ¿© ¸Ş½ÃÁö¸¦ MD5 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param salt ¼ÖÆ®°ª
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * saltë¥¼ ì ìš©í•˜ì—¬ ë©”ì‹œì§€ë¥¼ MD5 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param salt ì†”íŠ¸ê°’
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashMD5HexString(String message, String salt) {
 		return _hashHexString(message, salt, "MD5");
 	}
 
 	/**
-	 * salt¸¦ Àû¿ëÇÏ¿© ¸Ş½ÃÁö¸¦ MD5 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param salt ¼ÖÆ®°ª
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * saltë¥¼ ì ìš©í•˜ì—¬ ë©”ì‹œì§€ë¥¼ MD5 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param salt ì†”íŠ¸ê°’
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashMD5Base64String(String message, String salt) {
 		return _hashBase64String(message, salt, "MD5");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ SHA-1 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ SHA-1 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashSHA1HexString(String message) {
 		return _hashHexString(message, "SHA-1");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ SHA-1 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ SHA-1 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashSHA1Base64String(String message) {
 		return _hashBase64String(message, "SHA-1");
 	}
 
 	/**
-	 * salt¸¦ Àû¿ëÇÏ¿© ¸Ş½ÃÁö¸¦ SHA-1 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param salt ¼ÖÆ®°ª
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * saltë¥¼ ì ìš©í•˜ì—¬ ë©”ì‹œì§€ë¥¼ SHA-1 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param salt ì†”íŠ¸ê°’
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashSHA1HexString(String message, String salt) {
 		return _hashHexString(message, salt, "SHA-1");
 	}
 
 	/**
-	 * salt¸¦ Àû¿ëÇÏ¿© ¸Ş½ÃÁö¸¦ SHA-1 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param salt ¼ÖÆ®°ª
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * saltë¥¼ ì ìš©í•˜ì—¬ ë©”ì‹œì§€ë¥¼ SHA-1 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param salt ì†”íŠ¸ê°’
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashSHA1Base64String(String message, String salt) {
 		return _hashBase64String(message, salt, "SHA-1");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ SHA-256 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ SHA-256 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashSHA256HexString(String message) {
 		return _hashHexString(message, "SHA-256");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ SHA-256 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @return ÇØ½¬°á°ú  Base64 ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ SHA-256 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @return í•´ì‰¬ê²°ê³¼  Base64 ë¬¸ìì—´
 	 */
 	public static String hashSHA256Base64String(String message) {
 		return _hashBase64String(message, "SHA-256");
 	}
 
 	/**
-	 * salt¸¦ Àû¿ëÇÏ¿© ¸Ş½ÃÁö¸¦ SHA-256 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param salt ¼ÖÆ®°ª
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * saltë¥¼ ì ìš©í•˜ì—¬ ë©”ì‹œì§€ë¥¼ SHA-256 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param salt ì†”íŠ¸ê°’
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashSHA256HexString(String message, String salt) {
 		return _hashHexString(message, salt, "SHA-256");
 	}
 
 	/**
-	 * salt¸¦ Àû¿ëÇÏ¿© ¸Ş½ÃÁö¸¦ SHA-256 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param salt ¼ÖÆ®°ª
-	 * @return ÇØ½¬°á°ú  Base64 ¹®ÀÚ¿­
+	 * saltë¥¼ ì ìš©í•˜ì—¬ ë©”ì‹œì§€ë¥¼ SHA-256 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param salt ì†”íŠ¸ê°’
+	 * @return í•´ì‰¬ê²°ê³¼  Base64 ë¬¸ìì—´
 	 */
 	public static String hashSHA256Base64String(String message, String salt) {
 		return _hashBase64String(message, salt, "SHA-256");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ SHA-512 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ SHA-512 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashSHA512HexString(String message) {
 		return _hashHexString(message, "SHA-512");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ SHA-512 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ SHA-512 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashSHA512Base64String(String message) {
 		return _hashBase64String(message, "SHA-512");
 	}
 
 	/**
-	 * salt¸¦ Àû¿ëÇÏ¿© ¸Ş½ÃÁö¸¦ SHA-512 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param salt ¼ÖÆ®°ª
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * saltë¥¼ ì ìš©í•˜ì—¬ ë©”ì‹œì§€ë¥¼ SHA-512 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param salt ì†”íŠ¸ê°’
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashSHA512HexString(String message, String salt) {
 		return _hashHexString(message, salt, "SHA-512");
 	}
 
 	/**
-	 * salt¸¦ Àû¿ëÇÏ¿© ¸Ş½ÃÁö¸¦ SHA-512 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½¬ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param salt ¼ÖÆ®°ª
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * saltë¥¼ ì ìš©í•˜ì—¬ ë©”ì‹œì§€ë¥¼ SHA-512 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‰¬í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param salt ì†”íŠ¸ê°’
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashSHA512Base64String(String message, String salt) {
 		return _hashBase64String(message, salt, "SHA-512");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ secretKey¸¦ ÀÌ¿ëÇÏ¿© HmacMD5 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½ÃÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param secretKey Å°
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ secretKeyë¥¼ ì´ìš©í•˜ì—¬ HmacMD5 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‹œí•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param secretKey í‚¤
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashHmacMD5HexString(String message, String secretKey) {
 		return _hashHmacHexString(message, secretKey, "HmacMD5");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ secretKey¸¦ ÀÌ¿ëÇÏ¿© HmacMD5 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½ÃÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param secretKey Å°
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ secretKeyë¥¼ ì´ìš©í•˜ì—¬ HmacMD5 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‹œí•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param secretKey í‚¤
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashHmacMD5Base64String(String message, String secretKey) {
 		return _hashHmacBase64String(message, secretKey, "HmacMD5");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ secretKey¸¦ ÀÌ¿ëÇÏ¿© HmacSHA1 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½ÃÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param secretKey Å°
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ secretKeyë¥¼ ì´ìš©í•˜ì—¬ HmacSHA1 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‹œí•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param secretKey í‚¤
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashHmacSHA1HexString(String message, String secretKey) {
 		return _hashHmacHexString(message, secretKey, "HmacSHA1");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ secretKey¸¦ ÀÌ¿ëÇÏ¿© HmacSHA1 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½ÃÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param secretKey Å°
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ secretKeyë¥¼ ì´ìš©í•˜ì—¬ HmacSHA1 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‹œí•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param secretKey í‚¤
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashHmacSHA1Base64String(String message, String secretKey) {
 		return _hashHmacBase64String(message, secretKey, "HmacSHA1");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ secretKey¸¦ ÀÌ¿ëÇÏ¿© HmacSHA256 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½ÃÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param secretKey Å°
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ secretKeyë¥¼ ì´ìš©í•˜ì—¬ HmacSHA256 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‹œí•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param secretKey í‚¤
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashHmacSHA256HexString(String message, String secretKey) {
 		return _hashHmacHexString(message, secretKey, "HmacSHA256");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ secretKey¸¦ ÀÌ¿ëÇÏ¿© HmacSHA256 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½ÃÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param secretKey Å°
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ secretKeyë¥¼ ì´ìš©í•˜ì—¬ HmacSHA256 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‹œí•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param secretKey í‚¤
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashHmacSHA256Base64String(String message, String secretKey) {
 		return _hashHmacBase64String(message, secretKey, "HmacSHA256");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ secretKey¸¦ ÀÌ¿ëÇÏ¿© HmacSHA512 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½ÃÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param secretKey Å°
-	 * @return ÇØ½¬°á°ú Hex ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ secretKeyë¥¼ ì´ìš©í•˜ì—¬ HmacSHA512 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‹œí•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param secretKey í‚¤
+	 * @return í•´ì‰¬ê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	public static String hashHmacSHA512HexString(String message, String secretKey) {
 		return _hashHmacHexString(message, secretKey, "HmacSHA512");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ secretKey¸¦ ÀÌ¿ëÇÏ¿© HmacSHA512 ¾Ë°í¸®ÁòÀ¸·Î ÇØ½ÃÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param secretKey Å°
-	 * @return ÇØ½¬°á°ú Base64 ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ secretKeyë¥¼ ì´ìš©í•˜ì—¬ HmacSHA512 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ í•´ì‹œí•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param secretKey í‚¤
+	 * @return í•´ì‰¬ê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	public static String hashHmacSHA512Base64String(String message, String secretKey) {
 		return _hashHmacBase64String(message, secretKey, "HmacSHA512");
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ BASE64 ¾Ë°í¸®ÁòÀ¸·Î ÀÎÄÚµùÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @return ÀÎÄÚµùµÈ ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ BASE64 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ ì¸ì½”ë”©í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @return ì¸ì½”ë”©ëœ ë¬¸ìì—´
 	 */
 	public static String encodeBase64String(String message) {
 		return Base64.encodeBase64String(message.getBytes());
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ BASE64 ¾Ë°í¸®ÁòÀ¸·Î µğÄÚµùÇÑ´Ù.
-	 * @param message ¿øº» ¸Ş½ÃÁö
-	 * @return µğÄÚµùµÈ ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ BASE64 ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ ë””ì½”ë”©í•œë‹¤.
+	 * @param message ì›ë³¸ ë©”ì‹œì§€
+	 * @return ë””ì½”ë”©ëœ ë¬¸ìì—´
 	 */
 	public static String decodeBase64String(String message) {
 		return new String(Base64.decodeBase64(message.getBytes()));
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ °³ÀÎÅ°¸¦ ÀÌ¿ëÇÏ¿© AES ¾Ë°í¸®ÁòÀ¸·Î ¾ÏÈ£È­ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param privateKey °³ÀÎÅ° 
-	 * @return ¾ÏÈ£È­µÈ ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ ê°œì¸í‚¤ë¥¼ ì´ìš©í•˜ì—¬ AES ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ ì•”í˜¸í™”í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param privateKey ê°œì¸í‚¤ 
+	 * @return ì•”í˜¸í™”ëœ ë¬¸ìì—´
 	 */
 	public static String encryptAES(String message, String privateKey) {
 		try {
@@ -290,10 +290,10 @@ public class CryptUtil {
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ °³ÀÎÅ°¸¦ ÀÌ¿ëÇÏ¿© AES ¾Ë°í¸®ÁòÀ¸·Î º¹È£È­ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param privateKey °³ÀÎÅ° 
-	 * @return º¹È£È­µÈ ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ ê°œì¸í‚¤ë¥¼ ì´ìš©í•˜ì—¬ AES ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ ë³µí˜¸í™”í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param privateKey ê°œì¸í‚¤ 
+	 * @return ë³µí˜¸í™”ëœ ë¬¸ìì—´
 	 */
 	public static String decryptAES(String message, String privateKey) {
 		try {
@@ -307,10 +307,10 @@ public class CryptUtil {
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ °³ÀÎÅ°¸¦ ÀÌ¿ëÇÏ¿© DES ¾Ë°í¸®ÁòÀ¸·Î ¾ÏÈ£È­ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param privateKey °³ÀÎÅ° 
-	 * @return ¾ÏÈ£È­µÈ ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ ê°œì¸í‚¤ë¥¼ ì´ìš©í•˜ì—¬ DES ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ ì•”í˜¸í™”í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param privateKey ê°œì¸í‚¤ 
+	 * @return ì•”í˜¸í™”ëœ ë¬¸ìì—´
 	 */
 	public static String encryptDES(String message, String privateKey) {
 		try {
@@ -324,10 +324,10 @@ public class CryptUtil {
 	}
 
 	/**
-	 * ¸Ş½ÃÁö¸¦ °³ÀÎÅ°¸¦ ÀÌ¿ëÇÏ¿© DES ¾Ë°í¸®ÁòÀ¸·Î º¹È£È­ÇÑ´Ù.
-	 * @param message ¿øº»¸Ş½ÃÁö
-	 * @param privateKey °³ÀÎÅ° 
-	 * @return º¹È£È­µÈ ¹®ÀÚ¿­
+	 * ë©”ì‹œì§€ë¥¼ ê°œì¸í‚¤ë¥¼ ì´ìš©í•˜ì—¬ DES ì•Œê³ ë¦¬ì¦˜ìœ¼ë¡œ ë³µí˜¸í™”í•œë‹¤.
+	 * @param message ì›ë³¸ë©”ì‹œì§€
+	 * @param privateKey ê°œì¸í‚¤ 
+	 * @return ë³µí˜¸í™”ëœ ë¬¸ìì—´
 	 */
 	public static String decryptDES(String message, String privateKey) {
 		try {
@@ -341,8 +341,8 @@ public class CryptUtil {
 	}
 
 	/**
-	 * ÇØ½Ã¾Ë°í¸®Áò¿¡¼­ »ç¿ëÇÏ±â À§ÇÑ ¼ÖÆ®¸¦ »ı¼ºÇÑ´Ù.
-	 * @return ·£´ıÀ¸·Î »ı¼ºµÈ 20ÀÚ¸® ¼ÖÆ® ¹®ÀÚ¿­
+	 * í•´ì‹œì•Œê³ ë¦¬ì¦˜ì—ì„œ ì‚¬ìš©í•˜ê¸° ìœ„í•œ ì†”íŠ¸ë¥¼ ìƒì„±í•œë‹¤.
+	 * @return ëœë¤ìœ¼ë¡œ ìƒì„±ëœ 20ìë¦¬ ì†”íŠ¸ ë¬¸ìì—´
 	 */
 	public static String randomSalt() {
 		SecureRandom r = new SecureRandom();
@@ -351,10 +351,10 @@ public class CryptUtil {
 		return Hex.encodeHexString(salt);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå
+	//////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ
 
 	/*
-	 * ÇØ½Ã°á°ú ¹ÙÀÌÆ® ¹è¿­
+	 * í•´ì‹œê²°ê³¼ ë°”ì´íŠ¸ ë°°ì—´
 	 */
 	private static byte[] _hash(String message, String algorithm) {
 		try {
@@ -368,21 +368,21 @@ public class CryptUtil {
 	}
 
 	/*
-	 * ÇØ½Ã°á°ú Hex ¹®ÀÚ¿­
+	 * í•´ì‹œê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	private static String _hashHexString(String message, String algorithm) {
 		return Hex.encodeHexString(_hash(message, algorithm));
 	}
 
 	/*
-	 * ÇØ½Ã°á°ú Base64 ¹®ÀÚ¿­
+	 * í•´ì‹œê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	private static String _hashBase64String(String message, String algorithm) {
 		return Base64.encodeBase64String((_hash(message, algorithm)));
 	}
 
 	/*
-	 * Hmac ÇØ½Ã°á°ú ¹ÙÀÌÆ® ¹è¿­
+	 * Hmac í•´ì‹œê²°ê³¼ ë°”ì´íŠ¸ ë°°ì—´
 	 */
 	private static byte[] _hashHmac(String message, String secretKey, String algorithm) {
 		try {
@@ -396,21 +396,21 @@ public class CryptUtil {
 	}
 
 	/*
-	 * Hmac ÇØ½Ã°á°ú Hex ¹®ÀÚ¿­
+	 * Hmac í•´ì‹œê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	private static String _hashHmacHexString(String message, String secretKey, String algorithm) {
 		return Hex.encodeHexString(_hashHmac(message, secretKey, algorithm));
 	}
 
 	/*
-	 * Hmac ÇØ½Ã°á°ú Base64 ¹®ÀÚ¿­
+	 * Hmac í•´ì‹œê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	private static String _hashHmacBase64String(String message, String secretKey, String algorithm) {
 		return Base64.encodeBase64String(_hashHmac(message, secretKey, algorithm));
 	}
 
 	/*
-	 * salt Àû¿ë ÇØ½Ã°á°ú ¹ÙÀÌÆ® ¹è¿­
+	 * salt ì ìš© í•´ì‹œê²°ê³¼ ë°”ì´íŠ¸ ë°°ì—´
 	 */
 	private static byte[] _hash(String message, String salt, String algorithm) {
 		try {
@@ -424,14 +424,14 @@ public class CryptUtil {
 	}
 
 	/*
-	 * salt Àû¿ë ÇØ½Ã°á°ú Hex ¹®ÀÚ¿­
+	 * salt ì ìš© í•´ì‹œê²°ê³¼ Hex ë¬¸ìì—´
 	 */
 	private static String _hashHexString(String message, String salt, String algorithm) {
 		return Hex.encodeHexString(_hash(message, salt, algorithm));
 	}
 
 	/*
-	 * salt Àû¿ë ÇØ½Ã°á°ú Base64 ¹®ÀÚ¿­
+	 * salt ì ìš© í•´ì‹œê²°ê³¼ Base64 ë¬¸ìì—´
 	 */
 	private static String _hashBase64String(String message, String salt, String algorithm) {
 		return Base64.encodeBase64String(_hash(message, salt, algorithm));

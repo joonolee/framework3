@@ -1,4 +1,4 @@
-package framework.action;
+ï»¿package framework.action;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,23 +6,23 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * ¾×¼Ç¸Ş¼Òµå°¡ È£ÃâµÈ ÈÄ¿¡ ¿¹¿Ü¿©ºÎ¿Í »ó°ü¾øÀÌ ¹İµå½Ã È£ÃâÇÒ ¸Ş¼Òµå¿¡ Àû¿ëÇÑ´Ù.
+ * ì•¡ì…˜ë©”ì†Œë“œê°€ í˜¸ì¶œëœ í›„ì— ì˜ˆì™¸ì—¬ë¶€ì™€ ìƒê´€ì—†ì´ ë°˜ë“œì‹œ í˜¸ì¶œí•  ë©”ì†Œë“œì— ì ìš©í•œë‹¤.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Finally {
 	/**
-	 * ¸Ş¼Òµå ÀÌ¸§ÀÌ ÀÏÄ¡ ÇÒ¶§ µ¿ÀÛÇÑ´Ù.
+	 * ë©”ì†Œë“œ ì´ë¦„ì´ ì¼ì¹˜ í• ë•Œ ë™ì‘í•œë‹¤.
 	 */
 	String[] only() default {};
 
 	/**
-	 * ¸Ş¼Òµå ÀÌ¸§ÀÌ ÀÏÄ¡ÇÏÁö ¾ÊÀ»¶§ µ¿ÀÛÇÑ´Ù.
+	 * ë©”ì†Œë“œ ì´ë¦„ì´ ì¼ì¹˜í•˜ì§€ ì•Šì„ë•Œ ë™ì‘í•œë‹¤.
 	 */
 	String[] unless() default {};
 
 	/** 
-	 * ¿ì¼±¼øÀ§
+	 * ìš°ì„ ìˆœìœ„
 	 */
 	int priority() default 0;
 }

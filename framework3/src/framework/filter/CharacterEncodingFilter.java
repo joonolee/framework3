@@ -1,4 +1,4 @@
-package framework.filter;
+ï»¿package framework.filter;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * ¿äÃ»°ú ÀÀ´äÀ» ÀÎÄÚµù ÇÏ´Â ÇÊÅÍ
+ * ìš”ì²­ê³¼ ì‘ë‹µì„ ì¸ì½”ë”© í•˜ëŠ” í•„í„°
  */
 public class CharacterEncodingFilter implements Filter {
 	private String _encoding = null;

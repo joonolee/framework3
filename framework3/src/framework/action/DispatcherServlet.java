@@ -1,4 +1,4 @@
-package framework.action;
+ï»¿package framework.action;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -19,9 +19,9 @@ import framework.cache.Cache;
 import framework.util.StringUtil;
 
 /** 
- * ÄÁÆ®·Ñ·¯ ¿ªÇÒÀ» ÇÏ´Â ¼­ºí¸´À¸·Î ¸ğµç Å¬¶óÀÌ¾ğÆ®ÀÇ ¿äÃ»À» ¹Ş¾Æ ÇØ´ç ¾×¼ÇÀ» ½ÇÇàÇÑ´Ù.
- * web.xml ÆÄÀÏ¿¡¼­ ¼­ºí¸´À» ¸ÅÇÎÇÏ¿©¾ß ÇÏ¸ç ¼­¹ö ºÎÆÃ½Ã ÇÑ°³ÀÇ °´Ã¼¸¦ »ı¼ºÇØ ³õ´Â´Ù.  
- * ¿äÃ»¿¡¼­ ÃßÃâÇÑ ¾×¼ÇÅ°·Î routes.properties¿¡¼­ ControllerÅ¬·¡½º¸¦ Ã£¾Æ °´Ã¼¸¦ »ı¼ºÇÏ¿© ºñÁö´Ï½º ÇÁ·Î¼¼½º¸¦ ½ÇÇàÇÑ´Ù. 
+ * ì»¨íŠ¸ë¡¤ëŸ¬ ì—­í• ì„ í•˜ëŠ” ì„œë¸”ë¦¿ìœ¼ë¡œ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì˜ ìš”ì²­ì„ ë°›ì•„ í•´ë‹¹ ì•¡ì…˜ì„ ì‹¤í–‰í•œë‹¤.
+ * web.xml íŒŒì¼ì—ì„œ ì„œë¸”ë¦¿ì„ ë§¤í•‘í•˜ì—¬ì•¼ í•˜ë©° ì„œë²„ ë¶€íŒ…ì‹œ í•œê°œì˜ ê°ì²´ë¥¼ ìƒì„±í•´ ë†“ëŠ”ë‹¤.  
+ * ìš”ì²­ì—ì„œ ì¶”ì¶œí•œ ì•¡ì…˜í‚¤ë¡œ routes.propertiesì—ì„œ Controllerí´ë˜ìŠ¤ë¥¼ ì°¾ì•„ ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë¹„ì§€ë‹ˆìŠ¤ í”„ë¡œì„¸ìŠ¤ë¥¼ ì‹¤í–‰í•œë‹¤. 
  */
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
@@ -30,9 +30,9 @@ public class DispatcherServlet extends HttpServlet {
 	private RequestDispatcher _defaultServletDispatcher = null;
 
 	/**
-	 * ¼­ºí¸´ °´Ã¼¸¦ ÃÊ±âÈ­ ÇÑ´Ù.
-	 * web.xml¿¡ ÃÊ±âÈ­ ÆÄ¶ó¹ÌÅÍ·Î µî·ÏµÇ¾î ÀÖ´Â routes-mapping °ªÀ» Ã£¾Æ ¸®¼Ò½º ¹øµéÀ» »ı¼ºÇÏ´Â ¿ªÇÒÀ» ÇÑ´Ù.
-	 * @param config ServletConfig °´Ã¼
+	 * ì„œë¸”ë¦¿ ê°ì²´ë¥¼ ì´ˆê¸°í™” í•œë‹¤.
+	 * web.xmlì— ì´ˆê¸°í™” íŒŒë¼ë¯¸í„°ë¡œ ë“±ë¡ë˜ì–´ ìˆëŠ” routes-mapping ê°’ì„ ì°¾ì•„ ë¦¬ì†ŒìŠ¤ ë²ˆë“¤ì„ ìƒì„±í•˜ëŠ” ì—­í• ì„ í•œë‹¤.
+	 * @param config ServletConfig ê°ì²´
 	 */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -51,9 +51,9 @@ public class DispatcherServlet extends HttpServlet {
 			}
 			this._defaultServletDispatcher = getServletContext().getNamedDispatcher(defaultServletName);
 			if (this._defaultServletDispatcher == null) {
-				logger.info("Default ServletÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+				logger.info("Default Servletì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			} else {
-				logger.info("Default ServletÀ» Ã£¾Ò½À´Ï´Ù. (" + defaultServletName + ")");
+				logger.info("Default Servletì„ ì°¾ì•˜ìŠµë‹ˆë‹¤. (" + defaultServletName + ")");
 			}
 		} catch (MissingResourceException e) {
 			throw new ServletException(e);
@@ -64,11 +64,11 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	/**
-	 * Å¬¶óÀÌ¾ğÆ®°¡ Get ¹æ½ÄÀ¸·Î ¿äÃ»ÇÒ °æ¿ì processRequest·Î Ã³¸®¸¦ ÀÌ°üÇÑ´Ù.
-	 * @param request HTTP Å¬¶óÀÌ¾ğÆ® ¿äÃ»°´Ã¼
-	 * @param response HTTP Å¬¶óÀÌ¾ğÆ® ÀÀ´ä°´Ã¼
-	 * @exception java.io.IOException DispatcherServlet¿¡¼­ IO¿Í °ü·ÃµÈ ¿À·ù°¡ ¹ß»ıÇÒ °æ¿ì 
-	 * @exception javax.servlet.ServletException ¼­ºí¸´°ú °ü·ÃµÈ ¿À·ù°¡ ¹ß»ıÇÒ °æ¿ì
+	 * í´ë¼ì´ì–¸íŠ¸ê°€ Get ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•  ê²½ìš° processRequestë¡œ ì²˜ë¦¬ë¥¼ ì´ê´€í•œë‹¤.
+	 * @param request HTTP í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ê°ì²´
+	 * @param response HTTP í´ë¼ì´ì–¸íŠ¸ ì‘ë‹µê°ì²´
+	 * @exception java.io.IOException DispatcherServletì—ì„œ IOì™€ ê´€ë ¨ëœ ì˜¤ë¥˜ê°€ ë°œìƒí•  ê²½ìš° 
+	 * @exception javax.servlet.ServletException ì„œë¸”ë¦¿ê³¼ ê´€ë ¨ëœ ì˜¤ë¥˜ê°€ ë°œìƒí•  ê²½ìš°
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -76,11 +76,11 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	/**
-	 * Å¬¶óÀÌ¾ğÆ®°¡ Post ¹æ½ÄÀ¸·Î ¿äÃ»ÇÒ °æ¿ì processRequest·Î Ã³¸®¸¦ ÀÌ°üÇÑ´Ù.
-	 * @param request HTTP Å¬¶óÀÌ¾ğÆ® ¿äÃ»°´Ã¼
-	 * @param response HTTP Å¬¶óÀÌ¾ğÆ® ÀÀ´ä°´Ã¼
-	 * @exception java.io.IOException Servlet¿¡¼­ IO¿Í °ü·ÃµÈ ¿À·ù°¡ ¹ß»ıÇÒ °æ¿ì 
-	 * @exception javax.servlet.ServletException ¼­ºí¸´°ú °ü·ÃµÈ ¿À·ù°¡ ¹ß»ıÇÒ °æ¿ì
+	 * í´ë¼ì´ì–¸íŠ¸ê°€ Post ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•  ê²½ìš° processRequestë¡œ ì²˜ë¦¬ë¥¼ ì´ê´€í•œë‹¤.
+	 * @param request HTTP í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ê°ì²´
+	 * @param response HTTP í´ë¼ì´ì–¸íŠ¸ ì‘ë‹µê°ì²´
+	 * @exception java.io.IOException Servletì—ì„œ IOì™€ ê´€ë ¨ëœ ì˜¤ë¥˜ê°€ ë°œìƒí•  ê²½ìš° 
+	 * @exception javax.servlet.ServletException ì„œë¸”ë¦¿ê³¼ ê´€ë ¨ëœ ì˜¤ë¥˜ê°€ ë°œìƒí•  ê²½ìš°
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -88,11 +88,11 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	/**
-	 * Å¬¶óÀÌ¾ğÆ®°¡ Put ¹æ½ÄÀ¸·Î ¿äÃ»ÇÒ °æ¿ì processRequest·Î Ã³¸®¸¦ ÀÌ°üÇÑ´Ù.
-	 * @param request HTTP Å¬¶óÀÌ¾ğÆ® ¿äÃ»°´Ã¼
-	 * @param response HTTP Å¬¶óÀÌ¾ğÆ® ÀÀ´ä°´Ã¼
-	 * @exception java.io.IOException DispatcherServlet¿¡¼­ IO¿Í °ü·ÃµÈ ¿À·ù°¡ ¹ß»ıÇÒ °æ¿ì 
-	 * @exception javax.servlet.ServletException ¼­ºí¸´°ú °ü·ÃµÈ ¿À·ù°¡ ¹ß»ıÇÒ °æ¿ì
+	 * í´ë¼ì´ì–¸íŠ¸ê°€ Put ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•  ê²½ìš° processRequestë¡œ ì²˜ë¦¬ë¥¼ ì´ê´€í•œë‹¤.
+	 * @param request HTTP í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ê°ì²´
+	 * @param response HTTP í´ë¼ì´ì–¸íŠ¸ ì‘ë‹µê°ì²´
+	 * @exception java.io.IOException DispatcherServletì—ì„œ IOì™€ ê´€ë ¨ëœ ì˜¤ë¥˜ê°€ ë°œìƒí•  ê²½ìš° 
+	 * @exception javax.servlet.ServletException ì„œë¸”ë¦¿ê³¼ ê´€ë ¨ëœ ì˜¤ë¥˜ê°€ ë°œìƒí•  ê²½ìš°
 	 */
 	@Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -100,18 +100,18 @@ public class DispatcherServlet extends HttpServlet {
 	}
 
 	/**
-	 * Å¬¶óÀÌ¾ğÆ®°¡ Delete ¹æ½ÄÀ¸·Î ¿äÃ»ÇÒ °æ¿ì processRequest·Î Ã³¸®¸¦ ÀÌ°üÇÑ´Ù.
-	 * @param request HTTP Å¬¶óÀÌ¾ğÆ® ¿äÃ»°´Ã¼
-	 * @param response HTTP Å¬¶óÀÌ¾ğÆ® ÀÀ´ä°´Ã¼
-	 * @exception java.io.IOException DispatcherServlet¿¡¼­ IO¿Í °ü·ÃµÈ ¿À·ù°¡ ¹ß»ıÇÒ °æ¿ì 
-	 * @exception javax.servlet.ServletException ¼­ºí¸´°ú °ü·ÃµÈ ¿À·ù°¡ ¹ß»ıÇÒ °æ¿ì
+	 * í´ë¼ì´ì–¸íŠ¸ê°€ Delete ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•  ê²½ìš° processRequestë¡œ ì²˜ë¦¬ë¥¼ ì´ê´€í•œë‹¤.
+	 * @param request HTTP í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ê°ì²´
+	 * @param response HTTP í´ë¼ì´ì–¸íŠ¸ ì‘ë‹µê°ì²´
+	 * @exception java.io.IOException DispatcherServletì—ì„œ IOì™€ ê´€ë ¨ëœ ì˜¤ë¥˜ê°€ ë°œìƒí•  ê²½ìš° 
+	 * @exception javax.servlet.ServletException ì„œë¸”ë¦¿ê³¼ ê´€ë ¨ëœ ì˜¤ë¥˜ê°€ ë°œìƒí•  ê²½ìš°
 	 */
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		_processRequest(request, response);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå
+	//////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ
 
 	private void _processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -126,7 +126,7 @@ public class DispatcherServlet extends HttpServlet {
 				controller = (Controller) controllerClass.newInstance();
 				actionMethod = controllerClass.getMethod(actionName);
 				if (!_isActionMethod(actionMethod)) {
-					throw new Exception("È£ÃâÇÒ ¼ö ¾ø´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.");
+					throw new Exception("í˜¸ì¶œí•  ìˆ˜ ì—†ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.");
 				}
 			} catch (Throwable e) {
 				if (this._defaultServletDispatcher != null) {
@@ -137,12 +137,12 @@ public class DispatcherServlet extends HttpServlet {
 			long currTime = 0;
 			if (logger.isDebugEnabled()) {
 				currTime = System.currentTimeMillis();
-				logger.debug("¡Ú¡Ú¡Ú " + request.getRemoteAddr() + " ·Î ºÎÅÍ \"" + request.getMethod() + " " + request.getRequestURI() + "\" ¿äÃ»ÀÌ ½ÃÀÛµÇ¾ú½À´Ï´Ù");
+				logger.debug("â˜…â˜…â˜… " + request.getRemoteAddr() + " ë¡œ ë¶€í„° \"" + request.getMethod() + " " + request.getRequestURI() + "\" ìš”ì²­ì´ ì‹œì‘ë˜ì—ˆìŠµë‹ˆë‹¤");
 				logger.debug("ContentLength : " + request.getContentLength() + "bytes");
 			}
 			controller.execute(this, request, response, actionMethod);
 			if (logger.isDebugEnabled()) {
-				logger.debug("¡Ù¡Ù¡Ù " + request.getRemoteAddr() + " ·Î ºÎÅÍ \"" + request.getMethod() + " " + request.getRequestURI() + "\" ¿äÃ»ÀÌ Á¾·áµÇ¾ú½À´Ï´Ù | duration : " + (System.currentTimeMillis() - currTime) + "ms\n");
+				logger.debug("â˜†â˜†â˜† " + request.getRemoteAddr() + " ë¡œ ë¶€í„° \"" + request.getMethod() + " " + request.getRequestURI() + "\" ìš”ì²­ì´ ì¢…ë£Œë˜ì—ˆìŠµë‹ˆë‹¤ | duration : " + (System.currentTimeMillis() - currTime) + "ms\n");
 			}
 		} catch (Throwable e) {
 			logger.error(e);

@@ -1,14 +1,14 @@
-package framework.util;
+ï»¿package framework.util;
 
 /**
- * À¯È¿¼º Ã¼Å© ¶óÀÌºê·¯¸®
+ * ìœ íš¨ì„± ì²´í¬ ë¼ì´ë¸ŒëŸ¬ë¦¬
  */
 public class ValidationUtil {
 
 	/**
-	 * ÁÖ¹Îµî·Ï¹øÈ£/¿Ü±¹ÀÎµî·Ï¹øÈ£ À¯È¿¼º Ã¼Å©
+	 * ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸/ì™¸êµ­ì¸ë“±ë¡ë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬
 	 * @param residentRegistrationNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isResidentRegistrationNo(String residentRegistrationNo) {
 		String juminNo = residentRegistrationNo.replaceAll("[^0-9]", "");
@@ -24,7 +24,7 @@ public class ValidationUtil {
 		int sum = 0;
 		int juminNo_6 = _parseInt(juminNo.charAt(6));
 		if (juminNo_6 == 1 || juminNo_6 == 2 || juminNo_6 == 3 || juminNo_6 == 4) {
-			//³»±¹ÀÎ
+			//ë‚´êµ­ì¸
 			for (int i = 0; i < 12; i++) {
 				sum += _parseInt(juminNo.charAt(i)) * ((i % 8) + 2);
 			}
@@ -33,7 +33,7 @@ public class ValidationUtil {
 			}
 			return true;
 		} else if (juminNo_6 == 5 || juminNo_6 == 6 || juminNo_6 == 7 || juminNo_6 == 8) {
-			//¿Ü±¹ÀÎ
+			//ì™¸êµ­ì¸
 			if (_parseInt(juminNo.substring(7, 9)) % 2 != 0) {
 				return false;
 			}
@@ -50,18 +50,18 @@ public class ValidationUtil {
 	}
 
 	/**
-	 * ÁÖ¹Îµî·Ï¹øÈ£/¿Ü±¹ÀÎµî·Ï¹øÈ£ À¯È¿¼º Ã¼Å©
+	 * ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸/ì™¸êµ­ì¸ë“±ë¡ë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬
 	 * @param juminNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isJuminNo(String juminNo) {
 		return isResidentRegistrationNo(juminNo);
 	}
 
 	/**
-	 * ¹ıÀÎ¹øÈ£ À¯È¿¼º Ã¼Å© 
+	 * ë²•ì¸ë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬ 
 	 * @param corporationRegistrationNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isCorporationRegistrationNo(String corporationRegistrationNo) {
 		String corpRegNo = corporationRegistrationNo.replaceAll("[^0-9]", "");
@@ -80,9 +80,9 @@ public class ValidationUtil {
 	}
 
 	/**
-	 * »ç¾÷ÀÚµî·Ï¹øÈ£ À¯È¿¼º Ã¼Å©
+	 * ì‚¬ì—…ìë“±ë¡ë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬
 	 * @param businessRegistrationNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isBusinessRegistrationNo(String businessRegistrationNo) {
 		String bizRegNo = businessRegistrationNo.replaceAll("[^0-9]", "");
@@ -99,97 +99,97 @@ public class ValidationUtil {
 	}
 
 	/**
-	 * ½Å¿ëÄ«µå¹øÈ£ À¯È¿¼º Ã¼Å©
+	 * ì‹ ìš©ì¹´ë“œë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬
 	 * @param creditCardNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isCreditCardNo(String creditCardNo) {
 		return PatternUtil.matchCreditCardNo(creditCardNo).find();
 	}
 
 	/**
-	 * ¿©±Ç¹øÈ£ À¯È¿¼º Ã¼Å©
+	 * ì—¬ê¶Œë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬
 	 * @param passportNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isPassportNo(String passportNo) {
 		return PatternUtil.matchPassportNo(passportNo).find();
 	}
 
 	/**
-	 * ¿îÀü¸éÇã¹øÈ£ À¯È¿¼º Ã¼Å©
+	 * ìš´ì „ë©´í—ˆë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬
 	 * @param driversLicenseNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isDriversLicenseNo(String driversLicenseNo) {
 		return PatternUtil.matchDriversLicenseNo(driversLicenseNo).find();
 	}
 
 	/**
-	 * ÈŞ´ëÆù¹øÈ£ À¯È¿¼º Ã¼Å©
+	 * íœ´ëŒ€í°ë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬
 	 * @param cellphoneNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isCellphoneNo(String cellphoneNo) {
 		return PatternUtil.matchCellphoneNo(cellphoneNo).find();
 	}
 
 	/**
-	 * ÀÏ¹İÀüÈ­¹øÈ£ À¯È¿¼º Ã¼Å©
+	 * ì¼ë°˜ì „í™”ë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬
 	 * @param telephoneNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isTelephoneNo(String telephoneNo) {
 		return PatternUtil.matchTelephoneNo(telephoneNo).find();
 	}
 
 	/**
-	 * °Ç°­º¸Çè¹øÈ£ À¯È¿¼º Ã¼Å© 
+	 * ê±´ê°•ë³´í—˜ë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬ 
 	 * @param healthInsuranceNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isHealthInsuranceNo(String healthInsuranceNo) {
 		return PatternUtil.matchHealthInsuranceNo(healthInsuranceNo).find();
 	}
 
 	/**
-	 * °èÁÂ¹øÈ£ À¯È¿¼º Ã¼Å©
+	 * ê³„ì¢Œë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬
 	 * @param bankAccountNo
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isBankAccountNo(String bankAccountNo) {
 		return PatternUtil.matchBankAccountNo(bankAccountNo).find();
 	}
 
 	/**
-	 * ÀÌ¸ŞÀÏÁÖ¼Ò À¯È¿¼º Ã¼Å©
+	 * ì´ë©”ì¼ì£¼ì†Œ ìœ íš¨ì„± ì²´í¬
 	 * @param emailAddress
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isEmailAddress(String emailAddress) {
 		return PatternUtil.matchEmailAddress(emailAddress).find();
 	}
 
 	/**
-	 * ¾ÆÀÌÇÇÁÖ¼Ò À¯È¿¼º Ã¼Å©
+	 * ì•„ì´í”¼ì£¼ì†Œ ìœ íš¨ì„± ì²´í¬
 	 * @param ipAddress
-	 * @return ¸ÅÄ¡¿©ºÎ
+	 * @return ë§¤ì¹˜ì—¬ë¶€
 	 */
 	public static boolean isIPAddress(String ipAddress) {
 		return PatternUtil.matchIPAddress(ipAddress).find();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå
+	////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ
 
 	/**
-	 * char·Î Ç¥ÇöµÈ ¼ıÀÚ¸¦ Å¸ÀÔÀ» int·Î º¯°æ
+	 * charë¡œ í‘œí˜„ëœ ìˆ«ìë¥¼ íƒ€ì…ì„ intë¡œ ë³€ê²½
 	 */
 	private static int _parseInt(char c) {
 		return Integer.parseInt(String.valueOf(c));
 	}
 
 	/**
-	 * StringÀ¸·Î Ç¥ÇöµÈ ¼ıÀÚ¸¦ Å¸ÀÔÀ» int·Î º¯°æ
+	 * Stringìœ¼ë¡œ í‘œí˜„ëœ ìˆ«ìë¥¼ íƒ€ì…ì„ intë¡œ ë³€ê²½
 	 */
 	private static int _parseInt(String s) {
 		return Integer.parseInt(s);

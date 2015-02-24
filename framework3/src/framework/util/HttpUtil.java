@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,18 +23,18 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 /**
- * HTTP Å¬¶óÀÌ¾ğÆ®ÀÇ ±â´ÉÀ» ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * HTTP í´ë¼ì´ì–¸íŠ¸ì˜ ê¸°ëŠ¥ì„ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class HttpUtil {
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private HttpUtil() {
 	}
 
 	/**
-	 * Result °´Ã¼
+	 * Result ê°ì²´
 	 */
 	public static class Result {
 		private int _statusCode;
@@ -65,19 +65,19 @@ public class HttpUtil {
 	}
 
 	/**
-	 * url À» Get ¹æ½ÄÀ¸·Î È£ÃâÇÏ°í °á°ú¸¦ ¸®ÅÏÇÑ´Ù.
+	 * url ì„ Get ë°©ì‹ìœ¼ë¡œ í˜¸ì¶œí•˜ê³  ê²°ê³¼ë¥¼ ë¦¬í„´í•œë‹¤.
 	 * @param url
-	 * @return Result °´Ã¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result get(String url) {
 		return get(url, null);
 	}
 
 	/**
-	 * url À» Get ¹æ½ÄÀ¸·Î È£ÃâÇÏ°í °á°ú¸¦ ¸®ÅÏÇÑ´Ù.
+	 * url ì„ Get ë°©ì‹ìœ¼ë¡œ í˜¸ì¶œí•˜ê³  ê²°ê³¼ë¥¼ ë¦¬í„´í•œë‹¤.
 	 * @param url
 	 * @param headerMap
-	 * @return Result °´Ã¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result get(String url, Map<String, String> headerMap) {
 		int statusCode = 0;
@@ -103,30 +103,30 @@ public class HttpUtil {
 	}
 
 	/**
-	 * url À» Post ¹æ½ÄÀ¸·Î È£ÃâÇÏ°í °á°ú¸¦ ¸®ÅÏÇÑ´Ù.
+	 * url ì„ Post ë°©ì‹ìœ¼ë¡œ í˜¸ì¶œí•˜ê³  ê²°ê³¼ë¥¼ ë¦¬í„´í•œë‹¤.
 	 * @param url
-	 * @return Result °´Ã¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(String url) {
 		return post(url, null, (Map<String, String>) null);
 	}
 
 	/**
-	 * url À» Post ¹æ½ÄÀ¸·Î È£ÃâÇÏ°í °á°ú¸¦ ¸®ÅÏÇÑ´Ù.
+	 * url ì„ Post ë°©ì‹ìœ¼ë¡œ í˜¸ì¶œí•˜ê³  ê²°ê³¼ë¥¼ ë¦¬í„´í•œë‹¤.
 	 * @param url
 	 * @param paramMap
-	 * @return Result °´Ã¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(String url, Map<String, String> paramMap) {
 		return post(url, paramMap, (Map<String, String>) null);
 	}
 
 	/**
-	 * url À» Post ¹æ½ÄÀ¸·Î È£ÃâÇÏ°í °á°ú¸¦ ¸®ÅÏÇÑ´Ù.
+	 * url ì„ Post ë°©ì‹ìœ¼ë¡œ í˜¸ì¶œí•˜ê³  ê²°ê³¼ë¥¼ ë¦¬í„´í•œë‹¤.
 	 * @param url
 	 * @param paramMap
 	 * @param headerMap
-	 * @return Result °´Ã¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
 		int statusCode = 0;
@@ -160,23 +160,23 @@ public class HttpUtil {
 	}
 
 	/**
-	 * url À» Post ¹æ½ÄÀ¸·Î È£ÃâÇÏ°í °á°ú¸¦ ¸®ÅÏÇÑ´Ù. (Ã·ºÎÆÄÀÏ Æ÷ÇÔ)
+	 * url ì„ Post ë°©ì‹ìœ¼ë¡œ í˜¸ì¶œí•˜ê³  ê²°ê³¼ë¥¼ ë¦¬í„´í•œë‹¤. (ì²¨ë¶€íŒŒì¼ í¬í•¨)
 	 * @param url
 	 * @param paramMap
 	 * @param fileList
-	 * @return Result °´Ã¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(String url, Map<String, String> paramMap, List<File> fileList) {
 		return post(url, paramMap, fileList, null);
 	}
 
 	/**
-	 * url À» Post ¹æ½ÄÀ¸·Î È£ÃâÇÏ°í °á°ú¸¦ ¸®ÅÏÇÑ´Ù. (Ã·ºÎÆÄÀÏ Æ÷ÇÔ)
+	 * url ì„ Post ë°©ì‹ìœ¼ë¡œ í˜¸ì¶œí•˜ê³  ê²°ê³¼ë¥¼ ë¦¬í„´í•œë‹¤. (ì²¨ë¶€íŒŒì¼ í¬í•¨)
 	 * @param url
 	 * @param paramMap
 	 * @param fileList
 	 * @param headerMap
-	 * @return Result °´Ã¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(String url, Map<String, String> paramMap, List<File> fileList, Map<String, String> headerMap) {
 		int statusCode = 0;

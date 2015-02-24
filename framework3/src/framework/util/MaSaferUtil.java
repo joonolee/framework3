@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,19 +14,19 @@ import MarkAny.MaSaferJava.Madec;
 import MarkAny.MaSaferJava.Madn;
 
 /**
- * Markany DocSafer(DRM)¸¦ ÀÌ¿ëÇÏ¿© °³¹ßÇÒ ¶§ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * Markany DocSafer(DRM)ë¥¼ ì´ìš©í•˜ì—¬ ê°œë°œí•  ë•Œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class MaSaferUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.MaSaferUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private MaSaferUtil() {
 	}
 
 	/**
-	 * ¿øº»ÆÄÀÏÀ» DRM ¾ÏÈ£È­¸¦ Àû¿ëÇÏ¿© ´ë»óÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * ì›ë³¸íŒŒì¼ì„ DRM ì•”í˜¸í™”ë¥¼ ì ìš©í•˜ì—¬ ëŒ€ìƒíŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param configpath
 	 * @param srcFile
 	 * @param destFile
@@ -71,7 +71,7 @@ public class MaSaferUtil {
 	}
 
 	/**
-	 * ¿øº»ÆÄÀÏÀ» DRM ¾ÏÈ£È­¸¦ Àû¿ëÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * ì›ë³¸íŒŒì¼ì„ DRM ì•”í˜¸í™”ë¥¼ ì ìš©í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * @param configpath
 	 * @param srcFile
 	 * @param response
@@ -111,7 +111,7 @@ public class MaSaferUtil {
 	}
 
 	/**
-	 * ¿øº»ÆÄÀÏÀ» DRM º¹È£È­¸¦ Àû¿ëÇÏ¿© ´ë»óÆÄÀÏ·Î ÀúÀåÇÑ´Ù.
+	 * ì›ë³¸íŒŒì¼ì„ DRM ë³µí˜¸í™”ë¥¼ ì ìš©í•˜ì—¬ ëŒ€ìƒíŒŒì¼ë¡œ ì €ì¥í•œë‹¤.
 	 * @param configpath
 	 * @param srcFile
 	 * @param destFile
@@ -149,7 +149,7 @@ public class MaSaferUtil {
 	}
 
 	/**
-	 * ¿øº»ÆÄÀÏÀ» DRM º¹È£È­¸¦ Àû¿ëÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * ì›ë³¸íŒŒì¼ì„ DRM ë³µí˜¸í™”ë¥¼ ì ìš©í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * @param configpath
 	 * @param srcFile
 	 * @param response

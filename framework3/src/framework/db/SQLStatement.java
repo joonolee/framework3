@@ -1,11 +1,11 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Statement ¸¦ ÀÌ¿ëÇÏ±â À§ÇÑ °´Ã¼
+ * Statement ë¥¼ ì´ìš©í•˜ê¸° ìœ„í•œ ê°ì²´
  */
 public class SQLStatement extends DBStatement {
 	private String _sql;

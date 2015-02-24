@@ -1,4 +1,4 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * Prepared Statement ¸¦ ÀÌ¿ëÇÏ±â À§ÇÑ °´Ã¼
+ * Prepared Statement ë¥¼ ì´ìš©í•˜ê¸° ìœ„í•œ ê°ì²´
  */
 public class SQLPreparedStatement extends DBStatement {
 	private String _sql;

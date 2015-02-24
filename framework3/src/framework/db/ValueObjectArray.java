@@ -1,4 +1,4 @@
-package framework.db;
+ï»¿package framework.db;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Å×ÀÌºíÀÇ °ªÀ» ´ã´Â VOÀÇ ¹è¿­ Å¬·¡½º
+ * í…Œì´ë¸”ì˜ ê°’ì„ ë‹´ëŠ” VOì˜ ë°°ì—´ í´ë˜ìŠ¤
  */
 public class ValueObjectArray {
 	public final static String INSERT = "IK";

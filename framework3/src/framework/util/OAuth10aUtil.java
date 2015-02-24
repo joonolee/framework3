@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,18 +26,18 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 /**
- * OAuth 1.0a ÀÎÁõÀ» »ç¿ëÇÏ±â À§ÇÑ À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * OAuth 1.0a ì¸ì¦ì„ ì‚¬ìš©í•˜ê¸° ìœ„í•œ ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class OAuth10aUtil {
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private OAuth10aUtil() {
 	}
 
 	/**
-	 * Result °´Ã¼
+	 * Result ê°ì²´
 	 */
 	public static class Result {
 		private int _statusCode;
@@ -68,7 +68,7 @@ public class OAuth10aUtil {
 	}
 
 	/**
-	 * Consumer °´Ã¼
+	 * Consumer ê°ì²´
 	 */
 	public static class Consumer extends CommonsHttpOAuthConsumer {
 		private static final long serialVersionUID = 3312085951191371927L;
@@ -84,7 +84,7 @@ public class OAuth10aUtil {
 	}
 
 	/**
-	 * Provider °´Ã¼
+	 * Provider ê°ì²´
 	 */
 	public static class Provider extends CommonsHttpOAuthProvider {
 		private static final long serialVersionUID = -4670920617701598709L;
@@ -96,43 +96,43 @@ public class OAuth10aUtil {
 	}
 
 	/**
-	 * RequestToken ¿äÃ» ´Ü°è¿¡ ÇÊ¿äÇÑ Consumer¸¦ »ı¼ºÇÑ´Ù.
-	 * @param consumerKey ÄÁ½´¸ÓÅ°
-	 * @param consumerSecret ÄÁ½´¸Ó½ÃÅ©¸´
-	 * @return Consumer °´Ã¼
+	 * RequestToken ìš”ì²­ ë‹¨ê³„ì— í•„ìš”í•œ Consumerë¥¼ ìƒì„±í•œë‹¤.
+	 * @param consumerKey ì»¨ìŠˆë¨¸í‚¤
+	 * @param consumerSecret ì»¨ìŠˆë¨¸ì‹œí¬ë¦¿
+	 * @return Consumer ê°ì²´
 	 */
 	public static Consumer makeConsumer(String consumerKey, String consumerSecret) {
 		return new Consumer(consumerKey, consumerSecret);
 	}
 
 	/**
-	 * Protected Resource ¿äÃ» ´Ü°è¿¡ ÇÊ¿äÇÑ Consumer¸¦ »ı¼ºÇÑ´Ù.
-	 * @param consumerKey ÄÁ½´¸ÓÅ°
-	 * @param consumerSecret ÄÁ½´¸Ó½ÃÅ©¸´
-	 * @param token ¾×¼¼½ºÅäÅ«
-	 * @param tokenSecret ¾×¼¼½ºÅäÅ«½ÃÅ©¸´
-	 * @return Consumer °´Ã¼
+	 * Protected Resource ìš”ì²­ ë‹¨ê³„ì— í•„ìš”í•œ Consumerë¥¼ ìƒì„±í•œë‹¤.
+	 * @param consumerKey ì»¨ìŠˆë¨¸í‚¤
+	 * @param consumerSecret ì»¨ìŠˆë¨¸ì‹œí¬ë¦¿
+	 * @param token ì•¡ì„¸ìŠ¤í† í°
+	 * @param tokenSecret ì•¡ì„¸ìŠ¤í† í°ì‹œí¬ë¦¿
+	 * @return Consumer ê°ì²´
 	 */
 	public static Consumer makeConsumer(String consumerKey, String consumerSecret, String token, String tokenSecret) {
 		return new Consumer(consumerKey, consumerSecret, token, tokenSecret);
 	}
 
 	/**
-	 * ÀÔ·ÂÇÑ °ªÀ¸·Î ProviderÀ» »ı¼ºÇÑ´Ù.
+	 * ì…ë ¥í•œ ê°’ìœ¼ë¡œ Providerì„ ìƒì„±í•œë‹¤.
 	 * @param requestTokenEndpointUrl
 	 * @param accessTokenEndpointUrl
 	 * @param authorizationWebsiteUrl
-	 * @return Provider °´Ã¼
+	 * @return Provider ê°ì²´
 	 */
 	public static Provider makeProvider(String requestTokenEndpointUrl, String accessTokenEndpointUrl, String authorizationWebsiteUrl) {
 		return new Provider(requestTokenEndpointUrl, accessTokenEndpointUrl, authorizationWebsiteUrl);
 	}
 
 	/**
-	 * Provider¿¡ RequestTokenÀ» ¿äÃ»ÇÏ¿©, RequestToken°ú RequestTokenSecretÀ» ¹Ş¾Æ¿Â´Ù. 
-	 * @param consumer ÄÁ½´¸Ó °´Ã¼
-	 * @param provider ÇÁ·Î¹ÙÀÌ´õ °´Ã¼
-	 * @param callbackUrl Äİ¹éÁÖ¼Ò
+	 * Providerì— RequestTokenì„ ìš”ì²­í•˜ì—¬, RequestTokenê³¼ RequestTokenSecretì„ ë°›ì•„ì˜¨ë‹¤. 
+	 * @param consumer ì»¨ìŠˆë¨¸ ê°ì²´
+	 * @param provider í”„ë¡œë°”ì´ë” ê°ì²´
+	 * @param callbackUrl ì½œë°±ì£¼ì†Œ
 	 * @return authorize URL
 	 */
 	public static String getRequestToken(Consumer consumer, Provider provider, String callbackUrl) {
@@ -145,10 +145,10 @@ public class OAuth10aUtil {
 	}
 
 	/**
-	 * Provider¿¡ AccessTokenÀ» ¿äÃ»ÇÏ¿©, AccessToken°ú AccessTokenSecretÀ» ¹Ş¾Æ¿Â´Ù.
-	 * @param consumer ÄÁ½´¸Ó °´Ã¼
-	 * @param provider ÇÁ·Î¹ÙÀÌ´õ °´Ã¼
-	 * @param verifier °ËÁõ°ª ¶Ç´Â ÇÉÄÚµå
+	 * Providerì— AccessTokenì„ ìš”ì²­í•˜ì—¬, AccessTokenê³¼ AccessTokenSecretì„ ë°›ì•„ì˜¨ë‹¤.
+	 * @param consumer ì»¨ìŠˆë¨¸ ê°ì²´
+	 * @param provider í”„ë¡œë°”ì´ë” ê°ì²´
+	 * @param verifier ê²€ì¦ê°’ ë˜ëŠ” í•€ì½”ë“œ
 	 */
 	public static void getAccessToken(Consumer consumer, Provider provider, String verifier) {
 		try {
@@ -159,21 +159,21 @@ public class OAuth10aUtil {
 	}
 
 	/**
-	 * Protected Resource ¿¡ GET ¹æ½ÄÀ¸·Î ¿äÃ»ÇÑ´Ù.
-	 * @param consumer ÄÁ½´¸Ó °´Ã¼
+	 * Protected Resource ì— GET ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•œë‹¤.
+	 * @param consumer ì»¨ìŠˆë¨¸ ê°ì²´
 	 * @param url API URL
-	 * @return Result °´Ã¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result get(Consumer consumer, String url) {
 		return get(consumer, url, null);
 	}
 
 	/**
-	 * Protected Resource ¿¡ GET ¹æ½ÄÀ¸·Î ¿äÃ»ÇÑ´Ù.
-	 * @param consumer ÄÁ½´¸Ó °´Ã¼
+	 * Protected Resource ì— GET ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•œë‹¤.
+	 * @param consumer ì»¨ìŠˆë¨¸ ê°ì²´
 	 * @param url API URL
-	 * @param headerMap Çì´õ
-	 * @return Result °´Ã¼
+	 * @param headerMap í—¤ë”
+	 * @return Result ê°ì²´
 	 */
 	public static Result get(Consumer consumer, String url, Map<String, String> headerMap) {
 		int statusCode = 0;
@@ -200,33 +200,33 @@ public class OAuth10aUtil {
 	}
 
 	/**
-	 * Protected Resource ¿¡ POST ¹æ½ÄÀ¸·Î ¿äÃ»ÇÑ´Ù.
-	 * @param consumer ÄÁ½´¸Ó °´Ã¼
+	 * Protected Resource ì— POST ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•œë‹¤.
+	 * @param consumer ì»¨ìŠˆë¨¸ ê°ì²´
 	 * @param url API URL
-	 * @return Result °´Ã¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(Consumer consumer, String url) {
 		return post(consumer, url, null, (Map<String, String>) null);
 	}
 
 	/**
-	 * Protected Resource ¿¡ POST ¹æ½ÄÀ¸·Î ¿äÃ»ÇÑ´Ù.
-	 * @param consumer ÄÁ½´¸Ó °´Ã¼
+	 * Protected Resource ì— POST ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•œë‹¤.
+	 * @param consumer ì»¨ìŠˆë¨¸ ê°ì²´
 	 * @param url API URL
-	 * @param paramMap ÆÄ¶ó¹ÌÅÍ
-	 * @return Result °´Ã¼
+	 * @param paramMap íŒŒë¼ë¯¸í„°
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(Consumer consumer, String url, Map<String, String> paramMap) {
 		return post(consumer, url, paramMap, (Map<String, String>) null);
 	}
 
 	/**
-	 * Protected Resource ¿¡ POST ¹æ½ÄÀ¸·Î ¿äÃ»ÇÑ´Ù.
-	 * @param consumer ÄÁ½´¸Ó °´Ã¼
+	 * Protected Resource ì— POST ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•œë‹¤.
+	 * @param consumer ì»¨ìŠˆë¨¸ ê°ì²´
 	 * @param url API URL
-	 * @param paramMap ÆÄ¶ó¹ÌÅÍ
-	 * @param headerMap Çì´õ
-	 * @return Result °´Ã¼
+	 * @param paramMap íŒŒë¼ë¯¸í„°
+	 * @param headerMap í—¤ë”
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(Consumer consumer, String url, Map<String, String> paramMap, Map<String, String> headerMap) {
 		int statusCode = 0;
@@ -261,25 +261,25 @@ public class OAuth10aUtil {
 	}
 
 	/**
-	 * Protected Resource ¿¡ POST ¹æ½ÄÀ¸·Î ¿äÃ»ÇÑ´Ù.
-	 * @param consumer ÄÁ½´¸Ó °´Ã¼
+	 * Protected Resource ì— POST ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•œë‹¤.
+	 * @param consumer ì»¨ìŠˆë¨¸ ê°ì²´
 	 * @param url API URL
-	 * @param paramMap ÆÄ¶ó¹ÌÅÍ
-	 * @param fileList ÆÄÀÏ
-	 * @return Result °´Ã¼
+	 * @param paramMap íŒŒë¼ë¯¸í„°
+	 * @param fileList íŒŒì¼
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(Consumer consumer, String url, Map<String, String> paramMap, List<File> fileList) {
 		return post(consumer, url, paramMap, fileList, null);
 	}
 
 	/**
-	 * Protected Resource ¿¡ POST ¹æ½ÄÀ¸·Î ¿äÃ»ÇÑ´Ù.
-	 * @param consumer ÄÁ½´¸Ó °´Ã¼
+	 * Protected Resource ì— POST ë°©ì‹ìœ¼ë¡œ ìš”ì²­í•œë‹¤.
+	 * @param consumer ì»¨ìŠˆë¨¸ ê°ì²´
 	 * @param url API URL
-	 * @param paramMap ÆÄ¶ó¹ÌÅÍ
-	 * @param fileList ÆÄÀÏ
-	 * @param headerMap Çì´õ
-	 * @return Result °´Ã¼
+	 * @param paramMap íŒŒë¼ë¯¸í„°
+	 * @param fileList íŒŒì¼
+	 * @param headerMap í—¤ë”
+	 * @return Result ê°ì²´
 	 */
 	public static Result post(Consumer consumer, String url, Map<String, String> paramMap, List<File> fileList, Map<String, String> headerMap) {
 		int statusCode = 0;

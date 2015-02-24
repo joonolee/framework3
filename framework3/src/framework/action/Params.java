@@ -1,4 +1,4 @@
-package framework.action;
+ï»¿package framework.action;
 
 import java.io.File;
 import java.lang.reflect.Array;
@@ -22,8 +22,8 @@ import framework.config.Config;
 import framework.util.StringUtil;
 
 /** 
- * ¿äÃ»°´Ã¼, ÄíÅ°°´Ã¼ÀÇ °ªÀ» ´ã´Â ÇØ½ÃÅ×ÀÌºí °´Ã¼ÀÌ´Ù.
- * ¿äÃ»°´Ã¼ÀÇ ÆÄ¶ó¹ÌÅÍ¸¦ Ãß»óÈ­ ÇÏ¿© Params ¸¦ »ı¼ºÇØ ³õ°í ÆÄ¶ó¹ÌÅÍÀÌ¸§À» Å°·Î ÇØ´ç °ªÀ» ¿øÇÏ´Â µ¥ÀÌÅ¸ Å¸ÀÔÀ¸·Î ¹İÈ¯¹Ş´Â´Ù.
+ * ìš”ì²­ê°ì²´, ì¿ í‚¤ê°ì²´ì˜ ê°’ì„ ë‹´ëŠ” í•´ì‹œí…Œì´ë¸” ê°ì²´ì´ë‹¤.
+ * ìš”ì²­ê°ì²´ì˜ íŒŒë¼ë¯¸í„°ë¥¼ ì¶”ìƒí™” í•˜ì—¬ Params ë¥¼ ìƒì„±í•´ ë†“ê³  íŒŒë¼ë¯¸í„°ì´ë¦„ì„ í‚¤ë¡œ í•´ë‹¹ ê°’ì„ ì›í•˜ëŠ” ë°ì´íƒ€ íƒ€ì…ìœ¼ë¡œ ë°˜í™˜ë°›ëŠ”ë‹¤.
  */
 public class Params extends HashMap<String, String[]> {
 	private static final long serialVersionUID = 7143941735208780214L;
@@ -32,8 +32,8 @@ public class Params extends HashMap<String, String[]> {
 	private List<FileItem> _fileItems = new ArrayList<FileItem>();
 
 	/***
-	 * Params »ı¼ºÀÚ
-	 * @param name Params °´Ã¼ÀÇ ÀÌ¸§
+	 * Params ìƒì„±ì
+	 * @param name Params ê°ì²´ì˜ ì´ë¦„
 	 */
 	public Params(String name) {
 		super();
@@ -41,11 +41,11 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * ¿äÃ»°´Ã¼ÀÇ ÆÄ¶ó¹ÌÅÍ ÀÌ¸§°ú °ªÀ» ÀúÀåÇÑ ÇØ½ÃÅ×ÀÌºíÀ» »ı¼ºÇÑ´Ù.
+	 * ìš”ì²­ê°ì²´ì˜ íŒŒë¼ë¯¸í„° ì´ë¦„ê³¼ ê°’ì„ ì €ì¥í•œ í•´ì‹œí…Œì´ë¸”ì„ ìƒì„±í•œë‹¤.
 	 * <br>
-	 * ex) request Params °´Ã¼¸¦ ¾ò´Â °æ¿ì : Params params = Params.getParams(request)
-	 * @param request HTTP Å¬¶óÀÌ¾ğÆ® ¿äÃ»°´Ã¼
-	 * @return ¿äÃ»Params °´Ã¼
+	 * ex) request Params ê°ì²´ë¥¼ ì–»ëŠ” ê²½ìš° : Params params = Params.getParams(request)
+	 * @param request HTTP í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ê°ì²´
+	 * @return ìš”ì²­Params ê°ì²´
 	 */
 	@SuppressWarnings("unchecked")
 	public static Params getParams(HttpServletRequest request) {
@@ -102,11 +102,11 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * ¿äÃ»°´Ã¼ÀÇ ÄíÅ° ÀÌ¸§°ú °ªÀ» ÀúÀåÇÑ ÇØ½ÃÅ×ÀÌºíÀ» »ı¼ºÇÑ´Ù.
+	 * ìš”ì²­ê°ì²´ì˜ ì¿ í‚¤ ì´ë¦„ê³¼ ê°’ì„ ì €ì¥í•œ í•´ì‹œí…Œì´ë¸”ì„ ìƒì„±í•œë‹¤.
 	 * <br>
-	 * ex) cookie Params °´Ã¼¸¦ ¾ò´Â °æ¿ì : Params params = Params.getParamsFromCookie(request)
-	 * @param request HTTP Å¬¶óÀÌ¾ğÆ® ¿äÃ»°´Ã¼
-	 * @return ÄíÅ°Params °´Ã¼
+	 * ex) cookie Params ê°ì²´ë¥¼ ì–»ëŠ” ê²½ìš° : Params params = Params.getParamsFromCookie(request)
+	 * @param request HTTP í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ê°ì²´
+	 * @return ì¿ í‚¤Params ê°ì²´
 	 */
 	public static Params getParamsFromCookie(HttpServletRequest request) {
 		Params cookieParams = new Params("Cookie");
@@ -121,11 +121,11 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * ¿äÃ»°´Ã¼ÀÇ Çì´õ ÀÌ¸§°ú °ªÀ» ÀúÀåÇÑ ÇØ½ÃÅ×ÀÌºíÀ» »ı¼ºÇÑ´Ù.
+	 * ìš”ì²­ê°ì²´ì˜ í—¤ë” ì´ë¦„ê³¼ ê°’ì„ ì €ì¥í•œ í•´ì‹œí…Œì´ë¸”ì„ ìƒì„±í•œë‹¤.
 	 * <br>
-	 * ex) header Params °´Ã¼¸¦ ¾ò´Â °æ¿ì : Params params = Params.getParamsFromHeader(request)
-	 * @param request HTTP Å¬¶óÀÌ¾ğÆ® ¿äÃ»°´Ã¼
-	 * @return Çì´õParams °´Ã¼
+	 * ex) header Params ê°ì²´ë¥¼ ì–»ëŠ” ê²½ìš° : Params params = Params.getParamsFromHeader(request)
+	 * @param request HTTP í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ê°ì²´
+	 * @return í—¤ë”Params ê°ì²´
 	 */
 	public static Params getParamsFromHeader(HttpServletRequest request) {
 		Params headerParams = new Params("Header");
@@ -138,9 +138,9 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â ¿ÀºêÁ§Æ®¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â ¿ÀºêÁ§Æ®
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” ì˜¤ë¸Œì íŠ¸
 	 */
 	public Object get(String key) {
 		Object value = super.get(key);
@@ -159,9 +159,9 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â ¹®ÀÚ¿­ ¹è¿­À» ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â ¹®ÀÚ¿­ ¹è¿­
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” ë¬¸ìì—´ ë°°ì—´ì„ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” ë¬¸ìì—´ ë°°ì—´
 	 */
 	public String[] getArray(String key) {
 		String[] value = super.get(key);
@@ -172,18 +172,18 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â Boolean °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â Boolean °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” Boolean ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” Boolean ê°ì²´
 	 */
 	public Boolean getBoolean(String key) {
 		return Boolean.valueOf(getString(key).trim());
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â Double °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â Double °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” Double ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” Double ê°ì²´
 	 */
 	public Double getDouble(String key) {
 		try {
@@ -194,9 +194,9 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â BigDecimal °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â BigDecimal °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” BigDecimal ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” BigDecimal ê°ì²´
 	 */
 	public BigDecimal getBigDecimal(String key) {
 		try {
@@ -207,37 +207,37 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â Float °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â Float °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” Float ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” Float ê°ì²´
 	 */
 	public Float getFloat(String key) {
 		return Float.valueOf(getDouble(key).floatValue());
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â Integer °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â Integer °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” Integer ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” Integer ê°ì²´
 	 */
 	public Integer getInteger(String key) {
 		return Integer.valueOf(getDouble(key).intValue());
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â Long °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â Long °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” Long ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” Long ê°ì²´
 	 */
 	public Long getLong(String key) {
 		return Long.valueOf(getDouble(key).longValue());
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â String °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * Å©·Î½º»çÀÌÆ® ½ºÅ©¸³ÆÃ °ø°İ ¹æÁö¸¦ À§ÇØ &lt;, &gt; Ä¡È¯À» ¼öÇàÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â String °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” String ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * í¬ë¡œìŠ¤ì‚¬ì´íŠ¸ ìŠ¤í¬ë¦½íŒ… ê³µê²© ë°©ì§€ë¥¼ ìœ„í•´ &lt;, &gt; ì¹˜í™˜ì„ ìˆ˜í–‰í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” String ê°ì²´
 	 */
 	public String getString(String key) {
 		String str = (String) get(key);
@@ -262,18 +262,18 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â String °´Ã¼¸¦ º¯È¯¾øÀÌ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â String °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” String ê°ì²´ë¥¼ ë³€í™˜ì—†ì´ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” String ê°ì²´
 	 */
 	public String getRawString(String key) {
 		return StringUtil.nullToBlankString((String) get(key));
 	}
 
 	/** 
-	 * Å°(key)¹®ÀÚ¿­°ú ¸ÅÇÎµÇ¾î ÀÖ´Â Timestamp °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @return key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â Timestamp °´Ã¼
+	 * í‚¤(key)ë¬¸ìì—´ê³¼ ë§¤í•‘ë˜ì–´ ìˆëŠ” Timestamp ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @return keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” Timestamp ê°ì²´
 	 */
 	public Timestamp getTimestamp(String key) {
 		String str = getString(key);
@@ -286,8 +286,8 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/**
-	 * ÆÄÀÏ¾ÆÀÌÅÛ(FileItem)ÀÇ ¸®½ºÆ® °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
-	 * @return ÆÄÀÏ¾ÆÀÌÅÛ ¸®½ºÆ® °´Ã¼
+	 * íŒŒì¼ì•„ì´í…œ(FileItem)ì˜ ë¦¬ìŠ¤íŠ¸ ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤.
+	 * @return íŒŒì¼ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸ ê°ì²´
 	 */
 	public List<FileItem> getFileItems() {
 		List<FileItem> list = new ArrayList<FileItem>();
@@ -296,18 +296,18 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/**
-	 * Å°(key)¿¡ ¸ÅÇÎµÇ´Â ½ºÆ®¸µÀ» ¼ÂÆÃÇÑ´Ù.
-	 * @param key °ªÀ» Ã£±â À§ÇÑ Å° ¹®ÀÚ¿­
-	 * @param value Å°¿¡ ¸ÅÇÎµÇ´Â ¹®ÀÚ¿­
-	 * @return ¿ø·¡ key¿¡ ¸ÅÇÎµÇ¾î ÀÖ´Â ½ºÆ®¸µ ¹è¿­
+	 * í‚¤(key)ì— ë§¤í•‘ë˜ëŠ” ìŠ¤íŠ¸ë§ì„ ì…‹íŒ…í•œë‹¤.
+	 * @param key ê°’ì„ ì°¾ê¸° ìœ„í•œ í‚¤ ë¬¸ìì—´
+	 * @param value í‚¤ì— ë§¤í•‘ë˜ëŠ” ë¬¸ìì—´
+	 * @return ì›ë˜ keyì— ë§¤í•‘ë˜ì–´ ìˆëŠ” ìŠ¤íŠ¸ë§ ë°°ì—´
 	 */
 	public String[] putString(String key, String value) {
 		return put(key, new String[] { value });
 	}
 
 	/** 
-	 * Param °´Ã¼°¡ °¡Áö°í ÀÖ´Â °ªµéÀ» È­¸é Ãâ·ÂÀ» À§ÇØ ¹®ÀÚ¿­·Î º¯È¯ÇÑ´Ù.
-	 * @return È­¸é¿¡ Ãâ·ÂÇÏ±â À§ÇØ º¯È¯µÈ ¹®ÀÚ¿­
+	 * Param ê°ì²´ê°€ ê°€ì§€ê³  ìˆëŠ” ê°’ë“¤ì„ í™”ë©´ ì¶œë ¥ì„ ìœ„í•´ ë¬¸ìì—´ë¡œ ë³€í™˜í•œë‹¤.
+	 * @return í™”ë©´ì— ì¶œë ¥í•˜ê¸° ìœ„í•´ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	@Override
 	public String toString() {
@@ -360,8 +360,8 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * Params °´Ã¼°¡ °¡Áö°í ÀÖ´Â °ªµéÀ» Äõ¸® ½ºÆ®¸µÀ¸·Î º¯È¯ÇÑ´Ù.
-	 * @return Äõ¸® ½ºÆ®¸µÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * Params ê°ì²´ê°€ ê°€ì§€ê³  ìˆëŠ” ê°’ë“¤ì„ ì¿¼ë¦¬ ìŠ¤íŠ¸ë§ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
+	 * @return ì¿¼ë¦¬ ìŠ¤íŠ¸ë§ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public String toQueryString() {
 		StringBuilder buf = new StringBuilder();
@@ -395,8 +395,8 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * Params °´Ã¼°¡ °¡Áö°í ÀÖ´Â °ªµéÀ» Xml·Î º¯È¯ÇÑ´Ù.
-	 * @return Xml·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * Params ê°ì²´ê°€ ê°€ì§€ê³  ìˆëŠ” ê°’ë“¤ì„ Xmlë¡œ ë³€í™˜í•œë‹¤.
+	 * @return Xmlë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public String toXml() {
 		StringBuilder buf = new StringBuilder();
@@ -439,8 +439,8 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * Params °´Ã¼°¡ °¡Áö°í ÀÖ´Â °ªµéÀ» Json Ç¥±â¹ıÀ¸·Î º¯È¯ÇÑ´Ù.
-	 * @return Json Ç¥±â¹ıÀ¸·Î º¯È¯µÈ ¹®ÀÚ¿­
+	 * Params ê°ì²´ê°€ ê°€ì§€ê³  ìˆëŠ” ê°’ë“¤ì„ Json í‘œê¸°ë²•ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
+	 * @return Json í‘œê¸°ë²•ìœ¼ë¡œ ë³€í™˜ëœ ë¬¸ìì—´
 	 */
 	public String toJson() {
 		StringBuilder buf = new StringBuilder();
@@ -491,10 +491,10 @@ public class Params extends HashMap<String, String[]> {
 		return buf.toString();
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////Private ¸Ş¼Òµå
+	//////////////////////////////////////////////////////////////////////////////////////////Private ë©”ì†Œë“œ
 	/**
-	 * ÀÚ¹Ù½ºÅ©¸³Æ®»ó¿¡ Æ¯¼öÇÏ°Ô ÀÎ½ÄµÇ´Â ¹®ÀÚµéÀ» JSONµî¿¡ »ç¿ëÇÏ±â À§ÇØ º¯È¯ÇÏ¿©ÁØ´Ù.
-	 * @param str º¯È¯ÇÒ ¹®ÀÚ¿­
+	 * ìë°”ìŠ¤í¬ë¦½íŠ¸ìƒì— íŠ¹ìˆ˜í•˜ê²Œ ì¸ì‹ë˜ëŠ” ë¬¸ìë“¤ì„ JSONë“±ì— ì‚¬ìš©í•˜ê¸° ìœ„í•´ ë³€í™˜í•˜ì—¬ì¤€ë‹¤.
+	 * @param str ë³€í™˜í•  ë¬¸ìì—´
 	 */
 	private String _escapeJS(String str) {
 		if (str == null) {
@@ -504,17 +504,17 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/**
-	 * Multipart ÆÄÀÏ¾÷·Îµå½Ã ÆÄÀÏ ¾ÆÀÌÅÛÀ» ¸®½ºÆ®¿¡ Ãß°¡ÇÑ´Ù.
-	 * @param item ÆÄÀÏÀ» ´ã°í ÀÖ´Â °´Ã¼
-	 * @return ¼º°ø¿©ºÎ
+	 * Multipart íŒŒì¼ì—…ë¡œë“œì‹œ íŒŒì¼ ì•„ì´í…œì„ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€í•œë‹¤.
+	 * @param item íŒŒì¼ì„ ë‹´ê³  ìˆëŠ” ê°ì²´
+	 * @return ì„±ê³µì—¬ë¶€
 	 */
 	private boolean _addFileItem(FileItem item) {
 		return _fileItems.add(item);
 	}
 
 	/** 
-	 * ¼³Á¤Á¤º¸¸¦ °¡Áö°í ÀÖ´Â °´Ã¼¸¦ »ı¼ºÇÏ¿© ¸®ÅÏÇÑ´Ù.
-	 * @return config.propertiesÀÇ ¼³Á¤Á¤º¸¸¦ °¡Áö°í ÀÖ´Â °´Ã¼
+	 * ì„¤ì •ì •ë³´ë¥¼ ê°€ì§€ê³  ìˆëŠ” ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ë¦¬í„´í•œë‹¤.
+	 * @return config.propertiesì˜ ì„¤ì •ì •ë³´ë¥¼ ê°€ì§€ê³  ìˆëŠ” ê°ì²´
 	 */
 	private static Config _getConfig() {
 		return Config.getInstance();

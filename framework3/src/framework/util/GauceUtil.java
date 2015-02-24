@@ -1,4 +1,4 @@
-package framework.util;
+ï»¿package framework.util;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -25,54 +25,54 @@ import framework.action.Params;
 import framework.db.RecordSet;
 
 /**
- * °¡¿ì½º¸¦ ÀÌ¿ëÇÏ¿© °³¹ßÇÒ ¶§ ÀÌ¿ëÇÒ ¼ö ÀÖ´Â À¯Æ¿¸®Æ¼ Å¬·¡½ºÀÌ´Ù.
+ * ê°€ìš°ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ ê°œë°œí•  ë•Œ ì´ìš©í•  ìˆ˜ ìˆëŠ” ìœ í‹¸ë¦¬í‹° í´ë˜ìŠ¤ì´ë‹¤.
  */
 public class GauceUtil {
 	protected static final Log logger = LogFactory.getLog(framework.util.GauceUtil.class);
 
 	/**
-	 * »ı¼ºÀÚ, ¿ÜºÎ¿¡¼­ °´Ã¼¸¦ ÀÎ½ºÅÏ½ºÈ­ ÇÒ ¼ö ¾øµµ·Ï ¼³Á¤
+	 * ìƒì„±ì, ì™¸ë¶€ì—ì„œ ê°ì²´ë¥¼ ì¸ìŠ¤í„´ìŠ¤í™” í•  ìˆ˜ ì—†ë„ë¡ ì„¤ì •
 	 */
 	private GauceUtil() {
 	}
 
 	/**
-	 * RecordSetÀ» °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * RecordSetì„ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rsë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
 		return render(response, "", rs);
 	}
 
 	/**
-	 * RecordSetÀ» °¡¿ì½º µ¥ÀÌÅ¸¼Â(¸íÄªÀº datasetName ÀÎÀÚ °ª)À¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * RecordSetì„ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹(ëª…ì¹­ì€ datasetName ì¸ì ê°’)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * <br>
-	 * ex) rs¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼Â(¸íÄªÀº result)À¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, "result", rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param datasetName µ¥ÀÌÅ¸¼Â ÀÌ¸§
-	 * @param rs °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rsë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹(ëª…ì¹­ì€ result)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, "result", rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param datasetName ë°ì´íƒ€ì…‹ ì´ë¦„
+	 * @param rs ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, String datasetName, RecordSet rs) {
 		return render(response, new String[] { datasetName }, new RecordSet[] { rs });
 	}
 
 	/**
-	 * RecordSetÀ» °¡¿ì½º µ¥ÀÌÅ¸¼Â(¸íÄªÀº datasetNameArray ÀÎÀÚ °ª)À¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù.
+	 * RecordSetì„ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹(ëª…ì¹­ì€ datasetNameArray ì¸ì ê°’)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤.
 	 * <br>
-	 * ex) rs1°ú rs2¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, new String[] { "result1", "result2" }, new RecordSet[] { rs1, rs2 })
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param datasetNameArray µ¥ÀÌÅ¸¼Â ÀÌ¸§ ¹è¿­
-	 * @param rsArray °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼ ¹è¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rs1ê³¼ rs2ë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, new String[] { "result1", "result2" }, new RecordSet[] { rs1, rs2 })
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param datasetNameArray ë°ì´íƒ€ì…‹ ì´ë¦„ ë°°ì—´
+	 * @param rsArray ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´ ë°°ì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray) {
 		if (datasetNameArray.length != rsArray.length) {
-			throw new IllegalArgumentException("DataSetÀÌ¸§ °¹¼ö¿Í RecordSet°¹¼ö°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+			throw new IllegalArgumentException("DataSetì´ë¦„ ê°¯ìˆ˜ì™€ RecordSetê°¯ìˆ˜ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		}
 		int rowCount = 0;
 		try {
@@ -90,30 +90,30 @@ public class GauceUtil {
 	}
 
 	/**
-	 * RecordSetÀ» ÀÎÀÚ·Î ³Ñ¾î¿Â °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * RecordSetì„ ì¸ìë¡œ ë„˜ì–´ì˜¨ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, dSet, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param dSet µ¥ÀÌÅ¸¼Â
-	 * @param rs °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rsë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, dSet, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param dSet ë°ì´íƒ€ì…‹
+	 * @param rs ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet dSet, RecordSet rs) {
 		return render(response, new GauceDataSet[] { dSet }, new RecordSet[] { rs });
 	}
 
 	/**
-	 * RecordSetÀ» ÀÎÀÚ·Î ³Ñ¾î¿Â °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * RecordSetì„ ì¸ìë¡œ ë„˜ì–´ì˜¨ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * <br>
-	 * ex) rs1°ú rs2¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, new GauceDataSet[] { dSet1, dSet2 }, new RecordSet[] { rs1, rs2 })
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param dSetArray µ¥ÀÌÅ¸¼Â ¹è¿­
-	 * @param rsArray °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼ ¹è¿­
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rs1ê³¼ rs2ë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, new GauceDataSet[] { dSet1, dSet2 }, new RecordSet[] { rs1, rs2 })
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param dSetArray ë°ì´íƒ€ì…‹ ë°°ì—´
+	 * @param rsArray ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´ ë°°ì—´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet[] dSetArray, RecordSet[] rsArray) {
 		if (dSetArray.length != rsArray.length) {
-			throw new IllegalArgumentException("DataSet °¹¼ö¿Í RecordSet°¹¼ö°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+			throw new IllegalArgumentException("DataSet ê°¯ìˆ˜ì™€ RecordSetê°¯ìˆ˜ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		}
 		int rowCount = 0;
 		try {
@@ -131,42 +131,42 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ResultSetÀ» °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * ResultSetì„ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param rs °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rsë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param rs ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
 		return render(response, "", rs);
 	}
 
 	/**
-	 * ResultSetÀ» °¡¿ì½º µ¥ÀÌÅ¸¼Â(¸íÄªÀº datasetName ÀÎÀÚ °ª)À¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * ResultSetì„ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹(ëª…ì¹­ì€ datasetName ì¸ì ê°’)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼Â(¸íÄªÀº result)À¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, "result", rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param datasetName µ¥ÀÌÅ¸¼Â ÀÌ¸§
-	 * @param rs °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rsë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹(ëª…ì¹­ì€ result)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, "result", rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param datasetName ë°ì´íƒ€ì…‹ ì´ë¦„
+	 * @param rs ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, String datasetName, ResultSet rs) {
 		return render(response, new String[] { datasetName }, new ResultSet[] { rs });
 	}
 
 	/**
-	 * ResultSetÀ» °¡¿ì½º µ¥ÀÌÅ¸¼Â(¸íÄªÀº datasetNameArray ÀÎÀÚ °ª)À¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * ResultSetì„ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹(ëª…ì¹­ì€ datasetNameArray ì¸ì ê°’)ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * <br>
-	 * ex) rs1°ú rs2¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, new String[] { "result1", "result2" }, new ResultSet[] { rs1, rs2 })
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param datasetNameArray µ¥ÀÌÅ¸¼Â ÀÌ¸§ ¹è¿­
-	 * @param rsArray °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼ ¹è¿­, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rs1ê³¼ rs2ë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, new String[] { "result1", "result2" }, new ResultSet[] { rs1, rs2 })
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param datasetNameArray ë°ì´íƒ€ì…‹ ì´ë¦„ ë°°ì—´
+	 * @param rsArray ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´ ë°°ì—´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray) {
 		if (datasetNameArray.length != rsArray.length) {
-			throw new IllegalArgumentException("DataSetÀÌ¸§ °¹¼ö¿Í RecordSet°¹¼ö°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+			throw new IllegalArgumentException("DataSetì´ë¦„ ê°¯ìˆ˜ì™€ RecordSetê°¯ìˆ˜ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		}
 		int rowCount = 0;
 		try {
@@ -184,30 +184,30 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ResultSetÀ» ÀÎÀÚ·Î ³Ñ¾î¿Â °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * ResultSetì„ ì¸ìë¡œ ë„˜ì–´ì˜¨ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * <br>
-	 * ex) rs¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, dSet, rs)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param dSet µ¥ÀÌÅ¸¼Â
-	 * @param rs °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ RecordSet °´Ã¼
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rsë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, dSet, rs)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param dSet ë°ì´íƒ€ì…‹
+	 * @param rs ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  RecordSet ê°ì²´
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet dSet, ResultSet rs) {
 		return render(response, new GauceDataSet[] { dSet }, new ResultSet[] { rs });
 	}
 
 	/**
-	 * ResultSetÀ» ÀÎÀÚ·Î ³Ñ¾î¿Â °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÏ¿© ÀÀ´ä°´Ã¼·Î Àü¼ÛÇÑ´Ù. 
+	 * ResultSetì„ ì¸ìë¡œ ë„˜ì–´ì˜¨ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì‘ë‹µê°ì²´ë¡œ ì „ì†¡í•œë‹¤. 
 	 * <br>
-	 * ex) rs1°ú rs2¸¦ °¡¿ì½º µ¥ÀÌÅÍ¼ÂÀ¸·Î º¯È¯ÇÏ¿© response·Î Àü¼ÛÇÏ´Â °æ¿ì : GauceUtil.render(response, new GauceDataSet[] { dSet1, dSet2 }, new ResultSet[] { rs1, rs2 })
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @param dSetArray µ¥ÀÌÅ¸¼Â ÀÌ¸§ ¹è¿­
-	 * @param rsArray °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÒ ResultSet °´Ã¼ ¹è¿­, ResultSet °´Ã¼´Â ÀÚµ¿À¸·Î close µÈ´Ù.
-	 * @return Ã³¸®°Ç¼ö
+	 * ex) rs1ê³¼ rs2ë¥¼ ê°€ìš°ìŠ¤ ë°ì´í„°ì…‹ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ responseë¡œ ì „ì†¡í•˜ëŠ” ê²½ìš° : GauceUtil.render(response, new GauceDataSet[] { dSet1, dSet2 }, new ResultSet[] { rs1, rs2 })
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @param dSetArray ë°ì´íƒ€ì…‹ ì´ë¦„ ë°°ì—´
+	 * @param rsArray ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•  ResultSet ê°ì²´ ë°°ì—´, ResultSet ê°ì²´ëŠ” ìë™ìœ¼ë¡œ close ëœë‹¤.
+	 * @return ì²˜ë¦¬ê±´ìˆ˜
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet[] dSetArray, ResultSet[] rsArray) {
 		if (dSetArray.length != rsArray.length) {
-			throw new IllegalArgumentException("DataSet °¹¼ö¿Í RecordSet°¹¼ö°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+			throw new IllegalArgumentException("DataSet ê°¯ìˆ˜ì™€ RecordSetê°¯ìˆ˜ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		}
 		int rowCount = 0;
 		try {
@@ -225,11 +225,11 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ÇØ´ç HttpServletRequest·Î ºÎÅÍ GauceInputStreamÀ» ¹İÈ¯¹Ş´Â´Ù
+	 * í•´ë‹¹ HttpServletRequestë¡œ ë¶€í„° GauceInputStreamì„ ë°˜í™˜ë°›ëŠ”ë‹¤
 	 * <br>
-	 * ex) ¿äÃ»°´Ã¼·Î ºÎÅÍ °¡¿ì½º ÀÔ·Â½ºÆ®¸²À» ±¸ÇÏ´Â °æ¿ì : GauceInputStream gis = GauceUtil.getGIS(request)
-	 * @param request Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¿äÃ»µÈ Request °´Ã¼
-	 * @return ¿äÃ»°´Ã¼¿¡¼­ ±¸ÇÑ GauceInputStream °´Ã¼
+	 * ex) ìš”ì²­ê°ì²´ë¡œ ë¶€í„° ê°€ìš°ìŠ¤ ì…ë ¥ìŠ¤íŠ¸ë¦¼ì„ êµ¬í•˜ëŠ” ê²½ìš° : GauceInputStream gis = GauceUtil.getGIS(request)
+	 * @param request í´ë¼ì´ì–¸íŠ¸ì—ì„œ ìš”ì²­ëœ Request ê°ì²´
+	 * @return ìš”ì²­ê°ì²´ì—ì„œ êµ¬í•œ GauceInputStream ê°ì²´
 	 */
 	public static GauceInputStream getGIS(HttpServletRequest request) {
 		GauceInputStream inputGis = null;
@@ -242,11 +242,11 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ÇØ´ç HttpServletResponse·Î ºÎÅÍ GauceOutputStreamÀ» ¹İÈ¯¹Ş´Â´Ù
+	 * í•´ë‹¹ HttpServletResponseë¡œ ë¶€í„° GauceOutputStreamì„ ë°˜í™˜ë°›ëŠ”ë‹¤
 	 * <br>
-	 * ex) ÀÀ´ä°´Ã¼·Î ºÎÅÍ °¡¿ì½º Ãâ·Â½ºÆ®¸²À» ±¸ÇÏ´Â °æ¿ì : GauceOutputStream gos = GauceUtil.getGOS(response)
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
-	 * @return ÀÀ´ä°´Ã¼¿¡¼­ ±¸ÇÑ GauceOutputStream °´Ã¼
+	 * ex) ì‘ë‹µê°ì²´ë¡œ ë¶€í„° ê°€ìš°ìŠ¤ ì¶œë ¥ìŠ¤íŠ¸ë¦¼ì„ êµ¬í•˜ëŠ” ê²½ìš° : GauceOutputStream gos = GauceUtil.getGOS(response)
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
+	 * @return ì‘ë‹µê°ì²´ì—ì„œ êµ¬í•œ GauceOutputStream ê°ì²´
 	 */
 	public static GauceOutputStream getGOS(HttpServletResponse response) {
 		GauceOutputStream inputGos = null;
@@ -259,10 +259,10 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ¼¼¼Ç°´Ã¼°¡ null ÀÎ °æ¿ì Å¬¶óÀÌ¾ğÆ®¿¡°Ô ¼¼¼ÇÀÌ ¾øÀ½À» ¾Ë¸®±â À§ÇØ ¿¹¿Ü¸¦ ¼³Á¤ÇÑ´Ù.
+	 * ì„¸ì…˜ê°ì²´ê°€ null ì¸ ê²½ìš° í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ì„¸ì…˜ì´ ì—†ìŒì„ ì•Œë¦¬ê¸° ìœ„í•´ ì˜ˆì™¸ë¥¼ ì„¤ì •í•œë‹¤.
 	 * <br>
 	 * ex) GauceUtil.setSessionException(getResponse())
-	 * @param response response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
+	 * @param response response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
 	 */
 	public static void setSessionException(HttpServletResponse response) {
 		try {
@@ -274,11 +274,11 @@ public class GauceUtil {
 	}
 
 	/**
-	 * Å¬¶óÀÌ¾ğÆ®¿¡°Ô °¡¿ì½º ¿¹¿Ü¸¦ ¼³Á¤ÇÑ´Ù.
+	 * í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ê°€ìš°ìŠ¤ ì˜ˆì™¸ë¥¼ ì„¤ì •í•œë‹¤.
 	 * <br>
 	 * ex) GauceUtil.setException(new GauceException("Native", "9999", e.toString()), getResponse())
-	 * @param exception Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ GauceException °´Ã¼
-	 * @param response Å¬¶óÀÌ¾ğÆ®·Î ÀÀ´äÇÒ Response °´Ã¼
+	 * @param exception í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  GauceException ê°ì²´
+	 * @param response í´ë¼ì´ì–¸íŠ¸ë¡œ ì‘ë‹µí•  Response ê°ì²´
 	 */
 	public static void setException(GauceException exception, HttpServletResponse response) {
 		try {
@@ -290,15 +290,15 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ÇØ´ç GauceDataSet·Î ºÎÅÍ Box¸¦ ¹İÈ¯¹Ş´Â´Ù
+	 * í•´ë‹¹ GauceDataSetë¡œ ë¶€í„° Boxë¥¼ ë°˜í™˜ë°›ëŠ”ë‹¤
 	 * <br>
-	 * ex) GauceDataSetÀ¸·Î ºÎÅÍ Box¸¦ ±¸ÇÏ´Â °æ¿ì : Box box = GauceUtil.getBox(dSet)
-	 * @param dSet Box·Î º¯È¯ÇÒ GauceDataSet °´Ã¼
-	 * @return GauceDataSet¿¡¼­ ±¸ÇÑ Box °´Ã¼
+	 * ex) GauceDataSetìœ¼ë¡œ ë¶€í„° Boxë¥¼ êµ¬í•˜ëŠ” ê²½ìš° : Box box = GauceUtil.getBox(dSet)
+	 * @param dSet Boxë¡œ ë³€í™˜í•  GauceDataSet ê°ì²´
+	 * @return GauceDataSetì—ì„œ êµ¬í•œ Box ê°ì²´
 	 */
 	public static Params getParam(GauceDataSet dSet) {
-		if (dSet.getDataRowCnt() != 1) { // row ¼ö°¡ 1°³°¡ ¾Æ´Ï¸é Àß¸øµÈ ÀÎÀÚ
-			throw new IllegalArgumentException("row ¼ö´Â 1°³ ÀÌ¾î¾ß ÇÕ´Ï´Ù.");
+		if (dSet.getDataRowCnt() != 1) { // row ìˆ˜ê°€ 1ê°œê°€ ì•„ë‹ˆë©´ ì˜ëª»ëœ ì¸ì
+			throw new IllegalArgumentException("row ìˆ˜ëŠ” 1ê°œ ì´ì–´ì•¼ í•©ë‹ˆë‹¤.");
 		}
 		Params box = new Params("gauce");
 		GauceDataRow dRow = dSet.getDataRow(0);
@@ -309,10 +309,10 @@ public class GauceUtil {
 		return box;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////// Private ¸Ş¼Òµå
+	//////////////////////////////////////////////////////////////////////////////////////// Private ë©”ì†Œë“œ
 
 	/**
-	 * RecordSetÀ» °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * RecordSetì„ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 */
 	private static int _appendDataSet(GauceDataSet dSet, RecordSet rs) {
 		if (rs == null) {
@@ -323,7 +323,7 @@ public class GauceUtil {
 		int[] colSize = rs.getColumnsSize();
 		int[] colSizeReal = rs.getColumnsSizeReal();
 		int[] colScale = rs.getColumnsScale();
-		rs.moveRow(0); // rsÀÇ À§Ä¡¸¦ 1¹øÂ°·Î ÀÌµ¿ 
+		rs.moveRow(0); // rsì˜ ìœ„ì¹˜ë¥¼ 1ë²ˆì§¸ë¡œ ì´ë™ 
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			rowCount++;
@@ -333,7 +333,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ResultSetÀ» °¡¿ì½º µ¥ÀÌÅ¸¼ÂÀ¸·Î º¯È¯ÇÑ´Ù.
+	 * ResultSetì„ ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ìœ¼ë¡œ ë³€í™˜í•œë‹¤.
 	 */
 	private static int _appendDataSet(GauceDataSet dSet, ResultSet rs) {
 		if (rs == null) {
@@ -349,9 +349,9 @@ public class GauceUtil {
 				int[] colSizeReal = new int[cnt];
 				int[] colScale = new int[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//TableÀÇ Field °¡ ¼Ò¹®ÀÚ ÀÎ°ÍÀº ´ë¹®ÀÚ·Î º¯°æÃ³¸®
+					//Tableì˜ Field ê°€ ì†Œë¬¸ì ì¸ê²ƒì€ ëŒ€ë¬¸ìë¡œ ë³€ê²½ì²˜ë¦¬
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-					//Fiels ÀÇ Á¤º¸ ¹× Size Ãß°¡
+					//Fiels ì˜ ì •ë³´ ë° Size ì¶”ê°€
 					colSize[i - 1] = rsmd.getColumnDisplaySize(i);
 					colSizeReal[i - 1] = rsmd.getPrecision(i);
 					colScale[i - 1] = rsmd.getScale(i);
@@ -391,7 +391,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * °¡¿ì½º µ¥ÀÌÅ¸¼Â¿¡ RecordSet ÇÑÇà Ãß°¡
+	 * ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ì— RecordSet í•œí–‰ ì¶”ê°€
 	 */
 	private static void _appendRow(GauceDataSet dSet, RecordSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
 		for (int c = 0; c < colNms.length; c++) {
@@ -410,7 +410,7 @@ public class GauceUtil {
 					}
 					dSet.put(colNms[c], rs.getDouble(colNms[c]), dblSize, GauceDataColumn.TB_DECIMAL);
 				} else {
-					// ÇÑ±Û±úÁüÀ¸·Î ÀÎÇØ colSize[c] ¿¡ 2¸¦ °öÇÏ¿© ÇØ°á
+					// í•œê¸€ê¹¨ì§ìœ¼ë¡œ ì¸í•´ colSize[c] ì— 2ë¥¼ ê³±í•˜ì—¬ í•´ê²°
 					dSet.put(colNms[c], (rs.getString(colNms[c])), colSize[c] * 2, GauceDataColumn.TB_NORMAL);
 				}
 			}
@@ -419,7 +419,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * °¡¿ì½º µ¥ÀÌÅ¸¼Â¿¡ ResultSet ÇÑÇà Ãß°¡
+	 * ê°€ìš°ìŠ¤ ë°ì´íƒ€ì…‹ì— ResultSet í•œí–‰ ì¶”ê°€
 	 */
 	private static void _appendRow(GauceDataSet dSet, ResultSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
 		try {
@@ -439,7 +439,7 @@ public class GauceUtil {
 						}
 						dSet.put(colNms[c], rs.getDouble(colNms[c]), dblSize, GauceDataColumn.TB_DECIMAL);
 					} else {
-						// ÇÑ±Û±úÁüÀ¸·Î ÀÎÇØ colSize[c] ¿¡ 2¸¦ °öÇÏ¿© ÇØ°á
+						// í•œê¸€ê¹¨ì§ìœ¼ë¡œ ì¸í•´ colSize[c] ì— 2ë¥¼ ê³±í•˜ì—¬ í•´ê²°
 						dSet.put(colNms[c], (rs.getString(colNms[c])), colSize[c] * 2, GauceDataColumn.TB_NORMAL);
 					}
 				}
