@@ -25,6 +25,7 @@ import framework.util.StringUtil;
  */
 public class JuminMaskFilter implements Filter {
 	private Pattern _juminPattern = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])?", Pattern.MULTILINE);
+	private Pattern _textualMimePattern = Pattern.compile("^$|^text|json$|xml$|html$|javascript$|css$", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -32,13 +33,9 @@ public class JuminMaskFilter implements Filter {
 		try {
 			resWrapper = new MyResponseWrapper((HttpServletResponse) response);
 			filterChain.doFilter(request, resWrapper);
-			String contentType = StringUtil.nullToBlankString(resWrapper.getContentType()).toLowerCase();
-			if ("".equals(contentType) || contentType.contains("text") || contentType.contains("json") || contentType.contains("xml")) {
-				Matcher matcher = _juminPattern.matcher(resWrapper.toString());
-				String juminMaskData = matcher.replaceAll("$1******");
-				PrintWriter writer = response.getWriter();
-				writer.print(juminMaskData);
-				writer.flush();
+			String contentType = StringUtil.nullToBlankString(resWrapper.getContentType());
+			if (_isTextualContentType(contentType)) {
+				_juminMasking(response, resWrapper);
 			} else {
 				resWrapper.writeTo(response.getOutputStream());
 			}
@@ -56,6 +53,18 @@ public class JuminMaskFilter implements Filter {
 
 	@Override
 	public void destroy() {
+	}
+
+	private void _juminMasking(ServletResponse response, MyResponseWrapper resWrapper) throws IOException {
+		Matcher matcher = _juminPattern.matcher(resWrapper.toString());
+		String juminMaskData = matcher.replaceAll("$1******");
+		PrintWriter writer = response.getWriter();
+		writer.print(juminMaskData);
+		writer.flush();
+	}
+
+	private boolean _isTextualContentType(String contentType) {
+		return _textualMimePattern.matcher(contentType).matches();
 	}
 
 	class MyResponseWrapper extends HttpServletResponseWrapper {

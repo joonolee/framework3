@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -25,6 +26,8 @@ import framework.util.StringUtil;
  */
 public class MinifyFilter implements Filter {
 	private HtmlCompressor _compressor;
+	private Pattern _textualMimePattern = Pattern.compile("^$|^text|json$|xml$|html$|javascript$|css$", Pattern.CASE_INSENSITIVE);
+	private Pattern _compressibleMimePattern = Pattern.compile("html$|xml$|javascript$|css$", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -32,16 +35,9 @@ public class MinifyFilter implements Filter {
 		try {
 			resWrapper = new MyResponseWrapper((HttpServletResponse) response);
 			filterChain.doFilter(request, resWrapper);
-			String contentType = StringUtil.nullToBlankString(resWrapper.getContentType()).toLowerCase();
-			if ("".equals(contentType) || contentType.contains("text") || contentType.contains("json") || contentType.contains("xml")) {
-				PrintWriter writer = response.getWriter();
-				String content = resWrapper.toString();
-				if (contentType.contains("html") || contentType.contains("xml") || contentType.contains("javascript") || contentType.contains("css")) {
-					writer.print(_compressor.compress(content));
-				} else {
-					writer.print(content);
-				}
-				writer.flush();
+			String contentType = StringUtil.nullToBlankString(resWrapper.getContentType());
+			if (_isTextualContentType(contentType)) {
+				_minifying(response, resWrapper, contentType);
 			} else {
 				resWrapper.writeTo(response.getOutputStream());
 			}
@@ -62,6 +58,25 @@ public class MinifyFilter implements Filter {
 
 	@Override
 	public void destroy() {
+	}
+
+	private void _minifying(ServletResponse response, MyResponseWrapper resWrapper, String contentType) throws IOException {
+		PrintWriter writer = response.getWriter();
+		String content = resWrapper.toString();
+		if (_isCompressibleContentType(contentType)) {
+			writer.print(_compressor.compress(content));
+		} else {
+			writer.print(content);
+		}
+		writer.flush();
+	}
+
+	private boolean _isTextualContentType(String contentType) {
+		return _textualMimePattern.matcher(contentType).matches();
+	}
+
+	private boolean _isCompressibleContentType(String contentType) {
+		return _compressibleMimePattern.matcher(contentType).matches();
 	}
 
 	class MyResponseWrapper extends HttpServletResponseWrapper {
