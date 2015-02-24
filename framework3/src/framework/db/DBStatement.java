@@ -1,4 +1,4 @@
-﻿package framework.db;
+package framework.db;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,4 +1,4 @@
-﻿package framework.util;
+package framework.util;
 
 /**
  * 유효성 체크 라이브러리

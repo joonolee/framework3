@@ -1,4 +1,4 @@
-﻿package framework.action;
+package framework.action;
 
 import java.io.File;
 import java.lang.reflect.Array;

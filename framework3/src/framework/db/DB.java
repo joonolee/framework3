@@ -1,4 +1,4 @@
-﻿package framework.db;
+package framework.db;
 
 import java.sql.Connection;
 import java.sql.Driver;

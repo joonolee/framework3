@@ -1,4 +1,4 @@
-﻿package framework.db;
+package framework.db;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapSession;

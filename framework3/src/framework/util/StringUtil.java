@@ -1,4 +1,4 @@
-﻿package framework.util;
+package framework.util;
 
 /**
  * 스트링 처리 라이브러리

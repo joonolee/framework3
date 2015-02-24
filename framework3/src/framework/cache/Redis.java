@@ -1,4 +1,4 @@
-﻿package framework.cache;
+package framework.cache;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

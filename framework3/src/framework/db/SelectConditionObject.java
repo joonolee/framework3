@@ -1,4 +1,4 @@
-﻿package framework.db;
+package framework.db;
 
 import java.util.ArrayList;
 import java.util.List;

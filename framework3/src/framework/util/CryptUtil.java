@@ -1,4 +1,4 @@
-﻿package framework.util;
+package framework.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-﻿package framework.util;
+package framework.util;
 
 import java.util.HashMap;
 import java.util.Map;

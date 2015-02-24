@@ -1,4 +1,4 @@
-﻿package framework.action;
+package framework.action;
 
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;

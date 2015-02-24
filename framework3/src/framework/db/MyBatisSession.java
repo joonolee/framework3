@@ -1,4 +1,4 @@
-﻿package framework.db;
+package framework.db;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

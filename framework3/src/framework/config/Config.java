@@ -1,4 +1,4 @@
-﻿package framework.config;
+package framework.config;
 
 import java.util.ResourceBundle;
 

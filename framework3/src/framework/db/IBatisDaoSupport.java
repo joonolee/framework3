@@ -1,4 +1,4 @@
-﻿package framework.db;
+package framework.db;
 
 import java.io.IOException;
 import java.io.Reader;

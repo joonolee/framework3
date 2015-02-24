@@ -1,4 +1,4 @@
-﻿package framework.util;
+package framework.util;
 
 import java.io.BufferedReader;
 import java.io.File;
