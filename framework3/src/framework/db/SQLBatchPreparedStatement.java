@@ -40,9 +40,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 
 	protected PreparedStatement getPrepareStatment() {
 		if (getSQL() == null) {
-			if (logger.isErrorEnabled()) {
-				logger.error("Query is Null");
-			}
+			logger.error("Query is Null");
 			return null;
 		}
 		try {
@@ -51,9 +49,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 				_pstmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("getPrepareStatment Error!");
-			}
+			logger.error("getPrepareStatment Error!");
 			throw new RuntimeException(e);
 		}
 		return _pstmt;
@@ -68,9 +64,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 			}
 			clearParamList();
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("close Error!");
-			}
+			logger.error("close Error!");
 			throw new RuntimeException(e);
 		}
 	}
@@ -81,9 +75,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 
 	public int[] executeBatch() {
 		if (getSQL() == null) {
-			if (logger.isErrorEnabled()) {
-				logger.error("Query is Null");
-			}
+			logger.error("Query is Null");
 			return new int[] { 0 };
 		}
 		int[] _upCnts = null;
@@ -121,9 +113,7 @@ public class SQLBatchPreparedStatement extends DBStatement {
 				logger.debug("@Sql End (BATCH P_STATEMENT)");
 			}
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("executeQuery Error!");
-			}
+			logger.error("executeQuery Error!");
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
 		return _upCnts;

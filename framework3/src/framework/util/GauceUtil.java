@@ -269,9 +269,7 @@ public class GauceUtil {
 			((HttpGauceResponse) response).addException(new GauceException("SESSION", "0000", "OUT"));
 			((HttpGauceResponse) response).getGauceOutputStream().close();
 		} catch (IOException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error(e);
-			}
+			logger.error(e);
 		}
 	}
 
@@ -287,9 +285,7 @@ public class GauceUtil {
 			((HttpGauceResponse) response).addException(exception);
 			((HttpGauceResponse) response).getGauceOutputStream().close();
 		} catch (IOException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error(e);
-			}
+			logger.error(e);
 		}
 	}
 
@@ -372,26 +368,20 @@ public class GauceUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 			}

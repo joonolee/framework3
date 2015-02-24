@@ -80,9 +80,7 @@ public class ExcelUtil {
 				try {
 					is.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -113,9 +111,7 @@ public class ExcelUtil {
 				try {
 					is.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -149,9 +145,7 @@ public class ExcelUtil {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -181,9 +175,7 @@ public class ExcelUtil {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -293,9 +285,7 @@ public class ExcelUtil {
 				try {
 					fos.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -406,9 +396,7 @@ public class ExcelUtil {
 				try {
 					fos.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -522,9 +510,7 @@ public class ExcelUtil {
 				try {
 					fw.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -616,26 +602,20 @@ public class ExcelUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 			}
@@ -699,35 +679,27 @@ public class ExcelUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				if (fos != null) {
 					try {
 						fos.close();
 					} catch (IOException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 			}
@@ -796,26 +768,20 @@ public class ExcelUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 			}
@@ -879,35 +845,27 @@ public class ExcelUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				if (fos != null) {
 					try {
 						fos.close();
 					} catch (IOException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 			}
@@ -999,26 +957,20 @@ public class ExcelUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 			}
@@ -1062,35 +1014,27 @@ public class ExcelUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				if (fw != null) {
 					try {
 						fw.close();
 					} catch (IOException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 			}
@@ -1133,26 +1077,20 @@ public class ExcelUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						if (logger.isErrorEnabled()) {
-							logger.error(e);
-						}
+						logger.error(e);
 					}
 				}
 			}
@@ -1431,17 +1369,13 @@ public class ExcelUtil {
 				mapList.add(map);
 			}
 		} catch (IOException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error(e);
-			}
+			logger.error(e);
 		} finally {
 			if (br != null) {
 				try {
 					br.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}

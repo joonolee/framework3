@@ -138,9 +138,7 @@ public abstract class Controller {
 			try {
 				_finally();
 			} catch (Throwable te) {
-				if (logger.isErrorEnabled()) {
-					logger.error(te);
-				}
+				logger.error(te);
 			}
 		}
 	}
@@ -168,9 +166,7 @@ public abstract class Controller {
 			}
 			servlet.getServletContext().getRequestDispatcher(response.encodeURL(url)).forward(request, response);
 		} catch (Throwable e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("Render Error!", e);
-			}
+			logger.error("Render Error!", e);
 		}
 	}
 
@@ -195,9 +191,7 @@ public abstract class Controller {
 			}
 			response.sendRedirect(url);
 		} catch (Throwable e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("Redirect Error!", e);
-			}
+			logger.error("Redirect Error!", e);
 		}
 	}
 
@@ -250,9 +244,7 @@ public abstract class Controller {
 				db.setAutoCommit(false);
 				_dbMap.put(serviceName, db);
 			} catch (Throwable e) {
-				if (logger.isErrorEnabled()) {
-					logger.error("DB Connection Error!", e);
-				}
+				logger.error("DB Connection Error!", e);
 			}
 		}
 		return _dbMap.get(serviceName);
@@ -534,9 +526,7 @@ public abstract class Controller {
 			params = null;
 			out = null;
 		} catch (Throwable e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("Destroy Error!", e);
-			}
+			logger.error("Destroy Error!", e);
 		}
 	}
 }

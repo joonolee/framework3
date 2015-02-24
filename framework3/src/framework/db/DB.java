@@ -131,9 +131,7 @@ public class DB {
 				try {
 					stmt.close();
 				} catch (Throwable e) {
-					if (logger.isErrorEnabled()) {
-						logger.error("Statement close error!", e);
-					}
+					logger.error("Statement close error!", e);
 				}
 			}
 		}
@@ -141,16 +139,12 @@ public class DB {
 			try {
 				getConnection().rollback();
 			} catch (Throwable e) {
-				if (logger.isErrorEnabled()) {
-					logger.error("Connection rollback error!", e);
-				}
+				logger.error("Connection rollback error!", e);
 			}
 			try {
 				getConnection().close();
 			} catch (Throwable e) {
-				if (logger.isErrorEnabled()) {
-					logger.error("Connection close error!", e);
-				}
+				logger.error("Connection close error!", e);
 			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("DB연결 종료! : " + _dsName);
@@ -166,9 +160,7 @@ public class DB {
 		try {
 			getConnection().rollback();
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error(e);
-			}
+			logger.error(e);
 		}
 	}
 
@@ -176,9 +168,7 @@ public class DB {
 		try {
 			getConnection().setAutoCommit(isAuto);
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error(e);
-			}
+			logger.error(e);
 		}
 	}
 }

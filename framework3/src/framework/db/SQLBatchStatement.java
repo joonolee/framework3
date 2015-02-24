@@ -35,9 +35,7 @@ public class SQLBatchStatement extends DBStatement {
 				_stmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("getStatement Error!");
-			}
+			logger.error("getStatement Error!");
 			throw new RuntimeException(e);
 		}
 		return _stmt;
@@ -50,9 +48,7 @@ public class SQLBatchStatement extends DBStatement {
 				_stmt.close();
 				_sqlList.clear();
 			} catch (SQLException e) {
-				if (logger.isErrorEnabled()) {
-					logger.error("close Error!");
-				}
+				logger.error("close Error!");
 				throw new RuntimeException(e);
 			}
 		}
@@ -60,9 +56,7 @@ public class SQLBatchStatement extends DBStatement {
 
 	public int[] executeBatch() {
 		if (_sqlList.size() == 0) {
-			if (logger.isErrorEnabled()) {
-				logger.error("Query is Null");
-			}
+			logger.error("Query is Null");
 			return new int[] { 0 };
 		}
 		int[] _upCnts = null;

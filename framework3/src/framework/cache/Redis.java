@@ -263,9 +263,7 @@ public class Redis extends AbstractCache {
 			oos.writeObject(obj);
 			return baos.toByteArray();
 		} catch (Throwable e) {
-			if (logger.isErrorEnabled()) {
-				logger.error(e);
-			}
+			logger.error(e);
 		}
 		return null;
 	}
@@ -282,9 +280,7 @@ public class Redis extends AbstractCache {
 			ObjectInputStream ois = new ObjectInputStream(bais);
 			return ois.readObject();
 		} catch (Throwable e) {
-			if (logger.isErrorEnabled()) {
-				logger.error(e);
-			}
+			logger.error(e);
 		}
 		return null;
 	}

@@ -41,9 +41,7 @@ public class SQLPreparedStatement extends DBStatement {
 			}
 			clearParam();
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("close Error!");
-			}
+			logger.error("close Error!");
 			throw new RuntimeException(e);
 		}
 	}
@@ -58,9 +56,7 @@ public class SQLPreparedStatement extends DBStatement {
 
 	public RecordSet executeQuery(int currPage, int pageSize) {
 		if (getSQL() == null) {
-			if (logger.isErrorEnabled()) {
-				logger.error("Query is Null");
-			}
+			logger.error("Query is Null");
 			return null;
 		}
 		try {
@@ -85,9 +81,7 @@ public class SQLPreparedStatement extends DBStatement {
 				logger.debug("@Sql End (P_STATEMENT)");
 			}
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("executeQuery Error!");
-			}
+			logger.error("executeQuery Error!");
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
 		return _rs;
@@ -105,9 +99,7 @@ public class SQLPreparedStatement extends DBStatement {
 
 	public int executeUpdate() {
 		if (getSQL() == null) {
-			if (logger.isErrorEnabled()) {
-				logger.error("Query is Null");
-			}
+			logger.error("Query is Null");
 			return 0;
 		}
 		try {
@@ -143,9 +135,7 @@ public class SQLPreparedStatement extends DBStatement {
 				logger.debug("@Sql End (P_STATEMENT)");
 			}
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("executeUpdate Error!");
-			}
+			logger.error("executeUpdate Error!");
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
 		return _upCnt;
@@ -172,9 +162,7 @@ public class SQLPreparedStatement extends DBStatement {
 
 	protected PreparedStatement getPrepareStatment() {
 		if (getSQL() == null) {
-			if (logger.isErrorEnabled()) {
-				logger.error("Query is Null");
-			}
+			logger.error("Query is Null");
 			return null;
 		}
 		try {
@@ -183,9 +171,7 @@ public class SQLPreparedStatement extends DBStatement {
 				_pstmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
-			if (logger.isErrorEnabled()) {
-				logger.error("getPrepareStatment Error!");
-			}
+			logger.error("getPrepareStatment Error!");
 			throw new RuntimeException(e);
 		}
 		return _pstmt;

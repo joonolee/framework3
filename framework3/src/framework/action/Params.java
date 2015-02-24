@@ -60,24 +60,18 @@ public class Params extends HashMap<String, String[]> {
 				try {
 					factory.setSizeThreshold(_getConfig().getInt("fileupload.sizeThreshold"));
 				} catch (IllegalArgumentException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				try {
 					factory.setRepository(new File(_getConfig().getString("fileupload.repository")));
 				} catch (IllegalArgumentException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				ServletFileUpload upload = new ServletFileUpload(factory);
 				try {
 					upload.setSizeMax(_getConfig().getInt("fileupload.sizeMax"));
 				} catch (IllegalArgumentException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 				List<FileItem> items = upload.parseRequest(request);
 				for (FileItem item : items) {

@@ -57,18 +57,14 @@ public class MaSaferUtil {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 			if (fos != null) {
 				try {
 					fos.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -108,9 +104,7 @@ public class MaSaferUtil {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -141,18 +135,14 @@ public class MaSaferUtil {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 			if (fos != null) {
 				try {
 					fos.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}
@@ -185,9 +175,7 @@ public class MaSaferUtil {
 				try {
 					fis.close();
 				} catch (IOException e) {
-					if (logger.isErrorEnabled()) {
-						logger.error(e);
-					}
+					logger.error(e);
 				}
 			}
 		}

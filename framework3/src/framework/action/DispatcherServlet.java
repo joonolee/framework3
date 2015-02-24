@@ -145,9 +145,7 @@ public class DispatcherServlet extends HttpServlet {
 				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.currentTimeMillis() - currTime) + "ms\n");
 			}
 		} catch (Throwable e) {
-			if (logger.isErrorEnabled()) {
-				logger.error(e);
-			}
+			logger.error(e);
 			throw new ServletException(e);
 		}
 	}
