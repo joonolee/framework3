@@ -13,10 +13,6 @@ public class IBatisSession extends DBStatement {
 		return new IBatisSession(db, sqlMapClient);
 	}
 
-	private IBatisSession(DB db, SqlMapClient sqlMapClient) {
-		_session = sqlMapClient.openSession(db.getConnection());
-	}
-
 	public SqlMapSession getSession() {
 		return _session;
 	}
@@ -26,5 +22,9 @@ public class IBatisSession extends DBStatement {
 		if (_session != null) {
 			_session.close();
 		}
+	}
+
+	private IBatisSession(DB db, SqlMapClient sqlMapClient) {
+		_session = sqlMapClient.openSession(db.getConnection());
 	}
 }

@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
  * 싱글톤 패턴으로 설정파일에 접근하는 객체의 인스턴스가 오직 한개만 생성이 된다.
  */
 public class Config {
-	private static Config _instance = new Config();
+	private static final Config _instance = new Config();
 	private static final String _NAME = "config";
 	private ResourceBundle _bundle = null;
 

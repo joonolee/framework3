@@ -13,10 +13,6 @@ public class MyBatisSession extends DBStatement {
 		return new MyBatisSession(db, sqlSessionFactory);
 	}
 
-	private MyBatisSession(DB db, SqlSessionFactory sqlSessionFactory) {
-		_session = sqlSessionFactory.openSession(db.getConnection());
-	}
-
 	public SqlSession getSession() {
 		return _session;
 	}
@@ -26,5 +22,9 @@ public class MyBatisSession extends DBStatement {
 		if (_session != null) {
 			_session.close();
 		}
+	}
+
+	private MyBatisSession(DB db, SqlSessionFactory sqlSessionFactory) {
+		_session = sqlSessionFactory.openSession(db.getConnection());
 	}
 }
