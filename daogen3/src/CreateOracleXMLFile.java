@@ -10,6 +10,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.Arrays;
@@ -17,138 +18,214 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CreateOracleXMLFile {
+	private static final String _filePath = "xml";
 	private static final String _jdbcDriver = "oracle.jdbc.driver.OracleDriver";
 	private static final String _jdbcUrl = "jdbc:oracle:thin:@ip:port:sid";
 	private static final String _jdbcUid = "";
 	private static final String _jdbcPw = "";
-	private static List<String> _tableNameList = Arrays.asList();
-	private static String _filePath = "xml";
 
-	public static void main(String[] args) throws Exception {
+	// 테이블 목록
+	private static final List<String> _tbList = Arrays.asList();
+
+	public static void main(String[] args) {
+		if (_tbList.size() > 0) {
+			_selTables();
+		} else {
+			_allTables();
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// Private
+
+	private static void _selTables() {
 		Connection conn = null;
 		Statement stmt = null;
-		Statement stmt2 = null;
-		ResultSet rs = null;
-		ResultSet rs2 = null;
 		try {
-			System.out.println("Oracle JDBC Driver Loading.....");
 			DriverManager.registerDriver((Driver) Class.forName(_jdbcDriver).newInstance());
 			conn = DriverManager.getConnection(_jdbcUrl, _jdbcUid, _jdbcPw);
-			System.out.println("Oracle JDBC Driver Loading Complete\n");
+			System.out.println("JDBC Driver 로딩...");
+			System.out.println("=== 선택된 테이블 목록에서 파일 생성 START ===");
 			stmt = conn.createStatement();
-			stmt2 = conn.createStatement();
-
-			if (_tableNameList != null && _tableNameList.size() > 0) {
-				for (String tableName : _tableNameList) {
-					rs = stmt.executeQuery("select * from " + tableName + " where rownum = 1");
-					ResultSetMetaData meta = rs.getMetaData();
-					System.out.println(tableName);
-					write(meta, tableName, conn);
-					rs.close();
-				}
-			} else {
-				String TABLE = null;
-				rs2 = stmt2.executeQuery("select * from tab");
-
-				while (rs2.next()) {
-					TABLE = rs2.getString(1);
-					rs = stmt.executeQuery("select * from " + TABLE + " where rownum = 1");
-					ResultSetMetaData meta = rs.getMetaData();
-					System.out.println(TABLE);
-					write(meta, TABLE, conn);
-					rs = null;
+			for (String tbName : _tbList) {
+				ResultSet rs = null;
+				try {
+					rs = stmt.executeQuery("select * from " + tbName + " where rownum = 1");
+					ResultSetMetaData rsmd = rs.getMetaData();
+					_writeFile(rsmd, tbName, conn);
+				} finally {
+					if (rs != null) {
+						rs.close();
+					}
 				}
 			}
-			stmt.close();
-			conn.close();
+			System.out.println("=== 선택된 테이블 목록에서 파일 생성 END ===");
 		} catch (Throwable e) {
-			e.printStackTrace();
-			if (rs != null)
-				rs.close();
-			if (rs2 != null)
-				rs2.close();
-			if (stmt != null)
-				stmt.close();
-			if (stmt2 != null)
-				stmt2.close();
-			if (conn != null)
-				conn.close();
+			System.err.println("에러발생");
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					System.err.println("에러발생");
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					System.err.println("에러발생");
+				}
+			}
 		}
 	}
 
-	private static void write(ResultSetMetaData meta, String name, Connection conn2) throws Throwable {
-		ResultSet rs3 = null;
-		Statement stmt3 = null;
-		boolean pkProcess = false;
-		List<String> primaryKeyList = new LinkedList<String>();
+	private static void _allTables() {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
 		try {
-			stmt3 = conn2.createStatement();
-			StringBuffer strPK = new StringBuffer();
-			strPK.append("select col.column_name ");
-			strPK.append("from user_constraints cons ");
-			strPK.append("    inner join user_cons_columns col on cons.constraint_name = col.constraint_name ");
-			strPK.append("where constraint_type = 'P' ");
-			strPK.append("    and col.table_name = '" + name.trim() + "' ");
-			strPK.append("order by col.position");
-			rs3 = stmt3.executeQuery(strPK.toString());
-			pkProcess = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (pkProcess) {
-			while (rs3.next()) {
-				primaryKeyList.add(rs3.getString("COLUMN_NAME"));
+			DriverManager.registerDriver((Driver) Class.forName(_jdbcDriver).newInstance());
+			conn = DriverManager.getConnection(_jdbcUrl, _jdbcUid, _jdbcPw);
+			System.out.println("JDBC Driver 로딩...");
+			System.out.println("=== 전체 테이블 목록에서 파일 생성 START ===");
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select table_name from user_tables order by 1");
+			while (rs.next()) {
+				Statement stmt2 = null;
+				ResultSet rs2 = null;
+				try {
+					String tbName = rs.getString(1);
+					stmt2 = conn.createStatement();
+					rs2 = stmt2.executeQuery("select * from " + tbName + " where rownum = 1");
+					ResultSetMetaData rsmd = rs2.getMetaData();
+					_writeFile(rsmd, tbName, conn);
+				} finally {
+					if (rs2 != null) {
+						rs2.close();
+					}
+					if (stmt2 != null) {
+						stmt2.close();
+					}
+				}
+			}
+			System.out.println("=== 전체 테이블 목록에서 파일 생성 END ===");
+		} catch (Throwable e) {
+			System.err.println("에러발생");
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					System.err.println("에러발생");
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					System.err.println("에러발생");
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					System.err.println("에러발생");
+				}
 			}
 		}
-		File dir = new File(_filePath);
-		if (!dir.exists()) {
-			dir.mkdir();
-		}
-		File file = new File(_filePath, name + ".xml");
-		if (file.exists()) {
-			file.delete();
-		}
-		FileWriter fw = new FileWriter(file);
-		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n");
-		bw.write("<table name=\"" + name + "\"  schema=\"" + _jdbcUid + "\" class=\"" + name + "\">\n");
-		bw.write("<description></description>\n");
-		bw.write("<columns>\n");
-		for (int c = 1; c <= meta.getColumnCount(); c++) {
-			StringBuffer str = new StringBuffer();
-			str.append("<column name=\"");
-			str.append(meta.getColumnName(c));
-			str.append("\" type=\"");
-			str.append(getJavaType(meta.getColumnType(c), meta.getPrecision(c), meta.getScale(c)));
-			str.append("\" dbType=\"");
-			str.append(getDBType(meta.getColumnType(c), meta.getPrecision(c), meta.getScale(c)));
-			str.append("\" desc=\"\" notnull=\"");
-			str.append((meta.isNullable(c) == 0 ? "true" : "false") + "\"");
-			if (meta.getColumnName(c).equals("ENTERID") || meta.getColumnName(c).equals("ENTERNAME") || meta.getColumnName(c).equals("ENTERPGM")) {
-				str.append(" update=\"none\"");
-			}
-			// 입력일, 수정일에 대한 별도 처리
-			if (meta.getColumnName(c).equals("ENTERDATE")) {
-				str.append(" insert=\"sysdate\" update=\"none\"");
-			}
-			if (meta.getColumnName(c).equals("UPDATEDATE")) {
-				str.append(" insert=\"none\" update=\"sysdate\"");
-			}
-			if (primaryKeyList.contains(meta.getColumnName(c))) {
-				str.append(" primarykey=\"true\"");
-			}
-			str.append(" />\n");
-			bw.write(str.toString());
-		}
-		bw.write("</columns>\n");
-		bw.write("</table>");
-
-		bw.close();
-		fw.close();
-		System.out.println("info : " + _filePath + "/" + name + ".xml create end ");
 	}
 
-	private static String getJavaType(int type, int len, int s) {
+	private static void _writeFile(ResultSetMetaData rsmd, String tbName, Connection conn) throws Throwable {
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+		try {
+			List<String> pkList = _getPkList(tbName, conn);
+			File dir = new File(_filePath);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			File file = new File(_filePath, tbName + ".xml");
+			if (file.exists()) {
+				file.delete();
+			}
+			fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
+			bw.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n");
+			bw.write("<table name=\"" + tbName + "\"  schema=\"" + _jdbcUid + "\" class=\"" + tbName + "\">\n");
+			bw.write("  <description></description>\n");
+			bw.write("  <columns>\n");
+			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+				StringBuilder buf = new StringBuilder();
+				buf.append("    <column name=\"");
+				buf.append(rsmd.getColumnName(i));
+				buf.append("\" type=\"");
+				buf.append(_getJavaType(rsmd.getColumnType(i), rsmd.getPrecision(i), rsmd.getScale(i)));
+				buf.append("\" dbType=\"");
+				buf.append(_getDBType(rsmd.getColumnType(i), rsmd.getPrecision(i), rsmd.getScale(i)));
+				buf.append("\" desc=\"\" notnull=\"");
+				buf.append((rsmd.isNullable(i) == 0 ? "true" : "false") + "\"");
+				if (rsmd.getColumnName(i).equals("ENTERID") || rsmd.getColumnName(i).equals("ENTERNAME") || rsmd.getColumnName(i).equals("ENTERPGM")) {
+					buf.append(" update=\"none\"");
+				}
+				// 입력일, 수정일에 대한 별도 처리
+				if (rsmd.getColumnName(i).equals("ENTERDATE")) {
+					buf.append(" insert=\"sysdate\" update=\"none\"");
+				}
+				if (rsmd.getColumnName(i).equals("UPDATEDATE")) {
+					buf.append(" insert=\"none\" update=\"sysdate\"");
+				}
+				if (pkList.contains(rsmd.getColumnName(i))) {
+					buf.append(" primarykey=\"true\"");
+				}
+				buf.append(" />\n");
+				bw.write(buf.toString());
+			}
+			bw.write("  </columns>\n");
+			bw.write("</table>");
+			bw.flush();
+		} finally {
+			if (bw != null) {
+				bw.close();
+			}
+			if (fw != null) {
+				fw.close();
+			}
+		}
+		System.out.println(_filePath + "/" + tbName + ".xml created! ");
+	}
+
+	private static List<String> _getPkList(String tableName, Connection conn) throws Throwable {
+		List<String> pkList = new LinkedList<String>();
+		ResultSet rs = null;
+		Statement stmt = null;
+		try {
+			StringBuilder query = new StringBuilder();
+			query.append("select ");
+			query.append("    b.column_name ");
+			query.append("from user_constraints a ");
+			query.append("    inner join user_cons_columns b on a.constraint_name = b.constraint_name ");
+			query.append("where a.constraint_type = 'P' ");
+			query.append("    and b.table_name = '" + tableName + "' ");
+			query.append("order by b.position");
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(query.toString());
+			while (rs.next()) {
+				pkList.add(rs.getString("COLUMN_NAME"));
+			}
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return pkList;
+	}
+
+	private static String _getJavaType(int type, int len, int s) {
 		switch (type) {
 		case Types.INTEGER:
 		case Types.SMALLINT:
@@ -169,7 +246,7 @@ public class CreateOracleXMLFile {
 		}
 	}
 
-	private static String getDBType(int type, int len, int s) {
+	private static String _getDBType(int type, int len, int s) {
 		switch (type) {
 		case Types.INTEGER:
 		case Types.SMALLINT:
@@ -183,7 +260,7 @@ public class CreateOracleXMLFile {
 		case Types.DATE:
 			return "date";
 		default:
-			return type + "";
+			return String.valueOf(type);
 		}
 	}
 }
