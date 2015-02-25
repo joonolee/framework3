@@ -19,8 +19,6 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
 
-import framework.util.StringUtil;
-
 /**
  * HTML, JavaScript, CSS Minify filter
  */
@@ -35,7 +33,7 @@ public class MinifyFilter implements Filter {
 		try {
 			resWrapper = new MyResponseWrapper((HttpServletResponse) response);
 			filterChain.doFilter(request, resWrapper);
-			String contentType = StringUtil.nullToBlankString(resWrapper.getContentType());
+			String contentType = _nullToBlankString(resWrapper.getContentType());
 			if (_isTextualContentType(contentType)) {
 				_minifying(response, resWrapper, contentType);
 			} else {
@@ -77,6 +75,16 @@ public class MinifyFilter implements Filter {
 
 	private boolean _isCompressibleContentType(String contentType) {
 		return _compressibleMimePattern.matcher(contentType).matches();
+	}
+
+	private static String _nullToBlankString(String str) {
+		String rval = "";
+		if (str == null) {
+			rval = "";
+		} else {
+			rval = str;
+		}
+		return rval;
 	}
 
 	class MyResponseWrapper extends HttpServletResponseWrapper {

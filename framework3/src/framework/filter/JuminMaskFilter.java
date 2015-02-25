@@ -18,8 +18,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import framework.util.StringUtil;
-
 /**
  * 응답데이터에서 주민번호 패턴 마스킹 필터
  */
@@ -33,7 +31,7 @@ public class JuminMaskFilter implements Filter {
 		try {
 			resWrapper = new MyResponseWrapper((HttpServletResponse) response);
 			filterChain.doFilter(request, resWrapper);
-			String contentType = StringUtil.nullToBlankString(resWrapper.getContentType());
+			String contentType = _nullToBlankString(resWrapper.getContentType());
 			if (_isTextualContentType(contentType)) {
 				_juminMasking(response, resWrapper);
 			} else {
@@ -65,6 +63,16 @@ public class JuminMaskFilter implements Filter {
 
 	private boolean _isTextualContentType(String contentType) {
 		return _textualMimePattern.matcher(contentType).matches();
+	}
+
+	private static String _nullToBlankString(String str) {
+		String rval = "";
+		if (str == null) {
+			rval = "";
+		} else {
+			rval = str;
+		}
+		return rval;
 	}
 
 	class MyResponseWrapper extends HttpServletResponseWrapper {
