@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponseWrapper;
  */
 public class JuminMaskFilter implements Filter {
 	private Pattern _juminPattern = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])?", Pattern.MULTILINE);
-	private Pattern _textualMimePattern = Pattern.compile("^$|^text|json$|xml$|html$|javascript$|css$", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -61,7 +60,7 @@ public class JuminMaskFilter implements Filter {
 	}
 
 	private boolean _isTextualContentType(String contentType) {
-		return _textualMimePattern.matcher(contentType).matches();
+		return "".equals(contentType) || contentType.contains("text") || contentType.contains("json") || contentType.contains("xml");
 	}
 
 	private static String _nullToBlankString(String str) {

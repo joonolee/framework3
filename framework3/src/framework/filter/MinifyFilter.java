@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -23,8 +22,6 @@ import com.googlecode.htmlcompressor.compressor.HtmlCompressor;
  */
 public class MinifyFilter implements Filter {
 	private HtmlCompressor _compressor;
-	private Pattern _textualMimePattern = Pattern.compile("^$|^text|json$|xml$|html$|javascript$|css$", Pattern.CASE_INSENSITIVE);
-	private Pattern _compressibleMimePattern = Pattern.compile("html$|xml$|javascript$|css$", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -69,11 +66,11 @@ public class MinifyFilter implements Filter {
 	}
 
 	private boolean _isTextualContentType(String contentType) {
-		return _textualMimePattern.matcher(contentType).matches();
+		return "".equals(contentType) || contentType.contains("text") || contentType.contains("json") || contentType.contains("xml");
 	}
 
 	private boolean _isCompressibleContentType(String contentType) {
-		return _compressibleMimePattern.matcher(contentType).matches();
+		return contentType.contains("html") || contentType.contains("xml") || contentType.contains("javascript") || contentType.contains("css");
 	}
 
 	private static String _nullToBlankString(String str) {
