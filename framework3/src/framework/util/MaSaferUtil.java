@@ -87,6 +87,7 @@ public class MaSaferUtil {
 	public static void encrypt(String configpath, File srcFile, HttpServletResponse response, String systemName, String companyId, String companyName, String orgCode, String orgName, String userid, String userName, String ipAddr) {
 		FileInputStream fis = null;
 		try {
+			response.reset();
 			response.setContentType("application/octet-stream;");
 			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(srcFile.getName().getBytes(), "ISO-8859-1")).append("\"").toString());
 			response.setHeader("Pragma", "no-cache;");
@@ -158,6 +159,7 @@ public class MaSaferUtil {
 	public static void decrypt(String configpath, File srcFile, HttpServletResponse response, String userId) {
 		FileInputStream fis = null;
 		try {
+			response.reset();
 			response.setContentType("application/octet-stream;");
 			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(srcFile.getName().getBytes(), "ISO-8859-1")).append("\"").toString());
 			response.setHeader("Pragma", "no-cache;");

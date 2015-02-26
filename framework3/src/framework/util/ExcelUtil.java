@@ -206,6 +206,7 @@ public class ExcelUtil {
 		}
 		int rowCount = 0;
 		try {
+			response.reset();
 			response.setContentType("application/octet-stream;");
 			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
 			response.setHeader("Pragma", "no-cache;");
@@ -321,6 +322,7 @@ public class ExcelUtil {
 		}
 		int rowCount = 0;
 		try {
+			response.reset();
 			response.setContentType("application/octet-stream;");
 			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
 			response.setHeader("Pragma", "no-cache;");
@@ -469,6 +471,7 @@ public class ExcelUtil {
 		}
 		int rowCount = 0;
 		try {
+			response.reset();
 			response.setContentType("application/octet-stream;");
 			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
 			response.setHeader("Pragma", "no-cache;");
@@ -574,6 +577,7 @@ public class ExcelUtil {
 			return 0;
 		}
 		try {
+			response.reset();
 			response.setContentType("application/octet-stream;");
 			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
 			response.setHeader("Pragma", "no-cache;");
@@ -744,6 +748,7 @@ public class ExcelUtil {
 			return 0;
 		}
 		try {
+			response.reset();
 			response.setContentType("application/octet-stream;");
 			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
 			response.setHeader("Pragma", "no-cache;");
@@ -947,6 +952,7 @@ public class ExcelUtil {
 			return 0;
 		}
 		try {
+			response.reset();
 			response.setContentType("application/octet-stream;");
 			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
 			response.setHeader("Pragma", "no-cache;");

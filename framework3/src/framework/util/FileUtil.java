@@ -194,6 +194,7 @@ public class FileUtil {
 	public static void displayImage(HttpServletResponse response, File file) {
 		if (file != null && file.isFile() && file.length() != 0) {
 			long fileLen = file.length();
+			response.reset();
 			response.setContentLength((int) fileLen);
 			response.setContentType("image/pjpeg");
 			response.setHeader("Content-Disposition", "inline; filename=\"\"");
@@ -211,6 +212,7 @@ public class FileUtil {
 	public static void displayVideo(HttpServletResponse response, File file) {
 		if (file != null && file.isFile() && file.length() != 0) {
 			long fileLen = file.length();
+			response.reset();
 			response.setContentLength((int) fileLen);
 			response.setContentType("video/x-ms-wmv");
 			response.setHeader("Content-Disposition", "inline; filename=\"\"");
@@ -229,6 +231,7 @@ public class FileUtil {
 	public static void download(HttpServletResponse response, String displayName, File file) {
 		if (file != null && file.isFile() && file.length() != 0) {
 			long fileLen = file.length();
+			response.reset();
 			response.setContentLength((int) fileLen);
 			response.setContentType("application/octet-stream;");
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + displayName + "\"");
