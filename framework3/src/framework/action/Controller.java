@@ -133,6 +133,8 @@ public abstract class Controller {
 				logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 			}
 			_after();
+		} catch (_ActionStopException e) {
+			logger.error(e);
 		} finally {
 			_destroy();
 			try {
