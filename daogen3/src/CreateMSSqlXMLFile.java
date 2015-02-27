@@ -157,30 +157,30 @@ public class CreateMSSqlXMLFile {
 			bw.write("  <description></description>\n");
 			bw.write("  <columns>\n");
 			for (int c = 1; c <= rsmd.getColumnCount(); c++) {
-				StringBuffer str = new StringBuffer();
-				str.append("    <column name=\"");
-				str.append(rsmd.getColumnName(c));
-				str.append("\" type=\"");
-				str.append(_getJavaType(rsmd.getColumnType(c), rsmd.getPrecision(c), rsmd.getScale(c)));
-				str.append("\" dbType=\"");
-				str.append(_getDBType(rsmd.getColumnType(c), rsmd.getPrecision(c), rsmd.getScale(c)));
-				str.append("\" desc=\"\" notnull=\"");
-				str.append((rsmd.isNullable(c) == 0 ? "true" : "false") + "\"");
+				StringBuffer buf = new StringBuffer();
+				buf.append("    <column name=\"");
+				buf.append(rsmd.getColumnName(c));
+				buf.append("\" type=\"");
+				buf.append(_getJavaType(rsmd.getColumnType(c), rsmd.getPrecision(c), rsmd.getScale(c)));
+				buf.append("\" dbType=\"");
+				buf.append(_getDBType(rsmd.getColumnType(c), rsmd.getPrecision(c), rsmd.getScale(c)));
+				buf.append("\" desc=\"\" notnull=\"");
+				buf.append((rsmd.isNullable(c) == 0 ? "true" : "false") + "\"");
 				if (rsmd.getColumnName(c).equals("ENTERID") || rsmd.getColumnName(c).equals("ENTERNAME") || rsmd.getColumnName(c).equals("ENTERPGM")) {
-					str.append(" update=\"none\"");
+					buf.append(" update=\"none\"");
 				}
 				// 입력일, 수정일에 대한 별도 처리
 				if (rsmd.getColumnName(c).equals("ENTERDATE")) {
-					str.append(" insert=\"getdate()\" update=\"none\"");
+					buf.append(" insert=\"getdate()\" update=\"none\"");
 				}
 				if (rsmd.getColumnName(c).equals("UPDATEDATE")) {
-					str.append(" insert=\"none\" update=\"getdate()\"");
+					buf.append(" insert=\"none\" update=\"getdate()\"");
 				}
 				if (pkList.contains(rsmd.getColumnName(c))) {
-					str.append(" primarykey=\"true\"");
+					buf.append(" primarykey=\"true\"");
 				}
-				str.append(" />\n");
-				bw.write(str.toString());
+				buf.append(" />\n");
+				bw.write(buf.toString());
 			}
 			bw.write("  </columns>\n");
 			bw.write("</table>");
