@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -32,6 +33,7 @@ import framework.db.DB;
  */
 public abstract class Controller {
 	private Map<String, DB> _dbMap = new HashMap<String, DB>();
+	private static final String _FLASH_SCOPE_OBJECT_KEY = "___FLASH_SCOPE_OBJECT___";
 
 	/**
 	 * Controller를 호출한 서블릿 객체
@@ -44,17 +46,17 @@ public abstract class Controller {
 	protected HttpServletRequest request = null;
 
 	/**
-	 * 요청파라미터의 값을 담는 해시테이블
+	 * 요청파라미터의 값을 담는 해시맵
 	 */
 	protected Params params = null;
 
 	/**
-	 * 쿠키값을 담는 해시테이블
+	 * 쿠키값을 담는 해시맵
 	 */
 	protected Params cookies = null;
 
 	/**
-	 * 헤더값을 담는 해시테이블
+	 * 헤더값을 담는 해시맵
 	 */
 	protected Params headers = null;
 
@@ -62,6 +64,11 @@ public abstract class Controller {
 	 * 클라이언트의 세션 객체
 	 */
 	protected HttpSession session = null;
+
+	/**
+	 * 플래시 요청파라미터의 값을 담는 해시맵
+	 */
+	protected Map<String, Object> flash = null;
 
 	/**
 	 * HTTP 클라이언트 응답객체
@@ -110,12 +117,14 @@ public abstract class Controller {
 			this.cookies = Params.getParamsFromCookie(request);
 			this.headers = Params.getParamsFromHeader(request);
 			this.session = request.getSession();
+			this.flash = new HashMap<String, Object>();
 			this.response = response;
 			this.out = response.getWriter();
 			this.controller = getClass().getName();
 			this.actionMethod = method.getName();
 			this.action = this.controller + "." + this.actionMethod;
 			long currTime = 0;
+			_flashRestore();
 			_before();
 			if (logger.isDebugEnabled()) {
 				currTime = System.currentTimeMillis();
@@ -136,12 +145,13 @@ public abstract class Controller {
 		} catch (_ActionStopException e) {
 			logger.error(e);
 		} finally {
-			_destroy();
 			try {
 				_finally();
 			} catch (Throwable te) {
 				logger.error(te);
 			}
+			_flashSave();
+			_destroy();
 		}
 	}
 
@@ -307,6 +317,18 @@ public abstract class Controller {
 		session.setAttribute(key, value);
 	}
 
+	/** 
+	 * 플래시객체에 키,값 속성을 설정한다.
+	 * Controller에서 처리한 결과를 다음 요청의 요청객체에 저장한다.
+	 * <br>
+	 * ex) message 라는 객체를 message 라는 키로 플래시객체에 설정하는 경우 : setFlashAttribute("message", message)
+	 * @param key 속성의 키 문자열
+	 * @param value 속성의 값 객체
+	 */
+	protected void setFlashAttribute(String key, Object value) {
+		flash.put(key, value);
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
 
 	/*
@@ -314,6 +336,24 @@ public abstract class Controller {
 	 */
 	private class _ActionStopException extends RuntimeException {
 		private static final long serialVersionUID = -4449840322691459821L;
+	}
+
+	/*
+	 * 플래시객체를 세션에 저장
+	 */
+	private void _flashSave() {
+		setSessionAttribute(_FLASH_SCOPE_OBJECT_KEY, flash);
+	}
+
+	/*
+	 * 세션에서 플래시객체를 복원
+	 */
+	@SuppressWarnings("unchecked")
+	private void _flashRestore() {
+		Map<String, Object> flashMap = (Map<String, Object>) getSessionAttribute(_FLASH_SCOPE_OBJECT_KEY);
+		for (Entry<String, Object> entry : flashMap.entrySet()) {
+			setAttribute(entry.getKey(), entry.getValue());
+		}
 	}
 
 	/*
