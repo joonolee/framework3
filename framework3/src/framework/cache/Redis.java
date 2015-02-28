@@ -263,7 +263,7 @@ public class Redis extends AbstractCache {
 			oos.writeObject(obj);
 			return baos.toByteArray();
 		} catch (Throwable e) {
-			logger.error(e);
+			logger.error("Serialize Error!", e);
 		}
 		return null;
 	}
@@ -280,7 +280,7 @@ public class Redis extends AbstractCache {
 			ObjectInputStream ois = new ObjectInputStream(bais);
 			return ois.readObject();
 		} catch (Throwable e) {
-			logger.error(e);
+			logger.error("Deserialize Error!", e);
 		}
 		return null;
 	}

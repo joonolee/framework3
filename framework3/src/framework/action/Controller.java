@@ -143,12 +143,12 @@ public abstract class Controller {
 			}
 			_after();
 		} catch (_ActionStopException e) {
-			logger.error(e);
+			logger.error("Action Stop Error!", e);
 		} finally {
 			try {
 				_finally();
 			} catch (Throwable te) {
-				logger.error(te);
+				logger.error("Finally Error!", te);
 			}
 			_flashSave();
 			_destroy();
@@ -350,10 +350,12 @@ public abstract class Controller {
 	@SuppressWarnings("unchecked")
 	private void _flashRestore() {
 		Map<String, Object> flashMap = (Map<String, Object>) session.getAttribute(_FLASH_SCOPE_OBJECT_KEY);
-		for (Entry<String, Object> entry : flashMap.entrySet()) {
-			request.setAttribute(entry.getKey(), entry.getValue());
+		if (flashMap != null) {
+			for (Entry<String, Object> entry : flashMap.entrySet()) {
+				request.setAttribute(entry.getKey(), entry.getValue());
+			}
+			session.removeAttribute(_FLASH_SCOPE_OBJECT_KEY);
 		}
-		session.removeAttribute(_FLASH_SCOPE_OBJECT_KEY);
 	}
 
 	/*

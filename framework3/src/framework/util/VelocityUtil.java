@@ -97,14 +97,14 @@ public class VelocityUtil {
 				try {
 					br.close();
 				} catch (IOException e) {
-					logger.error(e);
+					logger.error("Error!", e);
 				}
 			}
 			if (fr != null) {
 				try {
 					fr.close();
 				} catch (IOException e) {
-					logger.error(e);
+					logger.error("Error!", e);
 				}
 			}
 		}

@@ -57,22 +57,10 @@ public class Params extends HashMap<String, String[]> {
 		if (ServletFileUpload.isMultipartContent(request)) {
 			try {
 				DiskFileItemFactory factory = new DiskFileItemFactory();
-				try {
-					factory.setSizeThreshold(_getConfig().getInt("fileupload.sizeThreshold"));
-				} catch (IllegalArgumentException e) {
-					logger.error(e);
-				}
-				try {
-					factory.setRepository(new File(_getConfig().getString("fileupload.repository")));
-				} catch (IllegalArgumentException e) {
-					logger.error(e);
-				}
+				factory.setSizeThreshold(_getConfig().getInt("fileupload.sizeThreshold"));
+				factory.setRepository(new File(_getConfig().getString("fileupload.repository")));
 				ServletFileUpload upload = new ServletFileUpload(factory);
-				try {
-					upload.setSizeMax(_getConfig().getInt("fileupload.sizeMax"));
-				} catch (IllegalArgumentException e) {
-					logger.error(e);
-				}
+				upload.setSizeMax(_getConfig().getInt("fileupload.sizeMax"));
 				List<FileItem> items = upload.parseRequest(request);
 				for (FileItem item : items) {
 					if (item.isFormField()) {

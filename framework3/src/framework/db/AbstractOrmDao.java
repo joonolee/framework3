@@ -22,7 +22,7 @@ public abstract class AbstractOrmDao {
 	protected RecordSet executeQuery(String query, Object[] where) {
 		RecordSet rs = null;
 		if (this.db == null) {
-			logger.error("executeQuery : Can't open DB Connection!");
+			logger.error("Can't open DB Connection!");
 			return null;
 		}
 		SQLPreparedStatement pstmt = null;
@@ -43,7 +43,7 @@ public abstract class AbstractOrmDao {
 	protected int execute(String query, Object[] values) {
 		int result = 0;
 		if (this.db == null) {
-			logger.error("executeQuery : Can't open DB Connection!");
+			logger.error("Can't open DB Connection!");
 			return 0;
 		}
 		SQLPreparedStatement pstmt = null;
@@ -62,7 +62,7 @@ public abstract class AbstractOrmDao {
 	public int[] save(ValueObjectArray voArray) {
 		int result[] = null;
 		if (this.db == null) {
-			logger.error("executeQuery : Can't open DB Connection!");
+			logger.error("Can't open DB Connection!");
 			return null;
 		}
 		if (voArray.size() == 0) {

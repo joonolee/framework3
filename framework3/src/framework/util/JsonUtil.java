@@ -126,20 +126,20 @@ public class JsonUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					logger.error(e);
+					logger.error("Error!", e);
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						logger.error(e);
+						logger.error("Error!", e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						logger.error(e);
+						logger.error("Error!", e);
 					}
 				}
 			}
@@ -183,20 +183,20 @@ public class JsonUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					logger.error(e);
+					logger.error("Error!", e);
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						logger.error(e);
+						logger.error("Error!", e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						logger.error(e);
+						logger.error("Error!", e);
 					}
 				}
 			}
