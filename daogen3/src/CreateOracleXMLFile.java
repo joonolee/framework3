@@ -61,20 +61,20 @@ public class CreateOracleXMLFile {
 			}
 			System.out.println("=== 선택된 테이블 목록에서 파일 생성 END ===");
 		} catch (Throwable e) {
-			System.err.println("에러발생");
+			e.printStackTrace();
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					System.err.println("에러발생");
+					e.printStackTrace();
 				}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					System.err.println("에러발생");
+					e.printStackTrace();
 				}
 			}
 		}
@@ -111,27 +111,27 @@ public class CreateOracleXMLFile {
 			}
 			System.out.println("=== 전체 테이블 목록에서 파일 생성 END ===");
 		} catch (Throwable e) {
-			System.err.println("에러발생");
+			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-					System.err.println("에러발생");
+					e.printStackTrace();
 				}
 			}
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					System.err.println("에러발생");
+					e.printStackTrace();
 				}
 			}
 			if (conn != null) {
 				try {
 					conn.close();
 				} catch (SQLException e) {
-					System.err.println("에러발생");
+					e.printStackTrace();
 				}
 			}
 		}
@@ -194,6 +194,14 @@ public class CreateOracleXMLFile {
 			}
 		}
 		System.out.println(_filePath + "/" + tbName + ".xml created! ");
+		String cmd = "";
+		if (System.getProperty("os.name").toLowerCase().startsWith("win")) {
+			cmd = "run.bat " + tbName;
+		} else {
+			cmd = "run.sh " + tbName;
+		}
+		Process p = Runtime.getRuntime().exec(cmd);
+		p.waitFor();
 	}
 
 	private static List<String> _getPkList(String tableName, Connection conn) throws Throwable {
