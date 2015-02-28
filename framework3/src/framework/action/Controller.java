@@ -184,24 +184,23 @@ public abstract class Controller {
 
 	/** 
 	 * 요청을 JSP페이지로 재지향(Redirect) 한다.
-	 * 작성된 JSP페이지는  routes.properties에 등록한다.
 	 * <br>
-	 * ex) 키가 search-jsp 인 JSP페이지로 재지향 할 경우 : redirect("search-jsp")
-	 * @param key routes.properties 파일에 등록된 JSP 페이지의 키
+	 * ex) search.jsp 인 JSP페이지로 재지향 할 경우 : redirect("/serach.jsp")
+	 * @param url 재지향(Redirect)할 url 주소
 	 */
-	protected void redirect(String key) {
+	protected void redirect(String url) {
 		try {
-			String url = null;
-			if (Pattern.matches("^/.+", key)) {
-				url = request.getContextPath() + response.encodeRedirectURL(key);
-				url = url.replaceAll("/+", "/");
+			String encodedUrl = null;
+			if (Pattern.matches("^/.+", url)) {
+				encodedUrl = request.getContextPath() + response.encodeRedirectURL(url);
+				encodedUrl = encodedUrl.replaceAll("/+", "/");
 			} else {
-				url = response.encodeRedirectURL(key);
+				encodedUrl = response.encodeRedirectURL(url);
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 redirect 되었습니다");
+				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + encodedUrl + "\" 로 redirect 되었습니다");
 			}
-			response.sendRedirect(url);
+			response.sendRedirect(encodedUrl);
 		} catch (Throwable e) {
 			logger.error("Redirect Error!", e);
 		}
