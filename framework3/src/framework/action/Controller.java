@@ -143,12 +143,12 @@ public abstract class Controller {
 			}
 			_after();
 		} catch (_ActionStopException e) {
-			logger.error("Action Stop Error!", e);
+			logger.error("", e);
 		} finally {
 			try {
 				_finally();
 			} catch (Throwable te) {
-				logger.error("Finally Error!", te);
+				logger.error("", te);
 			}
 			_flashSave();
 			_destroy();
@@ -178,7 +178,7 @@ public abstract class Controller {
 			}
 			servlet.getServletContext().getRequestDispatcher(response.encodeURL(url)).forward(request, response);
 		} catch (Throwable e) {
-			logger.error("Render Error!", e);
+			logger.error("", e);
 		}
 	}
 
@@ -202,7 +202,7 @@ public abstract class Controller {
 			}
 			response.sendRedirect(encodedUrl);
 		} catch (Throwable e) {
-			logger.error("Redirect Error!", e);
+			logger.error("", e);
 		}
 	}
 
@@ -255,7 +255,7 @@ public abstract class Controller {
 				db.setAutoCommit(false);
 				_dbMap.put(serviceName, db);
 			} catch (Throwable e) {
-				logger.error("DB Connection Error!", e);
+				logger.error("", e);
 			}
 		}
 		return _dbMap.get(serviceName);
@@ -570,7 +570,7 @@ public abstract class Controller {
 			params = null;
 			out = null;
 		} catch (Throwable e) {
-			logger.error("Destroy Error!", e);
+			logger.error("", e);
 		}
 	}
 }

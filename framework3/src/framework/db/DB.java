@@ -131,7 +131,7 @@ public class DB {
 				try {
 					stmt.close();
 				} catch (Throwable e) {
-					logger.error("Statement Close Error!", e);
+					logger.error("", e);
 				}
 			}
 		}
@@ -139,12 +139,12 @@ public class DB {
 			try {
 				getConnection().rollback();
 			} catch (Throwable e) {
-				logger.error("Connection Rollback Error!", e);
+				logger.error("", e);
 			}
 			try {
 				getConnection().close();
 			} catch (Throwable e) {
-				logger.error("Connection Close Error!", e);
+				logger.error("", e);
 			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("DB연결 종료! : " + _dsName);
@@ -160,7 +160,7 @@ public class DB {
 		try {
 			getConnection().rollback();
 		} catch (SQLException e) {
-			logger.error("Rollback Error!", e);
+			logger.error("", e);
 		}
 	}
 
@@ -168,7 +168,7 @@ public class DB {
 		try {
 			getConnection().setAutoCommit(isAuto);
 		} catch (SQLException e) {
-			logger.error("Set Auto Commit Error!", e);
+			logger.error("", e);
 		}
 	}
 }

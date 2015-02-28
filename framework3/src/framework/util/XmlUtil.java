@@ -138,20 +138,20 @@ public class XmlUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					logger.error("Error!", e);
+					logger.error("", e);
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						logger.error("Error!", e);
+						logger.error("", e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						logger.error("Error!", e);
+						logger.error("", e);
 					}
 				}
 			}
@@ -190,20 +190,20 @@ public class XmlUtil {
 				try {
 					stmt = rs.getStatement();
 				} catch (SQLException e) {
-					logger.error("Error!", e);
+					logger.error("", e);
 				}
 				if (rs != null) {
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						logger.error("Error!", e);
+						logger.error("", e);
 					}
 				}
 				if (stmt != null) {
 					try {
 						stmt.close();
 					} catch (SQLException e) {
-						logger.error("Error!", e);
+						logger.error("", e);
 					}
 				}
 			}

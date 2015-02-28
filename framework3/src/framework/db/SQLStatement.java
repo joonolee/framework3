@@ -32,7 +32,7 @@ public class SQLStatement extends DBStatement {
 				_stmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
-			logger.error("DB Error!", e);
+			logger.error("", e);
 			throw new RuntimeException(e);
 		}
 		return _stmt;
@@ -44,7 +44,7 @@ public class SQLStatement extends DBStatement {
 			try {
 				_stmt.close();
 			} catch (SQLException e) {
-				logger.error("Close Error!", e);
+				logger.error("", e);
 				throw new RuntimeException(e);
 			}
 		}
@@ -68,7 +68,7 @@ public class SQLStatement extends DBStatement {
 				logger.debug("@Sql End (STATEMENT)");
 			}
 		} catch (SQLException e) {
-			logger.error("DB Error!", e);
+			logger.error("", e);
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
 		}
 		return _rs;
@@ -106,7 +106,7 @@ public class SQLStatement extends DBStatement {
 				logger.debug("@Sql End (STATEMENT)");
 			}
 		} catch (SQLException e) {
-			logger.error("DB Error!", e);
+			logger.error("", e);
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
 		}
 		return _upCnt;

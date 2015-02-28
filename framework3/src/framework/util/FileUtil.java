@@ -111,14 +111,14 @@ public class FileUtil {
 				try {
 					in.close();
 				} catch (IOException e) {
-					logger.error("Error!", e);
+					logger.error("", e);
 				}
 			}
 			if (out != null) {
 				try {
 					out.close();
 				} catch (IOException e) {
-					logger.error("Error!", e);
+					logger.error("", e);
 				}
 			}
 		}
@@ -254,20 +254,20 @@ public class FileUtil {
 				bos.write(b, 0, readBytes);
 			}
 		} catch (IOException e) {
-			logger.error("Error!", e);
+			logger.error("", e);
 		} finally {
 			if (bis != null) {
 				try {
 					bis.close();
 				} catch (IOException e) {
-					logger.error("Error!", e);
+					logger.error("", e);
 				}
 			}
 			if (bos != null) {
 				try {
 					bos.close();
 				} catch (IOException e) {
-					logger.error("Error!", e);
+					logger.error("", e);
 				}
 			}
 		}
