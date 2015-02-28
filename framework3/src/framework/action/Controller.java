@@ -342,7 +342,7 @@ public abstract class Controller {
 	 * 플래시객체를 세션에 저장
 	 */
 	private void _flashSave() {
-		setSessionAttribute(_FLASH_SCOPE_OBJECT_KEY, flash);
+		session.setAttribute(_FLASH_SCOPE_OBJECT_KEY, flash);
 	}
 
 	/*
@@ -350,10 +350,11 @@ public abstract class Controller {
 	 */
 	@SuppressWarnings("unchecked")
 	private void _flashRestore() {
-		Map<String, Object> flashMap = (Map<String, Object>) getSessionAttribute(_FLASH_SCOPE_OBJECT_KEY);
+		Map<String, Object> flashMap = (Map<String, Object>) session.getAttribute(_FLASH_SCOPE_OBJECT_KEY);
 		for (Entry<String, Object> entry : flashMap.entrySet()) {
-			setAttribute(entry.getKey(), entry.getValue());
+			request.setAttribute(entry.getKey(), entry.getValue());
 		}
+		session.removeAttribute(_FLASH_SCOPE_OBJECT_KEY);
 	}
 
 	/*
