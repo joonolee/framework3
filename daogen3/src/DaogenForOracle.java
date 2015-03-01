@@ -1,5 +1,5 @@
 /*
- * @(#)CreateMSSqlXMLFile.java
+ * @(#)CreateOracleXMLFile.java
  * DAO, VO 생성에 필요한 메타정보 xml 파일을 추출
  */
 import java.io.BufferedWriter;
@@ -16,18 +16,29 @@ import java.sql.Types;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class CreateMSSqlXMLFile {
+public class DaogenForOracle {
 	private static final String _filePath = "xml";
-	private static final String _jdbcDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static final String _jdbcUrl = "jdbc:sqlserver://instancename:port;databaseName=";
-	private static final String _jdbcUid = "";
-	private static final String _jdbcPw = "";
+	private static String _jdbcDriver = "";
+	private static String _jdbcUrl = "";
+	private static String _jdbcUid = "";
+	private static String _jdbcPwd = "";
 
 	// 테이블 목록
 	private static List<String> _tbList = Arrays.asList();
 
 	public static void main(String[] args) {
+		// db properties setting
+		ResourceBundle bundle = ResourceBundle.getBundle("db");
+		_jdbcDriver = bundle.getString("jdbc.driver").trim();
+		_jdbcUrl = bundle.getString("jdbc.url").trim();
+		_jdbcUid = bundle.getString("jdbc.uid").trim();
+		_jdbcPwd = bundle.getString("jdbc.pwd").trim();
+		// table list
+		if (_tbList.size() == 0) {
+			_tbList = Arrays.asList(args);
+		}
 		if (_tbList.size() > 0) {
 			_selTables();
 		} else {
@@ -43,14 +54,14 @@ public class CreateMSSqlXMLFile {
 		Statement stmt = null;
 		try {
 			DriverManager.registerDriver((Driver) Class.forName(_jdbcDriver).newInstance());
-			conn = DriverManager.getConnection(_jdbcUrl, _jdbcUid, _jdbcPw);
+			conn = DriverManager.getConnection(_jdbcUrl, _jdbcUid, _jdbcPwd);
 			System.out.println("JDBC Driver 로딩...");
 			System.out.println("=== 선택된 테이블 목록에서 파일 생성 START ===");
 			stmt = conn.createStatement();
 			for (String tbName : _tbList) {
 				ResultSet rs = null;
 				try {
-					rs = stmt.executeQuery("select top 1 * from " + tbName);
+					rs = stmt.executeQuery("select * from " + tbName + " where rownum = 1");
 					ResultSetMetaData rsmd = rs.getMetaData();
 					_writeFile(rsmd, tbName, conn);
 				} finally {
@@ -86,18 +97,18 @@ public class CreateMSSqlXMLFile {
 		ResultSet rs = null;
 		try {
 			DriverManager.registerDriver((Driver) Class.forName(_jdbcDriver).newInstance());
-			conn = DriverManager.getConnection(_jdbcUrl, _jdbcUid, _jdbcPw);
+			conn = DriverManager.getConnection(_jdbcUrl, _jdbcUid, _jdbcPwd);
 			System.out.println("JDBC Driver 로딩...");
 			System.out.println("=== 전체 테이블 목록에서 파일 생성 START ===");
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select table_name from information_schema.tables");
+			rs = stmt.executeQuery("select table_name from user_tables order by 1");
 			while (rs.next()) {
 				Statement stmt2 = null;
 				ResultSet rs2 = null;
 				try {
 					String tbName = rs.getString(1);
 					stmt2 = conn.createStatement();
-					rs2 = stmt2.executeQuery("select top 1 * from " + tbName);
+					rs2 = stmt2.executeQuery("select * from " + tbName + " where rownum = 1");
 					ResultSetMetaData rsmd = rs2.getMetaData();
 					_writeFile(rsmd, tbName, conn);
 				} finally {
@@ -156,27 +167,27 @@ public class CreateMSSqlXMLFile {
 			bw.write("<table name=\"" + tbName + "\"  schema=\"" + _jdbcUid + "\" class=\"" + tbName + "\">\n");
 			bw.write("  <description></description>\n");
 			bw.write("  <columns>\n");
-			for (int c = 1; c <= rsmd.getColumnCount(); c++) {
-				StringBuffer buf = new StringBuffer();
+			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+				StringBuilder buf = new StringBuilder();
 				buf.append("    <column name=\"");
-				buf.append(rsmd.getColumnName(c));
+				buf.append(rsmd.getColumnName(i));
 				buf.append("\" type=\"");
-				buf.append(_getJavaType(rsmd.getColumnType(c), rsmd.getPrecision(c), rsmd.getScale(c)));
+				buf.append(_getJavaType(rsmd.getColumnType(i), rsmd.getPrecision(i), rsmd.getScale(i)));
 				buf.append("\" dbType=\"");
-				buf.append(_getDBType(rsmd.getColumnType(c), rsmd.getPrecision(c), rsmd.getScale(c)));
+				buf.append(_getDBType(rsmd.getColumnType(i), rsmd.getPrecision(i), rsmd.getScale(i)));
 				buf.append("\" desc=\"\" notnull=\"");
-				buf.append((rsmd.isNullable(c) == 0 ? "true" : "false") + "\"");
-				if (rsmd.getColumnName(c).equals("ENTERID") || rsmd.getColumnName(c).equals("ENTERNAME") || rsmd.getColumnName(c).equals("ENTERPGM")) {
+				buf.append((rsmd.isNullable(i) == 0 ? "true" : "false") + "\"");
+				if (rsmd.getColumnName(i).equals("ENTERID") || rsmd.getColumnName(i).equals("ENTERNAME") || rsmd.getColumnName(i).equals("ENTERPGM")) {
 					buf.append(" update=\"none\"");
 				}
 				// 입력일, 수정일에 대한 별도 처리
-				if (rsmd.getColumnName(c).equals("ENTERDATE")) {
-					buf.append(" insert=\"getdate()\" update=\"none\"");
+				if (rsmd.getColumnName(i).equals("ENTERDATE")) {
+					buf.append(" insert=\"sysdate\" update=\"none\"");
 				}
-				if (rsmd.getColumnName(c).equals("UPDATEDATE")) {
-					buf.append(" insert=\"none\" update=\"getdate()\"");
+				if (rsmd.getColumnName(i).equals("UPDATEDATE")) {
+					buf.append(" insert=\"none\" update=\"sysdate\"");
 				}
-				if (pkList.contains(rsmd.getColumnName(c))) {
+				if (pkList.contains(rsmd.getColumnName(i))) {
 					buf.append(" primarykey=\"true\"");
 				}
 				buf.append(" />\n");
@@ -209,13 +220,14 @@ public class CreateMSSqlXMLFile {
 		ResultSet rs = null;
 		Statement stmt = null;
 		try {
-			StringBuffer query = new StringBuffer();
-			query.append("select col.column_name  ");
-			query.append("from sysobjects cons ");
-			query.append("    inner join information_schema.key_column_usage col on cons.name = col.constraint_name ");
-			query.append("where cons.xtype = 'PK' ");
-			query.append("    and col.table_name = '" + tableName + "' ");
-			query.append("order by col.ordinal_position ");
+			StringBuilder query = new StringBuilder();
+			query.append("select ");
+			query.append("    b.column_name ");
+			query.append("from user_constraints a ");
+			query.append("    inner join user_cons_columns b on a.constraint_name = b.constraint_name ");
+			query.append("where a.constraint_type = 'P' ");
+			query.append("    and b.table_name = '" + tableName + "' ");
+			query.append("order by b.position");
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(query.toString());
 			while (rs.next()) {
@@ -261,13 +273,9 @@ public class CreateMSSqlXMLFile {
 		case Types.NUMERIC:
 			return "number(" + len + (s == 0 ? ")" : "." + s + ")");
 		case Types.VARCHAR:
-			return "varchar(" + len + ")";
-		case Types.NVARCHAR:
-			return "nvarchar(" + len + ")";
+			return "varchar2(" + len + ")";
 		case Types.CHAR:
 			return "char(" + len + ")";
-		case Types.NCHAR:
-			return "nchar(" + len + ")";
 		case Types.DATE:
 			return "date";
 		default:
