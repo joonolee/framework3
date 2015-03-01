@@ -77,7 +77,7 @@ public class VelocityUtil {
 	}
 
 	/** 
-	 * 파일의 path를 가지 파일명으로 파일 내용 읽어서 String으로 리턴한다 
+	 * 파일의 path의 파일 내용 읽어서 String으로 리턴한다 
 	 */
 	private static String _read(String pathFile) {
 		StringBuilder ta = new StringBuilder();
