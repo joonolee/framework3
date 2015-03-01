@@ -82,22 +82,27 @@ public class HttpUtil {
 	public static Result get(String url, Map<String, String> headerMap) {
 		int statusCode = 0;
 		String content = "";
+		HttpClient httpClient = null;
 		try {
-			HttpClient httpClient = new DefaultHttpClient();
+			httpClient = new DefaultHttpClient();
 			HttpGet httpGet = new HttpGet(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
 					httpGet.addHeader(entry.getKey(), entry.getValue());
 				}
 			}
-			HttpResponse responseGet = httpClient.execute(httpGet);
-			statusCode = responseGet.getStatusLine().getStatusCode();
-			HttpEntity resEntityGet = responseGet.getEntity();
-			if (resEntityGet != null) {
-				content = EntityUtils.toString(resEntityGet);
+			HttpResponse response = httpClient.execute(httpGet);
+			statusCode = response.getStatusLine().getStatusCode();
+			HttpEntity resEntity = response.getEntity();
+			if (resEntity != null) {
+				content = EntityUtils.toString(resEntity);
 			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (httpClient != null) {
+				httpClient.getConnectionManager().shutdown();
+			}
 		}
 		return new Result(statusCode, content);
 	}
@@ -131,8 +136,9 @@ public class HttpUtil {
 	public static Result post(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
 		int statusCode = 0;
 		String content = "";
+		HttpClient httpClient = null;
 		try {
-			HttpClient httpClient = new DefaultHttpClient();
+			httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
@@ -147,14 +153,18 @@ public class HttpUtil {
 			}
 			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, "UTF-8");
 			httpPost.setEntity(ent);
-			HttpResponse responsePOST = httpClient.execute(httpPost);
-			statusCode = responsePOST.getStatusLine().getStatusCode();
-			HttpEntity resEntity = responsePOST.getEntity();
+			HttpResponse response = httpClient.execute(httpPost);
+			statusCode = response.getStatusLine().getStatusCode();
+			HttpEntity resEntity = response.getEntity();
 			if (resEntity != null) {
 				content = EntityUtils.toString(resEntity);
 			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (httpClient != null) {
+				httpClient.getConnectionManager().shutdown();
+			}
 		}
 		return new Result(statusCode, content);
 	}
@@ -181,8 +191,9 @@ public class HttpUtil {
 	public static Result post(String url, Map<String, String> paramMap, List<File> fileList, Map<String, String> headerMap) {
 		int statusCode = 0;
 		String content = "";
+		HttpClient httpClient = null;
 		try {
-			HttpClient httpClient = new DefaultHttpClient();
+			httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
@@ -210,6 +221,10 @@ public class HttpUtil {
 			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (httpClient != null) {
+				httpClient.getConnectionManager().shutdown();
+			}
 		}
 		return new Result(statusCode, content);
 	}
