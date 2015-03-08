@@ -21,7 +21,7 @@ import framework.db.RecordSet;
  * DataTables 를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
 public class DataTablesUtil {
-	protected static final Log logger = LogFactory.getLog(framework.util.DataTablesUtil.class);
+	private static final Log logger = LogFactory.getLog(framework.util.DataTablesUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

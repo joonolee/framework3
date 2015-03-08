@@ -26,7 +26,7 @@ import framework.util.StringUtil;
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
 	private static final String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
-	protected static final Log logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
+	private static final Log logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
 
 	/**
 	 * 서블릿 객체를 초기화 한다.

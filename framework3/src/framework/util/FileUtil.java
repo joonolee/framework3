@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  * 파일처리, 업로드, 다운로드시 이용할 수 있는 유틸리티 클래스이다.
  */
 public class FileUtil {
-	protected static final Log logger = LogFactory.getLog(framework.util.FileUtil.class);
+	private static final Log logger = LogFactory.getLog(framework.util.FileUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

@@ -1,57 +1,31 @@
 package framework.db;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 /**
  * MyBatis를 이용한 DAO를 작성할때 상속받는 부모 클래스이다.
  */
 public class MyBatisDaoSupport {
 	protected static final Log logger = LogFactory.getLog(framework.db.MyBatisDaoSupport.class);
-	protected static SqlSessionFactory sqlSessionFactory = null;
-	protected DB db = null;
 	protected SqlSession sqlSession = null;
 
-	static {
-		Reader reader = null;
-		try {
-			reader = Resources.getResourceAsReader("mybatis-config.xml");
-			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-		} catch (Throwable e) {
-			throw new RuntimeException("Something bad happened while building the SqlSessionFactory instance." + e, e);
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-				}
-			}
-		}
-	}
-
 	public MyBatisDaoSupport(DB db) {
-		this.db = db;
-		MyBatisSession session = db.createMyBatisSession(sqlSessionFactory);
-		sqlSession = session.getSession();
+		sqlSession = db.getMyBatisSession();
 	}
 
 	public void commit() {
-		this.db.commit();
+		sqlSession.commit();
 	}
 
 	public void rollback() {
-		this.db.rollback();
+		sqlSession.rollback();
 	}
 
 	public int delete(String statement) {

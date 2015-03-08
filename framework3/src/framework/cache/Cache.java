@@ -13,7 +13,7 @@ public class Cache {
 	/**
 	 * 로거객체 정의
 	 */
-	protected static final Log logger = LogFactory.getLog(framework.cache.Cache.class);
+	private static final Log logger = LogFactory.getLog(framework.cache.Cache.class);
 
 	/**
 	 * 캐시구현체

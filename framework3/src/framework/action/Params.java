@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import framework.config.Config;
 import framework.util.StringUtil;
@@ -27,7 +25,6 @@ import framework.util.StringUtil;
  */
 public class Params extends HashMap<String, String[]> {
 	private static final long serialVersionUID = 7143941735208780214L;
-	protected static final Log logger = LogFactory.getLog(framework.action.Params.class);
 	private String _name = null;
 	private List<FileItem> _fileItems = new ArrayList<FileItem>();
 

@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisShardInfo;
@@ -24,7 +21,6 @@ import framework.config.Config;
  * Redis 캐시 구현체 (http://redis.io/)
  */
 public class Redis extends AbstractCache {
-	protected static final Log logger = LogFactory.getLog(framework.cache.Redis.class);
 
 	/**
 	 * 싱글톤 객체
@@ -254,7 +250,7 @@ public class Redis extends AbstractCache {
 	 * @param obj 직렬화할 객체
 	 * @return 바이트배열
 	 */
-	public byte[] _serialize(Object obj) {
+	private byte[] _serialize(Object obj) {
 		ObjectOutputStream oos = null;
 		ByteArrayOutputStream baos = null;
 		try {
@@ -263,9 +259,8 @@ public class Redis extends AbstractCache {
 			oos.writeObject(obj);
 			return baos.toByteArray();
 		} catch (Throwable e) {
-			logger.error("", e);
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 
 	/**
@@ -273,15 +268,14 @@ public class Redis extends AbstractCache {
 	 * @param bytes 바이트배열
 	 * @return 역직렬화된 객체
 	 */
-	public Object _deserialize(byte[] bytes) {
+	private Object _deserialize(byte[] bytes) {
 		ByteArrayInputStream bais = null;
 		try {
 			bais = new ByteArrayInputStream(bytes);
 			ObjectInputStream ois = new ObjectInputStream(bais);
 			return ois.readObject();
 		} catch (Throwable e) {
-			logger.error("", e);
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 }
