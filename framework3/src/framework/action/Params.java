@@ -1,7 +1,6 @@
 package framework.action;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -125,7 +124,7 @@ public class Params extends HashMap<String, String[]> {
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 값(value)문자열을 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 값문자열
+	 * @return key에 매핑되어 있는 값 문자열
 	 */
 	public String get(String key) {
 		String[] value = super.get(key);
@@ -221,7 +220,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 String 객체
 	 */
 	public String getString(String key) {
-		String str = (String) get(key);
+		String str = get(key);
 		if (str == null) {
 			return "";
 		}
@@ -248,7 +247,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 String 객체
 	 */
 	public String getRawString(String key) {
-		return StringUtil.nullToBlankString((String) get(key));
+		return StringUtil.nullToBlankString(get(key));
 	}
 
 	/** 
@@ -297,38 +296,34 @@ public class Params extends HashMap<String, String[]> {
 		long currentRow = 0;
 		for (String key : keySet()) {
 			String value = null;
-			Object o = get(key);
+			String[] o = super.get(key);
 			if (o == null) {
 				value = "";
 			} else {
-				if (o.getClass().isArray()) {
-					int length = Array.getLength(o);
-					if (length == 0) {
+				int length = o.length;
+				if (length == 0) {
+					value = "";
+				} else if (length == 1) {
+					String item = o[0];
+					if (item == null) {
 						value = "";
-					} else if (length == 1) {
-						Object item = Array.get(o, 0);
-						if (item == null) {
-							value = "";
-						} else {
-							value = item.toString();
-						}
 					} else {
-						StringBuilder valueBuf = new StringBuilder();
-						valueBuf.append("[");
-						for (int j = 0; j < length; j++) {
-							Object item = Array.get(o, j);
-							if (item != null) {
-								valueBuf.append(item.toString());
-							}
-							if (j < length - 1) {
-								valueBuf.append(",");
-							}
-						}
-						valueBuf.append("]");
-						value = valueBuf.toString();
+						value = item;
 					}
 				} else {
-					value = o.toString();
+					StringBuilder valueBuf = new StringBuilder();
+					valueBuf.append("[");
+					for (int j = 0; j < length; j++) {
+						String item = o[j];
+						if (item != null) {
+							valueBuf.append(item);
+						}
+						if (j < length - 1) {
+							valueBuf.append(",");
+						}
+					}
+					valueBuf.append("]");
+					value = valueBuf.toString();
 				}
 			}
 			if (currentRow++ > 0) {
@@ -348,28 +343,24 @@ public class Params extends HashMap<String, String[]> {
 		StringBuilder buf = new StringBuilder();
 		long currentRow = 0;
 		for (String key : keySet()) {
-			Object o = get(key);
+			String[] o = super.get(key);
 			if (currentRow++ > 0) {
 				buf.append("&");
 			}
 			if (o == null) {
 				buf.append(key + "=" + "");
 			} else {
-				if (o.getClass().isArray()) {
-					StringBuilder valueBuf = new StringBuilder();
-					for (int j = 0, length = Array.getLength(o); j < length; j++) {
-						Object item = Array.get(o, j);
-						if (item != null) {
-							valueBuf.append(key + "=" + item.toString());
-						}
-						if (j < length - 1) {
-							valueBuf.append("&");
-						}
+				StringBuilder valueBuf = new StringBuilder();
+				for (int j = 0, length = o.length; j < length; j++) {
+					String item = o[j];
+					if (item != null) {
+						valueBuf.append(key + "=" + item);
 					}
-					buf.append(valueBuf.toString());
-				} else {
-					buf.append(key + "=" + o.toString());
+					if (j < length - 1) {
+						valueBuf.append("&");
+					}
 				}
+				buf.append(valueBuf.toString());
 			}
 		}
 		return buf.toString();
@@ -384,33 +375,29 @@ public class Params extends HashMap<String, String[]> {
 		buf.append("<items>");
 		buf.append("<item>");
 		for (String key : keySet()) {
-			Object o = get(key);
-			if (o == null || "".equals(o)) {
+			String[] o = super.get(key);
+			if (o == null) {
 				buf.append("<" + key.toLowerCase() + ">" + "</" + key.toLowerCase() + ">");
 			} else {
-				if (o.getClass().isArray()) {
-					int length = Array.getLength(o);
-					if (length == 0) {
+				int length = o.length;
+				if (length == 0) {
+					buf.append("<" + key.toLowerCase() + ">" + "</" + key.toLowerCase() + ">");
+				} else if (length == 1) {
+					String item = o[0];
+					if (item == null || "".equals(item)) {
 						buf.append("<" + key.toLowerCase() + ">" + "</" + key.toLowerCase() + ">");
-					} else if (length == 1) {
-						Object item = Array.get(o, 0);
+					} else {
+						buf.append("<" + key.toLowerCase() + ">" + "<![CDATA[" + item + "]]>" + "</" + key.toLowerCase() + ">");
+					}
+				} else {
+					for (int j = 0; j < length; j++) {
+						String item = o[j];
 						if (item == null || "".equals(item)) {
 							buf.append("<" + key.toLowerCase() + ">" + "</" + key.toLowerCase() + ">");
 						} else {
-							buf.append("<" + key.toLowerCase() + ">" + "<![CDATA[" + item.toString() + "]]>" + "</" + key.toLowerCase() + ">");
-						}
-					} else {
-						for (int j = 0; j < length; j++) {
-							Object item = Array.get(o, j);
-							if (item == null || "".equals(item)) {
-								buf.append("<" + key.toLowerCase() + ">" + "</" + key.toLowerCase() + ">");
-							} else {
-								buf.append("<" + key.toLowerCase() + ">" + "<![CDATA[" + item.toString() + "]]>" + "</" + key.toLowerCase() + ">");
-							}
+							buf.append("<" + key.toLowerCase() + ">" + "<![CDATA[" + item + "]]>" + "</" + key.toLowerCase() + ">");
 						}
 					}
-				} else {
-					buf.append("<" + key.toLowerCase() + ">" + "<![CDATA[" + o.toString() + "]]>" + "</" + key.toLowerCase() + ">");
 				}
 			}
 		}
@@ -429,38 +416,34 @@ public class Params extends HashMap<String, String[]> {
 		long currentRow = 0;
 		for (String key : keySet()) {
 			String value = null;
-			Object o = get(key);
+			String[] o = super.get(key);
 			if (o == null) {
 				value = "\"\"";
 			} else {
-				if (o.getClass().isArray()) {
-					int length = Array.getLength(o);
-					if (length == 0) {
+				int length = o.length;
+				if (length == 0) {
+					value = "\"\"";
+				} else if (length == 1) {
+					String item = o[0];
+					if (item == null) {
 						value = "\"\"";
-					} else if (length == 1) {
-						Object item = Array.get(o, 0);
-						if (item == null) {
-							value = "\"\"";
-						} else {
-							value = "\"" + _escapeJS(item.toString()) + "\"";
-						}
 					} else {
-						StringBuilder valueBuf = new StringBuilder();
-						valueBuf.append("[");
-						for (int j = 0; j < length; j++) {
-							Object item = Array.get(o, j);
-							if (item != null) {
-								valueBuf.append("\"" + _escapeJS(item.toString()) + "\"");
-							}
-							if (j < length - 1) {
-								valueBuf.append(",");
-							}
-						}
-						valueBuf.append("]");
-						value = valueBuf.toString();
+						value = "\"" + _escapeJS(item) + "\"";
 					}
 				} else {
-					value = "\"" + _escapeJS(o.toString()) + "\"";
+					StringBuilder valueBuf = new StringBuilder();
+					valueBuf.append("[");
+					for (int j = 0; j < length; j++) {
+						String item = o[j];
+						if (item != null) {
+							valueBuf.append("\"" + _escapeJS(item) + "\"");
+						}
+						if (j < length - 1) {
+							valueBuf.append(",");
+						}
+					}
+					valueBuf.append("]");
+					value = valueBuf.toString();
 				}
 			}
 			if (currentRow++ > 0) {
