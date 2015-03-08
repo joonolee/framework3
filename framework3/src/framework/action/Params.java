@@ -123,24 +123,20 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * 키(key)문자열과 매핑되어 있는 오브젝트를 리턴한다.
+	 * 키(key)문자열과 매핑되어 있는 값(value)문자열을 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 오브젝트
+	 * @return key에 매핑되어 있는 값문자열
 	 */
-	public Object get(String key) {
-		Object value = super.get(key);
+	public String get(String key) {
+		String[] value = super.get(key);
 		if (value == null) {
 			return null;
 		}
-		if (value.getClass().isArray()) {
-			int length = Array.getLength(value);
-			if (length == 0) {
-				value = null;
-			} else {
-				value = Array.get(value, 0);
-			}
+		if (value.length == 0) {
+			return null;
+		} else {
+			return value[0];
 		}
-		return value;
 	}
 
 	/** 
