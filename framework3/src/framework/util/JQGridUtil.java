@@ -488,6 +488,52 @@ public class JQGridUtil {
 	}
 
 	/**
+	 * List객체를 jqGrid 형식으로 출력한다.
+	 * <br>
+	 * ex) response로 mapList를 jqGrid 형식으로 출력하는 경우 : JQGridUtil.render(response, mapList, totalCount, currentPage, rowsPerPage)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param mapList 변환할 List객체
+	 * @param totalCount 전체페이지수
+	 * @param currentPage 현재페이지수
+	 * @param rowsPerPage 한페이지에 표시할 로우수
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, List<Map<String, Object>> mapList, int totalCount, int currentPage, int rowsPerPage) {
+		if (mapList == null) {
+			return 0;
+		}
+		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
+		int totalPage = totalCount / rowsPerPage;
+		if (totalCount % rowsPerPage != 0) {
+			totalPage += 1;
+		}
+		PrintWriter pw;
+		try {
+			pw = response.getWriter();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		pw.print("{");
+		int rowCount = 0;
+		pw.print("\"rows\":[");
+		for (Map<String, Object> map : mapList) {
+			if (rowCount++ > 0) {
+				pw.print(",");
+			}
+			pw.print("{");
+			pw.print("\"id\":" + rowCount + ",");
+			pw.print("\"cell\":" + _jqGridRowStr(map));
+			pw.print("}");
+		}
+		pw.print("],");
+		pw.print("\"total\":" + totalPage + ",");
+		pw.print("\"page\":" + currentPage + ",");
+		pw.print("\"records\":" + totalCount);
+		pw.print("}");
+		return rowCount;
+	}
+
+	/**
 	 * List객체를 jqGrid 형식으로 변환한다. 
 	 * <br>
 	 * ex1) mapList를 jqGrid 형식으로 변환하는 경우 : String json = JQGridUtil.render(mapList, totalCount, currentPage, rowsPerPage)

@@ -294,6 +294,49 @@ public class RDUtil {
 	}
 
 	/**
+	 * List객체를 RD 파일 형식으로 출력한다.
+	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
+	 * <br>
+	 * ex) response로 mapList를 RD 파일 형식으로 출력하는 경우 : RDUtil.render(response, mapList)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param mapList 변환할 List객체
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, List<Map<String, Object>> mapList) {
+		return render(response, mapList, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
+	}
+
+	/**
+	 * List객체를 RD 파일 형식으로 출력한다.
+	 * <br>
+	 * ex) response로 mapList를 RD 파일 형식으로 출력하는 경우 : RDUtil.render(response, mapList)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param mapList 변환할 List객체
+	 * @param colSep 열 구분자로 쓰일 문자열
+	 * @param lineSep 행 구분자로 쓰일 문자열
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, List<Map<String, Object>> mapList, String colSep, String lineSep) {
+		if (mapList == null) {
+			return 0;
+		}
+		PrintWriter pw;
+		try {
+			pw = response.getWriter();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		int rowCount = 0;
+		for (Map<String, Object> map : mapList) {
+			if (rowCount++ > 0) {
+				pw.print(lineSep);
+			}
+			pw.print(_rdRowStr(map, colSep));
+		}
+		return rowCount;
+	}
+
+	/**
 	 * List객체를 RD 파일 형식으로 변환한다.
 	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
 	 * <br>

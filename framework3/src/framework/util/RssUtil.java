@@ -334,6 +334,51 @@ public class RssUtil {
 	}
 
 	/**
+	 * List객체를 RSS 2.0 형식으로 출력한다. 
+	 * <br>
+	 * ex) response로 rssItemList를 RSS 형식으로 출력하는 경우 : RssUtil.render(response, rssItemList, "utf-8", "제목", "http://www.xxx.com", "설명", "admin@xxx.com")
+	 * @param response 클라이언트로 응답할 Response 객체
+	 *  @param rssItemList 변환할 List객체
+	 * @param encoding 헤더에 포함될 인코딩
+	 * @param title 제목 : 필수
+	 * @param link 링크(validator를 통과하기 위해서는 url에 앰퍼센드등은 엔터티표기를 사용하여야 함) : 필수
+	 * @param description 설명 : 필수
+	 * @param webMaster 웹마스터 e-mail 주소(validator를 통과하기 위해서는 "이메일주소(이름)" 형식으로 표기하여야 함) : 옵션
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, List<RssItem> rssItemList, String encoding, String title, String link, String description, String webMaster) {
+		if (rssItemList == null) {
+			return 0;
+		}
+		PrintWriter pw;
+		try {
+			pw = response.getWriter();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		pw.println(_xmlHeaderStr(encoding));
+		pw.println("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">");
+		pw.println("  <channel>");
+		pw.println("    <title>" + "<![CDATA[" + title + "]]>" + "</title>");
+		pw.println("    <link>" + link + "</link>");
+		pw.println("    <description>" + "<![CDATA[" + description + "]]>" + "</description>");
+		pw.println("    <language>ko</language>");
+		pw.println("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>");
+		pw.println("    <pubDate>" + _toRfc822DateFormat(new Date()) + "</pubDate>");
+		if (webMaster != null && !"".equals(webMaster)) {
+			pw.println("    <webMaster>" + webMaster + "</webMaster>");
+		}
+		int rowCount = 0;
+		for (RssItem rssItem : rssItemList) {
+			rowCount++;
+			pw.println(_rssItemStr(rssItem));
+		}
+		pw.println("  </channel>");
+		pw.println("</rss>");
+		return rowCount;
+	}
+
+	/**
 	 * List객체를 RSS 2.0 형태로 변환한다.
 	 * <br>
 	 * ex) rssItemList를 RSS 로 변환하는 경우  : String rss = RssUtil.render(rssItemList, "utf-8", "제목", "http://www.xxx.com", "설명", "admin@xxx.com")
