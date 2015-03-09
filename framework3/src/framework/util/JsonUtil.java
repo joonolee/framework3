@@ -223,6 +223,36 @@ public class JsonUtil {
 	}
 
 	/**
+	 * List객체를 JSON 형식으로 출력한다.
+	 * <br>
+	 * ex) response로 mapList를 JSON 형식으로 출력하는 경우 : JsonUtil.render(response, mapList)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param mapList 변환할 List객체
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, List<Map<String, Object>> mapList) {
+		if (mapList == null) {
+			return 0;
+		}
+		PrintWriter pw;
+		try {
+			pw = response.getWriter();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		pw.print("[");
+		int rowCount = 0;
+		for (Map<String, Object> map : mapList) {
+			if (rowCount++ > 0) {
+				pw.print(",");
+			}
+			pw.print(_jsonRowStr(map));
+		}
+		pw.print("]");
+		return rowCount;
+	}
+
+	/**
 	 * List객체를 JSON 형식으로 변환한다.
 	 * <br>
 	 * ex1) mapList를 JSON 형식으로 변환하는 경우 : String json = JsonUtil.render(mapList)
