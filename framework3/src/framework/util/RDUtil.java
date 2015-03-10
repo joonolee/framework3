@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
@@ -272,7 +272,7 @@ public class RDUtil {
 	 * @param map 변환할 Map객체
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	public static String render(Map<String, Object> map) {
+	public static String render(LinkedHashMap<String, Object> map) {
 		return render(map, _DEFAULT_COLSEP);
 	}
 
@@ -284,7 +284,7 @@ public class RDUtil {
 	 * @param colSep 열 구분자로 쓰일 문자열
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	public static String render(Map<String, Object> map, String colSep) {
+	public static String render(LinkedHashMap<String, Object> map, String colSep) {
 		if (map == null) {
 			return "";
 		}
@@ -302,7 +302,7 @@ public class RDUtil {
 	 * @param mapList 변환할 List객체
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, List<Map<String, Object>> mapList) {
+	public static int render(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList) {
 		return render(response, mapList, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
@@ -316,7 +316,7 @@ public class RDUtil {
 	 * @param lineSep 행 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, List<Map<String, Object>> mapList, String colSep, String lineSep) {
+	public static int render(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String colSep, String lineSep) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -327,7 +327,7 @@ public class RDUtil {
 			throw new RuntimeException(e);
 		}
 		int rowCount = 0;
-		for (Map<String, Object> map : mapList) {
+		for (LinkedHashMap<String, Object> map : mapList) {
 			if (rowCount++ > 0) {
 				pw.print(lineSep);
 			}
@@ -344,7 +344,7 @@ public class RDUtil {
 	 * @param mapList 변환할 List객체
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	public static String render(List<Map<String, Object>> mapList) {
+	public static String render(List<LinkedHashMap<String, Object>> mapList) {
 		return render(mapList, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
 	}
 
@@ -357,13 +357,13 @@ public class RDUtil {
 	 * @param lineSep 행 구분자로 쓰일 문자열
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
-	public static String render(List<Map<String, Object>> mapList, String colSep, String lineSep) {
+	public static String render(List<LinkedHashMap<String, Object>> mapList, String colSep, String lineSep) {
 		if (mapList == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
 		if (mapList.size() > 0) {
-			for (Map<String, Object> map : mapList) {
+			for (LinkedHashMap<String, Object> map : mapList) {
 				buf.append(_rdRowStr(map, colSep));
 				buf.append(lineSep);
 			}
@@ -389,7 +389,7 @@ public class RDUtil {
 	/**
 	 * RD(리포트디자이너) 용 Row 문자열 생성
 	 */
-	private static String _rdRowStr(Map<String, Object> map, String colSep) {
+	private static String _rdRowStr(LinkedHashMap<String, Object> map, String colSep) {
 		StringBuilder buf = new StringBuilder();
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object value = entry.getValue();

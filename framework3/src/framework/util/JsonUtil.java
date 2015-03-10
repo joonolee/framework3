@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -213,7 +214,7 @@ public class JsonUtil {
 	 * @param map 변환할 Map객체
 	 * @return JSON 형식으로 변환된 문자열
 	 */
-	public static String render(Map<String, Object> map) {
+	public static String render(LinkedHashMap<String, Object> map) {
 		if (map == null) {
 			return "";
 		}
@@ -230,7 +231,7 @@ public class JsonUtil {
 	 * @param mapList 변환할 List객체
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, List<Map<String, Object>> mapList) {
+	public static int render(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -242,7 +243,7 @@ public class JsonUtil {
 		}
 		pw.print("[");
 		int rowCount = 0;
-		for (Map<String, Object> map : mapList) {
+		for (LinkedHashMap<String, Object> map : mapList) {
 			if (rowCount++ > 0) {
 				pw.print(",");
 			}
@@ -259,14 +260,14 @@ public class JsonUtil {
 	 * @param mapList 변환할 List객체
 	 * @return JSON 형식으로 변환된 문자열
 	 */
-	public static String render(List<Map<String, Object>> mapList) {
+	public static String render(List<LinkedHashMap<String, Object>> mapList) {
 		if (mapList == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		if (mapList.size() > 0) {
 			buffer.append("[");
-			for (Map<String, Object> map : mapList) {
+			for (LinkedHashMap<String, Object> map : mapList) {
 				buffer.append(_jsonRowStr(map));
 				buffer.append(",");
 			}
@@ -366,7 +367,7 @@ public class JsonUtil {
 	 * JSON 용 Row 문자열 생성
 	 */
 	@SuppressWarnings("unchecked")
-	private static String _jsonRowStr(Map<String, Object> map) {
+	private static String _jsonRowStr(LinkedHashMap<String, Object> map) {
 		StringBuilder buf = new StringBuilder();
 		if (map.entrySet().size() > 0) {
 			buf.append("{");
@@ -379,9 +380,9 @@ public class JsonUtil {
 					if (value instanceof Number || value instanceof Boolean) {
 						buf.append(key + ":" + value.toString());
 					} else if (value instanceof Map) {
-						buf.append(key + ":" + render((Map<String, Object>) value));
+						buf.append(key + ":" + render((LinkedHashMap<String, Object>) value));
 					} else if (value instanceof List) {
-						buf.append(key + ":" + render((List<Map<String, Object>>) value));
+						buf.append(key + ":" + render((List<LinkedHashMap<String, Object>>) value));
 					} else {
 						buf.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
 					}

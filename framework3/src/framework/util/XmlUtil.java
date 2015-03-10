@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -237,7 +238,7 @@ public class XmlUtil {
 	 * @param map 변환할 Map객체
 	 * @return xml 형식으로 변환된 문자열
 	 */
-	public static String render(Map<String, Object> map) {
+	public static String render(LinkedHashMap<String, Object> map) {
 		if (map == null) {
 			return "";
 		}
@@ -256,7 +257,7 @@ public class XmlUtil {
 	 * @param encoding 헤더에 포함될 인코딩
 	 * @return xml 형식으로 변환된 문자열
 	 */
-	public static String render(Map<String, Object> map, String encoding) {
+	public static String render(LinkedHashMap<String, Object> map, String encoding) {
 		if (map == null) {
 			return "";
 		}
@@ -275,7 +276,7 @@ public class XmlUtil {
 	 * @param encoding 헤더에 포함될 인코딩
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, List<Map<String, Object>> mapList, String encoding) {
+	public static int render(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String encoding) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -288,7 +289,7 @@ public class XmlUtil {
 		pw.print(_xmlHeaderStr(encoding));
 		pw.print("<items>");
 		int rowCount = 0;
-		for (Map<String, Object> map : mapList) {
+		for (LinkedHashMap<String, Object> map : mapList) {
 			rowCount++;
 			pw.print(_xmlItemStr(map));
 		}
@@ -303,13 +304,13 @@ public class XmlUtil {
 	 * @param mapList 변환할 List객체
 	 * @return xml형식으로 변환된 문자열
 	 */
-	public static String render(List<Map<String, Object>> mapList) {
+	public static String render(List<LinkedHashMap<String, Object>> mapList) {
 		if (mapList == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<items>");
-		for (Map<String, Object> map : mapList) {
+		for (LinkedHashMap<String, Object> map : mapList) {
 			buffer.append(_xmlItemStr(map));
 		}
 		buffer.append("</items>");
@@ -324,7 +325,7 @@ public class XmlUtil {
 	 * @param encoding 헤더에 포함될 인코딩
 	 * @return xml형식으로 변환된 문자열
 	 */
-	public static String render(List<Map<String, Object>> mapList, String encoding) {
+	public static String render(List<LinkedHashMap<String, Object>> mapList, String encoding) {
 		if (mapList == null) {
 			return "";
 		}
@@ -347,7 +348,7 @@ public class XmlUtil {
 	 * xml item 문자열 생성
 	 */
 	@SuppressWarnings("unchecked")
-	private static String _xmlItemStr(Map<String, Object> map) {
+	private static String _xmlItemStr(LinkedHashMap<String, Object> map) {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<item>");
 		for (Entry<String, Object> entry : map.entrySet()) {
@@ -359,9 +360,9 @@ public class XmlUtil {
 				if (value instanceof Number) {
 					buffer.append("<" + key.toLowerCase() + ">" + value.toString() + "</" + key.toLowerCase() + ">");
 				} else if (value instanceof Map) {
-					buffer.append("<" + key.toLowerCase() + ">" + render((Map<String, Object>) value) + "</" + key.toLowerCase() + ">");
+					buffer.append("<" + key.toLowerCase() + ">" + render((LinkedHashMap<String, Object>) value) + "</" + key.toLowerCase() + ">");
 				} else if (value instanceof List) {
-					buffer.append("<" + key.toLowerCase() + ">" + render((List<Map<String, Object>>) value) + "</" + key.toLowerCase() + ">");
+					buffer.append("<" + key.toLowerCase() + ">" + render((List<LinkedHashMap<String, Object>>) value) + "</" + key.toLowerCase() + ">");
 				} else {
 					buffer.append("<" + key.toLowerCase() + ">" + "<![CDATA[" + value.toString() + "]]>" + "</" + key.toLowerCase() + ">");
 				}
