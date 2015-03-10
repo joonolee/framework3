@@ -17,7 +17,7 @@ public class MyBatisDaoSupport {
 	protected SqlSession sqlSession = null;
 
 	public MyBatisDaoSupport(DB db) {
-		sqlSession = db.getMyBatisSession();
+		sqlSession = db.getSqlSession();
 	}
 
 	public void commit() {

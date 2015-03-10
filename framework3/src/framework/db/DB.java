@@ -111,9 +111,9 @@ public class DB {
 		return _connection;
 	}
 
-	public SqlSession getMyBatisSession() {
+	public SqlSession getSqlSession() {
 		if (_sqlSession == null) {
-			_sqlSession = _getMyBatisSqlSessionFactory().openSession(_connection);
+			_sqlSession = _getSqlSessionFactory().openSession(_connection);
 		}
 		return _sqlSession;
 	}
@@ -193,7 +193,7 @@ public class DB {
 		}
 	}
 
-	private synchronized SqlSessionFactory _getMyBatisSqlSessionFactory() {
+	private synchronized SqlSessionFactory _getSqlSessionFactory() {
 		if (_sqlSessionFactory == null) {
 			Reader reader = null;
 			try {

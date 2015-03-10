@@ -16,9 +16,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
@@ -57,7 +57,7 @@ public class ExcelUtil {
 	 * @param fileItem 파일아이템
 	 * @return 데이터의 리스트
 	 */
-	public static List<Map<String, String>> parse(FileItem fileItem) {
+	public static List<LinkedHashMap<String, String>> parse(FileItem fileItem) {
 		String ext = FileUtil.getFileExtension(fileItem.getName());
 		InputStream is = null;
 		try {
@@ -92,7 +92,7 @@ public class ExcelUtil {
 	 * @param password 비밀번호
 	 * @return 데이터의 리스트
 	 */
-	public static List<Map<String, String>> parse(FileItem fileItem, String password) {
+	public static List<LinkedHashMap<String, String>> parse(FileItem fileItem, String password) {
 		String ext = FileUtil.getFileExtension(fileItem.getName());
 		InputStream is = null;
 		try {
@@ -122,7 +122,7 @@ public class ExcelUtil {
 	 * @param file 파일
 	 * @return 데이터의 리스트
 	 */
-	public static List<Map<String, String>> parse(File file) {
+	public static List<LinkedHashMap<String, String>> parse(File file) {
 		FileInputStream fis = null;
 		try {
 			String ext = FileUtil.getFileExtension(file);
@@ -156,7 +156,7 @@ public class ExcelUtil {
 	 * @param file 파일
 	 * @return 데이터의 리스트
 	 */
-	public static List<Map<String, String>> parse(File file, String password) {
+	public static List<LinkedHashMap<String, String>> parse(File file, String password) {
 		FileInputStream fis = null;
 		try {
 			String ext = FileUtil.getFileExtension(file);
@@ -1123,20 +1123,338 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
-	 * <br>
-	 * ex) map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = ExcelUtil.renderSep(map, ",")
-	 * @param map 변환할 Map객체
-	 * @param sep 열 구분자로 쓰일 문자열
-	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
+	 * List객체를 엑셀2003 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response
+	 * @param mapList
+	 * @param fileName
+	 * @return 처리건수
 	 */
-	public static String renderSep(Map<String, Object> map, String sep) {
-		if (map == null) {
-			return "";
+	public static int renderExcel2003(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName) {
+		return renderExcel2003(response, mapList, fileName, null);
+	}
+
+	/**
+	 * List객체를 엑셀2003 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response
+	 * @param mapList
+	 * @param fileName
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int renderExcel2003(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName, String[] header) {
+		if (mapList == null) {
+			return 0;
 		}
-		StringBuilder buffer = new StringBuilder();
-		buffer.append(_sepRowStr(map, sep));
-		return buffer.toString();
+		int rowCount = 0;
+		try {
+			response.reset();
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			Workbook workbook = new HSSFWorkbook();
+			Sheet sheet = workbook.createSheet();
+			OutputStream os = response.getOutputStream();
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				_appendHeader(row, header);
+				rowCount++;
+			}
+			for (LinkedHashMap<String, Object> map : mapList) {
+				Row row = sheet.createRow(rowCount);
+				_appendRow(row, map);
+				rowCount++;
+			}
+			if (header != null) {
+				for (int i = 0; i < header.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
+			}
+			workbook.write(os);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
+	}
+
+	/**
+	 * List객체를 엑셀2003 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param mapList
+	 * @return 처리건수
+	 */
+	public static int writeExcel2003(File file, List<LinkedHashMap<String, Object>> mapList) {
+		return writeExcel2003(file, mapList, null);
+	}
+
+	/**
+	 * List객체를 엑셀2003 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param mapList
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int writeExcel2003(File file, List<LinkedHashMap<String, Object>> mapList, String[] header) {
+		if (mapList == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		FileOutputStream fos = null;
+		try {
+			Workbook workbook = new HSSFWorkbook();
+			Sheet sheet = workbook.createSheet();
+			fos = new FileOutputStream(file);
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				_appendHeader(row, header);
+				rowCount++;
+			}
+			for (LinkedHashMap<String, Object> map : mapList) {
+				Row row = sheet.createRow(rowCount);
+				_appendRow(row, map);
+				rowCount++;
+			}
+			if (header != null) {
+				for (int i = 0; i < header.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
+			}
+			workbook.write(fos);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
+		}
+		return rowCount;
+	}
+
+	/**
+	 * List객체를 엑셀2007 형식으로 변환하여 응답객체로 전송한다. 
+	 * @param response
+	 * @param mapList
+	 * @param fileName
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName) {
+		return renderExcel2007(response, mapList, fileName, null);
+	}
+
+	/**
+	 * List객체를 엑셀2007 형식으로 변환하여 응답객체로 전송한다. 
+	 * @param response
+	 * @param mapList
+	 * @param fileName
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName, String[] header) {
+		if (mapList == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		try {
+			response.reset();
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			Workbook workbook = new XSSFWorkbook();
+			Sheet sheet = workbook.createSheet();
+			OutputStream os = response.getOutputStream();
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				_appendHeader(row, header);
+				rowCount++;
+			}
+			for (LinkedHashMap<String, Object> map : mapList) {
+				Row row = sheet.createRow(rowCount);
+				_appendRow(row, map);
+				rowCount++;
+			}
+			if (header != null) {
+				for (int i = 0; i < header.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
+			}
+			workbook.write(os);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
+	}
+
+	/**
+	 * List객체를 엑셀2007 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param mapList
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007(File file, List<LinkedHashMap<String, Object>> mapList) {
+		return writeExcel2007(file, mapList, null);
+	}
+
+	/**
+	 * List객체를 엑셀2007 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param mapList
+	 * @param header
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007(File file, List<LinkedHashMap<String, Object>> mapList, String[] header) {
+		if (mapList == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		FileOutputStream fos = null;
+		try {
+			Workbook workbook = new XSSFWorkbook();
+			Sheet sheet = workbook.createSheet();
+			fos = new FileOutputStream(file);
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				_appendHeader(row, header);
+				rowCount++;
+			}
+			for (LinkedHashMap<String, Object> map : mapList) {
+				Row row = sheet.createRow(rowCount);
+				_appendRow(row, map);
+				rowCount++;
+			}
+			if (header != null) {
+				for (int i = 0; i < header.length; i++) {
+					sheet.autoSizeColumn(i);
+				}
+			}
+			workbook.write(fos);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
+		}
+		return rowCount;
+	}
+
+	/**
+	 * List객체를 CSV 형식으로 변환하여 응답객체로 전송한다. 
+	 * @param response
+	 * @param mapList
+	 * @param fileName
+	 * @return 처리건수
+	 */
+	public static int renderCSV(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName) {
+		return renderSep(response, mapList, fileName, ",");
+	}
+
+	/**
+	 * List객체를 CSV 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param mapList
+	 * @return 처리건수
+	 */
+	public static int writeCSV(File file, List<LinkedHashMap<String, Object>> mapList) {
+		return writeSep(file, mapList, ",");
+	}
+
+	/**
+	 * List객체를 TSV 형식으로 변환하여 응답객체로 전송한다. 
+	 * @param response
+	 * @param mapList
+	 * @param fileName
+	 * @return 처리건수
+	 */
+	public static int renderTSV(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName) {
+		return renderSep(response, mapList, fileName, "\t");
+	}
+
+	/**
+	 * List객체를 TSV 형식으로 변환하여 파일로 저장한다.
+	 * @param file
+	 * @param mapList
+	 * @return 처리건수
+	 */
+	public static int writeTSV(File file, List<LinkedHashMap<String, Object>> mapList) {
+		return writeSep(file, mapList, "\t");
+	}
+
+	/**
+	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 출력한다. 
+	 * <br>
+	 * ex) response로 mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => ExcelUtil.renderSep(response, mapList, ",")
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param mapList 구분자(CSV, TSV 등)파일 형식으로 변환할 List 객체
+	 * @param fileName
+	 * @param sep 열 구분자로 쓰일 문자열
+	 * @return 처리건수
+	 */
+	public static int renderSep(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName, String sep) {
+		if (mapList == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		try {
+			response.reset();
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			PrintWriter pw = response.getWriter();
+			for (LinkedHashMap<String, Object> map : mapList) {
+				if (rowCount++ > 0) {
+					pw.print("\n");
+				}
+				pw.print(_sepRowStr(map, sep));
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
+	}
+
+	/**
+	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 파일로 저장한다.
+	 * @param file
+	 * @param mapList
+	 * @param sep
+	 * @return 처리건수
+	 */
+	public static int writeSep(File file, List<LinkedHashMap<String, Object>> mapList, String sep) {
+		if (mapList == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		FileWriter fw = null;
+		try {
+			fw = new FileWriter(file);
+			for (LinkedHashMap<String, Object> map : mapList) {
+				if (rowCount++ > 0) {
+					fw.write("\n");
+				}
+				fw.write(_sepRowStr(map, sep));
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (fw != null) {
+				try {
+					fw.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
+		}
+		return rowCount;
 	}
 
 	/**
@@ -1147,18 +1465,35 @@ public class ExcelUtil {
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
-	public static String renderSep(List<Map<String, Object>> mapList, String sep) {
+	public static String renderSep(List<LinkedHashMap<String, Object>> mapList, String sep) {
 		if (mapList == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		int rowCount = 0;
-		for (Map<String, Object> map : mapList) {
+		for (LinkedHashMap<String, Object> map : mapList) {
 			if (rowCount++ > 0) {
 				buffer.append("\n");
 			}
 			buffer.append(_sepRowStr(map, sep));
 		}
+		return buffer.toString();
+	}
+
+	/**
+	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
+	 * <br>
+	 * ex) map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = ExcelUtil.renderSep(map, ",")
+	 * @param map 변환할 Map객체
+	 * @param sep 열 구분자로 쓰일 문자열
+	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
+	 */
+	public static String renderSep(LinkedHashMap<String, Object> map, String sep) {
+		if (map == null) {
+			return "";
+		}
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(_sepRowStr(map, sep));
 		return buffer.toString();
 	}
 
@@ -1180,7 +1515,7 @@ public class ExcelUtil {
 	 * 구분자(CSV, TSV 등)파일 생성용 Row 문자열 생성
 	 * 데이타가 숫자가 아닐때에는 구분자로 쓰인 문자열 또는 개행문자를 escape 하기 위해 값을 쌍따옴표로 둘러싼다.
 	 */
-	private static String _sepRowStr(Map<String, Object> map, String sep) {
+	private static String _sepRowStr(LinkedHashMap<String, Object> map, String sep) {
 		StringBuilder buffer = new StringBuilder();
 		Set<String> keys = map.keySet();
 		int rowCount = 0;
@@ -1318,7 +1653,27 @@ public class ExcelUtil {
 		}
 	}
 
-	private static List<Map<String, String>> _parseExcel2003(InputStream is) {
+	private static void _appendRow(Row row, LinkedHashMap<String, Object> map) {
+		int c = 0;
+		for (Entry<String, Object> entry : map.entrySet()) {
+			Object value = entry.getValue();
+			Cell cell = row.createCell(c++);
+			if (value == null) {
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellValue("");
+			} else {
+				if (value instanceof Number) {
+					cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+					cell.setCellValue(Double.valueOf(value.toString()));
+				} else {
+					cell.setCellType(Cell.CELL_TYPE_STRING);
+					cell.setCellValue(value.toString());
+				}
+			}
+		}
+	}
+
+	private static List<LinkedHashMap<String, String>> _parseExcel2003(InputStream is) {
 		POIFSFileSystem poiFileSystem;
 		HSSFSheet sheet;
 		try {
@@ -1331,7 +1686,7 @@ public class ExcelUtil {
 		return _parseSheet(sheet);
 	}
 
-	private static List<Map<String, String>> _parseExcel2003(InputStream is, String password) {
+	private static List<LinkedHashMap<String, String>> _parseExcel2003(InputStream is, String password) {
 		POIFSFileSystem poiFileSystem;
 		HSSFSheet sheet;
 		try {
@@ -1346,7 +1701,7 @@ public class ExcelUtil {
 		return _parseSheet(sheet);
 	}
 
-	private static List<Map<String, String>> _parseExcel2007(InputStream is) {
+	private static List<LinkedHashMap<String, String>> _parseExcel2007(InputStream is) {
 		XSSFWorkbook workbook;
 		try {
 			workbook = new XSSFWorkbook(is);
@@ -1356,7 +1711,7 @@ public class ExcelUtil {
 		return _parseSheet(workbook.getSheetAt(0));
 	}
 
-	private static List<Map<String, String>> _parseExcel2007(InputStream is, String password) {
+	private static List<LinkedHashMap<String, String>> _parseExcel2007(InputStream is, String password) {
 		XSSFWorkbook workbook;
 		try {
 			POIFSFileSystem fs = new POIFSFileSystem(is);
@@ -1370,23 +1725,23 @@ public class ExcelUtil {
 		return _parseSheet(workbook.getSheetAt(0));
 	}
 
-	private static List<Map<String, String>> _parseCSV(InputStream is) {
+	private static List<LinkedHashMap<String, String>> _parseCSV(InputStream is) {
 		return _parseSep(is, ",");
 	}
 
-	private static List<Map<String, String>> _parseTSV(InputStream is) {
+	private static List<LinkedHashMap<String, String>> _parseTSV(InputStream is) {
 		return _parseSep(is, "\t");
 	}
 
-	private static List<Map<String, String>> _parseSep(InputStream is, String sep) {
-		List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
+	private static List<LinkedHashMap<String, String>> _parseSep(InputStream is, String sep) {
+		List<LinkedHashMap<String, String>> mapList = new ArrayList<LinkedHashMap<String, String>>();
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new InputStreamReader(is));
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				String[] items = line.split(sep);
-				Map<String, String> map = new HashMap<String, String>();
+				LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 				for (int i = 0; i < items.length; i++) {
 					map.put(String.valueOf(i), items[i]);
 				}
@@ -1409,13 +1764,13 @@ public class ExcelUtil {
 	/**
 	 * 엑셀 시트의 데이터 파싱하여 맵의 리스트로 리턴
 	 */
-	private static List<Map<String, String>> _parseSheet(Sheet sheet) {
-		List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
+	private static List<LinkedHashMap<String, String>> _parseSheet(Sheet sheet) {
+		List<LinkedHashMap<String, String>> mapList = new ArrayList<LinkedHashMap<String, String>>();
 		int rowCount = sheet.getPhysicalNumberOfRows();
 		int colCount = sheet.getRow(0).getPhysicalNumberOfCells();
 		for (int i = 0; i < rowCount; i++) {
 			Row row = sheet.getRow(i);
-			Map<String, String> map = new HashMap<String, String>();
+			LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 			for (int j = 0; j < colCount; j++) {
 				Cell cell = row.getCell(j);
 				String item = "";
