@@ -5,6 +5,10 @@
 
 <configuration>
 
+	<typeAliases>
+		<typeAlias alias="recordmap" type="framework.db.RecordMap"/>
+	</typeAliases>
+
 	<mappers>
 		<mapper resource="" />
 	</mappers>
