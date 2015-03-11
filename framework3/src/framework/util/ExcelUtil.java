@@ -38,6 +38,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import framework.db.RecordMap;
 import framework.db.RecordSet;
 
 /**
@@ -1129,7 +1130,7 @@ public class ExcelUtil {
 	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderExcel2003(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName) {
+	public static int renderExcel2003(HttpServletResponse response, List<RecordMap> mapList, String fileName) {
 		return renderExcel2003(response, mapList, fileName, null);
 	}
 
@@ -1141,7 +1142,7 @@ public class ExcelUtil {
 	 * @param header
 	 * @return 처리건수
 	 */
-	public static int renderExcel2003(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName, String[] header) {
+	public static int renderExcel2003(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -1160,7 +1161,7 @@ public class ExcelUtil {
 				_appendHeader(row, header);
 				rowCount++;
 			}
-			for (LinkedHashMap<String, Object> map : mapList) {
+			for (RecordMap map : mapList) {
 				Row row = sheet.createRow(rowCount);
 				_appendRow(row, map);
 				rowCount++;
@@ -1183,7 +1184,7 @@ public class ExcelUtil {
 	 * @param mapList
 	 * @return 처리건수
 	 */
-	public static int writeExcel2003(File file, List<LinkedHashMap<String, Object>> mapList) {
+	public static int writeExcel2003(File file, List<RecordMap> mapList) {
 		return writeExcel2003(file, mapList, null);
 	}
 
@@ -1194,7 +1195,7 @@ public class ExcelUtil {
 	 * @param header
 	 * @return 처리건수
 	 */
-	public static int writeExcel2003(File file, List<LinkedHashMap<String, Object>> mapList, String[] header) {
+	public static int writeExcel2003(File file, List<RecordMap> mapList, String[] header) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -1209,7 +1210,7 @@ public class ExcelUtil {
 				_appendHeader(row, header);
 				rowCount++;
 			}
-			for (LinkedHashMap<String, Object> map : mapList) {
+			for (RecordMap map : mapList) {
 				Row row = sheet.createRow(rowCount);
 				_appendRow(row, map);
 				rowCount++;
@@ -1241,7 +1242,7 @@ public class ExcelUtil {
 	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderExcel2007(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName) {
+	public static int renderExcel2007(HttpServletResponse response, List<RecordMap> mapList, String fileName) {
 		return renderExcel2007(response, mapList, fileName, null);
 	}
 
@@ -1253,7 +1254,7 @@ public class ExcelUtil {
 	 * @param header
 	 * @return 처리건수
 	 */
-	public static int renderExcel2007(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName, String[] header) {
+	public static int renderExcel2007(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -1272,7 +1273,7 @@ public class ExcelUtil {
 				_appendHeader(row, header);
 				rowCount++;
 			}
-			for (LinkedHashMap<String, Object> map : mapList) {
+			for (RecordMap map : mapList) {
 				Row row = sheet.createRow(rowCount);
 				_appendRow(row, map);
 				rowCount++;
@@ -1295,7 +1296,7 @@ public class ExcelUtil {
 	 * @param mapList
 	 * @return 처리건수
 	 */
-	public static int writeExcel2007(File file, List<LinkedHashMap<String, Object>> mapList) {
+	public static int writeExcel2007(File file, List<RecordMap> mapList) {
 		return writeExcel2007(file, mapList, null);
 	}
 
@@ -1306,7 +1307,7 @@ public class ExcelUtil {
 	 * @param header
 	 * @return 처리건수
 	 */
-	public static int writeExcel2007(File file, List<LinkedHashMap<String, Object>> mapList, String[] header) {
+	public static int writeExcel2007(File file, List<RecordMap> mapList, String[] header) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -1321,7 +1322,7 @@ public class ExcelUtil {
 				_appendHeader(row, header);
 				rowCount++;
 			}
-			for (LinkedHashMap<String, Object> map : mapList) {
+			for (RecordMap map : mapList) {
 				Row row = sheet.createRow(rowCount);
 				_appendRow(row, map);
 				rowCount++;
@@ -1353,7 +1354,7 @@ public class ExcelUtil {
 	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderCSV(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName) {
+	public static int renderCSV(HttpServletResponse response, List<RecordMap> mapList, String fileName) {
 		return renderSep(response, mapList, fileName, ",");
 	}
 
@@ -1363,7 +1364,7 @@ public class ExcelUtil {
 	 * @param mapList
 	 * @return 처리건수
 	 */
-	public static int writeCSV(File file, List<LinkedHashMap<String, Object>> mapList) {
+	public static int writeCSV(File file, List<RecordMap> mapList) {
 		return writeSep(file, mapList, ",");
 	}
 
@@ -1374,7 +1375,7 @@ public class ExcelUtil {
 	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderTSV(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName) {
+	public static int renderTSV(HttpServletResponse response, List<RecordMap> mapList, String fileName) {
 		return renderSep(response, mapList, fileName, "\t");
 	}
 
@@ -1384,7 +1385,7 @@ public class ExcelUtil {
 	 * @param mapList
 	 * @return 처리건수
 	 */
-	public static int writeTSV(File file, List<LinkedHashMap<String, Object>> mapList) {
+	public static int writeTSV(File file, List<RecordMap> mapList) {
 		return writeSep(file, mapList, "\t");
 	}
 
@@ -1398,7 +1399,7 @@ public class ExcelUtil {
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int renderSep(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, String fileName, String sep) {
+	public static int renderSep(HttpServletResponse response, List<RecordMap> mapList, String fileName, String sep) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -1410,7 +1411,7 @@ public class ExcelUtil {
 			response.setHeader("Pragma", "no-cache;");
 			response.setHeader("Expires", "-1;");
 			PrintWriter pw = response.getWriter();
-			for (LinkedHashMap<String, Object> map : mapList) {
+			for (RecordMap map : mapList) {
 				if (rowCount++ > 0) {
 					pw.print("\n");
 				}
@@ -1429,7 +1430,7 @@ public class ExcelUtil {
 	 * @param sep
 	 * @return 처리건수
 	 */
-	public static int writeSep(File file, List<LinkedHashMap<String, Object>> mapList, String sep) {
+	public static int writeSep(File file, List<RecordMap> mapList, String sep) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -1437,7 +1438,7 @@ public class ExcelUtil {
 		FileWriter fw = null;
 		try {
 			fw = new FileWriter(file);
-			for (LinkedHashMap<String, Object> map : mapList) {
+			for (RecordMap map : mapList) {
 				if (rowCount++ > 0) {
 					fw.write("\n");
 				}
@@ -1465,13 +1466,13 @@ public class ExcelUtil {
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
-	public static String renderSep(List<LinkedHashMap<String, Object>> mapList, String sep) {
+	public static String renderSep(List<RecordMap> mapList, String sep) {
 		if (mapList == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		int rowCount = 0;
-		for (LinkedHashMap<String, Object> map : mapList) {
+		for (RecordMap map : mapList) {
 			if (rowCount++ > 0) {
 				buffer.append("\n");
 			}
@@ -1488,7 +1489,7 @@ public class ExcelUtil {
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
-	public static String renderSep(LinkedHashMap<String, Object> map, String sep) {
+	public static String renderSep(RecordMap map, String sep) {
 		if (map == null) {
 			return "";
 		}
@@ -1515,7 +1516,7 @@ public class ExcelUtil {
 	 * 구분자(CSV, TSV 등)파일 생성용 Row 문자열 생성
 	 * 데이타가 숫자가 아닐때에는 구분자로 쓰인 문자열 또는 개행문자를 escape 하기 위해 값을 쌍따옴표로 둘러싼다.
 	 */
-	private static String _sepRowStr(LinkedHashMap<String, Object> map, String sep) {
+	private static String _sepRowStr(RecordMap map, String sep) {
 		StringBuilder buffer = new StringBuilder();
 		Set<String> keys = map.keySet();
 		int rowCount = 0;
@@ -1653,7 +1654,7 @@ public class ExcelUtil {
 		}
 	}
 
-	private static void _appendRow(Row row, LinkedHashMap<String, Object> map) {
+	private static void _appendRow(Row row, RecordMap map) {
 		int c = 0;
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object value = entry.getValue();

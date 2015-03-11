@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -15,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import framework.db.RecordMap;
 import framework.db.RecordSet;
 
 /**
@@ -383,7 +383,7 @@ public class DataTablesUtil {
 	 * @param mapList 변환할 List객체
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList) {
+	public static int render(HttpServletResponse response, List<RecordMap> mapList) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -396,7 +396,7 @@ public class DataTablesUtil {
 		pw.print("{");
 		int rowCount = 0;
 		pw.print("\"aaData\":[");
-		for (LinkedHashMap<String, Object> map : mapList) {
+		for (RecordMap map : mapList) {
 			if (rowCount++ > 0) {
 				pw.print(",");
 			}
@@ -414,7 +414,7 @@ public class DataTablesUtil {
 	 * @param mapList 변환할 List객체
 	 * @return DataTables 형식으로 변환된 문자열
 	 */
-	public static String render(List<LinkedHashMap<String, Object>> mapList) {
+	public static String render(List<RecordMap> mapList) {
 		if (mapList == null) {
 			return "";
 		}
@@ -423,7 +423,7 @@ public class DataTablesUtil {
 		buffer.append("\"aaData\":");
 		if (mapList.size() > 0) {
 			buffer.append("[");
-			for (LinkedHashMap<String, Object> map : mapList) {
+			for (RecordMap map : mapList) {
 				buffer.append(_dataTablesRowStr(map));
 				buffer.append(",");
 			}
@@ -452,7 +452,7 @@ public class DataTablesUtil {
 	/**
 	 * DataTables 용 Row 문자열 생성
 	 */
-	private static String _dataTablesRowStr(LinkedHashMap<String, Object> map) {
+	private static String _dataTablesRowStr(RecordMap map) {
 		StringBuilder buffer = new StringBuilder();
 		if (map.entrySet().size() > 0) {
 			buffer.append("[");

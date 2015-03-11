@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -15,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import framework.db.RecordMap;
 import framework.db.RecordSet;
 
 /**
@@ -498,7 +498,7 @@ public class JQGridUtil {
 	 * @param rowsPerPage 한페이지에 표시할 로우수
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, List<LinkedHashMap<String, Object>> mapList, int totalCount, int currentPage, int rowsPerPage) {
+	public static int render(HttpServletResponse response, List<RecordMap> mapList, int totalCount, int currentPage, int rowsPerPage) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -516,7 +516,7 @@ public class JQGridUtil {
 		pw.print("{");
 		int rowCount = 0;
 		pw.print("\"rows\":[");
-		for (LinkedHashMap<String, Object> map : mapList) {
+		for (RecordMap map : mapList) {
 			if (rowCount++ > 0) {
 				pw.print(",");
 			}
@@ -543,7 +543,7 @@ public class JQGridUtil {
 	 * @param rowsPerPage 한페이지에 표시할 로우수
 	 * @return jqGrid 형식으로 변환된 문자열
 	 */
-	public static String render(List<LinkedHashMap<String, Object>> mapList, int totalCount, int currentPage, int rowsPerPage) {
+	public static String render(List<RecordMap> mapList, int totalCount, int currentPage, int rowsPerPage) {
 		if (mapList == null) {
 			return "";
 		}
@@ -558,7 +558,7 @@ public class JQGridUtil {
 		buf.append("\"rows\":");
 		if (mapList.size() > 0) {
 			buf.append("[");
-			for (LinkedHashMap<String, Object> map : mapList) {
+			for (RecordMap map : mapList) {
 				rowCount++;
 				buf.append("{");
 				buf.append("\"id\":" + rowCount + ",");
@@ -596,7 +596,7 @@ public class JQGridUtil {
 	/**
 	 * jqGrid 용 Row 문자열 생성
 	 */
-	private static String _jqGridRowStr(LinkedHashMap<String, Object> map) {
+	private static String _jqGridRowStr(RecordMap map) {
 		StringBuilder buf = new StringBuilder();
 		if (map.entrySet().size() > 0) {
 			buf.append("[");
