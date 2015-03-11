@@ -194,6 +194,9 @@ public class SQLPreparedStatement extends DBStatement {
 	}
 
 	public void set(Object[] obj) {
+		if (obj == null) {
+			return;
+		}
 		clearParam();
 		for (int i = 0; i < obj.length; i++) {
 			set(i, obj[i]);

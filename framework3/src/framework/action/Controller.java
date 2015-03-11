@@ -252,8 +252,8 @@ public abstract class Controller {
 				} else {
 					db.connect(jdbcDriver, jdbcUrl, jdbcUid, jdbcPw);
 				}
-				db.setAutoCommit(false);
 				_dbMap.put(serviceName, db);
+				db.setAutoCommit(false);
 			} catch (Throwable e) {
 				logger.error("", e);
 			}
