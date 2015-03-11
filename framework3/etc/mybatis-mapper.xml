@@ -5,7 +5,7 @@
  
 <mapper namespace="">
  
-	<select id="" parameterType="hashmap" resultType="hashmap">
+	<select id="" parameterType="map" resultType="recordmap">
 
 	</select>
 
