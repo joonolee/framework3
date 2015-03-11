@@ -353,22 +353,24 @@ public class MiPlatformUtil {
 		int[] colSize = rs.getColumnsSize();
 		int[] colType = rs.getColumnsType();
 		// 컬럼 레이아웃 셋팅
-		for (int c = 0; c < colNms.length; c++) {
-			switch (colType[c]) {
-			case Types.BIGINT:
-			case Types.DECIMAL:
-			case Types.DOUBLE:
-			case Types.FLOAT:
-			case Types.INTEGER:
-			case Types.NUMERIC:
-			case Types.REAL:
-			case Types.SMALLINT:
-			case Types.TINYINT:
-				dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_DECIMAL, colSize[c]);
-				break;
-			default:
-				dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_STRING, colSize[c]);
-				break;
+		if (colNms != null) {
+			for (int c = 0; c < colNms.length; c++) {
+				switch (colType[c]) {
+				case Types.BIGINT:
+				case Types.DECIMAL:
+				case Types.DOUBLE:
+				case Types.FLOAT:
+				case Types.INTEGER:
+				case Types.NUMERIC:
+				case Types.REAL:
+				case Types.SMALLINT:
+				case Types.TINYINT:
+					dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_DECIMAL, colSize[c]);
+					break;
+				default:
+					dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_STRING, colSize[c]);
+					break;
+				}
 			}
 		}
 		rs.moveRow(0); // rs의 위치를 1번째로 이동 

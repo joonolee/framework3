@@ -45,11 +45,13 @@ public class FileUtil {
 		long totalSum = 0;
 		if (directory != null && directory.isDirectory()) {
 			File[] fileItems = directory.listFiles();
-			for (File item : fileItems) {
-				if (item.isFile()) {
-					totalSum += item.length();
-				} else {
-					totalSum += FileUtil.getDirSizeToByteUnit(item);
+			if (fileItems != null) {
+				for (File item : fileItems) {
+					if (item.isFile()) {
+						totalSum += item.length();
+					} else {
+						totalSum += FileUtil.getDirSizeToByteUnit(item);
+					}
 				}
 			}
 		}
@@ -176,9 +178,12 @@ public class FileUtil {
 	 */
 	public static boolean deleteDirectory(File directory) {
 		if (directory != null && directory.isDirectory() && directory.exists()) {
-			for (File item : directory.listFiles()) {
-				if (!item.delete())
-					return false;
+			File[] fileItems = directory.listFiles();
+			if (fileItems != null) {
+				for (File item : fileItems) {
+					if (!item.delete())
+						return false;
+				}
 			}
 			return directory.delete();
 		} else {

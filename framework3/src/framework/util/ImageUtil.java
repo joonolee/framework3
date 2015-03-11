@@ -5,7 +5,6 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -129,10 +128,20 @@ public class ImageUtil {
 	 * @param width QRCode 이미지 길이
 	 */
 	public static void qrcode(String url, File destFile, int width) {
+		FileOutputStream fos = null;
 		try {
-			qrcode(url, new FileOutputStream(destFile), width);
-		} catch (FileNotFoundException e) {
+			fos = new FileOutputStream(destFile);
+			qrcode(url, fos, width);
+			fos.flush();
+		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+				}
+			}
 		}
 	}
 
