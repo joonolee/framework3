@@ -13,6 +13,11 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 		return super.put(key.toLowerCase(), value);
 	}
 
+	@Override
+	public Object get(Object key) {
+		return super.get(key.toString().toLowerCase());
+	}
+
 	public String getString(String key) {
 		if (get(key) == null) {
 			return "";
