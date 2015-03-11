@@ -12,11 +12,11 @@ import org.apache.ibatis.session.SqlSession;
 /**
  * MyBatis를 이용한 DAO를 작성할때 상속받는 부모 클래스이다.
  */
-public class MyBatisDaoSupport {
-	protected static final Log logger = LogFactory.getLog(framework.db.MyBatisDaoSupport.class);
+public class SqlSessionDaoSupport {
+	protected static final Log logger = LogFactory.getLog(framework.db.SqlSessionDaoSupport.class);
 	protected SqlSession sqlSession = null;
 
-	public MyBatisDaoSupport(DB db) {
+	public SqlSessionDaoSupport(DB db) {
 		sqlSession = db.getSqlSession();
 	}
 
