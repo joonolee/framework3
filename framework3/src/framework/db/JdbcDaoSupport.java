@@ -67,7 +67,7 @@ public class JdbcDaoSupport {
 	}
 
 	private RecordSet _prepardSelect(String query, Object[] where, int currPage, int pageSize) {
-		SQLPreparedStatement pstmt = null;
+		PreparedStatement pstmt = null;
 		try {
 			pstmt = this.db.createPrepareStatement(query);
 			pstmt.set(where);
@@ -80,7 +80,7 @@ public class JdbcDaoSupport {
 	}
 
 	private RecordSet _statmentSelect(String query, int currPage, int pageSize) {
-		SQLStatement stmt = null;
+		Statement stmt = null;
 		try {
 			stmt = this.db.createStatement(query);
 			return stmt.executeQuery(currPage, pageSize);
@@ -92,7 +92,7 @@ public class JdbcDaoSupport {
 	}
 
 	private int _prepardUpdate(String query, Object[] where) {
-		SQLPreparedStatement pstmt = null;
+		PreparedStatement pstmt = null;
 		try {
 			pstmt = this.db.createPrepareStatement(query);
 			pstmt.set(where);
@@ -105,7 +105,7 @@ public class JdbcDaoSupport {
 	}
 
 	private int _statmentUpdate(String query) {
-		SQLStatement stmt = null;
+		Statement stmt = null;
 		try {
 			stmt = this.db.createStatement(query);
 			return stmt.executeUpdate();
@@ -117,7 +117,7 @@ public class JdbcDaoSupport {
 	}
 
 	private int[] _prepardBatch(String query, Object[] where) {
-		SQLBatchPreparedStatement pstmt = null;
+		BatchPreparedStatement pstmt = null;
 		try {
 			pstmt = this.db.createBatchPrepareStatement(query);
 			pstmt.addBatch(where);
@@ -130,7 +130,7 @@ public class JdbcDaoSupport {
 	}
 
 	private int[] _statmentBatch(String[] queries) {
-		SQLBatchStatement stmt = null;
+		BatchStatement stmt = null;
 		try {
 			stmt = this.db.createBatchStatement();
 			for (String query : queries) {

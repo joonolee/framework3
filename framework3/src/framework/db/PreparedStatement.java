@@ -3,7 +3,6 @@ package framework.db;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,20 +12,20 @@ import java.util.StringTokenizer;
 /**
  * Prepared Statement 를 이용하기 위한 객체
  */
-public class SQLPreparedStatement extends DBStatement {
+public class PreparedStatement extends AbstractStatement {
 	private String _sql;
 	private DB _db = null;
-	private PreparedStatement _pstmt = null;
+	private java.sql.PreparedStatement _pstmt = null;
 	private RecordSet _rs = null;
 	private int _upCnt = 0;
 	private List<Object> _param = new ArrayList<Object>();
 	private Object _caller = null;
 
-	public static SQLPreparedStatement create(String sql, DB db, Object caller) {
-		return new SQLPreparedStatement(sql, db, caller);
+	public static PreparedStatement create(String sql, DB db, Object caller) {
+		return new PreparedStatement(sql, db, caller);
 	}
 
-	private SQLPreparedStatement(String sql, DB db, Object caller) {
+	private PreparedStatement(String sql, DB db, Object caller) {
 		_sql = sql;
 		_db = db;
 		_caller = caller;
@@ -60,7 +59,7 @@ public class SQLPreparedStatement extends DBStatement {
 			return null;
 		}
 		try {
-			PreparedStatement pstmt = getPrepareStatment();
+			java.sql.PreparedStatement pstmt = getPrepareStatment();
 			if (getParamSize() > 0) {
 				for (int i = 1; i <= getParamSize(); i++) {
 					if (getObject(i - 1) == null || "".equals(getObject(i - 1))) {
@@ -103,7 +102,7 @@ public class SQLPreparedStatement extends DBStatement {
 			return 0;
 		}
 		try {
-			PreparedStatement pstmt = getPrepareStatment();
+			java.sql.PreparedStatement pstmt = getPrepareStatment();
 			if (getParamSize() > 0) {
 				for (int i = 1; i <= getParamSize(); i++) {
 					Object param = getObject(i - 1);
@@ -160,7 +159,7 @@ public class SQLPreparedStatement extends DBStatement {
 		return _param.size();
 	}
 
-	protected PreparedStatement getPrepareStatment() {
+	protected java.sql.PreparedStatement getPrepareStatment() {
 		if (getSQL() == null) {
 			logger.error("Query is Null");
 			return null;

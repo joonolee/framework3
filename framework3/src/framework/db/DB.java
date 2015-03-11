@@ -28,7 +28,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 public class DB {
 	private static final Map<String, DataSource> _dsMap = new HashMap<String, DataSource>();
 	private static final Log logger = LogFactory.getLog(framework.db.DB.class);
-	private List<DBStatement> _stmtList = null;
+	private List<AbstractStatement> _stmtList = null;
 	private String _dsName = null;
 	private Object _caller = null;
 	private Connection _connection = null;
@@ -40,7 +40,7 @@ public class DB {
 		_dsName = dsName;
 		_caller = caller;
 		if (_stmtList == null) {
-			_stmtList = new ArrayList<DBStatement>();
+			_stmtList = new ArrayList<AbstractStatement>();
 		}
 		if (dsName != null) {
 			if (_dsMap.get(dsName) == null) {
@@ -56,26 +56,26 @@ public class DB {
 		}
 	}
 
-	public SQLPreparedStatement createPrepareStatement(String sql) {
-		SQLPreparedStatement pstmt = SQLPreparedStatement.create(sql, this, _caller);
+	public PreparedStatement createPrepareStatement(String sql) {
+		PreparedStatement pstmt = PreparedStatement.create(sql, this, _caller);
 		_stmtList.add(pstmt);
 		return pstmt;
 	}
 
-	public SQLBatchPreparedStatement createBatchPrepareStatement(String sql) {
-		SQLBatchPreparedStatement pstmt = SQLBatchPreparedStatement.create(sql, this, _caller);
+	public BatchPreparedStatement createBatchPrepareStatement(String sql) {
+		BatchPreparedStatement pstmt = BatchPreparedStatement.create(sql, this, _caller);
 		_stmtList.add(pstmt);
 		return pstmt;
 	}
 
-	public SQLStatement createStatement(String sql) {
-		SQLStatement stmt = SQLStatement.create(sql, this, _caller);
+	public Statement createStatement(String sql) {
+		Statement stmt = Statement.create(sql, this, _caller);
 		_stmtList.add(stmt);
 		return stmt;
 	}
 
-	public SQLBatchStatement createBatchStatement() {
-		SQLBatchStatement bstmt = SQLBatchStatement.create(this, _caller);
+	public BatchStatement createBatchStatement() {
+		BatchStatement bstmt = BatchStatement.create(this, _caller);
 		_stmtList.add(bstmt);
 		return bstmt;
 	}
@@ -120,7 +120,7 @@ public class DB {
 
 	public void release() {
 		if (_stmtList != null) {
-			for (DBStatement stmt : _stmtList) {
+			for (AbstractStatement stmt : _stmtList) {
 				try {
 					stmt.close();
 				} catch (Throwable e) {

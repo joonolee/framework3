@@ -13,18 +13,18 @@ import java.util.StringTokenizer;
 /**
  * PreparedStatement의 Batch 처리를 이용하기 위한 객체
  */
-public class SQLBatchPreparedStatement extends DBStatement {
+public class BatchPreparedStatement extends AbstractStatement {
 	private String _sql;
 	private DB _db = null;
 	private PreparedStatement _pstmt = null;
 	private List<List<Object>> _paramList = new ArrayList<List<Object>>();
 	private Object _caller = null;
 
-	public static SQLBatchPreparedStatement create(String sql, DB db, Object caller) {
-		return new SQLBatchPreparedStatement(sql, db, caller);
+	public static BatchPreparedStatement create(String sql, DB db, Object caller) {
+		return new BatchPreparedStatement(sql, db, caller);
 	}
 
-	private SQLBatchPreparedStatement(String sql, DB db, Object caller) {
+	private BatchPreparedStatement(String sql, DB db, Object caller) {
 		_sql = sql;
 		_db = db;
 		_caller = caller;

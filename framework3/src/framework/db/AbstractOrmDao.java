@@ -25,7 +25,7 @@ public abstract class AbstractOrmDao {
 			logger.error("Can't open DB Connection!");
 			return null;
 		}
-		SQLPreparedStatement pstmt = null;
+		PreparedStatement pstmt = null;
 		try {
 			pstmt = this.db.createPrepareStatement(query);
 			if (where != null) {
@@ -46,7 +46,7 @@ public abstract class AbstractOrmDao {
 			logger.error("Can't open DB Connection!");
 			return 0;
 		}
-		SQLPreparedStatement pstmt = null;
+		PreparedStatement pstmt = null;
 		try {
 			pstmt = this.db.createPrepareStatement(query);
 			pstmt.set(values);
@@ -84,7 +84,7 @@ public abstract class AbstractOrmDao {
 		values = vo.get(type);
 		if (values == null || values.length == 0)
 			return 0;
-		SQLPreparedStatement pstmt = null;
+		PreparedStatement pstmt = null;
 		try {
 			pstmt = this.db.createPrepareStatement(_getSaveSql(type, vo.getUserKeys(), vo.getUserFields()));
 			for (int i = 0; i < values.length; i++) {

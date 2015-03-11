@@ -9,17 +9,17 @@ import java.util.List;
 /**
  * Statement의 Batch 처리를 이용하기 위한 객체
  */
-public class SQLBatchStatement extends DBStatement {
+public class BatchStatement extends AbstractStatement {
 	private List<String> _sqlList = new ArrayList<String>();
 	private DB _db = null;
 	private Statement _stmt = null;
 	private Object _caller = null;
 
-	public static SQLBatchStatement create(DB db, Object caller) {
-		return new SQLBatchStatement(db, caller);
+	public static BatchStatement create(DB db, Object caller) {
+		return new BatchStatement(db, caller);
 	}
 
-	private SQLBatchStatement(DB db, Object caller) {
+	private BatchStatement(DB db, Object caller) {
 		_db = db;
 		_caller = caller;
 	}
