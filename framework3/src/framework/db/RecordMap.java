@@ -8,6 +8,10 @@ import java.util.LinkedHashMap;
 public class RecordMap extends LinkedHashMap<String, Object> {
 	private static final long serialVersionUID = 8720579036875443934L;
 
+	public RecordMap() {
+		super();
+	}
+
 	public RecordMap(int cnt) {
 		super(cnt);
 	}
