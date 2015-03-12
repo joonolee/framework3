@@ -7,7 +7,7 @@ import java.sql.SQLException;
  * Statement 를 이용하기 위한 객체
  */
 public class Statement extends AbstractStatement {
-	private String _sql;
+	private String _sql = null;
 	private DB _db = null;
 	private java.sql.Statement _stmt = null;
 	private RecordSet _rs = null;

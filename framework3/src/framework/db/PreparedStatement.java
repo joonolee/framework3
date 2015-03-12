@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
  * Prepared Statement 를 이용하기 위한 객체
  */
 public class PreparedStatement extends AbstractStatement {
-	private String _sql;
+	private String _sql = null;
 	private DB _db = null;
 	private java.sql.PreparedStatement _pstmt = null;
 	private RecordSet _rs = null;

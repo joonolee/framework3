@@ -24,8 +24,8 @@ import framework.util.StringUtil;
  */
 public class Params extends HashMap<String, String[]> {
 	private static final long serialVersionUID = 7143941735208780214L;
+	private final List<FileItem> _fileItems = new ArrayList<FileItem>();
 	private String _name = null;
-	private List<FileItem> _fileItems = new ArrayList<FileItem>();
 
 	/***
 	 * Params 생성자

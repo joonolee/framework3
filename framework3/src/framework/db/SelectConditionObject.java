@@ -47,9 +47,6 @@ public class SelectConditionObject {
 	 * @return 바인딩할 오브젝트 파라미터
 	 */
 	public Object[] getParameter() {
-		if (_param == null) {
-			return null;
-		}
 		return _param.toArray();
 	}
 }

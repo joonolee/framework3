@@ -15,7 +15,7 @@ public class ValueObjectArray {
 	public final static String USER_UPDATE = "UU";
 	public final static String USER_DELETE = "UD";
 	public final static String UPDATE_ONLY = "UO";
-	private Map<String, ValueObject> _voMap = new HashMap<String, ValueObject>();
+	private final Map<String, ValueObject> _voMap = new HashMap<String, ValueObject>();
 	private String[] _keys = null;
 	private String[] _fields = null;
 	private int _seq = 0;
@@ -28,9 +28,6 @@ public class ValueObjectArray {
 	}
 
 	public int size() {
-		if (_voMap == null) {
-			return 0;
-		}
 		return _voMap.size();
 	}
 
@@ -52,7 +49,7 @@ public class ValueObjectArray {
 	}
 
 	public void clear() {
-		_voMap = null;
+		_voMap.clear();
 		_fields = null;
 		_keys = null;
 	}

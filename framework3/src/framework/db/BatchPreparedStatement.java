@@ -14,7 +14,7 @@ import java.util.StringTokenizer;
  * PreparedStatement의 Batch 처리를 이용하기 위한 객체
  */
 public class BatchPreparedStatement extends AbstractStatement {
-	private String _sql;
+	private String _sql = null;
 	private DB _db = null;
 	private PreparedStatement _pstmt = null;
 	private List<List<Object>> _paramList = new ArrayList<List<Object>>();
