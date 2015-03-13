@@ -5,6 +5,10 @@
 
 <configuration>
 
+	<settings>
+		<setting name="callSettersOnNulls" value="true"/>
+	</settings>
+
 	<typeAliases>
 		<typeAlias alias="recordmap" type="framework.db.RecordMap"/>
 	</typeAliases>
