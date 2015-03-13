@@ -265,6 +265,42 @@ public class RDUtil {
 	}
 
 	/**
+	 * Map객체를 RD 파일 형식으로 출력한다.
+	 * 열 구분자로 디폴트 구분자를 사용한다.
+	 * <br>
+	 * ex) response로 map를 RD 파일 형식으로 출력하는 경우 : RDUtil.render(response, map)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param map 변환할 Map객체
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, RecordMap map) {
+		return render(response, map, _DEFAULT_COLSEP);
+	}
+
+	/**
+	 * Map객체를 RD 파일 형식으로 출력한다.
+	 * <br>
+	 * ex) response로 map를 열구분자 ## 인 RD 파일 형식으로 출력하는 경우 : RDUtil.render(response, map, "##")
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param map 변환할 Map객체
+	 * @param colSep 열 구분자로 쓰일 문자열
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, RecordMap map, String colSep) {
+		if (map == null) {
+			return 0;
+		}
+		PrintWriter pw;
+		try {
+			pw = response.getWriter();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		pw.print(_rdRowStr(map, colSep));
+		return 1;
+	}
+
+	/**
 	 * Map객체를 RD 파일 형식으로 변환한다.
 	 * 열 구분자로 디폴트 구분자를 사용한다. 
 	 * <br>
