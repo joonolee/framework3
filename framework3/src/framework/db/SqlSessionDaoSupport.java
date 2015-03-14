@@ -23,11 +23,11 @@ public class SqlSessionDaoSupport {
 	}
 
 	public void commit() {
-		db.commit();
+		this.db.commit();
 	}
 
 	public void rollback() {
-		db.rollback();
+		this.db.rollback();
 	}
 
 	public int delete(String statement) {

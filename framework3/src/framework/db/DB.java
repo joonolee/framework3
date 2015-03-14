@@ -130,12 +130,12 @@ public class DB {
 		}
 		if (_connection != null) {
 			try {
-				rollback();
+				_connection.rollback();
 			} catch (Throwable e) {
 				logger.error("", e);
 			}
 			try {
-				_close();
+				_connection.close();
 			} catch (Throwable e) {
 				logger.error("", e);
 			}
@@ -168,14 +168,6 @@ public class DB {
 	public void setAutoCommit(boolean isAuto) {
 		try {
 			_connection.setAutoCommit(isAuto);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void _close() {
-		try {
-			_connection.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
