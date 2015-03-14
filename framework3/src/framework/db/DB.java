@@ -34,6 +34,7 @@ public class DB {
 	private Connection _connection = null;
 	// MyBatis
 	private static SqlSessionFactory _sqlSessionFactory = null;
+	private SqlSession _sqlSession = null;
 
 	public DB(String dsName, Object caller) {
 		_dsName = dsName;
@@ -111,7 +112,10 @@ public class DB {
 	}
 
 	public SqlSession getSqlSession() {
-		return _getSqlSessionFactory().openSession(_connection);
+		if (_sqlSession == null) {
+			_sqlSession = _getSqlSessionFactory().openSession(_connection);
+		}
+		return _sqlSession;
 	}
 
 	public void release() {
