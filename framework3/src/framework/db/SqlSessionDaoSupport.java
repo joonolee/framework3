@@ -14,18 +14,20 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class SqlSessionDaoSupport {
 	protected static final Log logger = LogFactory.getLog(framework.db.SqlSessionDaoSupport.class);
+	protected DB db = null;
 	protected SqlSession sqlSession = null;
 
 	public SqlSessionDaoSupport(DB db) {
+		this.db = db;
 		sqlSession = db.getSqlSession();
 	}
 
 	public void commit() {
-		sqlSession.commit();
+		db.commit();
 	}
 
 	public void rollback() {
-		sqlSession.rollback();
+		db.rollback();
 	}
 
 	public int delete(String statement) {

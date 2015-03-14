@@ -34,7 +34,6 @@ public class DB {
 	private Connection _connection = null;
 	// MyBatis
 	private static SqlSessionFactory _sqlSessionFactory = null;
-	private SqlSession _sqlSession = null;
 
 	public DB(String dsName, Object caller) {
 		_dsName = dsName;
@@ -112,10 +111,7 @@ public class DB {
 	}
 
 	public SqlSession getSqlSession() {
-		if (_sqlSession == null) {
-			_sqlSession = _getSqlSessionFactory().openSession(_connection);
-		}
-		return _sqlSession;
+		return _getSqlSessionFactory().openSession(_connection);
 	}
 
 	public void release() {
@@ -151,11 +147,7 @@ public class DB {
 
 	public void commit() {
 		try {
-			if (_sqlSession != null) {
-				_sqlSession.commit();
-			} else {
-				_connection.commit();
-			}
+			_connection.commit();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -163,11 +155,7 @@ public class DB {
 
 	public void rollback() {
 		try {
-			if (_sqlSession != null) {
-				_sqlSession.rollback();
-			} else {
-				_connection.rollback();
-			}
+			_connection.rollback();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -183,11 +171,7 @@ public class DB {
 
 	private void _close() {
 		try {
-			if (_sqlSession != null) {
-				_sqlSession.close();
-			} else {
-				_connection.close();
-			}
+			_connection.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
