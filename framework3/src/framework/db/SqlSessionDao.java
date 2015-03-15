@@ -19,7 +19,7 @@ public class SqlSessionDao {
 
 	public SqlSessionDao(DB db) {
 		this.db = db;
-		sqlSession = db.getSqlSession();
+		this.sqlSession = db.getSqlSession();
 	}
 
 	public void commit() {
@@ -31,74 +31,74 @@ public class SqlSessionDao {
 	}
 
 	public int delete(String statement) {
-		return sqlSession.delete(statement);
+		return this.sqlSession.delete(statement);
 	}
 
 	public int delete(String statement, Object parameter) {
-		return sqlSession.delete(statement, parameter);
+		return this.sqlSession.delete(statement, parameter);
 	}
 
 	public <T> T getMapper(Class<T> type) {
-		return sqlSession.getMapper(type);
+		return this.sqlSession.getMapper(type);
 	}
 
 	public int insert(String statement) {
-		return sqlSession.insert(statement);
+		return this.sqlSession.insert(statement);
 	}
 
 	public int insert(String statement, Object parameter) {
-		return sqlSession.insert(statement, parameter);
+		return this.sqlSession.insert(statement, parameter);
 	}
 
 	public void select(String statement, ResultHandler handler) {
-		sqlSession.select(statement, handler);
+		this.sqlSession.select(statement, handler);
 	}
 
 	public void select(String statement, Object parameter, ResultHandler handler) {
-		sqlSession.select(statement, parameter, handler);
+		this.sqlSession.select(statement, parameter, handler);
 	}
 
 	public void select(String statement, Object parameter, RowBounds rowBounds, ResultHandler handler) {
-		sqlSession.select(statement, parameter, rowBounds, handler);
+		this.sqlSession.select(statement, parameter, rowBounds, handler);
 	}
 
 	public <E> List<E> selectList(String statement) {
-		return sqlSession.selectList(statement);
+		return this.sqlSession.selectList(statement);
 	}
 
 	public <E> List<E> selectList(String statement, Object parameter) {
-		return sqlSession.selectList(statement, parameter);
+		return this.sqlSession.selectList(statement, parameter);
 	}
 
 	public <E> List<E> selectList(String statement, Object parameter, RowBounds rowBounds) {
-		return sqlSession.selectList(statement, parameter, rowBounds);
+		return this.sqlSession.selectList(statement, parameter, rowBounds);
 	}
 
 	public <K, V> Map<K, V> selectMap(String statement, String mapKey) {
-		return sqlSession.selectMap(statement, mapKey);
+		return this.sqlSession.selectMap(statement, mapKey);
 	}
 
 	public <K, V> Map<K, V> selectMap(String statement, Object parameter, String mapKey) {
-		return sqlSession.selectMap(statement, parameter, mapKey);
+		return this.sqlSession.selectMap(statement, parameter, mapKey);
 	}
 
 	public <K, V> Map<K, V> selectMap(String statement, Object parameter, String mapKey, RowBounds rowBounds) {
-		return sqlSession.selectMap(statement, parameter, mapKey, rowBounds);
+		return this.sqlSession.selectMap(statement, parameter, mapKey, rowBounds);
 	}
 
 	public <T> T selectOne(String statement) {
-		return sqlSession.selectOne(statement);
+		return this.sqlSession.selectOne(statement);
 	}
 
 	public <T> T selectOne(String statement, Object parameter) {
-		return sqlSession.selectOne(statement, parameter);
+		return this.sqlSession.selectOne(statement, parameter);
 	}
 
 	public int update(String statement) {
-		return sqlSession.update(statement);
+		return this.sqlSession.update(statement);
 	}
 
 	public int update(String statement, Object parameter) {
-		return sqlSession.update(statement, parameter);
+		return this.sqlSession.update(statement, parameter);
 	}
 }
