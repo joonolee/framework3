@@ -14,7 +14,7 @@
 	</typeAliases>
 
 	<mappers>
-		<mapper resource="" />
+		<package name="mapper" />
 	</mappers>
 
 </configuration>
