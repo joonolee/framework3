@@ -27,12 +27,17 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.crypt.Decryptor;
 import org.apache.poi.poifs.crypt.EncryptionInfo;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -218,13 +223,15 @@ public class ExcelUtil {
 			String[] colNms = rs.getColumns();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
-				_appendHeader(row, header);
+				CellStyle cellStyle = _headerStyle(workbook);
+				_appendHeader(row, header, cellStyle);
 				rowCount++;
 			}
 			rs.moveRow(0);
+			CellStyle cellStyle = _rowStyle(workbook);
 			while (rs.nextRow()) {
 				Row row = sheet.createRow(rowCount);
-				_appendRow(row, rs, colNms);
+				_appendRow(row, rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -269,13 +276,15 @@ public class ExcelUtil {
 			String[] colNms = rs.getColumns();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
-				_appendHeader(row, header);
+				CellStyle cellStyle = _headerStyle(workbook);
+				_appendHeader(row, header, cellStyle);
 				rowCount++;
 			}
 			rs.moveRow(0);
+			CellStyle cellStyle = _rowStyle(workbook);
 			while (rs.nextRow()) {
 				Row row = sheet.createRow(rowCount);
-				_appendRow(row, rs, colNms);
+				_appendRow(row, rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -334,13 +343,15 @@ public class ExcelUtil {
 			String[] colNms = rs.getColumns();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
-				_appendHeader(row, header);
+				CellStyle cellStyle = _headerStyle(workbook);
+				_appendHeader(row, header, cellStyle);
 				rowCount++;
 			}
 			rs.moveRow(0);
+			CellStyle cellStyle = _rowStyle(workbook);
 			while (rs.nextRow()) {
 				Row row = sheet.createRow(rowCount);
-				_appendRow(row, rs, colNms);
+				_appendRow(row, rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -385,13 +396,15 @@ public class ExcelUtil {
 			String[] colNms = rs.getColumns();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
-				_appendHeader(row, header);
+				CellStyle cellStyle = _headerStyle(workbook);
+				_appendHeader(row, header, cellStyle);
 				rowCount++;
 			}
 			rs.moveRow(0);
+			CellStyle cellStyle = _rowStyle(workbook);
 			while (rs.nextRow()) {
 				Row row = sheet.createRow(rowCount);
-				_appendRow(row, rs, colNms);
+				_appendRow(row, rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -597,12 +610,14 @@ public class ExcelUtil {
 				int rowCount = 0;
 				if (header != null) {
 					Row row = sheet.createRow(rowCount);
-					_appendHeader(row, header);
+					CellStyle cellStyle = _headerStyle(workbook);
+					_appendHeader(row, header, cellStyle);
 					rowCount++;
 				}
+				CellStyle cellStyle = _rowStyle(workbook);
 				while (rs.next()) {
 					Row row = sheet.createRow(rowCount);
-					_appendRow(row, rs, colNms);
+					_appendRow(row, rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -676,12 +691,14 @@ public class ExcelUtil {
 				int rowCount = 0;
 				if (header != null) {
 					Row row = sheet.createRow(rowCount);
-					_appendHeader(row, header);
+					CellStyle cellStyle = _headerStyle(workbook);
+					_appendHeader(row, header, cellStyle);
 					rowCount++;
 				}
+				CellStyle cellStyle = _rowStyle(workbook);
 				while (rs.next()) {
 					Row row = sheet.createRow(rowCount);
-					_appendRow(row, rs, colNms);
+					_appendRow(row, rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -768,12 +785,14 @@ public class ExcelUtil {
 				int rowCount = 0;
 				if (header != null) {
 					Row row = sheet.createRow(rowCount);
-					_appendHeader(row, header);
+					CellStyle cellStyle = _headerStyle(workbook);
+					_appendHeader(row, header, cellStyle);
 					rowCount++;
 				}
+				CellStyle cellStyle = _rowStyle(workbook);
 				while (rs.next()) {
 					Row row = sheet.createRow(rowCount);
-					_appendRow(row, rs, colNms);
+					_appendRow(row, rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -847,12 +866,14 @@ public class ExcelUtil {
 				int rowCount = 0;
 				if (header != null) {
 					Row row = sheet.createRow(rowCount);
-					_appendHeader(row, header);
+					CellStyle cellStyle = _headerStyle(workbook);
+					_appendHeader(row, header, cellStyle);
 					rowCount++;
 				}
+				CellStyle cellStyle = _rowStyle(workbook);
 				while (rs.next()) {
 					Row row = sheet.createRow(rowCount);
-					_appendRow(row, rs, colNms);
+					_appendRow(row, rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -1158,12 +1179,14 @@ public class ExcelUtil {
 			OutputStream os = response.getOutputStream();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
-				_appendHeader(row, header);
+				CellStyle cellStyle = _headerStyle(workbook);
+				_appendHeader(row, header, cellStyle);
 				rowCount++;
 			}
+			CellStyle cellStyle = _rowStyle(workbook);
 			for (RecordMap map : mapList) {
 				Row row = sheet.createRow(rowCount);
-				_appendRow(row, map);
+				_appendRow(row, map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1207,12 +1230,14 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
-				_appendHeader(row, header);
+				CellStyle cellStyle = _headerStyle(workbook);
+				_appendHeader(row, header, cellStyle);
 				rowCount++;
 			}
+			CellStyle cellStyle = _rowStyle(workbook);
 			for (RecordMap map : mapList) {
 				Row row = sheet.createRow(rowCount);
-				_appendRow(row, map);
+				_appendRow(row, map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1270,12 +1295,14 @@ public class ExcelUtil {
 			OutputStream os = response.getOutputStream();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
-				_appendHeader(row, header);
+				CellStyle cellStyle = _headerStyle(workbook);
+				_appendHeader(row, header, cellStyle);
 				rowCount++;
 			}
+			CellStyle cellStyle = _rowStyle(workbook);
 			for (RecordMap map : mapList) {
 				Row row = sheet.createRow(rowCount);
-				_appendRow(row, map);
+				_appendRow(row, map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1319,12 +1346,14 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
-				_appendHeader(row, header);
+				CellStyle cellStyle = _headerStyle(workbook);
+				_appendHeader(row, header, cellStyle);
 				rowCount++;
 			}
+			CellStyle cellStyle = _rowStyle(workbook);
 			for (RecordMap map : mapList) {
 				Row row = sheet.createRow(rowCount);
-				_appendRow(row, map);
+				_appendRow(row, map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1596,17 +1625,19 @@ public class ExcelUtil {
 		return buffer.toString();
 	}
 
-	private static void _appendHeader(Row row, String[] header) {
-		if (header == null)
+	private static void _appendHeader(Row row, String[] header, CellStyle cellStyle) {
+		if (header == null) {
 			return;
+		}
 		for (int c = 0; c < header.length; c++) {
 			Cell cell = row.createCell(c);
 			cell.setCellType(Cell.CELL_TYPE_STRING);
 			cell.setCellValue(header[c]);
+			cell.setCellStyle(cellStyle);
 		}
 	}
 
-	private static void _appendRow(Row row, RecordSet rs, String[] colNms) {
+	private static void _appendRow(Row row, RecordSet rs, String[] colNms, CellStyle cellStyle) {
 		if (colNms == null) {
 			return;
 		}
@@ -1625,10 +1656,11 @@ public class ExcelUtil {
 					cell.setCellValue(value.toString());
 				}
 			}
+			cell.setCellStyle(cellStyle);
 		}
 	}
 
-	private static void _appendRow(Row row, ResultSet rs, String[] colNms) {
+	private static void _appendRow(Row row, ResultSet rs, String[] colNms, CellStyle cellStyle) {
 		if (colNms == null) {
 			return;
 		}
@@ -1648,13 +1680,14 @@ public class ExcelUtil {
 						cell.setCellValue(value.toString());
 					}
 				}
+				cell.setCellStyle(cellStyle);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private static void _appendRow(Row row, RecordMap map) {
+	private static void _appendRow(Row row, RecordMap map, CellStyle cellStyle) {
 		int c = 0;
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object value = entry.getValue();
@@ -1671,6 +1704,7 @@ public class ExcelUtil {
 					cell.setCellValue(value.toString());
 				}
 			}
+			cell.setCellStyle(cellStyle);
 		}
 	}
 
@@ -1797,5 +1831,58 @@ public class ExcelUtil {
 			mapList.add(map);
 		}
 		return mapList;
+	}
+
+	/** 
+	 * 헤더 셀 스타일 리턴
+	 */
+	private static CellStyle _headerStyle(Workbook workbook) {
+		Font font = workbook.createFont();
+		font.setFontHeightInPoints((short) 11);
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		font.setFontName("돋움");
+		font.setColor(HSSFColor.BLACK.index);
+		CellStyle cellStyle = workbook.createCellStyle();
+		cellStyle.setFont(font);
+		cellStyle.setFillForegroundColor(HSSFColor.YELLOW.index);
+		cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		cellStyle.setWrapText(true);
+		return cellStyle;
+	}
+
+	/** 
+	 * 로우 셀 스타일 리턴
+	 */
+	private static CellStyle _rowStyle(Workbook workbook) {
+		Font font = workbook.createFont();
+		font.setFontHeightInPoints((short) 11);
+		font.setBoldweight(Font.BOLDWEIGHT_NORMAL);
+		font.setFontName("돋움");
+		font.setColor(HSSFColor.BLACK.index);
+		CellStyle cellStyle = workbook.createCellStyle();
+		cellStyle.setFont(font);
+		cellStyle.setFillForegroundColor(HSSFColor.WHITE.index);
+		cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+		cellStyle.setWrapText(true);
+		return cellStyle;
 	}
 }
