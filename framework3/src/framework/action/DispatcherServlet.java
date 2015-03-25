@@ -25,7 +25,6 @@ import framework.util.StringUtil;
  */
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
-	private static final String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
 	private static final Log logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
 
 	/**
@@ -37,6 +36,7 @@ public class DispatcherServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		ResourceBundle bundle = null;
+		String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
 		try {
 			bundle = ResourceBundle.getBundle(config.getInitParameter("routes-mapping"));
 			String defaultServletName = StringUtil.nullToBlankString(config.getInitParameter("default-servlet-name"));
@@ -50,7 +50,7 @@ public class DispatcherServlet extends HttpServlet {
 			}
 			RequestDispatcher dispatcher = getServletContext().getNamedDispatcher(defaultServletName);
 			if (dispatcher != null) {
-				getServletContext().setAttribute("request-dispatcher", dispatcher);
+				getServletContext().setAttribute("default-servlet-dispatcher", dispatcher);
 				logger.info("Default Servlet을 찾았습니다. (" + defaultServletName + ")");
 			} else {
 				logger.info("Default Servlet을 찾을 수 없습니다.");
@@ -129,7 +129,7 @@ public class DispatcherServlet extends HttpServlet {
 					throw new Exception("호출할 수 없는 메소드입니다.");
 				}
 			} catch (Throwable e) {
-				RequestDispatcher dispatcher = (RequestDispatcher) getServletContext().getAttribute("request-dispatcher");
+				RequestDispatcher dispatcher = (RequestDispatcher) getServletContext().getAttribute("default-servlet-dispatcher");
 				if (dispatcher != null) {
 					dispatcher.forward(request, response);
 				}
