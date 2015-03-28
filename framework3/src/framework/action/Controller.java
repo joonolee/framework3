@@ -33,8 +33,9 @@ import framework.db.DB;
  * 작성된 Controller는 routes.properties에 등록한다.
  */
 public abstract class Controller {
-	private Map<String, DB> _dbMap = new HashMap<String, DB>();
 	private static final String _FLASH_SCOPE_OBJECT_KEY = "___FLASH_SCOPE_OBJECT___";
+	private Map<String, DB> _dbMap = new HashMap<String, DB>();
+	private String _actionFullName = null;
 
 	/**
 	 * Controller를 호출한 서블릿 객체
@@ -87,19 +88,9 @@ public abstract class Controller {
 	protected PrintWriter out = null;
 
 	/**
-	 * 컨트롤러 이름
+	 * 액션 메소드
 	 */
-	protected String controller = null;
-
-	/**
-	 * 액션메소드 이름
-	 */
-	protected String actionMethod = null;
-
-	/**
-	 * 액션 이름(컨트롤러.액션메소드)
-	 */
-	protected String action = null;
+	protected Method action = null;
 
 	/**
 	 * Controller의 로거객체
@@ -117,6 +108,7 @@ public abstract class Controller {
 	 */
 	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Throwable {
 		try {
+			this._actionFullName = getClass().getName() + "." + method.getName();
 			this.servlet = servlet;
 			this.application = servlet.getServletContext();
 			this.request = request;
@@ -127,15 +119,13 @@ public abstract class Controller {
 			this.flash = new HashMap<String, Object>();
 			this.response = response;
 			this.out = response.getWriter();
-			this.controller = getClass().getName();
-			this.actionMethod = method.getName();
-			this.action = this.controller + "." + this.actionMethod;
+			this.action = method;
 			long currTime = 0;
 			_flashRestore();
 			_before();
 			if (logger.isDebugEnabled()) {
 				currTime = System.currentTimeMillis();
-				logger.debug("Start Class : " + this.controller + ", Method : " + this.actionMethod);
+				logger.debug("Start Class : " + getClass().getName() + ", Method : " + method.getName());
 				logger.debug(this.params.toString());
 				logger.debug(this.cookies.toString());
 			}
@@ -385,7 +375,7 @@ public abstract class Controller {
 				if (!o.contains(".")) {
 					o = getClass().getName() + "." + o;
 				}
-				if (o.equals(this.action)) {
+				if (o.equals(this._actionFullName)) {
 					skip = false;
 					break;
 				} else {
@@ -396,7 +386,7 @@ public abstract class Controller {
 				if (!u.contains(".")) {
 					u = getClass().getName() + "." + u;
 				}
-				if (u.equals(this.action)) {
+				if (u.equals(this._actionFullName)) {
 					skip = true;
 					break;
 				}
@@ -435,7 +425,7 @@ public abstract class Controller {
 				if (!o.contains(".")) {
 					o = getClass().getName() + "." + o;
 				}
-				if (o.equals(this.action)) {
+				if (o.equals(this._actionFullName)) {
 					skip = false;
 					break;
 				} else {
@@ -446,7 +436,7 @@ public abstract class Controller {
 				if (!u.contains(".")) {
 					u = getClass().getName() + "." + u;
 				}
-				if (u.equals(this.action)) {
+				if (u.equals(this._actionFullName)) {
 					skip = true;
 					break;
 				}
@@ -520,7 +510,7 @@ public abstract class Controller {
 				if (!o.contains(".")) {
 					o = getClass().getName() + "." + o;
 				}
-				if (o.equals(this.action)) {
+				if (o.equals(this._actionFullName)) {
 					skip = false;
 					break;
 				} else {
@@ -531,7 +521,7 @@ public abstract class Controller {
 				if (!u.contains(".")) {
 					u = getClass().getName() + "." + u;
 				}
-				if (u.equals(this.action)) {
+				if (u.equals(this._actionFullName)) {
 					skip = true;
 					break;
 				}
