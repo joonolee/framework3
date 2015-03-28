@@ -116,16 +116,16 @@ public class DispatcherServlet extends HttpServlet {
 	private void _processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Controller controller = null;
-			Method actionMethod = null;
+			Method action = null;
 			try {
 				String routePath = _getRoutePath(request);
-				String[] controllerAndAction = _getControllerAndAction(routePath);
-				String controllerName = controllerAndAction[0];
-				String actionName = controllerAndAction[1];
+				String[] controllerAction = _getControllerAction(routePath);
+				String controllerName = controllerAction[0];
+				String actionName = controllerAction[1];
 				Class<?> controllerClass = Class.forName(controllerName);
 				controller = (Controller) controllerClass.newInstance();
-				actionMethod = controllerClass.getMethod(actionName);
-				if (!_isActionMethod(actionMethod)) {
+				action = controllerClass.getMethod(actionName);
+				if (!_isActionMethod(action)) {
 					throw new Exception("호출할 수 없는 메소드입니다.");
 				}
 			} catch (Throwable e) {
@@ -141,7 +141,7 @@ public class DispatcherServlet extends HttpServlet {
 				logger.debug("★★★ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 시작되었습니다");
 				logger.debug("ContentLength : " + request.getContentLength() + "bytes");
 			}
-			controller.execute(this, request, response, actionMethod);
+			controller.execute(this, request, response, action);
 			if (logger.isDebugEnabled()) {
 				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.currentTimeMillis() - currTime) + "ms\n");
 			}
@@ -157,7 +157,7 @@ public class DispatcherServlet extends HttpServlet {
 		return normalizePath;
 	}
 
-	private String[] _getControllerAndAction(String routePath) {
+	private String[] _getControllerAction(String routePath) {
 		try {
 			ResourceBundle bundle = (ResourceBundle) getServletContext().getAttribute("routes-mapping");
 			String value = ((String) bundle.getObject(routePath)).trim();
