@@ -38,11 +38,6 @@ public abstract class Controller {
 	private String _actionFullName = null;
 
 	/**
-	 * Controller를 호출한 서블릿 객체
-	 */
-	protected HttpServlet servlet = null;
-
-	/**
 	 * 서블릿 컨텍스트 객체
 	 */
 	protected ServletContext application = null;
@@ -109,7 +104,6 @@ public abstract class Controller {
 	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Throwable {
 		try {
 			this._actionFullName = getClass().getName() + "." + method.getName();
-			this.servlet = servlet;
 			this.application = servlet.getServletContext();
 			this.request = request;
 			this.params = Params.getParams(request);
@@ -168,12 +162,12 @@ public abstract class Controller {
 	 */
 	protected void render(String key) {
 		try {
-			ResourceBundle bundle = (ResourceBundle) servlet.getServletContext().getAttribute("routes-mapping");
+			ResourceBundle bundle = (ResourceBundle) application.getAttribute("routes-mapping");
 			String url = ((String) bundle.getObject(key)).trim();
 			if (logger.isDebugEnabled()) {
 				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 forward 되었습니다");
 			}
-			servlet.getServletContext().getRequestDispatcher(response.encodeURL(url)).forward(request, response);
+			application.getRequestDispatcher(response.encodeURL(url)).forward(request, response);
 		} catch (Throwable e) {
 			logger.error("", e);
 		}
