@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +40,11 @@ public abstract class Controller {
 	 * Controller를 호출한 서블릿 객체
 	 */
 	protected HttpServlet servlet = null;
+
+	/**
+	 * 서블릿 컨텍스트 객체
+	 */
+	protected ServletContext application = null;
 
 	/**
 	 * HTTP 클라이언트 요청객체
@@ -112,6 +118,7 @@ public abstract class Controller {
 	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Throwable {
 		try {
 			this.servlet = servlet;
+			this.application = servlet.getServletContext();
 			this.request = request;
 			this.params = Params.getParams(request);
 			this.cookies = Params.getParamsFromCookie(request);
