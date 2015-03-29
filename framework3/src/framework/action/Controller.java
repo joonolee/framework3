@@ -35,7 +35,6 @@ import framework.db.DB;
 public abstract class Controller {
 	private static final String _FLASH_SCOPE_OBJECT_KEY = "___FLASH_SCOPE_OBJECT___";
 	private Map<String, DB> _dbMap = new HashMap<String, DB>();
-	private String _actionFullName = null;
 
 	/**
 	 * 서블릿 컨텍스트 객체
@@ -88,6 +87,11 @@ public abstract class Controller {
 	protected Method action = null;
 
 	/**
+	 * 액션 이름(패키지 + 클래스 + 메소드명)
+	 */
+	protected String actionName = null;
+
+	/**
 	 * Controller의 로거객체
 	 */
 	protected static final Log logger = LogFactory.getLog(framework.action.Controller.class);
@@ -103,7 +107,6 @@ public abstract class Controller {
 	 */
 	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Throwable {
 		try {
-			this._actionFullName = getClass().getName() + "." + method.getName();
 			this.application = servlet.getServletContext();
 			this.request = request;
 			this.params = Params.getParams(request);
@@ -114,6 +117,7 @@ public abstract class Controller {
 			this.response = response;
 			this.out = response.getWriter();
 			this.action = method;
+			this.actionName = getClass().getName() + "." + method.getName();
 			long currTime = 0;
 			_flashRestore();
 			_before();
@@ -369,7 +373,7 @@ public abstract class Controller {
 				if (!o.contains(".")) {
 					o = getClass().getName() + "." + o;
 				}
-				if (o.equals(this._actionFullName)) {
+				if (o.equals(this.actionName)) {
 					skip = false;
 					break;
 				} else {
@@ -380,7 +384,7 @@ public abstract class Controller {
 				if (!u.contains(".")) {
 					u = getClass().getName() + "." + u;
 				}
-				if (u.equals(this._actionFullName)) {
+				if (u.equals(this.actionName)) {
 					skip = true;
 					break;
 				}
@@ -419,7 +423,7 @@ public abstract class Controller {
 				if (!o.contains(".")) {
 					o = getClass().getName() + "." + o;
 				}
-				if (o.equals(this._actionFullName)) {
+				if (o.equals(this.actionName)) {
 					skip = false;
 					break;
 				} else {
@@ -430,7 +434,7 @@ public abstract class Controller {
 				if (!u.contains(".")) {
 					u = getClass().getName() + "." + u;
 				}
-				if (u.equals(this._actionFullName)) {
+				if (u.equals(this.actionName)) {
 					skip = true;
 					break;
 				}
@@ -504,7 +508,7 @@ public abstract class Controller {
 				if (!o.contains(".")) {
 					o = getClass().getName() + "." + o;
 				}
-				if (o.equals(this._actionFullName)) {
+				if (o.equals(this.actionName)) {
 					skip = false;
 					break;
 				} else {
@@ -515,7 +519,7 @@ public abstract class Controller {
 				if (!u.contains(".")) {
 					u = getClass().getName() + "." + u;
 				}
-				if (u.equals(this._actionFullName)) {
+				if (u.equals(this.actionName)) {
 					skip = true;
 					break;
 				}
