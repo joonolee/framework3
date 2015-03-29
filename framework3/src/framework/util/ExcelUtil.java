@@ -237,7 +237,7 @@ public class ExcelUtil {
 			if (colNms != null) {
 				for (int i = 0; i < colNms.length; i++) {
 					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
 			workbook.write(os);
@@ -291,7 +291,7 @@ public class ExcelUtil {
 			if (colNms != null) {
 				for (int i = 0; i < colNms.length; i++) {
 					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
 			workbook.write(fos);
@@ -359,7 +359,7 @@ public class ExcelUtil {
 			if (colNms != null) {
 				for (int i = 0; i < colNms.length; i++) {
 					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
 			workbook.write(os);
@@ -413,7 +413,7 @@ public class ExcelUtil {
 			if (colNms != null) {
 				for (int i = 0; i < colNms.length; i++) {
 					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
 			workbook.write(fos);
@@ -627,7 +627,7 @@ public class ExcelUtil {
 				if (colNms != null) {
 					for (int i = 0; i < colNms.length; i++) {
 						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 					}
 				}
 				workbook.write(os);
@@ -709,7 +709,7 @@ public class ExcelUtil {
 				if (colNms != null) {
 					for (int i = 0; i < colNms.length; i++) {
 						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 					}
 				}
 				workbook.write(fos);
@@ -804,7 +804,7 @@ public class ExcelUtil {
 				if (colNms != null) {
 					for (int i = 0; i < colNms.length; i++) {
 						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 					}
 				}
 				workbook.write(os);
@@ -886,7 +886,7 @@ public class ExcelUtil {
 				if (colNms != null) {
 					for (int i = 0; i < colNms.length; i++) {
 						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 					}
 				}
 				workbook.write(fos);
@@ -1200,7 +1200,7 @@ public class ExcelUtil {
 			if (header != null) {
 				for (int i = 0; i < header.length; i++) {
 					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
 			workbook.write(os);
@@ -1252,7 +1252,7 @@ public class ExcelUtil {
 			if (header != null) {
 				for (int i = 0; i < header.length; i++) {
 					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
 			workbook.write(fos);
@@ -1318,7 +1318,7 @@ public class ExcelUtil {
 			if (header != null) {
 				for (int i = 0; i < header.length; i++) {
 					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
 			workbook.write(os);
@@ -1370,7 +1370,7 @@ public class ExcelUtil {
 			if (header != null) {
 				for (int i = 0; i < header.length; i++) {
 					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, sheet.getColumnWidth(i) + 1024);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
 			workbook.write(fos);
