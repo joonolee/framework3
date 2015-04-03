@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 public class StringUtil {
 
@@ -520,8 +521,8 @@ public class StringUtil {
 	 * @return 스크립트 태그가 제거된 문자열
 	 */
 	public static String stripScriptTag(String src) {
-		String pattern = "<\\s*[s|S][c|C][r|R][i|I][p|P][t|T].*>.*<\\s*/\\s*[s|S][c|C][r|R][i|I][p|P][t|T]\\s*>";
-		return src.replaceAll(pattern, "");
+		Pattern pattern = Pattern.compile("<\\s*[s|S][c|C][r|R][i|I][p|P][t|T].*?>.*?<\\s*/\\s*[s|S][c|C][r|R][i|I][p|P][t|T]\\s*>", Pattern.DOTALL);
+		return pattern.matcher(src).replaceAll("");
 	}
 
 	/**
