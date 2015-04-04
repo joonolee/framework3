@@ -24,11 +24,11 @@
 
 	<!--
 	<filter>
-		<filter-name>CompressionFilter</filter-name>
-		<filter-class>framework.filter.CompressionFilter</filter-class>
+		<filter-name>GZIPFilter</filter-name>
+		<filter-class>framework.filter.GZIPFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>CompressionFilter</filter-name>
+		<filter-name>GZIPFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 	
