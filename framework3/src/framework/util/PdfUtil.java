@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.nio.charset.Charset;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -184,7 +183,7 @@ public class PdfUtil {
 			CssResolverPipeline pipeline = new CssResolverPipeline(cssResolver, new HtmlPipeline(context, new PdfWriterPipeline(doc, pdfWriter)));
 			XMLWorker worker = new XMLWorker(pipeline, true);
 			XMLParser parser = new XMLParser(worker, Charset.forName("UTF-8"));
-			parser.parse(new StringReader(_stripMetaTag(html)));
+			parser.parse(new StringReader(html));
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -196,10 +195,5 @@ public class PdfUtil {
 				pdfWriter.close();
 			}
 		}
-	}
-
-	private static String _stripMetaTag(String src) {
-		Pattern pattern = Pattern.compile("<\\s*[m|M][e|E][t|T][a|A].*?>", Pattern.DOTALL);
-		return pattern.matcher(src).replaceAll("");
 	}
 }
