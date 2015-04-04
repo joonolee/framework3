@@ -1,6 +1,8 @@
 package framework.filter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.zip.GZIPOutputStream;
@@ -23,22 +25,27 @@ public class CompressionFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-		if (_isGzipSupported(request)) {
-			MyResponseWrapper resWrapper = null;
-			try {
-				resWrapper = new MyResponseWrapper((HttpServletResponse) response);
+		MyResponseWrapper resWrapper = null;
+		try {
+			resWrapper = new MyResponseWrapper((HttpServletResponse) response);
+			filterChain.doFilter(request, resWrapper);
+			String contentType = _nullToBlankString(resWrapper.getContentType());
+			if (_isGzipSupported(request) && _isTextualContentType(contentType)) {
 				resWrapper.setHeader("Content-Encoding", "gzip");
-				filterChain.doFilter(request, resWrapper);
-				GZIPOutputStream gzos = resWrapper.getGZIPOutputStream();
+				GZIPOutputStream gzos = new GZIPOutputStream(response.getOutputStream());
+				OutputStreamWriter osw = new OutputStreamWriter(gzos, response.getCharacterEncoding());
+				PrintWriter writer = new PrintWriter(osw);
+				writer.print(resWrapper.toString());
+				writer.flush();
 				gzos.finish();
-			} finally {
-				if (resWrapper != null) {
-					resWrapper.close();
-					resWrapper = null;
-				}
+			} else {
+				resWrapper.writeTo(response.getOutputStream());
 			}
-		} else {
-			filterChain.doFilter(request, response);
+		} finally {
+			if (resWrapper != null) {
+				resWrapper.close();
+				resWrapper = null;
+			}
 		}
 	}
 
@@ -55,83 +62,85 @@ public class CompressionFilter implements Filter {
 		return ((browserEncodings != null) && (browserEncodings.indexOf("gzip") != -1));
 	}
 
+	private boolean _isTextualContentType(String contentType) {
+		return "".equals(contentType) || contentType.contains("text") || contentType.contains("json") || contentType.contains("xml");
+	}
+
+	private static String _nullToBlankString(String str) {
+		String rval = "";
+		if (str == null) {
+			rval = "";
+		} else {
+			rval = str;
+		}
+		return rval;
+	}
+
 	class MyResponseWrapper extends HttpServletResponseWrapper {
-		private MyOutputStream _os;
+		private ByteArrayOutputStream _bytes;
 		private PrintWriter _writer;
-		private Object _streamUsed;
 
-		public MyResponseWrapper(HttpServletResponse p_res) {
+		public MyResponseWrapper(HttpServletResponse p_res) throws IOException {
 			super(p_res);
-		}
-
-		public void setContentLength(int len) {
-		}
-
-		public GZIPOutputStream getGZIPOutputStream() {
-			return _os.gzos;
+			_bytes = new ByteArrayOutputStream(8 * 1024);
+			_writer = new PrintWriter(_bytes);
 		}
 
 		@Override
-		public PrintWriter getWriter() throws IOException {
-			if ((_streamUsed != null) && (_streamUsed != _os)) {
-				throw new IllegalStateException();
-			}
-			if (_writer == null) {
-				_os = new MyOutputStream(getResponse().getOutputStream());
-				OutputStreamWriter osw = new OutputStreamWriter(_os, getResponse().getCharacterEncoding());
-				_writer = new PrintWriter(osw);
-				_streamUsed = _writer;
-			}
+		public PrintWriter getWriter() {
 			return _writer;
 		}
 
 		@Override
-		public ServletOutputStream getOutputStream() throws IOException {
-			if ((_streamUsed != null) && (_streamUsed != _writer)) {
-				throw new IllegalStateException();
-			}
-			if (_os == null) {
-				_os = new MyOutputStream(getResponse().getOutputStream());
-				_streamUsed = _os;
-			}
-			return _os;
+		public ServletOutputStream getOutputStream() {
+			return new MyOutputStream(_bytes);
+		}
+
+		@Override
+		public String toString() {
+			_writer.flush();
+			return _bytes.toString();
+		}
+
+		public void writeTo(OutputStream os) throws IOException {
+			_bytes.writeTo(os);
 		}
 
 		public void close() throws IOException {
-			_os.close();
+			_bytes.close();
 			_writer.close();
-			_os = null;
+			_bytes = null;
 			_writer = null;
 		}
 	}
 
 	class MyOutputStream extends ServletOutputStream {
-		GZIPOutputStream gzos;
+		private ByteArrayOutputStream _bytes;
 
-		public MyOutputStream(ServletOutputStream sos) throws IOException {
-			gzos = new GZIPOutputStream(sos);
+		public MyOutputStream(ByteArrayOutputStream p_bytes) {
+			_bytes = p_bytes;
 		}
 
 		@Override
 		public void write(int p_c) throws IOException {
-			gzos.write(p_c);
+			_bytes.write(p_c);
 		}
 
 		@Override
 		public void write(byte[] b) throws IOException {
-			gzos.write(b);
+			_bytes.write(b);
 		}
 
 		@Override
 		public void write(byte[] b, int off, int len) throws IOException {
-			gzos.write(b, off, len);
+			_bytes.write(b, off, len);
 		}
 
 		@Override
 		public void close() throws IOException {
-			gzos.close();
+			_bytes.close();
 			super.close();
-			gzos = null;
+			_bytes = null;
 		}
 	}
 }
