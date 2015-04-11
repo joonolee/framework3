@@ -130,8 +130,7 @@ public abstract class Controller {
 			try {
 				method.invoke(this, (Object[]) null);
 			} catch (InvocationTargetException e) {
-				_catch(e);
-				throw e.getCause();
+				_catch(e.getCause());
 			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
@@ -465,7 +464,6 @@ public abstract class Controller {
 				return catch1.priority() - catch2.priority();
 			}
 		});
-		Object[] args = new Object[] { e.getCause() };
 		for (Method catchMethod : catchMethods) {
 			Class<?>[] exceptionClasses = catchMethod.getAnnotation(Catch.class).value();
 			if (exceptionClasses.length == 0) {
@@ -478,7 +476,7 @@ public abstract class Controller {
 					}
 					catchMethod.setAccessible(true);
 					try {
-						catchMethod.invoke(this, args);
+						catchMethod.invoke(this, e);
 					} catch (InvocationTargetException ie) {
 						throw ie.getCause();
 					}
