@@ -181,8 +181,9 @@ public class FileUtil {
 			File[] fileItems = directory.listFiles();
 			if (fileItems != null) {
 				for (File item : fileItems) {
-					if (!item.delete())
+					if (!item.delete()) {
 						return false;
+					}
 				}
 			}
 			return directory.delete();
