@@ -206,7 +206,7 @@ public class FileUtil {
 			response.setHeader("Content-Disposition", "inline; filename=\"\"");
 			response.setHeader("Pragma", "no-cache;");
 			response.setHeader("Expires", "-1;");
-			_download(response, file);
+			download(response, file);
 		}
 	}
 
@@ -224,7 +224,7 @@ public class FileUtil {
 			response.setHeader("Content-Disposition", "inline; filename=\"\"");
 			response.setHeader("Pragma", "no-cache;");
 			response.setHeader("Expires", "-1;");
-			_download(response, file);
+			download(response, file);
 		}
 	}
 
@@ -243,11 +243,11 @@ public class FileUtil {
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + displayName + "\"");
 			response.setHeader("Pragma", "no-cache;");
 			response.setHeader("Expires", "-1;");
-			_download(response, file);
+			download(response, file);
 		}
 	}
 
-	private static void _download(HttpServletResponse response, File file) {
+	private static void download(HttpServletResponse response, File file) {
 		BufferedInputStream bis = null;
 		BufferedOutputStream bos = null;
 		try {

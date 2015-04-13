@@ -56,7 +56,7 @@ public class DataTablesUtil {
 			if (rowCount++ > 0) {
 				pw.print(",");
 			}
-			pw.print(_dataTablesRowStr(rs, colNms));
+			pw.print(dataTablesRowStr(rs, colNms));
 		}
 		pw.print("]");
 		pw.print("}");
@@ -90,7 +90,7 @@ public class DataTablesUtil {
 			if (rowCount++ > 0) {
 				pw.print(",");
 			}
-			pw.print(_dataTablesRowStr(rs, colNames));
+			pw.print(dataTablesRowStr(rs, colNames));
 		}
 		pw.print("]");
 		pw.print("}");
@@ -118,7 +118,7 @@ public class DataTablesUtil {
 			if (rowCount++ > 0) {
 				buffer.append(",");
 			}
-			buffer.append(_dataTablesRowStr(rs, colNms));
+			buffer.append(dataTablesRowStr(rs, colNms));
 		}
 		buffer.append("]");
 		buffer.append("}");
@@ -146,7 +146,7 @@ public class DataTablesUtil {
 			if (rowCount++ > 0) {
 				buffer.append(",");
 			}
-			buffer.append(_dataTablesRowStr(rs, colNames));
+			buffer.append(dataTablesRowStr(rs, colNames));
 		}
 		buffer.append("]");
 		buffer.append("}");
@@ -178,7 +178,7 @@ public class DataTablesUtil {
 					if (rowCount++ > 0) {
 						pw.print(",");
 					}
-					pw.print(_dataTablesRowStr(rs, colNms));
+					pw.print(dataTablesRowStr(rs, colNms));
 				}
 				pw.print("]");
 				pw.print("}");
@@ -233,7 +233,7 @@ public class DataTablesUtil {
 					if (rowCount++ > 0) {
 						pw.print(",");
 					}
-					pw.print(_dataTablesRowStr(rs, colNames));
+					pw.print(dataTablesRowStr(rs, colNames));
 				}
 				pw.print("]");
 				pw.print("}");
@@ -289,7 +289,7 @@ public class DataTablesUtil {
 					if (rowCount++ > 0) {
 						buffer.append(",");
 					}
-					buffer.append(_dataTablesRowStr(rs, colNms));
+					buffer.append(dataTablesRowStr(rs, colNms));
 				}
 				buffer.append("]");
 				buffer.append("}");
@@ -343,7 +343,7 @@ public class DataTablesUtil {
 					if (rowCount++ > 0) {
 						buffer.append(",");
 					}
-					buffer.append(_dataTablesRowStr(rs, colNames));
+					buffer.append(dataTablesRowStr(rs, colNames));
 				}
 				buffer.append("]");
 				buffer.append("}");
@@ -400,7 +400,7 @@ public class DataTablesUtil {
 			if (rowCount++ > 0) {
 				pw.print(",");
 			}
-			pw.print(_dataTablesRowStr(map));
+			pw.print(dataTablesRowStr(map));
 		}
 		pw.print("]");
 		pw.print("}");
@@ -424,7 +424,7 @@ public class DataTablesUtil {
 		if (mapList.size() > 0) {
 			buffer.append("[");
 			for (RecordMap map : mapList) {
-				buffer.append(_dataTablesRowStr(map));
+				buffer.append(dataTablesRowStr(map));
 				buffer.append(",");
 			}
 			buffer.delete(buffer.length() - 1, buffer.length());
@@ -452,7 +452,7 @@ public class DataTablesUtil {
 	/**
 	 * DataTables 용 Row 문자열 생성
 	 */
-	private static String _dataTablesRowStr(RecordMap map) {
+	private static String dataTablesRowStr(RecordMap map) {
 		StringBuilder buffer = new StringBuilder();
 		if (map.entrySet().size() > 0) {
 			buffer.append("[");
@@ -476,7 +476,7 @@ public class DataTablesUtil {
 	/**
 	 * DataTables 용 Row 문자열 생성
 	 */
-	private static String _dataTablesRowStr(RecordSet rs, String[] colNms) {
+	private static String dataTablesRowStr(RecordSet rs, String[] colNms) {
 		StringBuilder buffer = new StringBuilder();
 		if (colNms != null && colNms.length > 0) {
 			buffer.append("[");
@@ -497,7 +497,7 @@ public class DataTablesUtil {
 		return buffer.toString();
 	}
 
-	private static String _dataTablesRowStr(ResultSet rs, String[] colNms) {
+	private static String dataTablesRowStr(ResultSet rs, String[] colNms) {
 		StringBuilder buffer = new StringBuilder();
 		if (colNms != null && colNms.length > 0) {
 			buffer.append("[");

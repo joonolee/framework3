@@ -36,12 +36,12 @@ public class DispatcherServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		ResourceBundle bundle = null;
-		String[] _DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
+		String[] defaultServletNames = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
 		try {
 			bundle = ResourceBundle.getBundle(config.getInitParameter("routes-mapping"));
 			String defaultServletName = StringUtil.nullToBlankString(config.getInitParameter("default-servlet-name"));
 			if ("".equals(defaultServletName)) {
-				for (String servletName : _DEFAULT_SERVLET_NAMES) {
+				for (String servletName : defaultServletNames) {
 					if (getServletContext().getNamedDispatcher(servletName) != null) {
 						defaultServletName = servletName;
 						break;
@@ -72,7 +72,7 @@ public class DispatcherServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		_processRequest(request, response);
+		processRequest(request, response);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class DispatcherServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		_processRequest(request, response);
+		processRequest(request, response);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class DispatcherServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		_processRequest(request, response);
+		processRequest(request, response);
 	}
 
 	/**
@@ -108,24 +108,24 @@ public class DispatcherServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		_processRequest(request, response);
+		processRequest(request, response);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
 
-	private void _processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			Controller controller = null;
 			Method action = null;
 			try {
-				String routePath = _getRoutePath(request);
-				String[] controllerAction = _getControllerAction(routePath);
+				String routePath = getRoutePath(request);
+				String[] controllerAction = getControllerAction(routePath);
 				String controllerName = controllerAction[0];
 				String actionName = controllerAction[1];
 				Class<?> controllerClass = Class.forName(controllerName);
 				controller = (Controller) controllerClass.newInstance();
 				action = controllerClass.getMethod(actionName);
-				if (!_isActionMethod(action)) {
+				if (!isActionMethod(action)) {
 					throw new Exception("호출할 수 없는 메소드입니다.");
 				}
 			} catch (Throwable e) {
@@ -151,13 +151,13 @@ public class DispatcherServlet extends HttpServlet {
 		}
 	}
 
-	private String _getRoutePath(HttpServletRequest request) {
+	private String getRoutePath(HttpServletRequest request) {
 		String path = request.getServletPath() + StringUtil.nullToBlankString(request.getPathInfo());
 		String normalizePath = path.replaceAll("/+", "/");
 		return normalizePath;
 	}
 
-	private String[] _getControllerAction(String routePath) {
+	private String[] getControllerAction(String routePath) {
 		try {
 			ResourceBundle bundle = (ResourceBundle) getServletContext().getAttribute("routes-mapping");
 			String value = ((String) bundle.getObject(routePath)).trim();
@@ -168,7 +168,7 @@ public class DispatcherServlet extends HttpServlet {
 		}
 	}
 
-	private boolean _isActionMethod(Method method) {
+	private boolean isActionMethod(Method method) {
 		if (method.isAnnotationPresent(Before.class)) {
 			return false;
 		}

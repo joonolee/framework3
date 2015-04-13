@@ -31,7 +31,7 @@ public class EmailUtil {
 	/**
 	 * 기본 인코딩 값
 	 */
-	private static final String _DEFAULT_CHARSET = "utf-8";
+	private static final String DEFAULT_CHARSET = "utf-8";
 
 	//////////////////////////////////////////////////////////////////////////////////////////SMTP서버가 인증이 필요한 경우
 
@@ -50,7 +50,7 @@ public class EmailUtil {
 	 * @param fromName 보내는사람 이름
 	 */
 	public static void sendMailAuth(String smtpHost, String smtpPort, String smtpUser, String smtpPassword, String subject, String content, String toEmail, String fromEmail, String fromName) {
-		sendMailAuth(smtpHost, smtpPort, smtpUser, smtpPassword, subject, content, toEmail, fromEmail, fromName, _DEFAULT_CHARSET, null);
+		sendMailAuth(smtpHost, smtpPort, smtpUser, smtpPassword, subject, content, toEmail, fromEmail, fromName, DEFAULT_CHARSET, null);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class EmailUtil {
 	 * @param fromName 보내는사람 이름
 	 */
 	public static void sendMailAuthSSL(String smtpHost, String smtpPort, String smtpUser, String smtpPassword, String subject, String content, String toEmail, String fromEmail, String fromName) {
-		sendMailAuthSSL(smtpHost, smtpPort, smtpUser, smtpPassword, subject, content, toEmail, fromEmail, fromName, _DEFAULT_CHARSET, null);
+		sendMailAuthSSL(smtpHost, smtpPort, smtpUser, smtpPassword, subject, content, toEmail, fromEmail, fromName, DEFAULT_CHARSET, null);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class EmailUtil {
 		props.put("mail.smtp.auth", true);
 		MyAuthenticator auth = new MyAuthenticator(smtpUser, smtpPassword);
 		Session session = Session.getDefaultInstance(props, auth);
-		_sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
+		sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class EmailUtil {
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		MyAuthenticator auth = new MyAuthenticator(smtpUser, smtpPassword);
 		Session session = Session.getDefaultInstance(props, auth);
-		_sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
+		sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////SMTP서버가 인증이 필요없는 경우
@@ -179,7 +179,7 @@ public class EmailUtil {
 	 * @param fromName 보내는사람 이름
 	 */
 	public static void sendMailNoAuth(String smtpHost, String smtpPort, String subject, String content, String toEmail, String fromEmail, String fromName) {
-		sendMailNoAuth(smtpHost, smtpPort, subject, content, toEmail, fromEmail, fromName, _DEFAULT_CHARSET, null);
+		sendMailNoAuth(smtpHost, smtpPort, subject, content, toEmail, fromEmail, fromName, DEFAULT_CHARSET, null);
 	}
 
 	/**
@@ -195,7 +195,7 @@ public class EmailUtil {
 	 * @param fromName 보내는사람 이름
 	 */
 	public static void sendMailNoAuthSSL(String smtpHost, String smtpPort, String subject, String content, String toEmail, String fromEmail, String fromName) {
-		sendMailNoAuthSSL(smtpHost, smtpPort, subject, content, toEmail, fromEmail, fromName, _DEFAULT_CHARSET, null);
+		sendMailNoAuthSSL(smtpHost, smtpPort, subject, content, toEmail, fromEmail, fromName, DEFAULT_CHARSET, null);
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class EmailUtil {
 		props.put("mail.smtp.host", smtpHost);
 		props.put("mail.smtp.port", smtpPort);
 		Session session = Session.getDefaultInstance(props, null);
-		_sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
+		sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class EmailUtil {
 		props.put("mail.smtp.port", smtpPort);
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		Session session = Session.getDefaultInstance(props, null);
-		_sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
+		sendMail(subject, content, toEmail, fromEmail, fromName, charset, attachFiles, session);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드 및 객체
@@ -282,7 +282,7 @@ public class EmailUtil {
 	/**
 	 * 메일발송 및 첨부파일 처리
 	 */
-	private static void _sendMail(String subject, String content, String toEmail, String fromEmail, String fromName, String charset, File[] attachFiles, Session session) {
+	private static void sendMail(String subject, String content, String toEmail, String fromEmail, String fromName, String charset, File[] attachFiles, Session session) {
 		MimeMessage message = new MimeMessage(session);
 		try {
 			InternetAddress addr = new InternetAddress(fromEmail, fromName, charset);
@@ -315,17 +315,17 @@ public class EmailUtil {
 	 * 메일인증을 위한 객체
 	 */
 	private static class MyAuthenticator extends Authenticator {
-		private String _id;
-		private String _pw;
+		private String id;
+		private String pw;
 
 		public MyAuthenticator(String id, String pw) {
-			_id = id;
-			_pw = pw;
+			this.id = id;
+			this.pw = pw;
 		}
 
 		@Override
 		protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-			return new javax.mail.PasswordAuthentication(_id, _pw);
+			return new javax.mail.PasswordAuthentication(id, pw);
 		}
 	}
 }

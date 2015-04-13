@@ -51,12 +51,12 @@ public class XmlUtil {
 		}
 		String[] colNms = rs.getColumns();
 		rs.moveRow(0);
-		pw.print(_xmlHeaderStr(encoding));
+		pw.print(xmlHeaderStr(encoding));
 		pw.print("<items>");
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			rowCount++;
-			pw.print(_xmlItemStr(rs, colNms));
+			pw.print(xmlItemStr(rs, colNms));
 		}
 		pw.print("</items>");
 		return rowCount;
@@ -78,7 +78,7 @@ public class XmlUtil {
 		rs.moveRow(0);
 		buffer.append("<items>");
 		while (rs.nextRow()) {
-			buffer.append(_xmlItemStr(rs, colNms));
+			buffer.append(xmlItemStr(rs, colNms));
 		}
 		buffer.append("</items>");
 		return buffer.toString();
@@ -97,7 +97,7 @@ public class XmlUtil {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
-		buf.append(_xmlHeaderStr(encoding));
+		buf.append(xmlHeaderStr(encoding));
 		buf.append(render(rs));
 		return buf.toString();
 	}
@@ -125,12 +125,12 @@ public class XmlUtil {
 					//Table의 Field 가 소문자 인것은 대문자로 변경처리
 					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
 				}
-				pw.print(_xmlHeaderStr(encoding));
+				pw.print(xmlHeaderStr(encoding));
 				pw.print("<items>");
 				int rowCount = 0;
 				while (rs.next()) {
 					rowCount++;
-					pw.print(_xmlItemStr(rs, colNms));
+					pw.print(xmlItemStr(rs, colNms));
 				}
 				pw.print("</items>");
 				return rowCount;
@@ -183,7 +183,7 @@ public class XmlUtil {
 				}
 				buffer.append("<items>");
 				while (rs.next()) {
-					buffer.append(_xmlItemStr(rs, colNms));
+					buffer.append(xmlItemStr(rs, colNms));
 				}
 				buffer.append("</items>");
 			} finally {
@@ -226,7 +226,7 @@ public class XmlUtil {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
-		buffer.append(_xmlHeaderStr(encoding));
+		buffer.append(xmlHeaderStr(encoding));
 		buffer.append(render(rs));
 		return buffer.toString();
 	}
@@ -244,7 +244,7 @@ public class XmlUtil {
 		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<items>");
-		buffer.append(_xmlItemStr(map));
+		buffer.append(xmlItemStr(map));
 		buffer.append("</items>");
 		return buffer.toString();
 	}
@@ -262,7 +262,7 @@ public class XmlUtil {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
-		buffer.append(_xmlHeaderStr(encoding));
+		buffer.append(xmlHeaderStr(encoding));
 		buffer.append(render(map));
 		return buffer.toString();
 	}
@@ -286,12 +286,12 @@ public class XmlUtil {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		pw.print(_xmlHeaderStr(encoding));
+		pw.print(xmlHeaderStr(encoding));
 		pw.print("<items>");
 		int rowCount = 0;
 		for (RecordMap map : mapList) {
 			rowCount++;
-			pw.print(_xmlItemStr(map));
+			pw.print(xmlItemStr(map));
 		}
 		pw.print("</items>");
 		return rowCount;
@@ -311,7 +311,7 @@ public class XmlUtil {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<items>");
 		for (RecordMap map : mapList) {
-			buffer.append(_xmlItemStr(map));
+			buffer.append(xmlItemStr(map));
 		}
 		buffer.append("</items>");
 		return buffer.toString();
@@ -330,7 +330,7 @@ public class XmlUtil {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
-		buffer.append(_xmlHeaderStr(encoding));
+		buffer.append(xmlHeaderStr(encoding));
 		buffer.append(render(mapList));
 		return buffer.toString();
 	}
@@ -340,7 +340,7 @@ public class XmlUtil {
 	/**
 	 *  xml 헤더 문자열 생성
 	 */
-	private static String _xmlHeaderStr(String encoding) {
+	private static String xmlHeaderStr(String encoding) {
 		return "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>";
 	}
 
@@ -348,7 +348,7 @@ public class XmlUtil {
 	 * xml item 문자열 생성
 	 */
 	@SuppressWarnings("unchecked")
-	private static String _xmlItemStr(RecordMap map) {
+	private static String xmlItemStr(RecordMap map) {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<item>");
 		for (Entry<String, Object> entry : map.entrySet()) {
@@ -375,7 +375,7 @@ public class XmlUtil {
 	/**
 	 * xml item 문자열 생성
 	 */
-	private static String _xmlItemStr(RecordSet rs, String[] colNms) {
+	private static String xmlItemStr(RecordSet rs, String[] colNms) {
 		if (colNms == null) {
 			return "<item></item>";
 		}
@@ -397,7 +397,7 @@ public class XmlUtil {
 		return buffer.toString();
 	}
 
-	private static String _xmlItemStr(ResultSet rs, String[] colNms) {
+	private static String xmlItemStr(ResultSet rs, String[] colNms) {
 		if (colNms == null) {
 			return "<item></item>";
 		}

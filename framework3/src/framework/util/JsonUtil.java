@@ -58,7 +58,7 @@ public class JsonUtil {
 			if (rowCount++ > 0) {
 				pw.print(",");
 			}
-			pw.print(_jsonRowStr(rs, colNms));
+			pw.print(jsonRowStr(rs, colNms));
 		}
 		pw.print("]");
 		return rowCount;
@@ -84,7 +84,7 @@ public class JsonUtil {
 			if (rowCount++ > 0) {
 				buf.append(",");
 			}
-			buf.append(_jsonRowStr(rs, colNms));
+			buf.append(jsonRowStr(rs, colNms));
 		}
 		buf.append("]");
 		return buf.toString();
@@ -118,7 +118,7 @@ public class JsonUtil {
 					if (rowCount++ > 0) {
 						pw.print(",");
 					}
-					pw.print(_jsonRowStr(rs, colNms));
+					pw.print(jsonRowStr(rs, colNms));
 				}
 				pw.print("]");
 				return rowCount;
@@ -176,7 +176,7 @@ public class JsonUtil {
 					if (rowCount++ > 0) {
 						buffer.append(",");
 					}
-					buffer.append(_jsonRowStr(rs, colNms));
+					buffer.append(jsonRowStr(rs, colNms));
 				}
 				buffer.append("]");
 			} finally {
@@ -219,7 +219,7 @@ public class JsonUtil {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
-		buffer.append(_jsonRowStr(map));
+		buffer.append(jsonRowStr(map));
 		return buffer.toString();
 	}
 
@@ -247,7 +247,7 @@ public class JsonUtil {
 			if (rowCount++ > 0) {
 				pw.print(",");
 			}
-			pw.print(_jsonRowStr(map));
+			pw.print(jsonRowStr(map));
 		}
 		pw.print("]");
 		return rowCount;
@@ -268,7 +268,7 @@ public class JsonUtil {
 		if (mapList.size() > 0) {
 			buffer.append("[");
 			for (RecordMap map : mapList) {
-				buffer.append(_jsonRowStr(map));
+				buffer.append(jsonRowStr(map));
 				buffer.append(",");
 			}
 			buffer.delete(buffer.length() - 1, buffer.length());
@@ -367,7 +367,7 @@ public class JsonUtil {
 	 * JSON 용 Row 문자열 생성
 	 */
 	@SuppressWarnings("unchecked")
-	private static String _jsonRowStr(RecordMap map) {
+	private static String jsonRowStr(RecordMap map) {
 		StringBuilder buf = new StringBuilder();
 		if (map.entrySet().size() > 0) {
 			buf.append("{");
@@ -400,7 +400,7 @@ public class JsonUtil {
 	/**
 	 * JSON 용 Row 문자열 생성
 	 */
-	private static String _jsonRowStr(RecordSet rs, String[] colNms) {
+	private static String jsonRowStr(RecordSet rs, String[] colNms) {
 		StringBuilder buf = new StringBuilder();
 		if (colNms != null && colNms.length > 0) {
 			buf.append("{");
@@ -427,7 +427,7 @@ public class JsonUtil {
 		return buf.toString();
 	}
 
-	private static String _jsonRowStr(ResultSet rs, String[] colNms) {
+	private static String jsonRowStr(ResultSet rs, String[] colNms) {
 		StringBuilder buf = new StringBuilder();
 		if (colNms.length > 0) {
 			buf.append("{");

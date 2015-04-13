@@ -19,15 +19,15 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	/**
 	 * DB의 columns 이름
 	 */
-	private String[] _colNms = null;
-	private int[] _colSize = null;
-	private int[] _colSizeReal = null;
-	private int[] _colScale = null;
-	private String[] _colInfo = null;
-	private int[] _columnsType = null;
+	private String[] colNms = null;
+	private int[] colSize = null;
+	private int[] colSizeReal = null;
+	private int[] colScale = null;
+	private String[] colInfo = null;
+	private int[] columnsType = null;
 	//Rows의 값
-	private List<RecordMap> _rows = new ArrayList<RecordMap>();
-	private int _currow = 0;
+	private List<RecordMap> rows = new ArrayList<RecordMap>();
+	private int currow = 0;
 
 	public RecordSet() {
 	};
@@ -52,22 +52,22 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 		try {
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int cnt = rsmd.getColumnCount();
-			_colNms = new String[cnt];
-			_colInfo = new String[cnt];
-			_colSize = new int[cnt];
-			_colSizeReal = new int[cnt];
-			_colScale = new int[cnt];
+			colNms = new String[cnt];
+			colInfo = new String[cnt];
+			colSize = new int[cnt];
+			colSizeReal = new int[cnt];
+			colScale = new int[cnt];
 			// byte[] 데이터 처리를 위해서 추가
-			_columnsType = new int[cnt];
+			columnsType = new int[cnt];
 			for (int i = 1; i <= cnt; i++) {
 				//Table의 Field 가 대문자 인것은 소문자로 변경처리
-				_colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
-				_columnsType[i - 1] = rsmd.getColumnType(i);
+				colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
+				columnsType[i - 1] = rsmd.getColumnType(i);
 				//Fiels 의 정보 및 Size 추가 
-				_colSize[i - 1] = rsmd.getColumnDisplaySize(i);
-				_colSizeReal[i - 1] = rsmd.getPrecision(i);
-				_colScale[i - 1] = rsmd.getScale(i);
-				_colInfo[i - 1] = rsmd.getColumnTypeName(i);
+				colSize[i - 1] = rsmd.getColumnDisplaySize(i);
+				colSizeReal[i - 1] = rsmd.getPrecision(i);
+				colScale[i - 1] = rsmd.getScale(i);
+				colInfo[i - 1] = rsmd.getColumnTypeName(i);
 			}
 			rs.setFetchSize(100);
 			int num = 0;
@@ -83,12 +83,12 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 				}
 				for (int i = 1; i <= cnt; i++) {
 					if (rs.getObject(i) instanceof Number) {
-						columns.put(_colNms[i - 1], rs.getObject(i));
+						columns.put(colNms[i - 1], rs.getObject(i));
 					} else {
-						columns.put(_colNms[i - 1], rs.getString(i));
+						columns.put(colNms[i - 1], rs.getString(i));
 					}
 				}
-				_rows.add(columns);
+				rows.add(columns);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -107,10 +107,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return String[]
 	 */
 	public String[] getColumns() {
-		if (_colNms == null) {
+		if (colNms == null) {
 			return null;
 		}
-		return _colNms.clone();
+		return colNms.clone();
 	}
 
 	/**
@@ -118,10 +118,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return String[]
 	 */
 	public int[] getColumnsSize() {
-		if (_colSize == null) {
+		if (colSize == null) {
 			return null;
 		}
-		return _colSize.clone();
+		return colSize.clone();
 	}
 
 	/**
@@ -129,10 +129,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return String[]
 	 */
 	public int[] getColumnsSizeReal() {
-		if (_colSizeReal == null) {
+		if (colSizeReal == null) {
 			return null;
 		}
-		return _colSizeReal.clone();
+		return colSizeReal.clone();
 	}
 
 	/**
@@ -140,10 +140,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return String[]
 	 */
 	public int[] getColumnsScale() {
-		if (_colScale == null) {
+		if (colScale == null) {
 			return null;
 		}
-		return _colScale.clone();
+		return colScale.clone();
 	}
 
 	/**
@@ -151,10 +151,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return String[]
 	 */
 	public String[] getColumnsInfo() {
-		if (_colInfo == null) {
+		if (colInfo == null) {
 			return null;
 		}
-		return _colInfo.clone();
+		return colInfo.clone();
 	}
 
 	/**
@@ -162,10 +162,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return String[]
 	 */
 	public int[] getColumnsType() {
-		if (_columnsType == null) {
+		if (columnsType == null) {
 			return null;
 		}
-		return _columnsType.clone();
+		return columnsType.clone();
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 */
 	public List<RecordMap> getRows() {
 		List<RecordMap> list = new ArrayList<RecordMap>();
-		list.addAll(_rows);
+		list.addAll(rows);
 		return list;
 	}
 
@@ -183,10 +183,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return	int 컬럼의 갯수
 	 */
 	public int getColumnCount() {
-		if (_colNms == null) {
+		if (colNms == null) {
 			return 0;
 		}
-		return _colNms.length;
+		return colNms.length;
 	}
 
 	/**
@@ -194,10 +194,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return	int Row의 갯수
 	 */
 	public int getRowCount() {
-		if (_rows == null) {
+		if (rows == null) {
 			return 0;
 		}
-		return _rows.size();
+		return rows.size();
 	}
 
 	/**
@@ -205,7 +205,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return int 현재 Row의 위치
 	 */
 	public int getCurrentRow() {
-		return _currow;
+		return currow;
 	}
 
 	/**
@@ -217,10 +217,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 		if (colIdx < 1) {
 			throw new IllegalArgumentException("index 0 is not vaild ");
 		}
-		if (_colNms == null) {
+		if (colNms == null) {
 			throw new RuntimeException("Column is not find");
 		}
-		String label = _colNms[colIdx - 1];
+		String label = colNms[colIdx - 1];
 		return label;
 	}
 
@@ -237,7 +237,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return boolean
 	 */
 	public boolean isFirst() {
-		return (_currow == 0);
+		return (currow == 0);
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return boolean
 	 */
 	public boolean isLast() {
-		return (_currow == _rows.size() && _rows.size() != 0);
+		return (currow == rows.size() && rows.size() != 0);
 	}
 
 	/**
@@ -253,10 +253,10 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return boolean
 	 */
 	public boolean lastRow() {
-		if (_rows == null || _rows.size() == 0) {
+		if (rows == null || rows.size() == 0) {
 			return false;
 		}
-		_currow = _rows.size();
+		currow = rows.size();
 		return true;
 	}
 
@@ -265,8 +265,8 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return boolean
 	 */
 	public boolean nextRow() {
-		_currow++;
-		if (_currow == 0 || _rows == null || _rows.size() == 0 || _currow > _rows.size()) {
+		currow++;
+		if (currow == 0 || rows == null || rows.size() == 0 || currow > rows.size()) {
 			return false;
 		}
 		return true;
@@ -277,8 +277,8 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return boolean
 	 */
 	public boolean preRow() {
-		_currow--;
-		if (_currow == 0 || _rows == null || _rows.size() == 0 || _currow > _rows.size()) {
+		currow--;
+		if (currow == 0 || rows == null || rows.size() == 0 || currow > rows.size()) {
 			return false;
 		}
 		return true;
@@ -288,8 +288,8 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * 해당하는 하는 row로 이동
 	 */
 	public boolean moveRow(int row) {
-		if (_rows != null && _rows.size() != 0 && row <= _rows.size()) {
-			_currow = row;
+		if (rows != null && rows.size() != 0 && row <= rows.size()) {
+			currow = row;
 			return true;
 		}
 		return false;
@@ -302,7 +302,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return Object  column data
 	 */
 	public Object get(int row, String colName) {
-		return _rows.get(row - 1).get(colName.toLowerCase());
+		return rows.get(row - 1).get(colName.toLowerCase());
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return BigDecimal column data
 	 */
 	public BigDecimal getBigDecimal(String colName) {
-		return getBigDecimal(_currow, colName);
+		return getBigDecimal(currow, colName);
 	}
 
 	/**
@@ -422,7 +422,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return String column data
 	 */
 	public Object get(int colIdx) {
-		return get(_currow, _colNms[colIdx]);
+		return get(currow, colNms[colIdx]);
 	}
 
 	/**
@@ -431,7 +431,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return int
 	 */
 	public int getInt(int colIdx) {
-		return getInt(_currow, _colNms[colIdx]);
+		return getInt(currow, colNms[colIdx]);
 	}
 
 	/**
@@ -440,7 +440,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return Integer
 	 */
 	public int getInteger(int colIdx) {
-		return getInteger(_currow, _colNms[colIdx]);
+		return getInteger(currow, colNms[colIdx]);
 	}
 
 	/**
@@ -449,7 +449,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return long
 	 */
 	public long getLong(int colIdx) {
-		return getLong(_currow, _colNms[colIdx]);
+		return getLong(currow, colNms[colIdx]);
 	}
 
 	/**
@@ -458,7 +458,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return float
 	 */
 	public float getFloat(int colIdx) {
-		return getFloat(_currow, _colNms[colIdx]);
+		return getFloat(currow, colNms[colIdx]);
 	}
 
 	/**
@@ -467,7 +467,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return double
 	 */
 	public double getDouble(int colIdx) {
-		return getDouble(_currow, _colNms[colIdx]);
+		return getDouble(currow, colNms[colIdx]);
 	}
 
 	/**
@@ -477,7 +477,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return Date
 	 */
 	public Date getDate(int colIdx) {
-		return getDate(_currow, _colNms[colIdx]);
+		return getDate(currow, colNms[colIdx]);
 	}
 
 	/**
@@ -486,7 +486,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return Timestamp
 	 */
 	public Timestamp getTimestamp(int colIdx) {
-		return getTimestamp(_currow, _colNms[colIdx]);
+		return getTimestamp(currow, colNms[colIdx]);
 	}
 
 	/**
@@ -495,7 +495,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return column data
 	 */
 	public Object get(String colName) {
-		return get(_currow, colName);
+		return get(currow, colName);
 	}
 
 	/**
@@ -504,7 +504,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return int
 	 */
 	public int getInt(String colName) {
-		return getInt(_currow, colName);
+		return getInt(currow, colName);
 	}
 
 	/**
@@ -514,7 +514,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 */
 	public Integer getInteger(String colName) {
 		Integer returnValue = null;
-		returnValue = Integer.valueOf(getInt(_currow, colName));
+		returnValue = Integer.valueOf(getInt(currow, colName));
 		return returnValue;
 	}
 
@@ -526,7 +526,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return long
 	 */
 	public long getLong(String colName) {
-		return getLong(_currow, colName);
+		return getLong(currow, colName);
 	}
 
 	/** 
@@ -537,7 +537,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return String
 	 */
 	public String getString(String colName) {
-		return getString(_currow, colName);
+		return getString(currow, colName);
 	}
 
 	/**
@@ -546,7 +546,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return float
 	 */
 	public float getFloat(String colName) {
-		return getFloat(_currow, colName);
+		return getFloat(currow, colName);
 	}
 
 	/**
@@ -555,7 +555,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return double
 	 */
 	public double getDouble(String colName) {
-		return getDouble(_currow, colName);
+		return getDouble(currow, colName);
 	}
 
 	/**
@@ -565,7 +565,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return Date
 	 */
 	public Date getDate(String colName) {
-		return getDate(_currow, colName);
+		return getDate(currow, colName);
 	}
 
 	/**
@@ -575,7 +575,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return Date
 	 */
 	public Timestamp getTimestamp(String colName) {
-		return getTimestamp(_currow, colName);
+		return getTimestamp(currow, colName);
 	}
 
 	/**
@@ -584,12 +584,12 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return column index, 찾지 못하면 -1
 	 */
 	public int findColumn(String colName) {
-		if (colName == null || _colNms == null) {
+		if (colName == null || colNms == null) {
 			throw new RuntimeException("name or column_keys is null ");
 		}
-		int count = _colNms.length;
+		int count = colNms.length;
 		for (int i = 0; i < count; i++) {
-			if (colName.equals(_colNms[i])) {
+			if (colName.equals(colNms[i])) {
 				return i + 1;
 			}
 		}
@@ -601,7 +601,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return boolean True if there are no records in this object, false otherwise
 	 */
 	public boolean isEmpty() {
-		if (_rows.size() == 0) {
+		if (rows.size() == 0) {
 			return true;
 		} else {
 			return false;

@@ -40,14 +40,14 @@ public class VelocityUtil {
 	 * @return 템플릿이 적용된 문자열
 	 */
 	public static String render(HttpServlet servlet, String key, String statement, Params param) {
-		return _evaluate(servlet, key, statement, param);
+		return evaluate(servlet, key, statement, param);
 	}
 
 	/**
 	 * routes.properties 파일에 설정된 key와 연결된 템플릿 파일에서 statement에 정의된 COMMAND의 문자열을 파라미터를 
 	 * 적용한 문자열을 생성한다.
 	 */
-	private static String _evaluate(HttpServlet servlet, String key, String statement, Params param) {
+	private static String evaluate(HttpServlet servlet, String key, String statement, Params param) {
 		StringWriter writer = new StringWriter();
 		try {
 			Velocity.init();
@@ -59,7 +59,7 @@ public class VelocityUtil {
 			ResourceBundle bundle = (ResourceBundle) servlet.getServletContext().getAttribute("routes-mapping");
 			String fileName = ((String) bundle.getObject(key)).trim();
 
-			String template = _readTemplate(servlet, fileName);
+			String template = readTemplate(servlet, fileName);
 			StringReader reader = new StringReader(template);
 			Velocity.evaluate(context, writer, "framework.util.VelocityUtil", reader);
 		} catch (Throwable e) {
@@ -71,15 +71,15 @@ public class VelocityUtil {
 	/**
 	 * 템플릿파일을 읽어들인다.
 	 */
-	private static String _readTemplate(HttpServlet servlet, String fileName) {
+	private static String readTemplate(HttpServlet servlet, String fileName) {
 		String pathFile = servlet.getServletContext().getRealPath(fileName);
-		return _read(pathFile);
+		return read(pathFile);
 	}
 
 	/** 
 	 * 파일의 path의 파일 내용 읽어서 String으로 리턴한다 
 	 */
-	private static String _read(String pathFile) {
+	private static String read(String pathFile) {
 		StringBuilder ta = new StringBuilder();
 		FileReader fr = null;
 		BufferedReader br = null;

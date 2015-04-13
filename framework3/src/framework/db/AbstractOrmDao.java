@@ -70,25 +70,25 @@ public abstract class AbstractOrmDao {
 		}
 		result = new int[voArray.size()];
 		int cnt = 0;
-		cnt += _executeArray(voArray, ValueObjectArray.INSERT, result, cnt);
-		cnt += _executeArray(voArray, ValueObjectArray.UPDATE, result, cnt);
-		cnt += _executeArray(voArray, ValueObjectArray.DELETE, result, cnt);
-		cnt += _executeArray(voArray, ValueObjectArray.UPDATE_ONLY, result, cnt);
-		cnt += _executeArray(voArray, ValueObjectArray.USER_DELETE, result, cnt);
-		cnt += _executeArray(voArray, ValueObjectArray.USER_UPDATE, result, cnt);
+		cnt += executeArray(voArray, ValueObjectArray.INSERT, result, cnt);
+		cnt += executeArray(voArray, ValueObjectArray.UPDATE, result, cnt);
+		cnt += executeArray(voArray, ValueObjectArray.DELETE, result, cnt);
+		cnt += executeArray(voArray, ValueObjectArray.UPDATE_ONLY, result, cnt);
+		cnt += executeArray(voArray, ValueObjectArray.USER_DELETE, result, cnt);
+		cnt += executeArray(voArray, ValueObjectArray.USER_UPDATE, result, cnt);
 		return result;
 	}
 
-	private int _executeArray(ValueObjectArray vo, String type, int[] result, int cnt) {
+	private int executeArray(ValueObjectArray vo, String type, int[] result, int cnt) {
 		ValueObject[] values = null;
 		values = vo.get(type);
 		if (values == null || values.length == 0)
 			return 0;
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = this.db.createPrepareStatement(_getSaveSql(type, vo.getUserKeys(), vo.getUserFields()));
+			pstmt = this.db.createPrepareStatement(getSaveSql(type, vo.getUserKeys(), vo.getUserFields()));
 			for (int i = 0; i < values.length; i++) {
-				pstmt.set(_getSaveValue(values[i], type, vo.getUserKeys(), vo.getUserFields()));
+				pstmt.set(getSaveValue(values[i], type, vo.getUserKeys(), vo.getUserFields()));
 				result[cnt++] = pstmt.executeUpdate();
 			}
 		} finally {
@@ -99,7 +99,7 @@ public abstract class AbstractOrmDao {
 		return values.length;
 	}
 
-	private String _getSaveSql(String type, String[] keys, String[] fields) {
+	private String getSaveSql(String type, String[] keys, String[] fields) {
 		if (type.equals(ValueObjectArray.INSERT))
 			return getInsertSql();
 		else if (type.equals(ValueObjectArray.UPDATE))
@@ -115,7 +115,7 @@ public abstract class AbstractOrmDao {
 		return null;
 	}
 
-	private Object[] _getSaveValue(ValueObject vo, String type, String[] keys, String[] fields) {
+	private Object[] getSaveValue(ValueObject vo, String type, String[] keys, String[] fields) {
 		if (type.equals(ValueObjectArray.INSERT))
 			return vo.getInsertValue();
 		else if (type.equals(ValueObjectArray.UPDATE))

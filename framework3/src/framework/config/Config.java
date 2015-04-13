@@ -7,12 +7,12 @@ import java.util.ResourceBundle;
  * 싱글톤 패턴으로 설정파일에 접근하는 객체의 인스턴스가 오직 한개만 생성이 된다.
  */
 public class Config {
-	private static final Config _instance = new Config();
-	private static final String _NAME = "config";
-	private ResourceBundle _bundle = null;
+	private static final Config instance = new Config();
+	private static final String NAME = "config";
+	private ResourceBundle bundle = null;
 
 	private Config() {
-		_bundle = ResourceBundle.getBundle(_NAME);
+		bundle = ResourceBundle.getBundle(NAME);
 	}
 
 	/** 
@@ -20,7 +20,7 @@ public class Config {
 	 * @return Configuration 객체의 인스턴스
 	 */
 	public static Config getInstance() {
-		return _instance;
+		return instance;
 	}
 
 	/** 
@@ -38,7 +38,7 @@ public class Config {
 	 * @return key에 매핑되어 있는 boolean형 변수
 	 */
 	public boolean getBoolean(String key) {
-		return (Boolean.valueOf(_bundle.getString(key).trim())).booleanValue();
+		return (Boolean.valueOf(bundle.getString(key).trim())).booleanValue();
 	}
 
 	/** 
@@ -48,7 +48,7 @@ public class Config {
 	 */
 	public int getInt(String key) {
 		try {
-			return Integer.parseInt(_bundle.getString(key).trim().replaceAll(",", ""));
+			return Integer.parseInt(bundle.getString(key).trim().replaceAll(",", ""));
 		} catch (NumberFormatException e) {
 			return -1;
 		}
@@ -60,7 +60,7 @@ public class Config {
 	 * @return key에 매핑되어 있는 String 객체
 	 */
 	public String getString(String key) {
-		return _bundle.getString(key).trim();
+		return bundle.getString(key).trim();
 	}
 
 	/**
@@ -69,6 +69,6 @@ public class Config {
 	 * @return key의 포함여부
 	 */
 	public boolean containsKey(String key) {
-		return _bundle.containsKey(key);
+		return bundle.containsKey(key);
 	}
 }

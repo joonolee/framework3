@@ -28,7 +28,7 @@ public class Cache {
 	/**
 	 * 기본 캐시 시간 (30일)
 	 */
-	private final static int _DEFAULT_DURATION = 60 * 60 * 24 * 30;
+	private final static int DEFAULT_DURATION = 60 * 60 * 24 * 30;
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정 
@@ -63,10 +63,10 @@ public class Cache {
 	 * @param value 값
 	 */
 	public static void set(String key, Object value) {
-		_isSerializable(value);
-		cache.set(key, value, _DEFAULT_DURATION);
+		isSerializable(value);
+		cache.set(key, value, DEFAULT_DURATION);
 		if (logger.isDebugEnabled()) {
-			logger.debug(String.format("[ %s ] set : { key=%s, value=%s, seconds=%d }", cacheName, key, value, _DEFAULT_DURATION));
+			logger.debug(String.format("[ %s ] set : { key=%s, value=%s, seconds=%d }", cacheName, key, value, DEFAULT_DURATION));
 		}
 	}
 
@@ -77,7 +77,7 @@ public class Cache {
 	 * @param seconds 캐시시간(초단위)
 	 */
 	public static void set(String key, Object value, int seconds) {
-		_isSerializable(value);
+		isSerializable(value);
 		cache.set(key, value, seconds);
 		if (logger.isDebugEnabled()) {
 			logger.debug(String.format("[ %s ] set : { key=%s, value=%s, seconds=%d }", cacheName, key, value, seconds));
@@ -189,7 +189,7 @@ public class Cache {
 	/**
 	 * 직렬화 가능 객체인지 판별한다.
 	 */
-	private static void _isSerializable(Object value) {
+	private static void isSerializable(Object value) {
 		if (value != null && !(value instanceof Serializable)) {
 			throw new RuntimeException(new NotSerializableException(value.getClass().getName()));
 		}

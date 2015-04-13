@@ -14,30 +14,30 @@ public class EhCache extends AbstractCache {
 	/**
 	 * 싱글톤 객체
 	 */
-	private static EhCache _uniqueInstance;
+	private static EhCache uniqueInstance;
 
 	/**
 	 * 캐시 매니저
 	 */
-	private CacheManager _cacheManager;
+	private CacheManager cacheManager;
 
 	/**
 	 * 캐시 오브젝트
 	 */
-	private net.sf.ehcache.Cache _cache;
+	private net.sf.ehcache.Cache cache;
 
 	/**
 	 * 기본 캐시 이름
 	 */
-	private static final String _CACHE_NAME = "framework3";
+	private static final String CACHE_NAME = "framework3";
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
 	private EhCache() {
-		_cacheManager = CacheManager.create();
-		_cacheManager.addCache(_CACHE_NAME);
-		_cache = _cacheManager.getCache(_CACHE_NAME);
+		cacheManager = CacheManager.create();
+		cacheManager.addCache(CACHE_NAME);
+		cache = cacheManager.getCache(CACHE_NAME);
 	}
 
 	/** 
@@ -46,22 +46,22 @@ public class EhCache extends AbstractCache {
 	 * @return EhCache 객체의 인스턴스
 	 */
 	public synchronized static EhCache getInstance() {
-		if (_uniqueInstance == null) {
-			_uniqueInstance = new EhCache();
+		if (uniqueInstance == null) {
+			uniqueInstance = new EhCache();
 		}
-		return _uniqueInstance;
+		return uniqueInstance;
 	}
 
 	@Override
 	public void set(String key, Object value, int seconds) {
 		Element element = new Element(key, value);
 		element.setTimeToLive(seconds);
-		_cache.put(element);
+		cache.put(element);
 	}
 
 	@Override
 	public Object get(String key) {
-		Element element = _cache.get(key);
+		Element element = cache.get(key);
 		return (element == null) ? null : element.getValue();
 	}
 
@@ -76,37 +76,37 @@ public class EhCache extends AbstractCache {
 
 	@Override
 	public synchronized long incr(String key, int by) {
-		Element element = _cache.get(key);
+		Element element = cache.get(key);
 		if (element == null) {
 			return -1;
 		}
 		long newValue = ((Number) element.getValue()).longValue() + by;
 		Element newElement = new Element(key, newValue);
 		newElement.setTimeToLive(element.getTimeToLive());
-		_cache.put(newElement);
+		cache.put(newElement);
 		return newValue;
 	}
 
 	@Override
 	public synchronized long decr(String key, int by) {
-		Element element = _cache.get(key);
+		Element element = cache.get(key);
 		if (element == null) {
 			return -1;
 		}
 		long newValue = ((Number) element.getValue()).longValue() - by;
 		Element newElement = new Element(key, newValue);
 		newElement.setTimeToLive(element.getTimeToLive());
-		_cache.put(newElement);
+		cache.put(newElement);
 		return newValue;
 	}
 
 	@Override
 	public void delete(String key) {
-		_cache.remove(key);
+		cache.remove(key);
 	}
 
 	@Override
 	public void clear() {
-		_cache.removeAll();
+		cache.removeAll();
 	}
 }

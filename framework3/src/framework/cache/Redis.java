@@ -25,37 +25,37 @@ public class Redis extends AbstractCache {
 	/**
 	 * 싱글톤 객체
 	 */
-	private static Redis _uniqueInstance;
+	private static Redis uniqueInstance;
 
 	/** 
 	 * 타임아웃 값 (ms)
 	 */
-	private static final int _TIMEOUT = 500;
+	private static final int TIMEOUT = 500;
 
 	/**
 	 * 캐시 클라이언트 Pool
 	 */
-	private ShardedJedisPool _pool;
+	private ShardedJedisPool pool;
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
 	private Redis() {
 		List<JedisShardInfo> shards;
-		if (_getConfig().containsKey("redis.host")) {
-			shards = _getAddresses(_getConfig().getString("redis.host"));
-		} else if (_getConfig().containsKey("redis.1.host")) {
+		if (getConfig().containsKey("redis.host")) {
+			shards = getAddresses(getConfig().getString("redis.host"));
+		} else if (getConfig().containsKey("redis.1.host")) {
 			int count = 1;
 			StringBuilder buffer = new StringBuilder();
-			while (_getConfig().containsKey("redis." + count + ".host")) {
-				buffer.append(_getConfig().getString("redis." + count + ".host") + " ");
+			while (getConfig().containsKey("redis." + count + ".host")) {
+				buffer.append(getConfig().getString("redis." + count + ".host") + " ");
 				count++;
 			}
-			shards = _getAddresses(buffer.toString());
+			shards = getAddresses(buffer.toString());
 		} else {
 			throw new RuntimeException("redis의 호스트설정이 누락되었습니다.");
 		}
-		_pool = new ShardedJedisPool(new JedisPoolConfig(), shards);
+		pool = new ShardedJedisPool(new JedisPoolConfig(), shards);
 	}
 
 	/** 
@@ -64,51 +64,51 @@ public class Redis extends AbstractCache {
 	 * @return Redis 객체의 인스턴스
 	 */
 	public synchronized static Redis getInstance() {
-		if (_uniqueInstance == null) {
-			_uniqueInstance = new Redis();
+		if (uniqueInstance == null) {
+			uniqueInstance = new Redis();
 		}
-		return _uniqueInstance;
+		return uniqueInstance;
 	}
 
 	@Override
 	public void set(String key, Object value, int seconds) {
-		set(_serialize(key), _serialize(value), seconds);
+		set(serialize(key), serialize(value), seconds);
 	}
 
 	public void set(byte[] key, byte[] value, int seconds) {
 		ShardedJedis jedis = null;
 		try {
-			jedis = _pool.getResource();
+			jedis = pool.getResource();
 			jedis.setex(key, seconds, value);
 		} catch (JedisConnectionException e) {
 			if (jedis != null) {
-				_pool.returnBrokenResource(jedis);
+				pool.returnBrokenResource(jedis);
 			}
 		} finally {
 			if (jedis != null) {
-				_pool.returnResource(jedis);
+				pool.returnResource(jedis);
 			}
 		}
 	}
 
 	@Override
 	public Object get(String key) {
-		return get(_serialize(key));
+		return get(serialize(key));
 	}
 
 	public Object get(byte[] key) {
 		ShardedJedis jedis = null;
 		Object value = null;
 		try {
-			jedis = _pool.getResource();
-			value = _deserialize(jedis.get(key));
+			jedis = pool.getResource();
+			value = deserialize(jedis.get(key));
 		} catch (JedisConnectionException e) {
 			if (jedis != null) {
-				_pool.returnBrokenResource(jedis);
+				pool.returnBrokenResource(jedis);
 			}
 		} finally {
 			if (jedis != null) {
-				_pool.returnResource(jedis);
+				pool.returnResource(jedis);
 			}
 		}
 		return value;
@@ -125,22 +125,22 @@ public class Redis extends AbstractCache {
 
 	@Override
 	public long incr(String key, int by) {
-		return incr(_serialize(key), by);
+		return incr(serialize(key), by);
 	}
 
 	public long incr(byte[] key, int by) {
 		ShardedJedis jedis = null;
 		Long value = null;
 		try {
-			jedis = _pool.getResource();
+			jedis = pool.getResource();
 			value = jedis.incrBy(key, by);
 		} catch (JedisConnectionException e) {
 			if (jedis != null) {
-				_pool.returnBrokenResource(jedis);
+				pool.returnBrokenResource(jedis);
 			}
 		} finally {
 			if (jedis != null) {
-				_pool.returnResource(jedis);
+				pool.returnResource(jedis);
 			}
 		}
 		if (value == null) {
@@ -151,22 +151,22 @@ public class Redis extends AbstractCache {
 
 	@Override
 	public long decr(String key, int by) {
-		return decr(_serialize(key), by);
+		return decr(serialize(key), by);
 	}
 
 	public long decr(byte[] key, int by) {
 		ShardedJedis jedis = null;
 		Long value = null;
 		try {
-			jedis = _pool.getResource();
+			jedis = pool.getResource();
 			value = jedis.decrBy(key, by);
 		} catch (JedisConnectionException e) {
 			if (jedis != null) {
-				_pool.returnBrokenResource(jedis);
+				pool.returnBrokenResource(jedis);
 			}
 		} finally {
 			if (jedis != null) {
-				_pool.returnResource(jedis);
+				pool.returnResource(jedis);
 			}
 		}
 		if (value == null) {
@@ -179,15 +179,15 @@ public class Redis extends AbstractCache {
 	public void delete(String key) {
 		ShardedJedis jedis = null;
 		try {
-			jedis = _pool.getResource();
+			jedis = pool.getResource();
 			jedis.del(key);
 		} catch (JedisConnectionException e) {
 			if (jedis != null) {
-				_pool.returnBrokenResource(jedis);
+				pool.returnBrokenResource(jedis);
 			}
 		} finally {
 			if (jedis != null) {
-				_pool.returnResource(jedis);
+				pool.returnResource(jedis);
 			}
 		}
 	}
@@ -196,17 +196,17 @@ public class Redis extends AbstractCache {
 	public void clear() {
 		ShardedJedis jedis = null;
 		try {
-			jedis = _pool.getResource();
+			jedis = pool.getResource();
 			for (Jedis j : jedis.getAllShards()) {
 				j.flushAll();
 			}
 		} catch (JedisConnectionException e) {
 			if (jedis != null) {
-				_pool.returnBrokenResource(jedis);
+				pool.returnBrokenResource(jedis);
 			}
 		} finally {
 			if (jedis != null) {
-				_pool.returnResource(jedis);
+				pool.returnResource(jedis);
 			}
 		}
 	}
@@ -217,7 +217,7 @@ public class Redis extends AbstractCache {
 	* 설정파일(config.properties)에서 값을 읽어오는 클래스를 리턴한다.
 	* @return 설정객체
 	*/
-	private Config _getConfig() {
+	private Config getConfig() {
 		return Config.getInstance();
 	}
 
@@ -226,7 +226,7 @@ public class Redis extends AbstractCache {
 	 * @param str 스페이스로 구분된 주소문자열
 	 * @return 샤드주소객체
 	 */
-	private List<JedisShardInfo> _getAddresses(String str) {
+	private List<JedisShardInfo> getAddresses(String str) {
 		if (str == null || "".equals(str.trim())) {
 			throw new IllegalArgumentException("redis의 호스트설정이 누락되었습니다.");
 		}
@@ -239,7 +239,7 @@ public class Redis extends AbstractCache {
 			if (sep < 1) {
 				throw new IllegalArgumentException("서버설정이 잘못되었습니다. 형식=>호스트:포트");
 			}
-			shards.add(new JedisShardInfo(addr.substring(0, sep), Integer.valueOf(addr.substring(sep + 1)), _TIMEOUT));
+			shards.add(new JedisShardInfo(addr.substring(0, sep), Integer.valueOf(addr.substring(sep + 1)), TIMEOUT));
 		}
 		assert !shards.isEmpty() : "redis의 호스트설정이 누락되었습니다.";
 		return shards;
@@ -250,7 +250,7 @@ public class Redis extends AbstractCache {
 	 * @param obj 직렬화할 객체
 	 * @return 바이트배열
 	 */
-	private byte[] _serialize(Object obj) {
+	private byte[] serialize(Object obj) {
 		ObjectOutputStream oos = null;
 		ByteArrayOutputStream baos = null;
 		try {
@@ -268,7 +268,7 @@ public class Redis extends AbstractCache {
 	 * @param bytes 바이트배열
 	 * @return 역직렬화된 객체
 	 */
-	private Object _deserialize(byte[] bytes) {
+	private Object deserialize(byte[] bytes) {
 		ByteArrayInputStream bais = null;
 		try {
 			bais = new ByteArrayInputStream(bytes);

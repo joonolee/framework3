@@ -8,14 +8,14 @@ import java.util.List;
  * 검색 조건은 PreparedStatement 실행시 바인드 되어지며 로그 출력시 문자열과 바인드 되어 출력된다.
  */
 public class SelectConditionObject {
-	private List<Object> _param = new ArrayList<Object>();
+	private List<Object> param = new ArrayList<Object>();
 
 	/**
 	 * 검색 조건으로 바인딩할 객체(Object)를 셋팅한다.
 	 * @param obj 바인딩할 객체
 	 */
 	public void setObject(Object obj) {
-		_param.add(obj);
+		param.add(obj);
 	}
 
 	/**
@@ -47,6 +47,6 @@ public class SelectConditionObject {
 	 * @return 바인딩할 오브젝트 파라미터
 	 */
 	public Object[] getParameter() {
-		return _param.toArray();
+		return param.toArray();
 	}
 }

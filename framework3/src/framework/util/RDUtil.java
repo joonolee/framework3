@@ -32,12 +32,12 @@ public class RDUtil {
 	/**
 	 * 디폴트 열 구분자
 	 */
-	private static final String _DEFAULT_COLSEP = "##";
+	private static final String DEFAULT_COLSEP = "##";
 
 	/**
 	 * 디폴트 행 구분자
 	 */
-	private static final String _DEFAULT_LINESEP = "\n";
+	private static final String DEFAULT_LINESEP = "\n";
 
 	/**
 	 * RecordSet을 RD 파일 형식으로 출력한다.
@@ -49,7 +49,7 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
-		return render(response, rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
+		return render(response, rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class RDUtil {
 			if (rowCount++ > 0) {
 				pw.print(lineSep);
 			}
-			pw.print(_rdRowStr(rs, colNms, colSep));
+			pw.print(rdRowStr(rs, colNms, colSep));
 		}
 		return rowCount;
 	}
@@ -93,7 +93,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs) {
-		return render(rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
+		return render(rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class RDUtil {
 			if (rowCount++ > 0) {
 				buf.append(lineSep);
 			}
-			buf.append(_rdRowStr(rs, colNms, colSep));
+			buf.append(rdRowStr(rs, colNms, colSep));
 		}
 		return buf.toString();
 	}
@@ -132,7 +132,7 @@ public class RDUtil {
 	 * @return 처리건수 
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
-		return render(response, rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
+		return render(response, rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class RDUtil {
 					if (rowCount++ > 0) {
 						pw.print(lineSep);
 					}
-					pw.print(StringUtil.stripScriptTag(_rdRowStr(rs, colNms, colSep)));
+					pw.print(StringUtil.stripScriptTag(rdRowStr(rs, colNms, colSep)));
 				}
 				return rowCount;
 			} finally {
@@ -203,7 +203,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(ResultSet rs) {
-		return render(rs, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
+		return render(rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
@@ -234,7 +234,7 @@ public class RDUtil {
 					if (rowCount++ > 0) {
 						buf.append(lineSep);
 					}
-					buf.append(_rdRowStr(rs, colNms, colSep));
+					buf.append(rdRowStr(rs, colNms, colSep));
 				}
 			} finally {
 				Statement stmt = null;
@@ -274,7 +274,7 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordMap map) {
-		return render(response, map, _DEFAULT_COLSEP);
+		return render(response, map, DEFAULT_COLSEP);
 	}
 
 	/**
@@ -296,7 +296,7 @@ public class RDUtil {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		pw.print(_rdRowStr(map, colSep));
+		pw.print(rdRowStr(map, colSep));
 		return 1;
 	}
 
@@ -309,7 +309,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(RecordMap map) {
-		return render(map, _DEFAULT_COLSEP);
+		return render(map, DEFAULT_COLSEP);
 	}
 
 	/**
@@ -325,7 +325,7 @@ public class RDUtil {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
-		buf.append(_rdRowStr(map, colSep));
+		buf.append(rdRowStr(map, colSep));
 		return buf.toString();
 	}
 
@@ -339,7 +339,7 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, List<RecordMap> mapList) {
-		return render(response, mapList, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
+		return render(response, mapList, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class RDUtil {
 			if (rowCount++ > 0) {
 				pw.print(lineSep);
 			}
-			pw.print(_rdRowStr(map, colSep));
+			pw.print(rdRowStr(map, colSep));
 		}
 		return rowCount;
 	}
@@ -381,7 +381,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(List<RecordMap> mapList) {
-		return render(mapList, _DEFAULT_COLSEP, _DEFAULT_LINESEP);
+		return render(mapList, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
@@ -400,7 +400,7 @@ public class RDUtil {
 		StringBuilder buf = new StringBuilder();
 		if (mapList.size() > 0) {
 			for (RecordMap map : mapList) {
-				buf.append(_rdRowStr(map, colSep));
+				buf.append(rdRowStr(map, colSep));
 				buf.append(lineSep);
 			}
 			buf.delete(buf.length() - lineSep.length(), buf.length());
@@ -415,7 +415,7 @@ public class RDUtil {
 	 * 
 	 * @param str 변환할 문자열
 	 */
-	private static String _escapeRD(String str) {
+	private static String escapeRD(String str) {
 		if (str == null) {
 			return "";
 		}
@@ -425,12 +425,12 @@ public class RDUtil {
 	/**
 	 * RD(리포트디자이너) 용 Row 문자열 생성
 	 */
-	private static String _rdRowStr(RecordMap map, String colSep) {
+	private static String rdRowStr(RecordMap map, String colSep) {
 		StringBuilder buf = new StringBuilder();
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object value = entry.getValue();
 			if (value != null) {
-				buf.append(_escapeRD(value.toString()));
+				buf.append(escapeRD(value.toString()));
 			}
 			buf.append(colSep);
 		}
@@ -440,21 +440,21 @@ public class RDUtil {
 	/**
 	 * RD(리포트디자이너) 용 Row 문자열 생성
 	 */
-	private static String _rdRowStr(RecordSet rs, String[] colNms, String colSep) {
+	private static String rdRowStr(RecordSet rs, String[] colNms, String colSep) {
 		if (colNms == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
 		for (int c = 0; c < colNms.length; c++) {
 			if (rs.get(colNms[c]) != null) {
-				buf.append(_escapeRD(rs.getString(colNms[c])));
+				buf.append(escapeRD(rs.getString(colNms[c])));
 			}
 			buf.append(colSep);
 		}
 		return buf.toString();
 	}
 
-	private static String _rdRowStr(ResultSet rs, String[] colNms, String colSep) {
+	private static String rdRowStr(ResultSet rs, String[] colNms, String colSep) {
 		if (colNms == null) {
 			return "";
 		}
@@ -462,7 +462,7 @@ public class RDUtil {
 		try {
 			for (int c = 0; c < colNms.length; c++) {
 				if (rs.getObject(colNms[c]) != null) {
-					buf.append(_escapeRD(rs.getString(colNms[c])));
+					buf.append(escapeRD(rs.getString(colNms[c])));
 				}
 				buf.append(colSep);
 			}

@@ -15,32 +15,32 @@ public class ValidationUtil {
 		if (juminNo.length() != 13) {
 			return false;
 		}
-		int yy = _parseInt(juminNo.substring(0, 2));
-		int mm = _parseInt(juminNo.substring(2, 4));
-		int dd = _parseInt(juminNo.substring(4, 6));
+		int yy = parseInt(juminNo.substring(0, 2));
+		int mm = parseInt(juminNo.substring(2, 4));
+		int dd = parseInt(juminNo.substring(4, 6));
 		if (yy < 1 || yy > 99 || mm > 12 || mm < 1 || dd < 1 || dd > 31) {
 			return false;
 		}
 		int sum = 0;
-		int juminNo_6 = _parseInt(juminNo.charAt(6));
+		int juminNo_6 = parseInt(juminNo.charAt(6));
 		if (juminNo_6 == 1 || juminNo_6 == 2 || juminNo_6 == 3 || juminNo_6 == 4) {
 			//내국인
 			for (int i = 0; i < 12; i++) {
-				sum += _parseInt(juminNo.charAt(i)) * ((i % 8) + 2);
+				sum += parseInt(juminNo.charAt(i)) * ((i % 8) + 2);
 			}
-			if (_parseInt(juminNo.charAt(12)) != (11 - (sum % 11)) % 10) {
+			if (parseInt(juminNo.charAt(12)) != (11 - (sum % 11)) % 10) {
 				return false;
 			}
 			return true;
 		} else if (juminNo_6 == 5 || juminNo_6 == 6 || juminNo_6 == 7 || juminNo_6 == 8) {
 			//외국인
-			if (_parseInt(juminNo.substring(7, 9)) % 2 != 0) {
+			if (parseInt(juminNo.substring(7, 9)) % 2 != 0) {
 				return false;
 			}
 			for (int i = 0; i < 12; i++) {
-				sum += _parseInt(juminNo.charAt(i)) * ((i % 8) + 2);
+				sum += parseInt(juminNo.charAt(i)) * ((i % 8) + 2);
 			}
-			if (_parseInt(juminNo.charAt(12)) != ((11 - (sum % 11)) % 10 + 2) % 10) {
+			if (parseInt(juminNo.charAt(12)) != ((11 - (sum % 11)) % 10 + 2) % 10) {
 				return false;
 			}
 			return true;
@@ -70,9 +70,9 @@ public class ValidationUtil {
 		}
 		int sum = 0;
 		for (int i = 0; i < 12; i++) {
-			sum += ((i % 2) + 1) * _parseInt(corpRegNo.charAt(i));
+			sum += ((i % 2) + 1) * parseInt(corpRegNo.charAt(i));
 		}
-		if (_parseInt(corpRegNo.charAt(12)) != (10 - (sum % 10)) % 10) {
+		if (parseInt(corpRegNo.charAt(12)) != (10 - (sum % 10)) % 10) {
 			return false;
 		}
 		return true;
@@ -89,9 +89,9 @@ public class ValidationUtil {
 		if (bizRegNo.length() != 10) {
 			return false;
 		}
-		int share = (int) (Math.floor(_parseInt(bizRegNo.charAt(8)) * 5) / 10);
-		int rest = (_parseInt(bizRegNo.charAt(8)) * 5) % 10;
-		int sum = (_parseInt(bizRegNo.charAt(0))) + ((_parseInt(bizRegNo.charAt(1)) * 3) % 10) + ((_parseInt(bizRegNo.charAt(2)) * 7) % 10) + ((_parseInt(bizRegNo.charAt(3)) * 1) % 10) + ((_parseInt(bizRegNo.charAt(4)) * 3) % 10) + ((_parseInt(bizRegNo.charAt(5)) * 7) % 10) + ((_parseInt(bizRegNo.charAt(6)) * 1) % 10) + ((_parseInt(bizRegNo.charAt(7)) * 3) % 10) + share + rest + (_parseInt(bizRegNo.charAt(9)));
+		int share = (int) (Math.floor(parseInt(bizRegNo.charAt(8)) * 5) / 10);
+		int rest = (parseInt(bizRegNo.charAt(8)) * 5) % 10;
+		int sum = (parseInt(bizRegNo.charAt(0))) + ((parseInt(bizRegNo.charAt(1)) * 3) % 10) + ((parseInt(bizRegNo.charAt(2)) * 7) % 10) + ((parseInt(bizRegNo.charAt(3)) * 1) % 10) + ((parseInt(bizRegNo.charAt(4)) * 3) % 10) + ((parseInt(bizRegNo.charAt(5)) * 7) % 10) + ((parseInt(bizRegNo.charAt(6)) * 1) % 10) + ((parseInt(bizRegNo.charAt(7)) * 3) % 10) + share + rest + (parseInt(bizRegNo.charAt(9)));
 		if (sum % 10 != 0) {
 			return false;
 		}
@@ -184,14 +184,14 @@ public class ValidationUtil {
 	/**
 	 * char로 표현된 숫자를 타입을 int로 변경
 	 */
-	private static int _parseInt(char c) {
+	private static int parseInt(char c) {
 		return Integer.parseInt(String.valueOf(c));
 	}
 
 	/**
 	 * String으로 표현된 숫자를 타입을 int로 변경
 	 */
-	private static int _parseInt(String s) {
+	private static int parseInt(String s) {
 		return Integer.parseInt(s);
 	}
 }

@@ -40,8 +40,8 @@ public class OAuth10aUtil {
 	 * Result 객체
 	 */
 	public static class Result {
-		private int _statusCode;
-		private String _content;
+		private int statusCode;
+		private String content;
 
 		public Result() {
 			super();
@@ -49,16 +49,16 @@ public class OAuth10aUtil {
 
 		public Result(int statusCode, String content) {
 			super();
-			this._statusCode = statusCode;
-			this._content = content;
+			this.statusCode = statusCode;
+			this.content = content;
 		}
 
 		public int getStatusCode() {
-			return _statusCode;
+			return statusCode;
 		}
 
 		public String getContent() {
-			return _content;
+			return content;
 		}
 
 		@Override

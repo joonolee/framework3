@@ -15,20 +15,20 @@ public class ValueObjectArray {
 	public final static String USER_UPDATE = "UU";
 	public final static String USER_DELETE = "UD";
 	public final static String UPDATE_ONLY = "UO";
-	private final Map<String, ValueObject> _voMap = new HashMap<String, ValueObject>();
-	private String[] _keys = null;
-	private String[] _fields = null;
-	private int _seq = 0;
+	private final Map<String, ValueObject> voMap = new HashMap<String, ValueObject>();
+	private String[] keys = null;
+	private String[] fields = null;
+	private int seq = 0;
 
 	public void add(String type, ValueObject vo) {
 		if (vo == null) {
 			return;
 		}
-		_voMap.put(type + _seq++, vo);
+		voMap.put(type + seq++, vo);
 	}
 
 	public int size() {
-		return _voMap.size();
+		return voMap.size();
 	}
 
 	public ValueObject[] get(String type) {
@@ -36,9 +36,9 @@ public class ValueObjectArray {
 			return null;
 		}
 		List<ValueObject> list = new ArrayList<ValueObject>();
-		for (String key : _voMap.keySet()) {
+		for (String key : voMap.keySet()) {
 			if (key.substring(0, 2).equals(type)) {
-				list.add(_voMap.get(key));
+				list.add(voMap.get(key));
 			}
 		}
 		ValueObject[] voArray = new ValueObject[list.size()];
@@ -49,40 +49,40 @@ public class ValueObjectArray {
 	}
 
 	public void clear() {
-		_voMap.clear();
-		_fields = null;
-		_keys = null;
+		voMap.clear();
+		fields = null;
+		keys = null;
 	}
 
 	public void setUserKeys(String[] keys) {
 		if (keys != null) {
-			_keys = new String[keys.length];
+			this.keys = new String[keys.length];
 			for (int i = 0; i < keys.length; i++) {
-				_keys[i] = keys[i];
+				this.keys[i] = keys[i];
 			}
 		}
 	}
 
 	public void setUserFields(String[] fields) {
 		if (fields != null) {
-			_fields = new String[fields.length];
+			this.fields = new String[fields.length];
 			for (int i = 0; i < fields.length; i++) {
-				_fields[i] = fields[i];
+				this.fields[i] = fields[i];
 			}
 		}
 	}
 
 	public String[] getUserKeys() {
-		if (_keys == null) {
+		if (keys == null) {
 			return null;
 		}
-		return _keys.clone();
+		return keys.clone();
 	}
 
 	public String[] getUserFields() {
-		if (_fields == null) {
+		if (fields == null) {
 			return null;
 		}
-		return _fields.clone();
+		return fields.clone();
 	}
 }

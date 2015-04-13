@@ -28,7 +28,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashMD5HexString(String message) {
-		return _hashHexString(message, "MD5");
+		return hashHexString(message, "MD5");
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashMD5Base64String(String message) {
-		return _hashBase64String(message, "MD5");
+		return hashBase64String(message, "MD5");
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashMD5HexString(String message, String salt) {
-		return _hashHexString(message, salt, "MD5");
+		return hashHexString(message, salt, "MD5");
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashMD5Base64String(String message, String salt) {
-		return _hashBase64String(message, salt, "MD5");
+		return hashBase64String(message, salt, "MD5");
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashSHA1HexString(String message) {
-		return _hashHexString(message, "SHA-1");
+		return hashHexString(message, "SHA-1");
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashSHA1Base64String(String message) {
-		return _hashBase64String(message, "SHA-1");
+		return hashBase64String(message, "SHA-1");
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashSHA1HexString(String message, String salt) {
-		return _hashHexString(message, salt, "SHA-1");
+		return hashHexString(message, salt, "SHA-1");
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashSHA1Base64String(String message, String salt) {
-		return _hashBase64String(message, salt, "SHA-1");
+		return hashBase64String(message, salt, "SHA-1");
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashSHA256HexString(String message) {
-		return _hashHexString(message, "SHA-256");
+		return hashHexString(message, "SHA-256");
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class CryptUtil {
 	 * @return 해쉬결과  Base64 문자열
 	 */
 	public static String hashSHA256Base64String(String message) {
-		return _hashBase64String(message, "SHA-256");
+		return hashBase64String(message, "SHA-256");
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashSHA256HexString(String message, String salt) {
-		return _hashHexString(message, salt, "SHA-256");
+		return hashHexString(message, salt, "SHA-256");
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class CryptUtil {
 	 * @return 해쉬결과  Base64 문자열
 	 */
 	public static String hashSHA256Base64String(String message, String salt) {
-		return _hashBase64String(message, salt, "SHA-256");
+		return hashBase64String(message, salt, "SHA-256");
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashSHA512HexString(String message) {
-		return _hashHexString(message, "SHA-512");
+		return hashHexString(message, "SHA-512");
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashSHA512Base64String(String message) {
-		return _hashBase64String(message, "SHA-512");
+		return hashBase64String(message, "SHA-512");
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashSHA512HexString(String message, String salt) {
-		return _hashHexString(message, salt, "SHA-512");
+		return hashHexString(message, salt, "SHA-512");
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashSHA512Base64String(String message, String salt) {
-		return _hashBase64String(message, salt, "SHA-512");
+		return hashBase64String(message, salt, "SHA-512");
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashHmacMD5HexString(String message, String secretKey) {
-		return _hashHmacHexString(message, secretKey, "HmacMD5");
+		return hashHmacHexString(message, secretKey, "HmacMD5");
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashHmacMD5Base64String(String message, String secretKey) {
-		return _hashHmacBase64String(message, secretKey, "HmacMD5");
+		return hashHmacBase64String(message, secretKey, "HmacMD5");
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashHmacSHA1HexString(String message, String secretKey) {
-		return _hashHmacHexString(message, secretKey, "HmacSHA1");
+		return hashHmacHexString(message, secretKey, "HmacSHA1");
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashHmacSHA1Base64String(String message, String secretKey) {
-		return _hashHmacBase64String(message, secretKey, "HmacSHA1");
+		return hashHmacBase64String(message, secretKey, "HmacSHA1");
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashHmacSHA256HexString(String message, String secretKey) {
-		return _hashHmacHexString(message, secretKey, "HmacSHA256");
+		return hashHmacHexString(message, secretKey, "HmacSHA256");
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashHmacSHA256Base64String(String message, String secretKey) {
-		return _hashHmacBase64String(message, secretKey, "HmacSHA256");
+		return hashHmacBase64String(message, secretKey, "HmacSHA256");
 	}
 
 	/**
@@ -241,7 +241,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Hex 문자열
 	 */
 	public static String hashHmacSHA512HexString(String message, String secretKey) {
-		return _hashHmacHexString(message, secretKey, "HmacSHA512");
+		return hashHmacHexString(message, secretKey, "HmacSHA512");
 	}
 
 	/**
@@ -251,7 +251,7 @@ public class CryptUtil {
 	 * @return 해쉬결과 Base64 문자열
 	 */
 	public static String hashHmacSHA512Base64String(String message, String secretKey) {
-		return _hashHmacBase64String(message, secretKey, "HmacSHA512");
+		return hashHmacBase64String(message, secretKey, "HmacSHA512");
 	}
 
 	/**
@@ -356,7 +356,7 @@ public class CryptUtil {
 	/*
 	 * 해시결과 바이트 배열
 	 */
-	private static byte[] _hash(String message, String algorithm) {
+	private static byte[] hash(String message, String algorithm) {
 		try {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
 			md.reset();
@@ -370,21 +370,21 @@ public class CryptUtil {
 	/*
 	 * 해시결과 Hex 문자열
 	 */
-	private static String _hashHexString(String message, String algorithm) {
-		return Hex.encodeHexString(_hash(message, algorithm));
+	private static String hashHexString(String message, String algorithm) {
+		return Hex.encodeHexString(hash(message, algorithm));
 	}
 
 	/*
 	 * 해시결과 Base64 문자열
 	 */
-	private static String _hashBase64String(String message, String algorithm) {
-		return Base64.encodeBase64String((_hash(message, algorithm)));
+	private static String hashBase64String(String message, String algorithm) {
+		return Base64.encodeBase64String((hash(message, algorithm)));
 	}
 
 	/*
 	 * Hmac 해시결과 바이트 배열
 	 */
-	private static byte[] _hashHmac(String message, String secretKey, String algorithm) {
+	private static byte[] hashHmac(String message, String secretKey, String algorithm) {
 		try {
 			SecretKeySpec skeySpec = new SecretKeySpec(secretKey.getBytes(), algorithm);
 			Mac mac = Mac.getInstance(algorithm);
@@ -398,21 +398,21 @@ public class CryptUtil {
 	/*
 	 * Hmac 해시결과 Hex 문자열
 	 */
-	private static String _hashHmacHexString(String message, String secretKey, String algorithm) {
-		return Hex.encodeHexString(_hashHmac(message, secretKey, algorithm));
+	private static String hashHmacHexString(String message, String secretKey, String algorithm) {
+		return Hex.encodeHexString(hashHmac(message, secretKey, algorithm));
 	}
 
 	/*
 	 * Hmac 해시결과 Base64 문자열
 	 */
-	private static String _hashHmacBase64String(String message, String secretKey, String algorithm) {
-		return Base64.encodeBase64String(_hashHmac(message, secretKey, algorithm));
+	private static String hashHmacBase64String(String message, String secretKey, String algorithm) {
+		return Base64.encodeBase64String(hashHmac(message, secretKey, algorithm));
 	}
 
 	/*
 	 * salt 적용 해시결과 바이트 배열
 	 */
-	private static byte[] _hash(String message, String salt, String algorithm) {
+	private static byte[] hash(String message, String salt, String algorithm) {
 		try {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
 			md.reset();
@@ -426,14 +426,14 @@ public class CryptUtil {
 	/*
 	 * salt 적용 해시결과 Hex 문자열
 	 */
-	private static String _hashHexString(String message, String salt, String algorithm) {
-		return Hex.encodeHexString(_hash(message, salt, algorithm));
+	private static String hashHexString(String message, String salt, String algorithm) {
+		return Hex.encodeHexString(hash(message, salt, algorithm));
 	}
 
 	/*
 	 * salt 적용 해시결과 Base64 문자열
 	 */
-	private static String _hashBase64String(String message, String salt, String algorithm) {
-		return Base64.encodeBase64String(_hash(message, salt, algorithm));
+	private static String hashBase64String(String message, String salt, String algorithm) {
+		return Base64.encodeBase64String(hash(message, salt, algorithm));
 	}
 }

@@ -14,20 +14,20 @@ import java.util.StringTokenizer;
  * PreparedStatement의 Batch 처리를 이용하기 위한 객체
  */
 public class BatchPreparedStatement extends AbstractStatement {
-	private String _sql = null;
-	private DB _db = null;
-	private PreparedStatement _pstmt = null;
-	private List<List<Object>> _paramList = new ArrayList<List<Object>>();
-	private Object _caller = null;
+	private String sql = null;
+	private DB db = null;
+	private PreparedStatement pstmt = null;
+	private List<List<Object>> paramList = new ArrayList<List<Object>>();
+	private Object caller = null;
 
 	public static BatchPreparedStatement create(String sql, DB db, Object caller) {
 		return new BatchPreparedStatement(sql, db, caller);
 	}
 
 	private BatchPreparedStatement(String sql, DB db, Object caller) {
-		_sql = sql;
-		_db = db;
-		_caller = caller;
+		this.sql = sql;
+		this.db = db;
+		this.caller = caller;
 	}
 
 	public void addBatch(Object[] where) {
@@ -35,7 +35,7 @@ public class BatchPreparedStatement extends AbstractStatement {
 		for (Object obj : where) {
 			param.add(obj);
 		}
-		_paramList.add(param);
+		paramList.add(param);
 	}
 
 	protected PreparedStatement getPrepareStatment() {
@@ -44,23 +44,23 @@ public class BatchPreparedStatement extends AbstractStatement {
 			return null;
 		}
 		try {
-			if (_pstmt == null) {
-				_pstmt = _db.getConnection().prepareStatement(getSQL(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-				_pstmt.setFetchSize(100);
+			if (pstmt == null) {
+				pstmt = db.getConnection().prepareStatement(getSQL(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				pstmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
 			logger.error("", e);
 			throw new RuntimeException(e);
 		}
-		return _pstmt;
+		return pstmt;
 	}
 
 	@Override
 	public void close() {
 		try {
-			if (_pstmt != null) {
-				_pstmt.close();
-				_pstmt = null;
+			if (pstmt != null) {
+				pstmt.close();
+				pstmt = null;
 			}
 			clearParamList();
 		} catch (SQLException e) {
@@ -70,7 +70,7 @@ public class BatchPreparedStatement extends AbstractStatement {
 	}
 
 	public void clearParamList() {
-		_paramList = new ArrayList<List<Object>>();
+		paramList = new ArrayList<List<Object>>();
 	}
 
 	public int[] executeBatch() {
@@ -78,16 +78,16 @@ public class BatchPreparedStatement extends AbstractStatement {
 			logger.error("Query is Null");
 			return new int[] { 0 };
 		}
-		int[] _upCnts = null;
+		int[] upCnts = null;
 		try {
 			PreparedStatement pstmt = getPrepareStatment();
 			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
-				log.append("@Sql Start (BATCH P_STATEMENT) FetchSize : " + pstmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
+				log.append("@Sql Start (BATCH P_STATEMENT) FetchSize : " + pstmt.getFetchSize() + " Caller : " + caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getQueryString());
 				logger.debug(log.toString());
 			}
-			for (List<Object> params : _paramList) {
+			for (List<Object> params : paramList) {
 				for (int i = 1, length = params.size(); i <= length; i++) {
 					Object param = params.get(i - 1);
 					if (param == null || "".equals(param)) {
@@ -108,7 +108,7 @@ public class BatchPreparedStatement extends AbstractStatement {
 				}
 				pstmt.addBatch();
 			}
-			_upCnts = pstmt.executeBatch();
+			upCnts = pstmt.executeBatch();
 			if (logger.isDebugEnabled()) {
 				logger.debug("@Sql End (BATCH P_STATEMENT)");
 			}
@@ -116,16 +116,16 @@ public class BatchPreparedStatement extends AbstractStatement {
 			logger.error("", e);
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
-		return _upCnts;
+		return upCnts;
 	}
 
 	public void setSQL(String newSql) {
 		close();
-		_sql = newSql;
+		sql = newSql;
 	}
 
 	public String getSQL() {
-		return _sql;
+		return sql;
 	}
 
 	@Override
@@ -135,7 +135,7 @@ public class BatchPreparedStatement extends AbstractStatement {
 
 	public String getQueryString() {
 		StringBuilder buf = new StringBuilder();
-		for (List<Object> param : _paramList) {
+		for (List<Object> param : paramList) {
 			Object value = null;
 			int qMarkCount = 0;
 			StringTokenizer token = new StringTokenizer(getSQL(), "?");

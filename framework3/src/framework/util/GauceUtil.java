@@ -82,7 +82,7 @@ public class GauceUtil {
 			for (int i = 0, len = rsArray.length; i < len; i++) {
 				GauceDataSet dSet = new GauceDataSet(datasetNameArray[i]);
 				gos.fragment(dSet);
-				rowCount += _appendDataSet(dSet, rsArray[i]);
+				rowCount += appendDataSet(dSet, rsArray[i]);
 				gos.write(dSet);
 			}
 		} catch (IOException e) {
@@ -125,7 +125,7 @@ public class GauceUtil {
 			for (int i = 0, len = rsArray.length; i < len; i++) {
 				GauceDataSet dSet = dSetArray[i];
 				gos.fragment(dSet);
-				rowCount += _appendDataSet(dSet, rsArray[i]);
+				rowCount += appendDataSet(dSet, rsArray[i]);
 				gos.write(dSet);
 			}
 		} catch (IOException e) {
@@ -180,7 +180,7 @@ public class GauceUtil {
 			for (int i = 0, len = rsArray.length; i < len; i++) {
 				GauceDataSet dSet = new GauceDataSet(datasetNameArray[i]);
 				gos.fragment(dSet);
-				rowCount += _appendDataSet(dSet, rsArray[i]);
+				rowCount += appendDataSet(dSet, rsArray[i]);
 				gos.write(dSet);
 			}
 		} catch (IOException e) {
@@ -223,7 +223,7 @@ public class GauceUtil {
 			for (int i = 0, len = rsArray.length; i < len; i++) {
 				GauceDataSet dSet = dSetArray[i];
 				gos.fragment(dSet);
-				rowCount += _appendDataSet(dSet, rsArray[i]);
+				rowCount += appendDataSet(dSet, rsArray[i]);
 				gos.write(dSet);
 			}
 		} catch (IOException e) {
@@ -322,7 +322,7 @@ public class GauceUtil {
 	/**
 	 * RecordSet을 가우스 데이타셋으로 변환한다.
 	 */
-	private static int _appendDataSet(GauceDataSet dSet, RecordSet rs) {
+	private static int appendDataSet(GauceDataSet dSet, RecordSet rs) {
 		if (rs == null) {
 			return 0;
 		}
@@ -335,7 +335,7 @@ public class GauceUtil {
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			rowCount++;
-			_appendRow(dSet, rs, colNms, colInfo, colSize, colSizeReal, colScale);
+			appendRow(dSet, rs, colNms, colInfo, colSize, colSizeReal, colScale);
 		}
 		return rowCount;
 	}
@@ -343,7 +343,7 @@ public class GauceUtil {
 	/**
 	 * ResultSet을 가우스 데이타셋으로 변환한다.
 	 */
-	private static int _appendDataSet(GauceDataSet dSet, ResultSet rs) {
+	private static int appendDataSet(GauceDataSet dSet, ResultSet rs) {
 		if (rs == null) {
 			return 0;
 		}
@@ -368,7 +368,7 @@ public class GauceUtil {
 				int rowCount = 0;
 				while (rs.next()) {
 					rowCount++;
-					_appendRow(dSet, rs, colNms, colInfo, colSize, colSizeReal, colScale);
+					appendRow(dSet, rs, colNms, colInfo, colSize, colSizeReal, colScale);
 				}
 				return rowCount;
 			} finally {
@@ -401,7 +401,7 @@ public class GauceUtil {
 	/**
 	 * 가우스 데이타셋에 RecordSet 한행 추가
 	 */
-	private static void _appendRow(GauceDataSet dSet, RecordSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
+	private static void appendRow(GauceDataSet dSet, RecordSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
 		if (colNms == null) {
 			return;
 		}
@@ -432,7 +432,7 @@ public class GauceUtil {
 	/**
 	 * 가우스 데이타셋에 ResultSet 한행 추가
 	 */
-	private static void _appendRow(GauceDataSet dSet, ResultSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
+	private static void appendRow(GauceDataSet dSet, ResultSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
 		if (colNms == null) {
 			return;
 		}

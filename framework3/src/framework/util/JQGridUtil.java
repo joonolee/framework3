@@ -66,7 +66,7 @@ public class JQGridUtil {
 			}
 			pw.print("{");
 			pw.print("\"id\":" + rowCount + ",");
-			pw.print("\"cell\":" + _jqGridRowStr(rs, colNms));
+			pw.print("\"cell\":" + jqGridRowStr(rs, colNms));
 			pw.print("}");
 		}
 		pw.print("],");
@@ -114,7 +114,7 @@ public class JQGridUtil {
 			}
 			pw.print("{");
 			pw.print("\"id\":" + rowCount + ",");
-			pw.print("\"cell\":" + _jqGridRowStr(rs, colNames));
+			pw.print("\"cell\":" + jqGridRowStr(rs, colNames));
 			pw.print("}");
 		}
 		pw.print("],");
@@ -156,7 +156,7 @@ public class JQGridUtil {
 			}
 			buf.append("{");
 			buf.append("\"id\":" + rowCount + ",");
-			buf.append("\"cell\":" + _jqGridRowStr(rs, colNms));
+			buf.append("\"cell\":" + jqGridRowStr(rs, colNms));
 			buf.append("}");
 		}
 		buf.append("],");
@@ -198,7 +198,7 @@ public class JQGridUtil {
 			}
 			buf.append("{");
 			buf.append("\"id\":" + rowCount + ",");
-			buf.append("\"cell\":" + _jqGridRowStr(rs, colNames));
+			buf.append("\"cell\":" + jqGridRowStr(rs, colNames));
 			buf.append("}");
 		}
 		buf.append("],");
@@ -244,7 +244,7 @@ public class JQGridUtil {
 					}
 					pw.print("{");
 					pw.print("\"id\":" + rowCount + ",");
-					pw.print("\"cell\":" + _jqGridRowStr(rs, colNms));
+					pw.print("\"cell\":" + jqGridRowStr(rs, colNms));
 					pw.print("}");
 				}
 				pw.print("],");
@@ -313,7 +313,7 @@ public class JQGridUtil {
 					}
 					pw.print("{");
 					pw.print("\"id\":" + rowCount + ",");
-					pw.print("\"cell\":" + _jqGridRowStr(rs, colNames));
+					pw.print("\"cell\":" + jqGridRowStr(rs, colNames));
 					pw.print("}");
 				}
 				pw.print("],");
@@ -383,7 +383,7 @@ public class JQGridUtil {
 					}
 					buf.append("{");
 					buf.append("\"id\":" + rowCount + ",");
-					buf.append("\"cell\":" + _jqGridRowStr(rs, colNms));
+					buf.append("\"cell\":" + jqGridRowStr(rs, colNms));
 					buf.append("}");
 				}
 				buf.append("],");
@@ -451,7 +451,7 @@ public class JQGridUtil {
 					}
 					buf.append("{");
 					buf.append("\"id\":" + rowCount + ",");
-					buf.append("\"cell\":" + _jqGridRowStr(rs, colNames));
+					buf.append("\"cell\":" + jqGridRowStr(rs, colNames));
 					buf.append("}");
 				}
 				buf.append("],");
@@ -522,7 +522,7 @@ public class JQGridUtil {
 			}
 			pw.print("{");
 			pw.print("\"id\":" + rowCount + ",");
-			pw.print("\"cell\":" + _jqGridRowStr(map));
+			pw.print("\"cell\":" + jqGridRowStr(map));
 			pw.print("}");
 		}
 		pw.print("],");
@@ -562,7 +562,7 @@ public class JQGridUtil {
 				rowCount++;
 				buf.append("{");
 				buf.append("\"id\":" + rowCount + ",");
-				buf.append("\"cell\":" + _jqGridRowStr(map));
+				buf.append("\"cell\":" + jqGridRowStr(map));
 				buf.append("}");
 				buf.append(",");
 			}
@@ -596,7 +596,7 @@ public class JQGridUtil {
 	/**
 	 * jqGrid 용 Row 문자열 생성
 	 */
-	private static String _jqGridRowStr(RecordMap map) {
+	private static String jqGridRowStr(RecordMap map) {
 		StringBuilder buf = new StringBuilder();
 		if (map.entrySet().size() > 0) {
 			buf.append("[");
@@ -620,7 +620,7 @@ public class JQGridUtil {
 	/**
 	 * jqGrid 용 Row 문자열 생성
 	 */
-	private static String _jqGridRowStr(RecordSet rs, String[] colNms) {
+	private static String jqGridRowStr(RecordSet rs, String[] colNms) {
 		StringBuilder buf = new StringBuilder();
 		if (colNms != null && colNms.length > 0) {
 			buf.append("[");
@@ -641,7 +641,7 @@ public class JQGridUtil {
 		return buf.toString();
 	}
 
-	private static String _jqGridRowStr(ResultSet rs, String[] colNms) {
+	private static String jqGridRowStr(ResultSet rs, String[] colNms) {
 		StringBuilder buf = new StringBuilder();
 		if (colNms.length > 0) {
 			buf.append("[");

@@ -24,8 +24,8 @@ import framework.util.StringUtil;
  */
 public class Params extends HashMap<String, String[]> {
 	private static final long serialVersionUID = 7143941735208780214L;
-	private final List<FileItem> _fileItems = new ArrayList<FileItem>();
-	private String _name = null;
+	private final List<FileItem> fileItems = new ArrayList<FileItem>();
+	private String name = null;
 
 	/***
 	 * Params 생성자
@@ -33,7 +33,7 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	public Params(String name) {
 		super();
-		_name = name;
+		this.name = name;
 	}
 
 	/** 
@@ -53,10 +53,10 @@ public class Params extends HashMap<String, String[]> {
 		if (ServletFileUpload.isMultipartContent(request)) {
 			try {
 				DiskFileItemFactory factory = new DiskFileItemFactory();
-				factory.setSizeThreshold(_getConfig().getInt("fileupload.sizeThreshold"));
-				factory.setRepository(new File(_getConfig().getString("fileupload.repository")));
+				factory.setSizeThreshold(getConfig().getInt("fileupload.sizeThreshold"));
+				factory.setRepository(new File(getConfig().getString("fileupload.repository")));
 				ServletFileUpload upload = new ServletFileUpload(factory);
-				upload.setSizeMax(_getConfig().getInt("fileupload.sizeMax"));
+				upload.setSizeMax(getConfig().getInt("fileupload.sizeMax"));
 				List<FileItem> items = upload.parseRequest(request);
 				for (FileItem item : items) {
 					if (item.isFormField()) {
@@ -75,7 +75,7 @@ public class Params extends HashMap<String, String[]> {
 							params.put(fieldName, newValue);
 						}
 					} else {
-						params._addFileItem(item);
+						params.addFileItem(item);
 					}
 				}
 			} catch (Throwable e) {
@@ -271,7 +271,7 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	public List<FileItem> getFileItems() {
 		List<FileItem> list = new ArrayList<FileItem>();
-		list.addAll(_fileItems);
+		list.addAll(fileItems);
 		return list;
 	}
 
@@ -332,7 +332,7 @@ public class Params extends HashMap<String, String[]> {
 			buf.append(key + "=" + value);
 		}
 		buf.append(" }");
-		return _name + "=" + buf.toString();
+		return name + "=" + buf.toString();
 	}
 
 	/** 
@@ -428,7 +428,7 @@ public class Params extends HashMap<String, String[]> {
 					if (item == null) {
 						value = "\"\"";
 					} else {
-						value = "\"" + _escapeJS(item) + "\"";
+						value = "\"" + escapeJS(item) + "\"";
 					}
 				} else {
 					StringBuilder valueBuf = new StringBuilder();
@@ -436,7 +436,7 @@ public class Params extends HashMap<String, String[]> {
 					for (int j = 0; j < length; j++) {
 						String item = o[j];
 						if (item != null) {
-							valueBuf.append("\"" + _escapeJS(item) + "\"");
+							valueBuf.append("\"" + escapeJS(item) + "\"");
 						}
 						if (j < length - 1) {
 							valueBuf.append(",");
@@ -449,7 +449,7 @@ public class Params extends HashMap<String, String[]> {
 			if (currentRow++ > 0) {
 				buf.append(", ");
 			}
-			buf.append("\"" + _escapeJS(key) + "\"" + ":" + value);
+			buf.append("\"" + escapeJS(key) + "\"" + ":" + value);
 		}
 		buf.append(" }");
 		return buf.toString();
@@ -460,7 +460,7 @@ public class Params extends HashMap<String, String[]> {
 	 * 자바스크립트상에 특수하게 인식되는 문자들을 JSON등에 사용하기 위해 변환하여준다.
 	 * @param str 변환할 문자열
 	 */
-	private String _escapeJS(String str) {
+	private String escapeJS(String str) {
 		if (str == null) {
 			return "";
 		}
@@ -472,15 +472,15 @@ public class Params extends HashMap<String, String[]> {
 	 * @param item 파일을 담고 있는 객체
 	 * @return 성공여부
 	 */
-	private boolean _addFileItem(FileItem item) {
-		return _fileItems.add(item);
+	private boolean addFileItem(FileItem item) {
+		return fileItems.add(item);
 	}
 
 	/** 
 	 * 설정정보를 가지고 있는 객체를 생성하여 리턴한다.
 	 * @return config.properties의 설정정보를 가지고 있는 객체
 	 */
-	private static Config _getConfig() {
+	private static Config getConfig() {
 		return Config.getInstance();
 	}
 }

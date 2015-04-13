@@ -30,9 +30,9 @@ public class GZIPFilter implements Filter {
 		try {
 			resWrapper = new MyResponseWrapper((HttpServletResponse) response);
 			filterChain.doFilter(request, resWrapper);
-			String contentType = _nullToBlankString(resWrapper.getContentType());
-			if (_isTextualContentType(contentType)) {
-				_write(request, response, resWrapper);
+			String contentType = nullToBlankString(resWrapper.getContentType());
+			if (isTextualContentType(contentType)) {
+				write(request, response, resWrapper);
 			} else {
 				resWrapper.writeTo(response.getOutputStream());
 			}
@@ -52,8 +52,8 @@ public class GZIPFilter implements Filter {
 	public void destroy() {
 	}
 
-	private void _write(ServletRequest request, ServletResponse response, MyResponseWrapper resWrapper) throws IOException, UnsupportedEncodingException {
-		if (_isGzipSupported(request)) {
+	private void write(ServletRequest request, ServletResponse response, MyResponseWrapper resWrapper) throws IOException, UnsupportedEncodingException {
+		if (isGzipSupported(request)) {
 			resWrapper.setHeader("Content-Encoding", "gzip");
 			GZIPOutputStream gzos = new GZIPOutputStream(response.getOutputStream());
 			OutputStreamWriter osw = new OutputStreamWriter(gzos, response.getCharacterEncoding());
@@ -68,16 +68,16 @@ public class GZIPFilter implements Filter {
 		}
 	}
 
-	private boolean _isGzipSupported(ServletRequest request) {
+	private boolean isGzipSupported(ServletRequest request) {
 		String browserEncodings = ((HttpServletRequest) request).getHeader("Accept-Encoding");
 		return ((browserEncodings != null) && (browserEncodings.indexOf("gzip") != -1));
 	}
 
-	private boolean _isTextualContentType(String contentType) {
+	private boolean isTextualContentType(String contentType) {
 		return "".equals(contentType) || contentType.contains("text") || contentType.contains("json") || contentType.contains("xml");
 	}
 
-	private static String _nullToBlankString(String str) {
+	private static String nullToBlankString(String str) {
 		String rval = "";
 		if (str == null) {
 			rval = "";
@@ -88,70 +88,70 @@ public class GZIPFilter implements Filter {
 	}
 
 	class MyResponseWrapper extends HttpServletResponseWrapper {
-		private ByteArrayOutputStream _bytes;
-		private PrintWriter _writer;
+		private ByteArrayOutputStream bytes;
+		private PrintWriter writer;
 
-		public MyResponseWrapper(HttpServletResponse p_res) throws IOException {
-			super(p_res);
-			_bytes = new ByteArrayOutputStream(8 * 1024);
-			_writer = new PrintWriter(_bytes);
+		public MyResponseWrapper(HttpServletResponse res) throws IOException {
+			super(res);
+			bytes = new ByteArrayOutputStream(8 * 1024);
+			writer = new PrintWriter(bytes);
 		}
 
 		@Override
 		public PrintWriter getWriter() {
-			return _writer;
+			return writer;
 		}
 
 		@Override
 		public ServletOutputStream getOutputStream() {
-			return new MyOutputStream(_bytes);
+			return new MyOutputStream(bytes);
 		}
 
 		@Override
 		public String toString() {
-			_writer.flush();
-			return _bytes.toString();
+			writer.flush();
+			return bytes.toString();
 		}
 
 		public void writeTo(OutputStream os) throws IOException {
-			_bytes.writeTo(os);
+			bytes.writeTo(os);
 		}
 
 		public void close() throws IOException {
-			_bytes.close();
-			_writer.close();
-			_bytes = null;
-			_writer = null;
+			bytes.close();
+			writer.close();
+			bytes = null;
+			writer = null;
 		}
 	}
 
 	class MyOutputStream extends ServletOutputStream {
-		private ByteArrayOutputStream _bytes;
+		private ByteArrayOutputStream bytes;
 
-		public MyOutputStream(ByteArrayOutputStream p_bytes) {
-			_bytes = p_bytes;
+		public MyOutputStream(ByteArrayOutputStream bytes) {
+			this.bytes = bytes;
 		}
 
 		@Override
-		public void write(int p_c) throws IOException {
-			_bytes.write(p_c);
+		public void write(int c) throws IOException {
+			bytes.write(c);
 		}
 
 		@Override
 		public void write(byte[] b) throws IOException {
-			_bytes.write(b);
+			bytes.write(b);
 		}
 
 		@Override
 		public void write(byte[] b, int off, int len) throws IOException {
-			_bytes.write(b, off, len);
+			bytes.write(b, off, len);
 		}
 
 		@Override
 		public void close() throws IOException {
-			_bytes.close();
+			bytes.close();
 			super.close();
-			_bytes = null;
+			bytes = null;
 		}
 	}
 }

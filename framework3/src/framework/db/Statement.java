@@ -7,41 +7,41 @@ import java.sql.SQLException;
  * Statement 를 이용하기 위한 객체
  */
 public class Statement extends AbstractStatement {
-	private String _sql = null;
-	private DB _db = null;
-	private java.sql.Statement _stmt = null;
-	private RecordSet _rs = null;
-	private int _upCnt = 0;
-	private Object _caller = null;
+	private String sql = null;
+	private DB db = null;
+	private java.sql.Statement stmt = null;
+	private RecordSet rs = null;
+	private int upCnt = 0;
+	private Object caller = null;
 
 	public static Statement create(String sql, DB db, Object caller) {
 		return new Statement(sql, db, caller);
 	}
 
 	private Statement(String sql, DB db, Object caller) {
-		_sql = sql;
-		_db = db;
-		_caller = caller;
+		this.sql = sql;
+		this.db = db;
+		this.caller = caller;
 	}
 
 	protected java.sql.Statement getStatement() {
 		try {
-			if (_stmt == null) {
-				_stmt = _db.getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-				_stmt.setFetchSize(100);
+			if (stmt == null) {
+				stmt = db.getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				stmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
 			logger.error("", e);
 			throw new RuntimeException(e);
 		}
-		return _stmt;
+		return stmt;
 	}
 
 	@Override
 	public void close() {
-		if (_stmt != null) {
+		if (stmt != null) {
 			try {
-				_stmt.close();
+				stmt.close();
 			} catch (SQLException e) {
 				logger.error("", e);
 				throw new RuntimeException(e);
@@ -58,11 +58,11 @@ public class Statement extends AbstractStatement {
 			java.sql.Statement stmt = getStatement();
 			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
-				log.append("@Sql Start (STATEMENT) FetchSize : " + stmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
+				log.append("@Sql Start (STATEMENT) FetchSize : " + stmt.getFetchSize() + " Caller : " + caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getSQL());
 				logger.debug(log.toString());
 			}
-			_rs = new RecordSet(stmt.executeQuery(getSQL()), currPage, pageSize);
+			rs = new RecordSet(stmt.executeQuery(getSQL()), currPage, pageSize);
 			if (logger.isDebugEnabled()) {
 				logger.debug("@Sql End (STATEMENT)");
 			}
@@ -70,7 +70,7 @@ public class Statement extends AbstractStatement {
 			logger.error("", e);
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
 		}
-		return _rs;
+		return rs;
 	}
 
 	public RecordSet executeQuery() {
@@ -96,11 +96,11 @@ public class Statement extends AbstractStatement {
 			java.sql.Statement stmt = getStatement();
 			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
-				log.append("@Sql Start (STATEMENT) FetchSize : " + stmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
+				log.append("@Sql Start (STATEMENT) FetchSize : " + stmt.getFetchSize() + " Caller : " + caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getSQL());
 				logger.debug(log.toString());
 			}
-			_upCnt = stmt.executeUpdate(getSQL());
+			upCnt = stmt.executeUpdate(getSQL());
 			if (logger.isDebugEnabled()) {
 				logger.debug("@Sql End (STATEMENT)");
 			}
@@ -108,7 +108,7 @@ public class Statement extends AbstractStatement {
 			logger.error("", e);
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
 		}
-		return _upCnt;
+		return upCnt;
 	}
 
 	public int executeUpdate(String sql) {
@@ -117,19 +117,19 @@ public class Statement extends AbstractStatement {
 	}
 
 	public RecordSet getRecordSet() {
-		return _rs;
+		return rs;
 	}
 
 	public String getSQL() {
-		return _sql;
+		return sql;
 	}
 
 	public int getUpdateCount() {
-		return _upCnt;
+		return upCnt;
 	}
 
 	public void setSQL(String newSql) {
-		_sql = newSql;
+		sql = newSql;
 	}
 
 	@Override

@@ -33,8 +33,8 @@ import framework.db.DB;
  * 작성된 Controller는 routes.properties에 등록한다.
  */
 public abstract class Controller {
-	private static final String _FLASH_SCOPE_OBJECT_KEY = "___FLASH_SCOPE_OBJECT___";
-	private Map<String, DB> _dbMap = new HashMap<String, DB>();
+	private static final String FLASH_SCOPE_OBJECT_KEY = "___FLASH_SCOPE_OBJECT___";
+	private Map<String, DB> dbMap = new HashMap<String, DB>();
 
 	/**
 	 * 서블릿 컨텍스트 객체
@@ -119,8 +119,8 @@ public abstract class Controller {
 			this.action = method;
 			this.actionName = getClass().getName() + "." + method.getName();
 			long currTime = 0;
-			_flashRestore();
-			_before();
+			flashRestore();
+			beforeFilter();
 			if (logger.isDebugEnabled()) {
 				currTime = System.currentTimeMillis();
 				logger.debug("Start Class : " + getClass().getName() + ", Method : " + method.getName());
@@ -130,22 +130,22 @@ public abstract class Controller {
 			try {
 				method.invoke(this, (Object[]) null);
 			} catch (InvocationTargetException e) {
-				_catch(e.getCause());
+				catchFilter(e.getCause());
 			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
 			}
-			_after();
-		} catch (_ActionStopException e) {
-			logger.error("", e);
+			afterFilter();
+		} catch (ActionStopException e) {
+			logger.info("Stop Action!");
 		} finally {
 			try {
-				_finally();
+				finallyFilter();
 			} catch (Throwable te) {
 				logger.error("", te);
 			}
-			_flashSave();
-			_destroy();
+			flashSave();
+			destroy();
 		}
 	}
 
@@ -153,7 +153,7 @@ public abstract class Controller {
 	 * 액션진행을 중단한다.
 	 */
 	protected void stop() {
-		throw new _ActionStopException();
+		throw new ActionStopException();
 	}
 
 	/**
@@ -224,7 +224,7 @@ public abstract class Controller {
 	 * @return DB 객체
 	 */
 	protected DB getDB(String serviceName) {
-		if (!_dbMap.containsKey(serviceName)) {
+		if (!dbMap.containsKey(serviceName)) {
 			String dsName = null;
 			String jdbcDriver = null;
 			String jdbcUrl = null;
@@ -246,13 +246,13 @@ public abstract class Controller {
 				} else {
 					db.connect(jdbcDriver, jdbcUrl, jdbcUid, jdbcPw);
 				}
-				_dbMap.put(serviceName, db);
+				dbMap.put(serviceName, db);
 				db.setAutoCommit(false);
 			} catch (Throwable e) {
 				logger.error("", e);
 			}
 		}
-		return _dbMap.get(serviceName);
+		return dbMap.get(serviceName);
 	}
 
 	/** 
@@ -327,36 +327,36 @@ public abstract class Controller {
 	/*
 	 * 액션진행을 중단하기 위해 내부적으로 사용하는 예외
 	 */
-	private class _ActionStopException extends RuntimeException {
+	private class ActionStopException extends RuntimeException {
 		private static final long serialVersionUID = -4449840322691459821L;
 	}
 
 	/*
 	 * 플래시객체를 세션에 저장
 	 */
-	private void _flashSave() {
-		session.setAttribute(_FLASH_SCOPE_OBJECT_KEY, flash);
+	private void flashSave() {
+		session.setAttribute(FLASH_SCOPE_OBJECT_KEY, flash);
 	}
 
 	/*
 	 * 세션에서 플래시객체를 복원
 	 */
 	@SuppressWarnings("unchecked")
-	private void _flashRestore() {
-		Map<String, Object> flashMap = (Map<String, Object>) session.getAttribute(_FLASH_SCOPE_OBJECT_KEY);
+	private void flashRestore() {
+		Map<String, Object> flashMap = (Map<String, Object>) session.getAttribute(FLASH_SCOPE_OBJECT_KEY);
 		if (flashMap != null) {
 			for (Entry<String, Object> entry : flashMap.entrySet()) {
 				request.setAttribute(entry.getKey(), entry.getValue());
 			}
-			session.removeAttribute(_FLASH_SCOPE_OBJECT_KEY);
+			session.removeAttribute(FLASH_SCOPE_OBJECT_KEY);
 		}
 	}
 
 	/*
 	 * Play framework 참고
 	 */
-	private void _before() throws Throwable {
-		List<Method> beforeMethods = _getAnnotationMethods(Before.class);
+	private void beforeFilter() throws Throwable {
+		List<Method> beforeMethods = getAnnotationMethods(Before.class);
 		Collections.sort(beforeMethods, new Comparator<Method>() {
 			public int compare(Method m1, Method m2) {
 				Before before1 = m1.getAnnotation(Before.class);
@@ -405,8 +405,8 @@ public abstract class Controller {
 	/*
 	 * Play framework 참고
 	 */
-	private void _after() throws Throwable {
-		List<Method> afterMethods = _getAnnotationMethods(After.class);
+	private void afterFilter() throws Throwable {
+		List<Method> afterMethods = getAnnotationMethods(After.class);
 		Collections.sort(afterMethods, new Comparator<Method>() {
 			public int compare(Method m1, Method m2) {
 				After after1 = m1.getAnnotation(After.class);
@@ -455,8 +455,8 @@ public abstract class Controller {
 	/*
 	 * Play framework 참고
 	 */
-	private void _catch(Throwable e) throws Throwable {
-		List<Method> catchMethods = _getAnnotationMethods(Catch.class);
+	private void catchFilter(Throwable e) throws Throwable {
+		List<Method> catchMethods = getAnnotationMethods(Catch.class);
 		Collections.sort(catchMethods, new Comparator<Method>() {
 			public int compare(Method m1, Method m2) {
 				Catch catch1 = m1.getAnnotation(Catch.class);
@@ -490,8 +490,8 @@ public abstract class Controller {
 	/*
 	 * Play framework 참고
 	 */
-	private void _finally() throws Throwable {
-		List<Method> finallyMethods = _getAnnotationMethods(Finally.class);
+	private void finallyFilter() throws Throwable {
+		List<Method> finallyMethods = getAnnotationMethods(Finally.class);
 		Collections.sort(finallyMethods, new Comparator<Method>() {
 			public int compare(Method m1, Method m2) {
 				Finally finally1 = m1.getAnnotation(Finally.class);
@@ -537,7 +537,7 @@ public abstract class Controller {
 		}
 	}
 
-	private List<Method> _getAnnotationMethods(Class<? extends Annotation> annotation) {
+	private List<Method> getAnnotationMethods(Class<? extends Annotation> annotation) {
 		List<Method> methods = new ArrayList<Method>();
 		for (Method method : getClass().getMethods()) {
 			if (method.isAnnotationPresent(annotation)) {
@@ -550,17 +550,17 @@ public abstract class Controller {
 	/*
 	 * DB 컨넥션 정리
 	 */
-	private void _destroy() {
+	private void destroy() {
 		try {
 			DB db = null;
-			for (String key : _dbMap.keySet()) {
-				db = _dbMap.get(key);
+			for (String key : dbMap.keySet()) {
+				db = dbMap.get(key);
 				if (db != null) {
 					db.release();
 					db = null;
 				}
 			}
-			_dbMap.clear();
+			dbMap.clear();
 			params = null;
 			out = null;
 		} catch (Throwable e) {

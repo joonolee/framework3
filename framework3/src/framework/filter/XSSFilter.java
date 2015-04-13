@@ -17,32 +17,32 @@ import javax.servlet.http.HttpServletRequestWrapper;
  */
 public class XSSFilter implements Filter {
 	// Avoid anything between script tags
-	private Pattern _scriptPattern1 = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
+	private Pattern scriptPattern1 = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
 
 	// Avoid anything in a src='...' type of expression
-	private Pattern _scriptPattern2 = Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-	private Pattern _scriptPattern3 = Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private Pattern scriptPattern2 = Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private Pattern scriptPattern3 = Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	// Remove any lonesome </script> tag
-	private Pattern _scriptPattern4 = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
+	private Pattern scriptPattern4 = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
 
 	// Remove any lonesome <script ...> tag
-	private Pattern _scriptPattern5 = Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private Pattern scriptPattern5 = Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	// Avoid eval(...) expressions
-	private Pattern _scriptPattern6 = Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private Pattern scriptPattern6 = Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	// Avoid expression(...) expressions
-	private Pattern _scriptPattern7 = Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private Pattern scriptPattern7 = Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	// Avoid javascript:... expressions
-	private Pattern _scriptPattern8 = Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE);
+	private Pattern scriptPattern8 = Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE);
 
 	// Avoid vbscript:... expressions
-	private Pattern _scriptPattern9 = Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE);
+	private Pattern scriptPattern9 = Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE);
 
 	// Avoid onload= expressions
-	private Pattern _scriptPattern10 = Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private Pattern scriptPattern10 = Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -89,16 +89,16 @@ public class XSSFilter implements Filter {
 		private String stripXSS(String value) {
 			if (value != null) {
 				value = value.replaceAll("\0", ""); // Avoid null characters
-				value = _scriptPattern1.matcher(value).replaceAll("");
-				value = _scriptPattern2.matcher(value).replaceAll("");
-				value = _scriptPattern3.matcher(value).replaceAll("");
-				value = _scriptPattern4.matcher(value).replaceAll("");
-				value = _scriptPattern5.matcher(value).replaceAll("");
-				value = _scriptPattern6.matcher(value).replaceAll("");
-				value = _scriptPattern7.matcher(value).replaceAll("");
-				value = _scriptPattern8.matcher(value).replaceAll("");
-				value = _scriptPattern9.matcher(value).replaceAll("");
-				value = _scriptPattern10.matcher(value).replaceAll("");
+				value = scriptPattern1.matcher(value).replaceAll("");
+				value = scriptPattern2.matcher(value).replaceAll("");
+				value = scriptPattern3.matcher(value).replaceAll("");
+				value = scriptPattern4.matcher(value).replaceAll("");
+				value = scriptPattern5.matcher(value).replaceAll("");
+				value = scriptPattern6.matcher(value).replaceAll("");
+				value = scriptPattern7.matcher(value).replaceAll("");
+				value = scriptPattern8.matcher(value).replaceAll("");
+				value = scriptPattern9.matcher(value).replaceAll("");
+				value = scriptPattern10.matcher(value).replaceAll("");
 			}
 			return value;
 		}

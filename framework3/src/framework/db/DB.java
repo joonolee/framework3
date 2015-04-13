@@ -26,24 +26,24 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  * 데이타베이스 컨넥션을 관리하는 클래스
  */
 public class DB {
-	private static final Map<String, DataSource> _dsMap = new HashMap<String, DataSource>();
+	private static final Map<String, DataSource> dsMap = new HashMap<String, DataSource>();
 	private static final Log logger = LogFactory.getLog(framework.db.DB.class);
-	private List<AbstractStatement> _stmtList = null;
-	private String _dsName = null;
-	private Object _caller = null;
-	private Connection _connection = null;
+	private List<AbstractStatement> stmtList = null;
+	private String dsName = null;
+	private Object caller = null;
+	private Connection connection = null;
 	// MyBatis
-	private static SqlSessionFactory _sqlSessionFactory = null;
-	private SqlSession _sqlSession = null;
+	private static SqlSessionFactory sqlSessionFactory = null;
+	private SqlSession sqlSession = null;
 
 	public DB(String dsName, Object caller) {
-		_dsName = dsName;
-		_caller = caller;
-		if (_stmtList == null) {
-			_stmtList = new ArrayList<AbstractStatement>();
+		this.dsName = dsName;
+		this.caller = caller;
+		if (stmtList == null) {
+			stmtList = new ArrayList<AbstractStatement>();
 		}
 		if (dsName != null) {
-			if (_dsMap.get(dsName) == null) {
+			if (dsMap.get(dsName) == null) {
 				DataSource ds;
 				try {
 					InitialContext ctx = new InitialContext();
@@ -51,43 +51,43 @@ public class DB {
 				} catch (NamingException e) {
 					throw new RuntimeException(e);
 				}
-				_dsMap.put(dsName, ds);
+				dsMap.put(dsName, ds);
 			}
 		}
 	}
 
 	public PreparedStatement createPrepareStatement(String sql) {
-		PreparedStatement pstmt = PreparedStatement.create(sql, this, _caller);
-		_stmtList.add(pstmt);
+		PreparedStatement pstmt = PreparedStatement.create(sql, this, caller);
+		stmtList.add(pstmt);
 		return pstmt;
 	}
 
 	public BatchPreparedStatement createBatchPrepareStatement(String sql) {
-		BatchPreparedStatement pstmt = BatchPreparedStatement.create(sql, this, _caller);
-		_stmtList.add(pstmt);
+		BatchPreparedStatement pstmt = BatchPreparedStatement.create(sql, this, caller);
+		stmtList.add(pstmt);
 		return pstmt;
 	}
 
 	public Statement createStatement(String sql) {
-		Statement stmt = Statement.create(sql, this, _caller);
-		_stmtList.add(stmt);
+		Statement stmt = Statement.create(sql, this, caller);
+		stmtList.add(stmt);
 		return stmt;
 	}
 
 	public BatchStatement createBatchStatement() {
-		BatchStatement bstmt = BatchStatement.create(this, _caller);
-		_stmtList.add(bstmt);
+		BatchStatement bstmt = BatchStatement.create(this, caller);
+		stmtList.add(bstmt);
 		return bstmt;
 	}
 
 	public void connect() {
 		try {
-			setConnection(_dsMap.get(_dsName).getConnection());
+			setConnection(dsMap.get(dsName).getConnection());
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		if (logger.isDebugEnabled()) {
-			logger.debug("DB연결 성공! : " + _dsName);
+			logger.debug("DB연결 성공! : " + dsName);
 		}
 	}
 
@@ -104,23 +104,23 @@ public class DB {
 	}
 
 	public void setConnection(Connection conn) {
-		_connection = conn;
+		connection = conn;
 	}
 
 	public Connection getConnection() {
-		return _connection;
+		return connection;
 	}
 
 	public SqlSession getSqlSession() {
-		if (_sqlSession == null) {
-			_sqlSession = _getSqlSessionFactory().openSession(_connection);
+		if (sqlSession == null) {
+			sqlSession = getSqlSessionFactory().openSession(connection);
 		}
-		return _sqlSession;
+		return sqlSession;
 	}
 
 	public void release() {
-		if (_stmtList != null) {
-			for (AbstractStatement stmt : _stmtList) {
+		if (stmtList != null) {
+			for (AbstractStatement stmt : stmtList) {
 				try {
 					stmt.close();
 				} catch (Throwable e) {
@@ -128,19 +128,19 @@ public class DB {
 				}
 			}
 		}
-		if (_connection != null) {
+		if (connection != null) {
 			try {
-				_connection.rollback();
+				connection.rollback();
 			} catch (Throwable e) {
 				logger.error("", e);
 			}
 			try {
-				_connection.close();
+				connection.close();
 			} catch (Throwable e) {
 				logger.error("", e);
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("DB연결 종료! : " + _dsName);
+				logger.debug("DB연결 종료! : " + dsName);
 			}
 		} else {
 			if (logger.isDebugEnabled()) {
@@ -151,7 +151,7 @@ public class DB {
 
 	public void commit() {
 		try {
-			_connection.commit();
+			connection.commit();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -159,7 +159,7 @@ public class DB {
 
 	public void rollback() {
 		try {
-			_connection.rollback();
+			connection.rollback();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -167,18 +167,18 @@ public class DB {
 
 	public void setAutoCommit(boolean isAuto) {
 		try {
-			_connection.setAutoCommit(isAuto);
+			connection.setAutoCommit(isAuto);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private synchronized SqlSessionFactory _getSqlSessionFactory() {
-		if (_sqlSessionFactory == null) {
+	private synchronized SqlSessionFactory getSqlSessionFactory() {
+		if (sqlSessionFactory == null) {
 			Reader reader = null;
 			try {
 				reader = Resources.getResourceAsReader("mybatis-config.xml");
-				_sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+				sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 			} catch (Throwable e) {
 				throw new RuntimeException("Something bad happened while building the SqlSessionFactory instance." + e, e);
 			} finally {
@@ -191,6 +191,6 @@ public class DB {
 				}
 			}
 		}
-		return _sqlSessionFactory;
+		return sqlSessionFactory;
 	}
 }

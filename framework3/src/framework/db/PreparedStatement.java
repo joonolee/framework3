@@ -13,30 +13,30 @@ import java.util.StringTokenizer;
  * Prepared Statement 를 이용하기 위한 객체
  */
 public class PreparedStatement extends AbstractStatement {
-	private String _sql = null;
-	private DB _db = null;
-	private java.sql.PreparedStatement _pstmt = null;
-	private RecordSet _rs = null;
-	private int _upCnt = 0;
-	private List<Object> _param = new ArrayList<Object>();
-	private Object _caller = null;
+	private String sql = null;
+	private DB db = null;
+	private java.sql.PreparedStatement pstmt = null;
+	private RecordSet rs = null;
+	private int upCnt = 0;
+	private List<Object> param = new ArrayList<Object>();
+	private Object caller = null;
 
 	public static PreparedStatement create(String sql, DB db, Object caller) {
 		return new PreparedStatement(sql, db, caller);
 	}
 
 	private PreparedStatement(String sql, DB db, Object caller) {
-		_sql = sql;
-		_db = db;
-		_caller = caller;
+		this.sql = sql;
+		this.db = db;
+		this.caller = caller;
 	}
 
 	@Override
 	public void close() {
 		try {
-			if (_pstmt != null) {
-				_pstmt.close();
-				_pstmt = null;
+			if (pstmt != null) {
+				pstmt.close();
+				pstmt = null;
 			}
 			clearParam();
 		} catch (SQLException e) {
@@ -46,7 +46,7 @@ public class PreparedStatement extends AbstractStatement {
 	}
 
 	public void clearParam() {
-		_param = new ArrayList<Object>();
+		param = new ArrayList<Object>();
 	}
 
 	public RecordSet executeQuery() {
@@ -71,11 +71,11 @@ public class PreparedStatement extends AbstractStatement {
 			}
 			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
-				log.append("@Sql Start (P_STATEMENT) FetchSize : " + pstmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
+				log.append("@Sql Start (P_STATEMENT) FetchSize : " + pstmt.getFetchSize() + " Caller : " + caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getQueryString());
 				logger.debug(log.toString());
 			}
-			_rs = new RecordSet(pstmt.executeQuery(), currPage, pageSize);
+			rs = new RecordSet(pstmt.executeQuery(), currPage, pageSize);
 			if (logger.isDebugEnabled()) {
 				logger.debug("@Sql End (P_STATEMENT)");
 			}
@@ -83,7 +83,7 @@ public class PreparedStatement extends AbstractStatement {
 			logger.error("", e);
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
-		return _rs;
+		return rs;
 	}
 
 	public RecordSet executeQuery(String sql) {
@@ -125,11 +125,11 @@ public class PreparedStatement extends AbstractStatement {
 			}
 			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
-				log.append("@Sql Start (P_STATEMENT) FetchSize : " + pstmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
+				log.append("@Sql Start (P_STATEMENT) FetchSize : " + pstmt.getFetchSize() + " Caller : " + caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getQueryString());
 				logger.debug(log.toString());
 			}
-			_upCnt = pstmt.executeUpdate();
+			upCnt = pstmt.executeUpdate();
 			if (logger.isDebugEnabled()) {
 				logger.debug("@Sql End (P_STATEMENT)");
 			}
@@ -137,7 +137,7 @@ public class PreparedStatement extends AbstractStatement {
 			logger.error("", e);
 			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
 		}
-		return _upCnt;
+		return upCnt;
 	}
 
 	public int executeUpdate(String sql) {
@@ -146,17 +146,17 @@ public class PreparedStatement extends AbstractStatement {
 	}
 
 	public Object getObject(int idx) {
-		return _param.get(idx);
+		return param.get(idx);
 	}
 
 	public Object[] getParams() {
-		if (_param == null)
+		if (param == null)
 			return null;
-		return _param.toArray();
+		return param.toArray();
 	}
 
 	public int getParamSize() {
-		return _param.size();
+		return param.size();
 	}
 
 	protected java.sql.PreparedStatement getPrepareStatment() {
@@ -165,23 +165,23 @@ public class PreparedStatement extends AbstractStatement {
 			return null;
 		}
 		try {
-			if (_pstmt == null) {
-				_pstmt = _db.getConnection().prepareStatement(getSQL(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-				_pstmt.setFetchSize(100);
+			if (pstmt == null) {
+				pstmt = db.getConnection().prepareStatement(getSQL(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				pstmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
 			logger.error("", e);
 			throw new RuntimeException(e);
 		}
-		return _pstmt;
+		return pstmt;
 	}
 
 	public RecordSet getRecordSet() {
-		return _rs;
+		return rs;
 	}
 
 	public String getSQL() {
-		return _sql;
+		return sql;
 	}
 
 	public String getString(int idx) {
@@ -189,7 +189,7 @@ public class PreparedStatement extends AbstractStatement {
 	}
 
 	public int getUpdateCount() {
-		return _upCnt;
+		return upCnt;
 	}
 
 	public void set(Object[] obj) {
@@ -215,7 +215,7 @@ public class PreparedStatement extends AbstractStatement {
 	}
 
 	public void set(int idx, Object obj) {
-		_param.add(idx, obj);
+		param.add(idx, obj);
 	}
 
 	public void set(int idx, byte[] value) {
@@ -224,7 +224,7 @@ public class PreparedStatement extends AbstractStatement {
 
 	public void setSQL(String newSql) {
 		close();
-		_sql = newSql;
+		sql = newSql;
 	}
 
 	@Override
@@ -240,8 +240,8 @@ public class PreparedStatement extends AbstractStatement {
 		while (token.hasMoreTokens()) {
 			String oneChunk = token.nextToken();
 			buf.append(oneChunk);
-			if (_param.size() > qMarkCount) {
-				value = _param.get(qMarkCount++);
+			if (param.size() > qMarkCount) {
+				value = param.get(qMarkCount++);
 				if (value == null || "".equals(value)) {
 					value = "NULL";
 				} else if (value instanceof CharSequence || value instanceof Date) {

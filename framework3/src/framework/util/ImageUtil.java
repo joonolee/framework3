@@ -64,7 +64,7 @@ public class ImageUtil {
 			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
 				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
 			}
-			double scale = _getScale(width, height, image.getWidth(null), image.getHeight(null));
+			double scale = getScale(width, height, image.getWidth(null), image.getHeight(null));
 			int scaleWidth = (int) (scale * image.getWidth(null));
 			int scaleHeight = (int) (scale * image.getHeight(null));
 			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
@@ -73,7 +73,7 @@ public class ImageUtil {
 			ax.setToScale(1, 1);
 			g2d.drawImage(image, ax, null);
 			resizedImg = bufImg.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-			_writePNG(resizedImg, destFile);
+			writePNG(resizedImg, destFile);
 		} finally {
 			if (resizedImg != null) {
 				resizedImg.flush();
@@ -168,11 +168,11 @@ public class ImageUtil {
 	 * @param width QRCode 이미지 길이
 	 */
 	public static void qrcode(String url, OutputStream os, int width) {
-		QRCodeWriter l_qr_writer = new QRCodeWriter();
+		QRCodeWriter qrWriter = new QRCodeWriter();
 		try {
-			String l_url = new String(url.getBytes("UTF-8"), "ISO-8859-1");
-			BitMatrix l_bit_matrix = l_qr_writer.encode(l_url, BarcodeFormat.QR_CODE, width, width);
-			MatrixToImageWriter.writeToStream(l_bit_matrix, "png", os);
+			String encodedUrl = new String(url.getBytes("UTF-8"), "ISO-8859-1");
+			BitMatrix bitMatrix = qrWriter.encode(encodedUrl, BarcodeFormat.QR_CODE, width, width);
+			MatrixToImageWriter.writeToStream(bitMatrix, "png", os);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
@@ -189,7 +189,7 @@ public class ImageUtil {
 	 * @param imageHeight 원본 이미지의 세로 사이즈
 	 * @return 스케일 바율
 	 */
-	private static double _getScale(int resizeWidth, int resizeHeight, int imageWidth, int imageHeight) {
+	private static double getScale(int resizeWidth, int resizeHeight, int imageWidth, int imageHeight) {
 		double widthScale = (double) resizeWidth / imageWidth;
 		double heightScale = (double) resizeHeight / (double) imageHeight;
 		if (widthScale > heightScale) {
@@ -204,7 +204,7 @@ public class ImageUtil {
 	 * @param image 저장할 이미지 객체
 	 * @param destFile 대상 이미지 파일
 	 */
-	private static void _writePNG(Image image, File destFile) {
+	private static void writePNG(Image image, File destFile) {
 		BufferedImage bufImg = null;
 		try {
 			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);

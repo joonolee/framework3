@@ -86,7 +86,7 @@ public class MiPlatformUtil {
 		DatasetList dl = new DatasetList();
 		for (int i = 0, len = rsArray.length; i < len; i++) {
 			Dataset dSet = new Dataset(datasetNameArray[i], "utf-8", false, false);
-			rowCount += _appendDataset(dSet, rsArray[i]);
+			rowCount += appendDataset(dSet, rsArray[i]);
 			dl.addDataset(dSet);
 		}
 		vl.addStr("ErrorCode", "0");
@@ -130,7 +130,7 @@ public class MiPlatformUtil {
 		DatasetList dl = new DatasetList();
 		for (int i = 0, len = rsArray.length; i < len; i++) {
 			Dataset dSet = new Dataset(datasetNameArray[i], "utf-8", false, false);
-			rowCount += _appendDataset(dSet, rsArray[i]);
+			rowCount += appendDataset(dSet, rsArray[i]);
 			dl.addDataset(dSet);
 		}
 		vl.addStr("ErrorCode", "0");
@@ -345,7 +345,7 @@ public class MiPlatformUtil {
 	/**
 	 * RecordSet을 마이플랫폼 데이타셋으로 변환한다.
 	 */
-	private static int _appendDataset(Dataset dSet, RecordSet rs) {
+	private static int appendDataset(Dataset dSet, RecordSet rs) {
 		if (rs == null) {
 			return 0;
 		}
@@ -377,7 +377,7 @@ public class MiPlatformUtil {
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			rowCount++;
-			_appendRow(dSet, rs, colNms);
+			appendRow(dSet, rs, colNms);
 		}
 		return rowCount;
 	}
@@ -385,7 +385,7 @@ public class MiPlatformUtil {
 	/**
 	 * ResultSet을 마이플랫폼 데이타셋으로 변환한다.
 	 */
-	private static int _appendDataset(Dataset dSet, ResultSet rs) {
+	private static int appendDataset(Dataset dSet, ResultSet rs) {
 		if (rs == null) {
 			return 0;
 		}
@@ -426,7 +426,7 @@ public class MiPlatformUtil {
 				int rowCount = 0;
 				while (rs.next()) {
 					rowCount++;
-					_appendRow(dSet, rs, colNms);
+					appendRow(dSet, rs, colNms);
 				}
 				return rowCount;
 			} finally {
@@ -459,7 +459,7 @@ public class MiPlatformUtil {
 	/**
 	 * 마이플랫폼 데이타셋에 RecordSet 한행 추가
 	 */
-	private static void _appendRow(Dataset dSet, RecordSet rs, String[] colNms) {
+	private static void appendRow(Dataset dSet, RecordSet rs, String[] colNms) {
 		if (colNms == null) {
 			return;
 		}
@@ -481,7 +481,7 @@ public class MiPlatformUtil {
 	/**
 	 * 마이플랫폼 데이타셋에 ResultSet 한행 추가
 	 */
-	private static void _appendRow(Dataset dSet, ResultSet rs, String[] colNms) {
+	private static void appendRow(Dataset dSet, ResultSet rs, String[] colNms) {
 		if (colNms == null) {
 			return;
 		}

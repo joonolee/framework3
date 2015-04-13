@@ -10,43 +10,43 @@ import java.util.List;
  * Statement의 Batch 처리를 이용하기 위한 객체
  */
 public class BatchStatement extends AbstractStatement {
-	private List<String> _sqlList = new ArrayList<String>();
-	private DB _db = null;
-	private Statement _stmt = null;
-	private Object _caller = null;
+	private List<String> sqlList = new ArrayList<String>();
+	private DB db = null;
+	private Statement stmt = null;
+	private Object caller = null;
 
 	public static BatchStatement create(DB db, Object caller) {
 		return new BatchStatement(db, caller);
 	}
 
 	private BatchStatement(DB db, Object caller) {
-		_db = db;
-		_caller = caller;
+		this.db = db;
+		this.caller = caller;
 	}
 
 	public void addBatch(String sql) {
-		_sqlList.add(sql);
+		sqlList.add(sql);
 	}
 
 	protected Statement getStatement() {
 		try {
-			if (_stmt == null) {
-				_stmt = _db.getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-				_stmt.setFetchSize(100);
+			if (stmt == null) {
+				stmt = db.getConnection().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+				stmt.setFetchSize(100);
 			}
 		} catch (SQLException e) {
 			logger.error("", e);
 			throw new RuntimeException(e);
 		}
-		return _stmt;
+		return stmt;
 	}
 
 	@Override
 	public void close() {
-		if (_stmt != null) {
+		if (stmt != null) {
 			try {
-				_stmt.close();
-				_sqlList.clear();
+				stmt.close();
+				sqlList.clear();
 			} catch (SQLException e) {
 				logger.error("", e);
 				throw new RuntimeException(e);
@@ -55,23 +55,23 @@ public class BatchStatement extends AbstractStatement {
 	}
 
 	public int[] executeBatch() {
-		if (_sqlList.size() == 0) {
+		if (sqlList.size() == 0) {
 			logger.error("Query is Null");
 			return new int[] { 0 };
 		}
-		int[] _upCnts = null;
+		int[] upCnts = null;
 		try {
 			Statement stmt = getStatement();
 			if (logger.isDebugEnabled()) {
 				StringBuilder log = new StringBuilder();
-				log.append("@Sql Start (BATCH STATEMENT) FetchSize : " + stmt.getFetchSize() + " Caller : " + _caller.getClass().getName() + "\n");
+				log.append("@Sql Start (BATCH STATEMENT) FetchSize : " + stmt.getFetchSize() + " Caller : " + caller.getClass().getName() + "\n");
 				log.append("@Sql Command : \n" + getSQL());
 				logger.debug(log.toString());
 			}
-			for (int i = 0, size = _sqlList.size(); i < size; i++) {
-				stmt.addBatch(_sqlList.get(i));
+			for (int i = 0, size = sqlList.size(); i < size; i++) {
+				stmt.addBatch(sqlList.get(i));
 			}
-			_upCnts = stmt.executeBatch();
+			upCnts = stmt.executeBatch();
 			if (logger.isDebugEnabled()) {
 				logger.debug("@Sql End (BATCH STATEMENT)");
 			}
@@ -81,13 +81,13 @@ public class BatchStatement extends AbstractStatement {
 			}
 			throw new RuntimeException(e.getMessage() + "\nSQL : \n" + getSQL());
 		}
-		return _upCnts;
+		return upCnts;
 	}
 
 	public String getSQL() {
 		StringBuilder buf = new StringBuilder();
-		for (int i = 0, size = _sqlList.size(); i < size; i++) {
-			buf.append(_sqlList.get(i) + "\n");
+		for (int i = 0, size = sqlList.size(); i < size; i++) {
+			buf.append(sqlList.get(i) + "\n");
 		}
 		return buf.toString();
 	}

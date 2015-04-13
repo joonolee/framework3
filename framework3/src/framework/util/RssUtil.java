@@ -29,18 +29,18 @@ public class RssUtil {
 	private RssUtil() {
 	}
 
-	private static final String _BR = System.getProperty("line.separator");
+	private static final String BR = System.getProperty("line.separator");
 
 	/**
 	 * RssItem 객체
 	 */
 	public static class RssItem {
-		private String _title = null;
-		private String _link = null;
-		private String _description = null;
-		private String _author = null;
-		private String _category = null;
-		private Date _pubDate = null;
+		private String title = null;
+		private String link = null;
+		private String description = null;
+		private String author = null;
+		private String category = null;
+		private Date pubDate = null;
 
 		public RssItem() {
 		}
@@ -55,51 +55,51 @@ public class RssUtil {
 		}
 
 		public String getTitle() {
-			return _title;
+			return title;
 		}
 
 		public String getLink() {
-			return _link;
+			return link;
 		}
 
 		public String getDescription() {
-			return _description;
+			return description;
 		}
 
 		public String getAuthor() {
-			return _author;
+			return author;
 		}
 
 		public String getCategory() {
-			return _category;
+			return category;
 		}
 
 		public Date getPubDate() {
-			return _pubDate;
+			return pubDate;
 		}
 
 		public void setTitle(String title) {
-			_title = title;
+			this.title = title;
 		}
 
 		public void setLink(String link) {
-			_link = link;
+			this.link = link;
 		}
 
 		public void setDescription(String description) {
-			_description = description;
+			this.description = description;
 		}
 
 		public void setAuthor(String author) {
-			_author = author;
+			this.author = author;
 		}
 
 		public void setCategory(String category) {
-			_category = category;
+			this.category = category;
 		}
 
 		public void setPubDate(Date pubDate) {
-			_pubDate = pubDate;
+			this.pubDate = pubDate;
 		}
 	}
 
@@ -143,7 +143,7 @@ public class RssUtil {
 			throw new RuntimeException(e);
 		}
 		rs.moveRow(0);
-		pw.println(_xmlHeaderStr(encoding));
+		pw.println(xmlHeaderStr(encoding));
 		pw.println("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">");
 		pw.println("  <channel>");
 		pw.println("    <title>" + "<![CDATA[" + title + "]]>" + "</title>");
@@ -151,14 +151,14 @@ public class RssUtil {
 		pw.println("    <description>" + "<![CDATA[" + description + "]]>" + "</description>");
 		pw.println("    <language>ko</language>");
 		pw.println("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>");
-		pw.println("    <pubDate>" + _toRfc822DateFormat(new Date()) + "</pubDate>");
+		pw.println("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>");
 		if (webMaster != null && !"".equals(webMaster)) {
 			pw.println("    <webMaster>" + webMaster + "</webMaster>");
 		}
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			rowCount++;
-			pw.println(_rssItemStr(rs));
+			pw.println(rssItemStr(rs));
 		}
 		pw.println("  </channel>");
 		pw.println("</rss>");
@@ -183,23 +183,23 @@ public class RssUtil {
 		}
 		StringBuilder buf = new StringBuilder();
 		rs.moveRow(0);
-		buf.append(_xmlHeaderStr(encoding) + _BR);
-		buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">" + _BR);
-		buf.append("  <channel>" + _BR);
-		buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>" + _BR);
-		buf.append("    <link>" + link + "</link>" + _BR);
-		buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>" + _BR);
-		buf.append("    <language>ko</language>" + _BR);
-		buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>" + _BR);
-		buf.append("    <pubDate>" + _toRfc822DateFormat(new Date()) + "</pubDate>" + _BR);
+		buf.append(xmlHeaderStr(encoding) + BR);
+		buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">" + BR);
+		buf.append("  <channel>" + BR);
+		buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>" + BR);
+		buf.append("    <link>" + link + "</link>" + BR);
+		buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>" + BR);
+		buf.append("    <language>ko</language>" + BR);
+		buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>" + BR);
+		buf.append("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>" + BR);
 		if (webMaster != null && !"".equals(webMaster)) {
-			buf.append("    <webMaster>" + webMaster + "</webMaster>" + _BR);
+			buf.append("    <webMaster>" + webMaster + "</webMaster>" + BR);
 		}
 		while (rs.nextRow()) {
-			buf.append(_rssItemStr(rs) + _BR);
+			buf.append(rssItemStr(rs) + BR);
 		}
-		buf.append("  </channel>" + _BR);
-		buf.append("</rss>" + _BR);
+		buf.append("  </channel>" + BR);
+		buf.append("</rss>" + BR);
 		return buf.toString();
 	}
 
@@ -223,7 +223,7 @@ public class RssUtil {
 		try {
 			PrintWriter pw = response.getWriter();
 			try {
-				pw.println(_xmlHeaderStr(encoding));
+				pw.println(xmlHeaderStr(encoding));
 				pw.println("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">");
 				pw.println("  <channel>");
 				pw.println("    <title>" + "<![CDATA[" + title + "]]>" + "</title>");
@@ -231,14 +231,14 @@ public class RssUtil {
 				pw.println("    <description>" + "<![CDATA[" + description + "]]>" + "</description>");
 				pw.println("    <language>ko</language>");
 				pw.println("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>");
-				pw.println("    <pubDate>" + _toRfc822DateFormat(new Date()) + "</pubDate>");
+				pw.println("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>");
 				if (webMaster != null && !"".equals(webMaster)) {
 					pw.println("    <webMaster>" + webMaster + "</webMaster>");
 				}
 				int rowCount = 0;
 				while (rs.next()) {
 					rowCount++;
-					pw.println(_rssItemStr(rs));
+					pw.println(rssItemStr(rs));
 				}
 				pw.println("  </channel>");
 				pw.println("</rss>");
@@ -288,23 +288,23 @@ public class RssUtil {
 		StringBuilder buf = new StringBuilder();
 		try {
 			try {
-				buf.append(_xmlHeaderStr(encoding) + _BR);
-				buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">" + _BR);
-				buf.append("  <channel>" + _BR);
-				buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>" + _BR);
-				buf.append("    <link>" + link + "</link>" + _BR);
-				buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>" + _BR);
-				buf.append("    <language>ko</language>" + _BR);
-				buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>" + _BR);
-				buf.append("    <pubDate>" + _toRfc822DateFormat(new Date()) + "</pubDate>" + _BR);
+				buf.append(xmlHeaderStr(encoding) + BR);
+				buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">" + BR);
+				buf.append("  <channel>" + BR);
+				buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>" + BR);
+				buf.append("    <link>" + link + "</link>" + BR);
+				buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>" + BR);
+				buf.append("    <language>ko</language>" + BR);
+				buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>" + BR);
+				buf.append("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>" + BR);
 				if (webMaster != null && !"".equals(webMaster)) {
-					buf.append("    <webMaster>" + webMaster + "</webMaster>" + _BR);
+					buf.append("    <webMaster>" + webMaster + "</webMaster>" + BR);
 				}
 				while (rs.next()) {
-					buf.append(_rssItemStr(rs) + _BR);
+					buf.append(rssItemStr(rs) + BR);
 				}
-				buf.append("  </channel>" + _BR);
-				buf.append("</rss>" + _BR);
+				buf.append("  </channel>" + BR);
+				buf.append("</rss>" + BR);
 			} finally {
 				Statement stmt = null;
 				try {
@@ -356,7 +356,7 @@ public class RssUtil {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		pw.println(_xmlHeaderStr(encoding));
+		pw.println(xmlHeaderStr(encoding));
 		pw.println("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">");
 		pw.println("  <channel>");
 		pw.println("    <title>" + "<![CDATA[" + title + "]]>" + "</title>");
@@ -364,14 +364,14 @@ public class RssUtil {
 		pw.println("    <description>" + "<![CDATA[" + description + "]]>" + "</description>");
 		pw.println("    <language>ko</language>");
 		pw.println("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>");
-		pw.println("    <pubDate>" + _toRfc822DateFormat(new Date()) + "</pubDate>");
+		pw.println("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>");
 		if (webMaster != null && !"".equals(webMaster)) {
 			pw.println("    <webMaster>" + webMaster + "</webMaster>");
 		}
 		int rowCount = 0;
 		for (RssItem rssItem : rssItemList) {
 			rowCount++;
-			pw.println(_rssItemStr(rssItem));
+			pw.println(rssItemStr(rssItem));
 		}
 		pw.println("  </channel>");
 		pw.println("</rss>");
@@ -395,23 +395,23 @@ public class RssUtil {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
-		buf.append(_xmlHeaderStr(encoding) + _BR);
-		buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">" + _BR);
-		buf.append("  <channel>" + _BR);
-		buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>" + _BR);
-		buf.append("    <link>" + link + "</link>" + _BR);
-		buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>" + _BR);
-		buf.append("    <language>ko</language>" + _BR);
-		buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>" + _BR);
-		buf.append("    <pubDate>" + _toRfc822DateFormat(new Date()) + "</pubDate>" + _BR);
+		buf.append(xmlHeaderStr(encoding) + BR);
+		buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">" + BR);
+		buf.append("  <channel>" + BR);
+		buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>" + BR);
+		buf.append("    <link>" + link + "</link>" + BR);
+		buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>" + BR);
+		buf.append("    <language>ko</language>" + BR);
+		buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>" + BR);
+		buf.append("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>" + BR);
 		if (webMaster != null && !"".equals(webMaster)) {
-			buf.append("    <webMaster>" + webMaster + "</webMaster>" + _BR);
+			buf.append("    <webMaster>" + webMaster + "</webMaster>" + BR);
 		}
 		for (RssItem rssItem : rssItemList) {
-			buf.append(_rssItemStr(rssItem) + _BR);
+			buf.append(rssItemStr(rssItem) + BR);
 		}
-		buf.append("  </channel>" + _BR);
-		buf.append("</rss>" + _BR);
+		buf.append("  </channel>" + BR);
+		buf.append("</rss>" + BR);
 		return buf.toString();
 	}
 
@@ -420,14 +420,14 @@ public class RssUtil {
 	/**
 	 *  xml 헤더 문자열 생성
 	 */
-	private static String _xmlHeaderStr(String encoding) {
+	private static String xmlHeaderStr(String encoding) {
 		return "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>";
 	}
 
 	/**
 	 * rss item 문자열 생성
 	 */
-	private static String _rssItemStr(RssItem item) {
+	private static String rssItemStr(RssItem item) {
 		StringBuilder buf = new StringBuilder();
 		buf.append("    "); // 들여쓰기용
 		buf.append("<item>");
@@ -436,7 +436,7 @@ public class RssUtil {
 		if (item.getLink() != null && !"".equals(item.getLink()))
 			buf.append("<link>" + item.getLink() + "</link>");
 		if (item.getDescription() != null && !"".equals(item.getDescription()))
-			buf.append("<description>" + "<![CDATA[" + item.getDescription().replaceAll(_BR, "") + "]]>" + "</description>");
+			buf.append("<description>" + "<![CDATA[" + item.getDescription().replaceAll(BR, "") + "]]>" + "</description>");
 		if (item.getAuthor() != null && !"".equals(item.getAuthor()))
 			buf.append("<author>" + item.getAuthor() + "</author>");
 		if (item.getCategory() != null && !"".equals(item.getCategory()))
@@ -444,7 +444,7 @@ public class RssUtil {
 		if (item.getLink() != null && !"".equals(item.getLink()))
 			buf.append("<guid>" + item.getLink() + "</guid>");
 		if (item.getPubDate() != null)
-			buf.append("<pubDate>" + _toRfc822DateFormat(item.getPubDate()) + "</pubDate>");
+			buf.append("<pubDate>" + toRfc822DateFormat(item.getPubDate()) + "</pubDate>");
 		buf.append("</item>");
 		return buf.toString();
 	}
@@ -452,14 +452,14 @@ public class RssUtil {
 	/**
 	 * rss item 문자열 생성
 	 */
-	private static String _rssItemStr(RecordSet rs) {
-		return _rssItemStr(makeRssItem(rs.getString("TITLE"), rs.getString("LINK"), rs.getString("DESCRIPTION"), rs.getString("AUTHOR"), rs.getString("CATEGORY"), rs.getTimestamp("PUBDATE")));
+	private static String rssItemStr(RecordSet rs) {
+		return rssItemStr(makeRssItem(rs.getString("TITLE"), rs.getString("LINK"), rs.getString("DESCRIPTION"), rs.getString("AUTHOR"), rs.getString("CATEGORY"), rs.getTimestamp("PUBDATE")));
 	}
 
 	/**
 	 * rss item 문자열 생성
 	 */
-	private static String _rssItemStr(ResultSet rs) {
+	private static String rssItemStr(ResultSet rs) {
 		String title = null;
 		String link = null;
 		String description = null;
@@ -476,7 +476,7 @@ public class RssUtil {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		return _rssItemStr(makeRssItem(title, link, description, author, category, pubDate));
+		return rssItemStr(makeRssItem(title, link, description, author, category, pubDate));
 	}
 
 	/**
@@ -484,7 +484,7 @@ public class RssUtil {
 	 * @param date 변환할 날짜
 	 * @return Rfc822 형식의 날짜 문자열
 	 */
-	private static String _toRfc822DateFormat(Date date) {
+	private static String toRfc822DateFormat(Date date) {
 		SimpleDateFormat rfc822DateFormat = new SimpleDateFormat("EEE', 'dd' 'MMM' 'yyyy' 'HH:mm:ss' 'Z", Locale.US);
 		return rfc822DateFormat.format(date);
 	}
