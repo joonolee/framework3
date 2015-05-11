@@ -232,42 +232,6 @@ public class XmlUtil {
 	}
 
 	/**
-	 * Map객체를 xml 형식으로 변환한다 (xml 헤더 미포함). 
-	 * <br>
-	 * ex) map을 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(map)
-	 * @param map 변환할 Map객체
-	 * @return xml 형식으로 변환된 문자열
-	 */
-	public static String render(RecordMap map) {
-		if (map == null) {
-			return "";
-		}
-		StringBuilder buffer = new StringBuilder();
-		buffer.append("<items>");
-		buffer.append(xmlItemStr(map));
-		buffer.append("</items>");
-		return buffer.toString();
-	}
-
-	/**
-	 * Map객체를 xml 형식으로 변환한다 (xml 헤더포함). 
-	 * <br>
-	 * ex) map을 xml 형식으로 변환하는 경우  : String xml = XmlUtil.render(map, "utf-8")
-	 * @param map 변환할 Map객체
-	 * @param encoding 헤더에 포함될 인코딩
-	 * @return xml 형식으로 변환된 문자열
-	 */
-	public static String render(RecordMap map, String encoding) {
-		if (map == null) {
-			return "";
-		}
-		StringBuilder buffer = new StringBuilder();
-		buffer.append(xmlHeaderStr(encoding));
-		buffer.append(render(map));
-		return buffer.toString();
-	}
-
-	/**
 	 * List객체를 xml 형식으로 출력한다. (xml 헤더포함). 
 	 * <br>
 	 * ex) response로 mapList를 xml 형식으로 출력하는 경우 : XmlUtil.render(response, mapList, "utf-8")
@@ -332,6 +296,68 @@ public class XmlUtil {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append(xmlHeaderStr(encoding));
 		buffer.append(render(mapList));
+		return buffer.toString();
+	}
+
+	/**
+	 * Map객체를 xml 형식으로 출력한다. (xml 헤더포함). 
+	 * <br>
+	 * ex) response로 map을 xml 형식으로 출력하는 경우 : XmlUtil.render(response, map, "utf-8")
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param map 변환할 Map객체
+	 * @param encoding 헤더에 포함될 인코딩
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, RecordMap map, String encoding) {
+		if (map == null) {
+			return 0;
+		}
+		PrintWriter pw;
+		try {
+			pw = response.getWriter();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		pw.print(xmlHeaderStr(encoding));
+		pw.print("<items>");
+		pw.print(xmlItemStr(map));
+		pw.print("</items>");
+		return 1;
+	}
+
+	/**
+	 * Map객체를 xml 형식으로 변환한다 (xml 헤더 미포함). 
+	 * <br>
+	 * ex) map을 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(map)
+	 * @param map 변환할 Map객체
+	 * @return xml 형식으로 변환된 문자열
+	 */
+	public static String render(RecordMap map) {
+		if (map == null) {
+			return "";
+		}
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("<items>");
+		buffer.append(xmlItemStr(map));
+		buffer.append("</items>");
+		return buffer.toString();
+	}
+
+	/**
+	 * Map객체를 xml 형식으로 변환한다 (xml 헤더포함). 
+	 * <br>
+	 * ex) map을 xml 형식으로 변환하는 경우  : String xml = XmlUtil.render(map, "utf-8")
+	 * @param map 변환할 Map객체
+	 * @param encoding 헤더에 포함될 인코딩
+	 * @return xml 형식으로 변환된 문자열
+	 */
+	public static String render(RecordMap map, String encoding) {
+		if (map == null) {
+			return "";
+		}
+		StringBuilder buffer = new StringBuilder();
+		buffer.append(xmlHeaderStr(encoding));
+		buffer.append(render(map));
 		return buffer.toString();
 	}
 
