@@ -3,7 +3,9 @@ package framework.action;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -251,6 +253,43 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 Date 객체
+	 */
+	public Date getDate(String key) {
+		String str = getString(key);
+		if ("".equals(str)) {
+			return null;
+		}
+		java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.KOREA);
+		try {
+			return formater.parse(str);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param format 문자열 포맷(예, yyyy-MM-dd HH:mm:ss)
+	 * @return key에 매핑되어 있는 Date 객체
+	 */
+	public Date getDate(String key, String format) {
+		String str = getString(key);
+		if ("".equals(str)) {
+			return null;
+		}
+		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat(format, java.util.Locale.KOREA);
+		try {
+			return formatter.parse(str);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+
+	/** 
 	 * 키(key)문자열과 매핑되어 있는 Timestamp 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 Timestamp 객체
@@ -261,7 +300,6 @@ public class Params extends HashMap<String, String[]> {
 			return null;
 		}
 		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("HH:mm:ss.SSS", java.util.Locale.KOREA);
-		formatter.format(new java.util.Date());
 		return Timestamp.valueOf(str + " " + formatter.format(new java.util.Date()));
 	}
 
