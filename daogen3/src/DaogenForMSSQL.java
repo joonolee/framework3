@@ -254,7 +254,7 @@ public class DaogenForMSSQL {
 				return "BigDecimal";
 			}
 		case Types.DATE:
-			return "String";
+			return "Date";
 		default:
 			return "String";
 		}
