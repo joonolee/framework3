@@ -2,7 +2,6 @@ package framework.db;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -102,6 +101,9 @@ public class BatchPreparedStatement extends AbstractStatement {
 						} else {
 							pstmt.setBinaryStream(i, null, 0);
 						}
+					} else if (param instanceof java.util.Date) {
+						java.util.Date d = (java.util.Date) param;
+						pstmt.setObject(i, new java.sql.Timestamp(d.getTime()));
 					} else {
 						pstmt.setObject(i, param);
 					}
@@ -146,8 +148,11 @@ public class BatchPreparedStatement extends AbstractStatement {
 					value = param.get(qMarkCount++);
 					if (value == null || "".equals(value)) {
 						value = "NULL";
-					} else if (value instanceof CharSequence || value instanceof Date) {
+					} else if (value instanceof CharSequence || value instanceof java.util.Date) {
 						value = "'" + value + "'";
+					} else if (value instanceof java.util.Date) {
+						java.util.Date d = (java.util.Date) value;
+						value = "'" + new java.sql.Timestamp(d.getTime()) + "'";
 					}
 				} else {
 					if (token.hasMoreTokens()) {
