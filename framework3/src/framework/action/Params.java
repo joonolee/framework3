@@ -261,7 +261,7 @@ public class Params extends HashMap<String, String[]> {
 		if ("".equals(str)) {
 			return null;
 		}
-		java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.KOREA);
+		java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.KOREA);
 		try {
 			return formater.parse(str);
 		} catch (ParseException e) {
