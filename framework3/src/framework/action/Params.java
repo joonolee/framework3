@@ -253,7 +253,7 @@ public class Params extends HashMap<String, String[]> {
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열
+	 * @param key 값을 찾기 위한 키 문자열(기본형식: yyyy-MM-dd)
 	 * @return key에 매핑되어 있는 Date 객체
 	 */
 	public Date getDate(String key) {
