@@ -2,7 +2,6 @@ package framework.action;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -273,7 +272,7 @@ public class Params extends HashMap<String, String[]> {
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @param format 문자열 포맷(예, yyyy-MM-dd HH:mm:ss)
+	 * @param format 날짜 포맷(예, yyyy-MM-dd HH:mm:ss)
 	 * @return key에 매핑되어 있는 Date 객체
 	 */
 	public Date getDate(String key, String format) {
@@ -287,20 +286,6 @@ public class Params extends HashMap<String, String[]> {
 		} catch (ParseException e) {
 			return null;
 		}
-	}
-
-	/** 
-	 * 키(key)문자열과 매핑되어 있는 Timestamp 객체를 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 Timestamp 객체
-	 */
-	public Timestamp getTimestamp(String key) {
-		String str = getString(key);
-		if ("".equals(str)) {
-			return null;
-		}
-		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("HH:mm:ss.SSS", java.util.Locale.KOREA);
-		return Timestamp.valueOf(str + " " + formatter.format(new java.util.Date()));
 	}
 
 	/**
