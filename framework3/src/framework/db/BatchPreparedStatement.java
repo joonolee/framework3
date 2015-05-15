@@ -148,7 +148,7 @@ public class BatchPreparedStatement extends AbstractStatement {
 					value = param.get(qMarkCount++);
 					if (value == null || "".equals(value)) {
 						value = "NULL";
-					} else if (value instanceof CharSequence || value instanceof java.util.Date) {
+					} else if (value instanceof CharSequence) {
 						value = "'" + value + "'";
 					} else if (value instanceof java.util.Date) {
 						java.util.Date d = (java.util.Date) value;

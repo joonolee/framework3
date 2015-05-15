@@ -61,10 +61,14 @@ public class PreparedStatement extends AbstractStatement {
 			java.sql.PreparedStatement pstmt = getPrepareStatment();
 			if (getParamSize() > 0) {
 				for (int i = 1; i <= getParamSize(); i++) {
-					if (getObject(i - 1) == null || "".equals(getObject(i - 1))) {
+					Object param = getObject(i - 1);
+					if (param == null || "".equals(param)) {
 						pstmt.setNull(i, java.sql.Types.VARCHAR);
+					} else if (param instanceof java.util.Date) {
+						java.util.Date d = (java.util.Date) param;
+						pstmt.setObject(i, new java.sql.Timestamp(d.getTime()));
 					} else {
-						pstmt.setObject(i, getObject(i - 1));
+						pstmt.setObject(i, param);
 					}
 				}
 			}
