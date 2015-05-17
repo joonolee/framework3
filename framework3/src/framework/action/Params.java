@@ -234,6 +234,15 @@ public class Params extends HashMap<String, String[]> {
 			case '>':
 				result.append("&gt;");
 				break;
+			case '\'':
+				result.append("&#39;");
+				break;
+			case '"':
+				result.append("&quot;");
+				break;
+			case '&':
+				result.append("&amp;");
+				break;
 			default:
 				result.append(str.charAt(i));
 				break;
