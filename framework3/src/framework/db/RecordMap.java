@@ -1,7 +1,9 @@
 package framework.db;
 
 import java.math.BigDecimal;
+import java.sql.Clob;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
@@ -17,6 +19,14 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 
 	@Override
 	public Object put(String key, Object value) {
+		if (value instanceof Clob) {
+			Clob clob = (Clob) value;
+			try {
+				value = clob.getSubString(1, (int) clob.length());
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
 		return super.put(key.toLowerCase(), value);
 	}
 
