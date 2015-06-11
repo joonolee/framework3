@@ -38,7 +38,7 @@ public class JdbcDaoSupport {
 		if (where == null) {
 			return statmentSelect(query, currPage, pageSize);
 		} else {
-			return prepardSelect(query, where, currPage, pageSize);
+			return preparedSelect(query, where, currPage, pageSize);
 		}
 	}
 
@@ -50,7 +50,7 @@ public class JdbcDaoSupport {
 		if (where == null) {
 			return statmentUpdate(query);
 		} else {
-			return prepardUpdate(query, where);
+			return preparedUpdate(query, where);
 		}
 	}
 
@@ -62,11 +62,11 @@ public class JdbcDaoSupport {
 		if (where == null) {
 			return statmentBatch(new String[] { query });
 		} else {
-			return prepardBatch(query, where);
+			return preparedBatch(query, where);
 		}
 	}
 
-	private RecordSet prepardSelect(String query, Object[] where, int currPage, int pageSize) {
+	private RecordSet preparedSelect(String query, Object[] where, int currPage, int pageSize) {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = this.db.createPrepareStatement(query);
@@ -91,7 +91,7 @@ public class JdbcDaoSupport {
 		}
 	}
 
-	private int prepardUpdate(String query, Object[] where) {
+	private int preparedUpdate(String query, Object[] where) {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = this.db.createPrepareStatement(query);
@@ -116,7 +116,7 @@ public class JdbcDaoSupport {
 		}
 	}
 
-	private int[] prepardBatch(String query, Object[] where) {
+	private int[] preparedBatch(String query, Object[] where) {
 		BatchPreparedStatement pstmt = null;
 		try {
 			pstmt = this.db.createBatchPrepareStatement(query);
