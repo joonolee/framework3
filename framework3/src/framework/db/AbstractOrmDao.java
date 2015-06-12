@@ -79,48 +79,7 @@ public abstract class AbstractOrmDao {
 		return result;
 	}
 
-	public int[] save2(ValueObjectArray voArray) {
-		int result[] = null;
-		if (this.db == null) {
-			logger.error("Can't open DB Connection!");
-			return null;
-		}
-		if (voArray.size() == 0) {
-			return new int[] { 0 };
-		}
-		result = new int[voArray.size()];
-		int cnt = 0;
-		cnt += executeArray2(voArray, ValueObjectArray.INSERT, result, cnt);
-		cnt += executeArray2(voArray, ValueObjectArray.UPDATE, result, cnt);
-		cnt += executeArray2(voArray, ValueObjectArray.DELETE, result, cnt);
-		cnt += executeArray2(voArray, ValueObjectArray.UPDATE_ONLY, result, cnt);
-		cnt += executeArray2(voArray, ValueObjectArray.USER_DELETE, result, cnt);
-		cnt += executeArray2(voArray, ValueObjectArray.USER_UPDATE, result, cnt);
-		return result;
-	}
-
 	private int executeArray(ValueObjectArray vo, String type, int[] result, int cnt) {
-		ValueObject[] values = null;
-		values = vo.get(type);
-		if (values == null || values.length == 0) {
-			return 0;
-		}
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = this.db.createPrepareStatement(getSaveSql(type, vo.getUserKeys(), vo.getUserFields()));
-			for (int i = 0; i < values.length; i++) {
-				pstmt.set(getSaveValue(values[i], type, vo.getUserKeys(), vo.getUserFields()));
-				result[cnt++] = pstmt.executeUpdate();
-			}
-		} finally {
-			if (pstmt != null) {
-				pstmt.close();
-			}
-		}
-		return values.length;
-	}
-
-	private int executeArray2(ValueObjectArray vo, String type, int[] result, int cnt) {
 		ValueObject[] values = null;
 		values = vo.get(type);
 		if (values == null || values.length == 0) {
