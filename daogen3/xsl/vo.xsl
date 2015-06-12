@@ -9,7 +9,7 @@
  * @(#)<xsl:value-of select="@class"/>VO.java
  * <xsl:value-of select="@class"/> Table VO INFO
  */
-package _com.vo;
+package com.vo;
 
 import java.util.*;
 
