@@ -34,7 +34,7 @@ import framework.db.DB;
  */
 public abstract class Controller {
 	private static final String FLASH_SCOPE_OBJECT_KEY = "___FLASH_SCOPE_OBJECT___";
-	private Map<String, DB> dbMap = new HashMap<String, DB>();
+	private final Map<String, DB> dbMap = new HashMap<String, DB>();
 
 	/**
 	 * 서블릿 컨텍스트 객체
@@ -364,6 +364,7 @@ public abstract class Controller {
 	private void beforeFilter() throws Throwable {
 		List<Method> beforeMethods = getAnnotationMethods(Before.class);
 		Collections.sort(beforeMethods, new Comparator<Method>() {
+			@Override
 			public int compare(Method m1, Method m2) {
 				Before before1 = m1.getAnnotation(Before.class);
 				Before before2 = m2.getAnnotation(Before.class);
@@ -414,6 +415,7 @@ public abstract class Controller {
 	private void afterFilter() throws Throwable {
 		List<Method> afterMethods = getAnnotationMethods(After.class);
 		Collections.sort(afterMethods, new Comparator<Method>() {
+			@Override
 			public int compare(Method m1, Method m2) {
 				After after1 = m1.getAnnotation(After.class);
 				After after2 = m2.getAnnotation(After.class);
@@ -464,6 +466,7 @@ public abstract class Controller {
 	private void catchFilter(Throwable e) throws Throwable {
 		List<Method> catchMethods = getAnnotationMethods(Catch.class);
 		Collections.sort(catchMethods, new Comparator<Method>() {
+			@Override
 			public int compare(Method m1, Method m2) {
 				Catch catch1 = m1.getAnnotation(Catch.class);
 				Catch catch2 = m2.getAnnotation(Catch.class);
@@ -499,6 +502,7 @@ public abstract class Controller {
 	private void finallyFilter() throws Throwable {
 		List<Method> finallyMethods = getAnnotationMethods(Finally.class);
 		Collections.sort(finallyMethods, new Comparator<Method>() {
+			@Override
 			public int compare(Method m1, Method m2) {
 				Finally finally1 = m1.getAnnotation(Finally.class);
 				Finally finally2 = m2.getAnnotation(Finally.class);
