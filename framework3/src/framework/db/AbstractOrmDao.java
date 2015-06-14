@@ -104,34 +104,36 @@ public abstract class AbstractOrmDao {
 	}
 
 	private String getSaveSql(String type, String[] keys, String[] fields) {
-		if (type.equals(ValueObjectArray.INSERT))
+		if (type.equals(ValueObjectArray.INSERT)) {
 			return getInsertSql();
-		else if (type.equals(ValueObjectArray.UPDATE))
+		} else if (type.equals(ValueObjectArray.UPDATE)) {
 			return getUpdateSql();
-		else if (type.equals(ValueObjectArray.DELETE))
+		} else if (type.equals(ValueObjectArray.DELETE)) {
 			return getDeleteSql();
-		else if (type.equals(ValueObjectArray.UPDATE_ONLY))
+		} else if (type.equals(ValueObjectArray.UPDATE_ONLY)) {
 			return getUpdateOnlySql(fields);
-		else if (type.equals(ValueObjectArray.USER_UPDATE))
+		} else if (type.equals(ValueObjectArray.USER_UPDATE)) {
 			return getUserUpdateOnlySql(fields, keys);
-		else if (type.equals(ValueObjectArray.USER_DELETE))
+		} else if (type.equals(ValueObjectArray.USER_DELETE)) {
 			return getUserDeleteSql(keys);
+		}
 		return null;
 	}
 
 	private Object[] getSaveValue(ValueObject vo, String type, String[] keys, String[] fields) {
-		if (type.equals(ValueObjectArray.INSERT))
+		if (type.equals(ValueObjectArray.INSERT)) {
 			return vo.getInsertValue();
-		else if (type.equals(ValueObjectArray.UPDATE))
+		} else if (type.equals(ValueObjectArray.UPDATE)) {
 			return vo.getUpdateValue();
-		else if (type.equals(ValueObjectArray.DELETE))
+		} else if (type.equals(ValueObjectArray.DELETE)) {
 			return vo.getPrimaryKeysValue();
-		else if (type.equals(ValueObjectArray.UPDATE_ONLY))
+		} else if (type.equals(ValueObjectArray.UPDATE_ONLY)) {
 			return vo.getUpdateOnlyValue(fields);
-		else if (type.equals(ValueObjectArray.USER_UPDATE))
+		} else if (type.equals(ValueObjectArray.USER_UPDATE)) {
 			return vo.getUserUpdateOnlyValue(fields, keys);
-		else if (type.equals(ValueObjectArray.USER_DELETE))
+		} else if (type.equals(ValueObjectArray.USER_DELETE)) {
 			return vo.getUserDeleteValue(keys);
+		}
 		return null;
 	}
 

@@ -30,6 +30,9 @@ public class BatchPreparedStatement extends AbstractStatement {
 	}
 
 	public void addBatch(Object[] where) {
+		if (where == null) {
+			return;
+		}
 		List<Object> param = new ArrayList<Object>();
 		for (Object obj : where) {
 			param.add(obj);
