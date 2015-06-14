@@ -363,47 +363,49 @@ public abstract class Controller {
 	 */
 	private void beforeFilter() throws Throwable {
 		List<Method> beforeMethods = getAnnotationMethods(Before.class);
-		Collections.sort(beforeMethods, new Comparator<Method>() {
-			@Override
-			public int compare(Method m1, Method m2) {
-				Before before1 = m1.getAnnotation(Before.class);
-				Before before2 = m2.getAnnotation(Before.class);
-				return before1.priority() - before2.priority();
-			}
-		});
-		for (Method beforeMethod : beforeMethods) {
-			String[] only = beforeMethod.getAnnotation(Before.class).only();
-			String[] unless = beforeMethod.getAnnotation(Before.class).unless();
-			boolean skip = false;
-			for (String o : only) {
-				if (!o.contains(".")) {
-					o = getClass().getName() + "." + o;
+		if (!beforeMethods.isEmpty()) {
+			Collections.sort(beforeMethods, new Comparator<Method>() {
+				@Override
+				public int compare(Method m1, Method m2) {
+					Before before1 = m1.getAnnotation(Before.class);
+					Before before2 = m2.getAnnotation(Before.class);
+					return before1.priority() - before2.priority();
 				}
-				if (o.equals(this.actionName)) {
-					skip = false;
-					break;
-				} else {
-					skip = true;
+			});
+			for (Method beforeMethod : beforeMethods) {
+				String[] only = beforeMethod.getAnnotation(Before.class).only();
+				String[] unless = beforeMethod.getAnnotation(Before.class).unless();
+				boolean skip = false;
+				for (String o : only) {
+					if (!o.contains(".")) {
+						o = getClass().getName() + "." + o;
+					}
+					if (o.equals(this.actionName)) {
+						skip = false;
+						break;
+					} else {
+						skip = true;
+					}
 				}
-			}
-			for (String u : unless) {
-				if (!u.contains(".")) {
-					u = getClass().getName() + "." + u;
+				for (String u : unless) {
+					if (!u.contains(".")) {
+						u = getClass().getName() + "." + u;
+					}
+					if (u.equals(this.actionName)) {
+						skip = true;
+						break;
+					}
 				}
-				if (u.equals(this.actionName)) {
-					skip = true;
-					break;
-				}
-			}
-			if (!skip) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("@Before Class : " + beforeMethod.getDeclaringClass().getName() + ", Method : " + beforeMethod.getName());
-				}
-				beforeMethod.setAccessible(true);
-				try {
-					beforeMethod.invoke(this, (Object[]) null);
-				} catch (InvocationTargetException e) {
-					throw e.getCause();
+				if (!skip) {
+					if (logger.isDebugEnabled()) {
+						logger.debug("@Before Class : " + beforeMethod.getDeclaringClass().getName() + ", Method : " + beforeMethod.getName());
+					}
+					beforeMethod.setAccessible(true);
+					try {
+						beforeMethod.invoke(this, (Object[]) null);
+					} catch (InvocationTargetException e) {
+						throw e.getCause();
+					}
 				}
 			}
 		}
@@ -414,47 +416,49 @@ public abstract class Controller {
 	 */
 	private void afterFilter() throws Throwable {
 		List<Method> afterMethods = getAnnotationMethods(After.class);
-		Collections.sort(afterMethods, new Comparator<Method>() {
-			@Override
-			public int compare(Method m1, Method m2) {
-				After after1 = m1.getAnnotation(After.class);
-				After after2 = m2.getAnnotation(After.class);
-				return after1.priority() - after2.priority();
-			}
-		});
-		for (Method afterMethod : afterMethods) {
-			String[] only = afterMethod.getAnnotation(After.class).only();
-			String[] unless = afterMethod.getAnnotation(After.class).unless();
-			boolean skip = false;
-			for (String o : only) {
-				if (!o.contains(".")) {
-					o = getClass().getName() + "." + o;
+		if (!afterMethods.isEmpty()) {
+			Collections.sort(afterMethods, new Comparator<Method>() {
+				@Override
+				public int compare(Method m1, Method m2) {
+					After after1 = m1.getAnnotation(After.class);
+					After after2 = m2.getAnnotation(After.class);
+					return after1.priority() - after2.priority();
 				}
-				if (o.equals(this.actionName)) {
-					skip = false;
-					break;
-				} else {
-					skip = true;
+			});
+			for (Method afterMethod : afterMethods) {
+				String[] only = afterMethod.getAnnotation(After.class).only();
+				String[] unless = afterMethod.getAnnotation(After.class).unless();
+				boolean skip = false;
+				for (String o : only) {
+					if (!o.contains(".")) {
+						o = getClass().getName() + "." + o;
+					}
+					if (o.equals(this.actionName)) {
+						skip = false;
+						break;
+					} else {
+						skip = true;
+					}
 				}
-			}
-			for (String u : unless) {
-				if (!u.contains(".")) {
-					u = getClass().getName() + "." + u;
+				for (String u : unless) {
+					if (!u.contains(".")) {
+						u = getClass().getName() + "." + u;
+					}
+					if (u.equals(this.actionName)) {
+						skip = true;
+						break;
+					}
 				}
-				if (u.equals(this.actionName)) {
-					skip = true;
-					break;
-				}
-			}
-			if (!skip) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("@After Class : " + afterMethod.getDeclaringClass().getName() + ", Method : " + afterMethod.getName());
-				}
-				afterMethod.setAccessible(true);
-				try {
-					afterMethod.invoke(this, (Object[]) null);
-				} catch (InvocationTargetException e) {
-					throw e.getCause();
+				if (!skip) {
+					if (logger.isDebugEnabled()) {
+						logger.debug("@After Class : " + afterMethod.getDeclaringClass().getName() + ", Method : " + afterMethod.getName());
+					}
+					afterMethod.setAccessible(true);
+					try {
+						afterMethod.invoke(this, (Object[]) null);
+					} catch (InvocationTargetException e) {
+						throw e.getCause();
+					}
 				}
 			}
 		}
@@ -465,31 +469,33 @@ public abstract class Controller {
 	 */
 	private void catchFilter(Throwable e) throws Throwable {
 		List<Method> catchMethods = getAnnotationMethods(Catch.class);
-		Collections.sort(catchMethods, new Comparator<Method>() {
-			@Override
-			public int compare(Method m1, Method m2) {
-				Catch catch1 = m1.getAnnotation(Catch.class);
-				Catch catch2 = m2.getAnnotation(Catch.class);
-				return catch1.priority() - catch2.priority();
-			}
-		});
-		for (Method catchMethod : catchMethods) {
-			Class<?>[] exceptionClasses = catchMethod.getAnnotation(Catch.class).value();
-			if (exceptionClasses.length == 0) {
-				exceptionClasses = new Class<?>[] { Exception.class };
-			}
-			for (Class<?> exceptionClass : exceptionClasses) {
-				if (exceptionClass.isInstance(e)) {
-					if (logger.isDebugEnabled()) {
-						logger.debug("@Catch Class : " + catchMethod.getDeclaringClass().getName() + ", Method : " + catchMethod.getName());
+		if (!catchMethods.isEmpty()) {
+			Collections.sort(catchMethods, new Comparator<Method>() {
+				@Override
+				public int compare(Method m1, Method m2) {
+					Catch catch1 = m1.getAnnotation(Catch.class);
+					Catch catch2 = m2.getAnnotation(Catch.class);
+					return catch1.priority() - catch2.priority();
+				}
+			});
+			for (Method catchMethod : catchMethods) {
+				Class<?>[] exceptionClasses = catchMethod.getAnnotation(Catch.class).value();
+				if (exceptionClasses.length == 0) {
+					exceptionClasses = new Class<?>[] { Exception.class };
+				}
+				for (Class<?> exceptionClass : exceptionClasses) {
+					if (exceptionClass.isInstance(e)) {
+						if (logger.isDebugEnabled()) {
+							logger.debug("@Catch Class : " + catchMethod.getDeclaringClass().getName() + ", Method : " + catchMethod.getName());
+						}
+						catchMethod.setAccessible(true);
+						try {
+							catchMethod.invoke(this, e);
+						} catch (InvocationTargetException ie) {
+							throw ie.getCause();
+						}
+						break;
 					}
-					catchMethod.setAccessible(true);
-					try {
-						catchMethod.invoke(this, e);
-					} catch (InvocationTargetException ie) {
-						throw ie.getCause();
-					}
-					break;
 				}
 			}
 		}
@@ -501,47 +507,49 @@ public abstract class Controller {
 	 */
 	private void finallyFilter() throws Throwable {
 		List<Method> finallyMethods = getAnnotationMethods(Finally.class);
-		Collections.sort(finallyMethods, new Comparator<Method>() {
-			@Override
-			public int compare(Method m1, Method m2) {
-				Finally finally1 = m1.getAnnotation(Finally.class);
-				Finally finally2 = m2.getAnnotation(Finally.class);
-				return finally1.priority() - finally2.priority();
-			}
-		});
-		for (Method finallyMethod : finallyMethods) {
-			String[] only = finallyMethod.getAnnotation(Finally.class).only();
-			String[] unless = finallyMethod.getAnnotation(Finally.class).unless();
-			boolean skip = false;
-			for (String o : only) {
-				if (!o.contains(".")) {
-					o = getClass().getName() + "." + o;
+		if (!finallyMethods.isEmpty()) {
+			Collections.sort(finallyMethods, new Comparator<Method>() {
+				@Override
+				public int compare(Method m1, Method m2) {
+					Finally finally1 = m1.getAnnotation(Finally.class);
+					Finally finally2 = m2.getAnnotation(Finally.class);
+					return finally1.priority() - finally2.priority();
 				}
-				if (o.equals(this.actionName)) {
-					skip = false;
-					break;
-				} else {
-					skip = true;
+			});
+			for (Method finallyMethod : finallyMethods) {
+				String[] only = finallyMethod.getAnnotation(Finally.class).only();
+				String[] unless = finallyMethod.getAnnotation(Finally.class).unless();
+				boolean skip = false;
+				for (String o : only) {
+					if (!o.contains(".")) {
+						o = getClass().getName() + "." + o;
+					}
+					if (o.equals(this.actionName)) {
+						skip = false;
+						break;
+					} else {
+						skip = true;
+					}
 				}
-			}
-			for (String u : unless) {
-				if (!u.contains(".")) {
-					u = getClass().getName() + "." + u;
+				for (String u : unless) {
+					if (!u.contains(".")) {
+						u = getClass().getName() + "." + u;
+					}
+					if (u.equals(this.actionName)) {
+						skip = true;
+						break;
+					}
 				}
-				if (u.equals(this.actionName)) {
-					skip = true;
-					break;
-				}
-			}
-			if (!skip) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("@Finally Class : " + finallyMethod.getDeclaringClass().getName() + ", Method : " + finallyMethod.getName());
-				}
-				finallyMethod.setAccessible(true);
-				try {
-					finallyMethod.invoke(this, (Object[]) null);
-				} catch (InvocationTargetException e) {
-					throw e.getCause();
+				if (!skip) {
+					if (logger.isDebugEnabled()) {
+						logger.debug("@Finally Class : " + finallyMethod.getDeclaringClass().getName() + ", Method : " + finallyMethod.getName());
+					}
+					finallyMethod.setAccessible(true);
+					try {
+						finallyMethod.invoke(this, (Object[]) null);
+					} catch (InvocationTargetException e) {
+						throw e.getCause();
+					}
 				}
 			}
 		}
