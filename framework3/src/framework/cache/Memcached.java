@@ -25,7 +25,7 @@ public class Memcached extends AbstractCache {
 	/**
 	 * 캐시 클라이언트
 	 */
-	private MemcachedClient client;
+	private final MemcachedClient client;
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

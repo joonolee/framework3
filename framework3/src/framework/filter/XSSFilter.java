@@ -17,32 +17,32 @@ import javax.servlet.http.HttpServletRequestWrapper;
  */
 public class XSSFilter implements Filter {
 	// Avoid anything between script tags
-	private Pattern scriptPattern1 = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
+	private final Pattern scriptPattern1 = Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE);
 
 	// Avoid anything in a src='...' type of expression
-	private Pattern scriptPattern2 = Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-	private Pattern scriptPattern3 = Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private final Pattern scriptPattern2 = Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private final Pattern scriptPattern3 = Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	// Remove any lonesome </script> tag
-	private Pattern scriptPattern4 = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
+	private final Pattern scriptPattern4 = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
 
 	// Remove any lonesome <script ...> tag
-	private Pattern scriptPattern5 = Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private final Pattern scriptPattern5 = Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	// Avoid eval(...) expressions
-	private Pattern scriptPattern6 = Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private final Pattern scriptPattern6 = Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	// Avoid expression(...) expressions
-	private Pattern scriptPattern7 = Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private final Pattern scriptPattern7 = Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	// Avoid javascript:... expressions
-	private Pattern scriptPattern8 = Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE);
+	private final Pattern scriptPattern8 = Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE);
 
 	// Avoid vbscript:... expressions
-	private Pattern scriptPattern9 = Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE);
+	private final Pattern scriptPattern9 = Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE);
 
 	// Avoid onload= expressions
-	private Pattern scriptPattern10 = Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private final Pattern scriptPattern10 = Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {

@@ -26,7 +26,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	private String[] colInfo = null;
 	private int[] columnsType = null;
 	//Rows의 값
-	private List<RecordMap> rows = new ArrayList<RecordMap>();
+	private final List<RecordMap> rows = new ArrayList<RecordMap>();
 	private int currow = 0;
 
 	public RecordSet() {

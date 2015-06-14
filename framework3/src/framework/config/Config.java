@@ -15,7 +15,7 @@ public class Config {
 		bundle = ResourceBundle.getBundle(NAME);
 	}
 
-	/** 
+	/**
 	 * 객체의 인스턴스를 리턴해준다.
 	 * @return Configuration 객체의 인스턴스
 	 */

@@ -19,12 +19,12 @@ public class EhCache extends AbstractCache {
 	/**
 	 * 캐시 매니저
 	 */
-	private CacheManager cacheManager;
+	private final CacheManager cacheManager;
 
 	/**
 	 * 캐시 오브젝트
 	 */
-	private net.sf.ehcache.Cache cache;
+	private final net.sf.ehcache.Cache cache;
 
 	/**
 	 * 기본 캐시 이름

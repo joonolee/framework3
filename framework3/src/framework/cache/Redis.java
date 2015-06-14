@@ -27,7 +27,7 @@ public class Redis extends AbstractCache {
 	 */
 	private static Redis uniqueInstance;
 
-	/** 
+	/**
 	 * 타임아웃 값 (ms)
 	 */
 	private static final int TIMEOUT = 500;
@@ -35,7 +35,7 @@ public class Redis extends AbstractCache {
 	/**
 	 * 캐시 클라이언트 Pool
 	 */
-	private ShardedJedisPool pool;
+	private final ShardedJedisPool pool;
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

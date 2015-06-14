@@ -8,7 +8,7 @@ import java.util.List;
  * 검색 조건은 PreparedStatement 실행시 바인드 되어지며 로그 출력시 문자열과 바인드 되어 출력된다.
  */
 public class SelectConditionObject {
-	private List<Object> param = new ArrayList<Object>();
+	private final List<Object> param = new ArrayList<Object>();
 
 	/**
 	 * 검색 조건으로 바인딩할 객체(Object)를 셋팅한다.

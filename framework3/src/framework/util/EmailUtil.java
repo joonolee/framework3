@@ -315,8 +315,8 @@ public class EmailUtil {
 	 * 메일인증을 위한 객체
 	 */
 	private static class MyAuthenticator extends Authenticator {
-		private String id;
-		private String pw;
+		private final String id;
+		private final String pw;
 
 		public MyAuthenticator(String id, String pw) {
 			this.id = id;

@@ -37,6 +37,11 @@ public abstract class Controller {
 	private final Map<String, DB> dbMap = new HashMap<String, DB>();
 
 	/**
+	 * Controller의 로거객체
+	 */
+	protected static final Log logger = LogFactory.getLog(framework.action.Controller.class);
+
+	/**
 	 * 서블릿 컨텍스트 객체
 	 */
 	protected ServletContext application = null;
@@ -90,11 +95,6 @@ public abstract class Controller {
 	 * 액션 이름(패키지 + 클래스 + 메소드명)
 	 */
 	protected String actionName = null;
-
-	/**
-	 * Controller의 로거객체
-	 */
-	protected static final Log logger = LogFactory.getLog(framework.action.Controller.class);
 
 	/** 
 	 * 클라이언트에서 서비스를 호출할 때 요청 url에 설정된 값을 참고하여 해당 메소드를 실행한다.
