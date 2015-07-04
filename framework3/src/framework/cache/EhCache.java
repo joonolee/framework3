@@ -54,15 +54,15 @@ public class EhCache extends AbstractCache {
 
 	@Override
 	public void set(String key, Object value, int seconds) {
-		Element element = new Element(key, value);
-		element.setTimeToLive(seconds);
-		cache.put(element);
+		Element e = new Element(key, value);
+		e.setTimeToLive(seconds);
+		cache.put(e);
 	}
 
 	@Override
 	public Object get(String key) {
-		Element element = cache.get(key);
-		return (element == null) ? null : element.getValue();
+		Element e = cache.get(key);
+		return (e == null) ? null : e.getObjectValue();
 	}
 
 	@Override
@@ -76,27 +76,27 @@ public class EhCache extends AbstractCache {
 
 	@Override
 	public synchronized long incr(String key, int by) {
-		Element element = cache.get(key);
-		if (element == null) {
+		Element e = cache.get(key);
+		if (e == null) {
 			return -1;
 		}
-		long newValue = ((Number) element.getValue()).longValue() + by;
-		Element newElement = new Element(key, newValue);
-		newElement.setTimeToLive(element.getTimeToLive());
-		cache.put(newElement);
+		long newValue = ((Number) e.getObjectValue()).longValue() + by;
+		Element newE = new Element(key, newValue);
+		newE.setTimeToLive(e.getTimeToLive());
+		cache.put(newE);
 		return newValue;
 	}
 
 	@Override
 	public synchronized long decr(String key, int by) {
-		Element element = cache.get(key);
-		if (element == null) {
+		Element e = cache.get(key);
+		if (e == null) {
 			return -1;
 		}
-		long newValue = ((Number) element.getValue()).longValue() - by;
-		Element newElement = new Element(key, newValue);
-		newElement.setTimeToLive(element.getTimeToLive());
-		cache.put(newElement);
+		long newValue = ((Number) e.getObjectValue()).longValue() - by;
+		Element newE = new Element(key, newValue);
+		newE.setTimeToLive(e.getTimeToLive());
+		cache.put(newE);
 		return newValue;
 	}
 
