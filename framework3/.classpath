@@ -24,7 +24,6 @@
 	<classpathentry kind="lib" path="lib/libMarkanyMaSaferJava.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
-	<classpathentry kind="lib" path="lib/memcached-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/miplatform-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis-3.2.8.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc14.jar"/>
@@ -38,6 +37,7 @@
 	<classpathentry kind="lib" path="lib/simplecaptcha-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.5.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.5.jar"/>
+	<classpathentry kind="lib" path="lib/spymemcached-2.11.7.jar"/>
 	<classpathentry kind="lib" path="lib/sqljdbc4.jar"/>
 	<classpathentry kind="lib" path="lib/standard.jar"/>
 	<classpathentry kind="lib" path="lib/stringtree-json-2.0.9.jar"/>
