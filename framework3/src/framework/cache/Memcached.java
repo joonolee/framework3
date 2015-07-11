@@ -33,16 +33,8 @@ public class Memcached extends AbstractCache {
 	private Memcached() {
 		System.setProperty("net.spy.log.LoggerImpl", "net.spy.memcached.compat.log.Log4JLogger");
 		List<InetSocketAddress> addrList;
-		if (getConfig().containsKey("memcached.host")) {
-			addrList = AddrUtil.getAddresses(getConfig().getString("memcached.host"));
-		} else if (getConfig().containsKey("memcached.1.host")) {
-			int count = 1;
-			StringBuilder buffer = new StringBuilder();
-			while (getConfig().containsKey("memcached." + count + ".host")) {
-				buffer.append(getConfig().getString("memcached." + count + ".host") + " ");
-				count++;
-			}
-			addrList = AddrUtil.getAddresses(buffer.toString());
+		if (getConfig().containsKey("memcached.servers")) {
+			addrList = AddrUtil.getAddresses(getConfig().getString("memcached.servers"));
 		} else {
 			throw new RuntimeException("memcached의 호스트설정이 누락되었습니다.");
 		}

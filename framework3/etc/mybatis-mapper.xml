@@ -2,9 +2,17 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
+
 <mapper namespace="">
- 
+	<!--
+	Ehcache 캐시 활성화, classpath에 /ehcache.xml 파일이 있어야 함. 없으면 기본값 적용
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+	-->
+	<!-- 
+	Memcached 캐시 활성화, classpath에 /memcached.properties 파일이 있어야 함. 없으면 기본값 적용
+	<cache type="org.mybatis.caches.memcached.MemcachedCache"/>
+	-->
+	
 	<select id="" parameterType="map" resultType="recordmap">
 
 	</select>

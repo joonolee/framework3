@@ -42,16 +42,8 @@ public class Redis extends AbstractCache {
 	 */
 	private Redis() {
 		List<JedisShardInfo> shards;
-		if (getConfig().containsKey("redis.host")) {
-			shards = getAddresses(getConfig().getString("redis.host"));
-		} else if (getConfig().containsKey("redis.1.host")) {
-			int count = 1;
-			StringBuilder buffer = new StringBuilder();
-			while (getConfig().containsKey("redis." + count + ".host")) {
-				buffer.append(getConfig().getString("redis." + count + ".host") + " ");
-				count++;
-			}
-			shards = getAddresses(buffer.toString());
+		if (getConfig().containsKey("redis.servers")) {
+			shards = getAddresses(getConfig().getString("redis.servers"));
 		} else {
 			throw new RuntimeException("redis의 호스트설정이 누락되었습니다.");
 		}
