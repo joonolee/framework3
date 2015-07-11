@@ -216,8 +216,8 @@ public abstract class Controller {
 	/** 
 	 * 데이타베이스 객체를 리턴한다.
 	 * <br>
-	 * config.properties에 datasource가 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
-	 * datasource가 등록되어 있지 않는 경우 연결정보를 바탕으로 jdbc 컨넥션을 생성한다.
+	 * config.properties에 jndiName이 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
+	 * jndiName이 등록되어 있지 않는 경우 연결정보를 바탕으로 db 컨넥션을 생성한다.
 	 * 파라미터로 넘겨진 업무명에 해당하는 설정파일 정보를 이용하여 컨넥션을 생성한다.
 	 * 생성된 컨넥션의 autoCommit 속성은 false 로 셋팅된다.
 	 * @param serviceName 서비스명(업무명)
@@ -225,26 +225,26 @@ public abstract class Controller {
 	 */
 	protected DB getDB(String serviceName) {
 		if (!dbMap.containsKey(serviceName)) {
-			String dsName = null;
-			String jdbcDriver = null;
-			String jdbcUrl = null;
-			String jdbcUid = null;
-			String jdbcPw = null;
+			String jndiName = null;
+			String driver = null;
+			String url = null;
+			String username = null;
+			String password = null;
 			try {
-				dsName = getConfig().getString("jdbc." + serviceName + ".datasource");
+				jndiName = getConfig().getString("db." + serviceName + ".jndiName");
 			} catch (Throwable e) {
 				// 설정파일에 데이타소스가 정의되어있지 않으면 실행
-				jdbcDriver = getConfig().getString("jdbc." + serviceName + ".driver");
-				jdbcUrl = getConfig().getString("jdbc." + serviceName + ".url");
-				jdbcUid = getConfig().getString("jdbc." + serviceName + ".uid");
-				jdbcPw = getConfig().getString("jdbc." + serviceName + ".pwd");
+				driver = getConfig().getString("db." + serviceName + ".driver");
+				url = getConfig().getString("db." + serviceName + ".url");
+				username = getConfig().getString("db." + serviceName + ".username");
+				password = getConfig().getString("db." + serviceName + ".password");
 			}
 			try {
-				DB db = new DB(dsName, this);
-				if (dsName != null) {
+				DB db = new DB(jndiName, this);
+				if (jndiName != null) {
 					db.connect();
 				} else {
-					db.connect(jdbcDriver, jdbcUrl, jdbcUid, jdbcPw);
+					db.connect(driver, url, username, password);
 				}
 				dbMap.put(serviceName, db);
 				db.setAutoCommit(false);

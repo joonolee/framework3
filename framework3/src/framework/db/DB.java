@@ -29,29 +29,29 @@ public class DB {
 	private static final Map<String, DataSource> dsMap = new HashMap<String, DataSource>();
 	private static final Log logger = LogFactory.getLog(framework.db.DB.class);
 	private List<AbstractStatement> stmtList = null;
-	private String dsName = null;
+	private String jndiName = null;
 	private Object caller = null;
 	private Connection connection = null;
 	// MyBatis
 	private static SqlSessionFactory sqlSessionFactory = null;
 	private SqlSession sqlSession = null;
 
-	public DB(String dsName, Object caller) {
-		this.dsName = dsName;
+	public DB(String jndiName, Object caller) {
+		this.jndiName = jndiName;
 		this.caller = caller;
 		if (stmtList == null) {
 			stmtList = new ArrayList<AbstractStatement>();
 		}
-		if (dsName != null) {
-			if (dsMap.get(dsName) == null) {
+		if (jndiName != null) {
+			if (dsMap.get(jndiName) == null) {
 				DataSource ds;
 				try {
 					InitialContext ctx = new InitialContext();
-					ds = (DataSource) ctx.lookup(dsName);
+					ds = (DataSource) ctx.lookup(jndiName);
 				} catch (NamingException e) {
 					throw new RuntimeException(e);
 				}
-				dsMap.put(dsName, ds);
+				dsMap.put(jndiName, ds);
 			}
 		}
 	}
@@ -82,19 +82,19 @@ public class DB {
 
 	public void connect() {
 		try {
-			setConnection(dsMap.get(dsName).getConnection());
+			setConnection(dsMap.get(jndiName).getConnection());
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		if (logger.isDebugEnabled()) {
-			logger.debug("DB연결 성공! : " + dsName);
+			logger.debug("DB연결 성공! : " + jndiName);
 		}
 	}
 
-	public void connect(String jdbcDriver, String url, String userID, String userPW) {
+	public void connect(String driver, String url, String username, String password) {
 		try {
-			DriverManager.registerDriver((Driver) Class.forName(jdbcDriver).newInstance());
-			setConnection(DriverManager.getConnection(url, userID, userPW));
+			DriverManager.registerDriver((Driver) Class.forName(driver).newInstance());
+			setConnection(DriverManager.getConnection(url, username, password));
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
@@ -140,7 +140,7 @@ public class DB {
 				logger.error("", e);
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("DB연결 종료! : " + dsName);
+				logger.debug("DB연결 종료! : " + jndiName);
 			}
 		} else {
 			if (logger.isDebugEnabled()) {
