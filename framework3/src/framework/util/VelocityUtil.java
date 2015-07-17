@@ -14,8 +14,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
-import framework.action.Params;
-
 /**
  * Velocity를 이용한 템플릿 처리 라이브러리
  */
@@ -29,25 +27,17 @@ public class VelocityUtil {
 	}
 
 	/**
-	 * mapping.properties 파일에 설정된 key와 연결된 템플릿 파일에서 statement에 정의된 COMMAND의 문자열을 파라미터를 
+	 * routes.properties 파일에 설정된 key와 연결된 템플릿 파일에서 statement에 정의된 COMMAND의 문자열을 파라미터를 
 	 * 적용한 문자열을 생성한다. VelocityUtil.evalutate과 동일
 	 * <br>
 	 * Sql 문장생성 및 이메일 발송을 위한 템플릿 생성할때 응용할 수 있다.
 	 * @param servlet 서블릿 객체
 	 * @param key routes.properties에 등록한 템플릿의 키 문자열 
 	 * @param statement 문장식별 문자열
-	 * @param param 파라미터 Param 객체
+	 * @param param 파라미터 Object 객체
 	 * @return 템플릿이 적용된 문자열
 	 */
-	public static String render(HttpServlet servlet, String key, String statement, Params param) {
-		return evaluate(servlet, key, statement, param);
-	}
-
-	/**
-	 * routes.properties 파일에 설정된 key와 연결된 템플릿 파일에서 statement에 정의된 COMMAND의 문자열을 파라미터를 
-	 * 적용한 문자열을 생성한다.
-	 */
-	private static String evaluate(HttpServlet servlet, String key, String statement, Params param) {
+	public static String render(HttpServlet servlet, String key, String statement, Object param) {
 		StringWriter writer = new StringWriter();
 		try {
 			Velocity.init();
@@ -55,10 +45,8 @@ public class VelocityUtil {
 			context.put("COMMAND", statement);
 			context.put("PARAM", param);
 			context.put("UTIL", StringUtil.class);
-
 			ResourceBundle bundle = (ResourceBundle) servlet.getServletContext().getAttribute("routes-mapping");
 			String fileName = ((String) bundle.getObject(key)).trim();
-
 			String template = readTemplate(servlet, fileName);
 			StringReader reader = new StringReader(template);
 			Velocity.evaluate(context, writer, "framework.util.VelocityUtil", reader);
