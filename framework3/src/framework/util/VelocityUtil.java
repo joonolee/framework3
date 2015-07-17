@@ -28,7 +28,7 @@ public class VelocityUtil {
 
 	/**
 	 * routes.properties 파일에 설정된 key와 연결된 템플릿 파일에서 statement에 정의된 COMMAND의 문자열을 파라미터를 
-	 * 적용한 문자열을 생성한다. VelocityUtil.evalutate과 동일
+	 * 적용한 문자열을 생성한다.
 	 * <br>
 	 * Sql 문장생성 및 이메일 발송을 위한 템플릿 생성할때 응용할 수 있다.
 	 * @param servlet 서블릿 객체
