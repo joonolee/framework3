@@ -1,8 +1,5 @@
 package framework.util;
 
-/**
- * 스트링 처리 라이브러리
- */
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -12,6 +9,9 @@ import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
+/**
+ * 스트링 처리 라이브러리
+ */
 public class StringUtil {
 
 	/**
