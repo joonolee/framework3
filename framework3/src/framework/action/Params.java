@@ -128,11 +128,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public String get(String key) {
-		String[] value = super.get(key);
-		if (value == null || value.length == 0) {
-			return "";
-		}
-		return value[0];
+		return get(key, "");
 	}
 
 	/** 
@@ -155,11 +151,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public String[] getArray(String key) {
-		String[] value = super.get(key);
-		if (value == null) {
-			return new String[] {};
-		}
-		return value;
+		return getArray(key, new String[] {});
 	}
 
 	/** 
@@ -182,8 +174,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Boolean getBoolean(String key) {
-		String value = getString(key).trim();
-		return Boolean.valueOf(value);
+		return getBoolean(key, Boolean.FALSE);
 	}
 
 	/** 
@@ -206,12 +197,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Double getDouble(String key) {
-		try {
-			String value = getString(key).trim();
-			return Double.valueOf(value.replaceAll(",", ""));
-		} catch (NumberFormatException e) {
-			return Double.valueOf(0);
-		}
+		return getDouble(key, Double.valueOf(0));
 	}
 
 	/** 
@@ -222,13 +208,13 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	public Double getDouble(String key, Double defaultValue) {
 		try {
-			String value = getString(key).trim();
+			String value = getString(key).trim().replaceAll(",", "");
 			if (value.isEmpty()) {
 				return defaultValue;
 			}
-			return Double.valueOf(value.replaceAll(",", ""));
+			return Double.valueOf(value);
 		} catch (NumberFormatException e) {
-			return Double.valueOf(0);
+			return defaultValue;
 		}
 	}
 
@@ -238,12 +224,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public BigDecimal getBigDecimal(String key) {
-		try {
-			String value = getString(key).trim();
-			return new BigDecimal(value.replaceAll(",", ""));
-		} catch (NumberFormatException e) {
-			return BigDecimal.valueOf(0);
-		}
+		return getBigDecimal(key, BigDecimal.ZERO);
 	}
 
 	/** 
@@ -254,13 +235,13 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	public BigDecimal getBigDecimal(String key, BigDecimal defaultValue) {
 		try {
-			String value = getString(key).trim();
+			String value = getString(key).trim().replaceAll(",", "");
 			if (value.isEmpty()) {
 				return defaultValue;
 			}
-			return new BigDecimal(value.replaceAll(",", ""));
+			return new BigDecimal(value);
 		} catch (NumberFormatException e) {
-			return BigDecimal.valueOf(0);
+			return defaultValue;
 		}
 	}
 
@@ -270,8 +251,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Float getFloat(String key) {
-		Double value = getDouble(key);
-		return Float.valueOf(value.floatValue());
+		return getFloat(key, Float.valueOf(0));
 	}
 
 	/** 
@@ -281,11 +261,15 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Float getFloat(String key, Float defaultValue) {
-		Double value = getDouble(key);
-		if (value == 0) {
+		try {
+			String value = getString(key).trim().replaceAll(",", "");
+			if (value.isEmpty()) {
+				return defaultValue;
+			}
+			return Float.valueOf(value);
+		} catch (NumberFormatException e) {
 			return defaultValue;
 		}
-		return Float.valueOf(value.floatValue());
 	}
 
 	/** 
@@ -294,8 +278,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Integer getInteger(String key) {
-		Double value = getDouble(key);
-		return Integer.valueOf(value.intValue());
+		return getInteger(key, Integer.valueOf(0));
 	}
 
 	/** 
@@ -305,11 +288,15 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Integer getInteger(String key, Integer defaultValue) {
-		Double value = getDouble(key);
-		if (value == 0) {
+		try {
+			String value = getString(key).trim().replaceAll(",", "");
+			if (value.isEmpty()) {
+				return defaultValue;
+			}
+			return Integer.valueOf(value);
+		} catch (NumberFormatException e) {
 			return defaultValue;
 		}
-		return Integer.valueOf(value.intValue());
 	}
 
 	/** 
@@ -318,8 +305,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Long getLong(String key) {
-		Double value = getDouble(key);
-		return Long.valueOf(value.longValue());
+		return getLong(key, Long.valueOf(0));
 	}
 
 	/** 
@@ -329,11 +315,15 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Long getLong(String key, Long defaultValue) {
-		Double value = getDouble(key);
-		if (value == 0) {
+		try {
+			String value = getString(key).trim().replaceAll(",", "");
+			if (value.isEmpty()) {
+				return defaultValue;
+			}
+			return Long.valueOf(value);
+		} catch (NumberFormatException e) {
 			return defaultValue;
 		}
-		return Long.valueOf(value.longValue());
 	}
 
 	/** 
@@ -343,9 +333,19 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public String getString(String key) {
+		return getString(key, "");
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 String 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public String getString(String key, String defaultValue) {
 		String str = get(key);
 		if (str.isEmpty()) {
-			return "";
+			return defaultValue;
 		}
 		StringBuilder result = new StringBuilder(str.length());
 		for (int i = 0; i < str.length(); i++) {
@@ -365,26 +365,12 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
-	 * 키(key)문자열과 매핑되어 있는 String 객체를 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열
-	 * @param defaultValue 값이 없을 때 리턴할 기본 값
-	 * @return key에 매핑되어 있는 값 또는 기본 값
-	 */
-	public String getString(String key, String defaultValue) {
-		String str = getString(key);
-		if (str.isEmpty()) {
-			return defaultValue;
-		}
-		return str;
-	}
-
-	/** 
 	 * 키(key)문자열과 매핑되어 있는 String 객체를 변환없이 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 값
 	 */
 	public String getRawString(String key) {
-		return get(key);
+		return getRawString(key, "");
 	}
 
 	/** 
@@ -407,16 +393,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDate(String key) {
-		String str = getString(key);
-		if (str.isEmpty()) {
-			return null;
-		}
-		java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.KOREA);
-		try {
-			return formater.parse(str);
-		} catch (ParseException e) {
-			return null;
-		}
+		return getDate(key, (Date) null);
 	}
 
 	/** 
@@ -426,11 +403,16 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDate(String key, Date defaultValue) {
-		Date value = getDate(key);
-		if (value == null) {
+		String str = getString(key).trim();
+		if (str.isEmpty()) {
 			return defaultValue;
 		}
-		return value;
+		java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.KOREA);
+		try {
+			return formater.parse(str);
+		} catch (ParseException e) {
+			return defaultValue;
+		}
 	}
 
 	/** 
@@ -440,16 +422,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDate(String key, String format) {
-		String str = getString(key);
-		if (str.isEmpty()) {
-			return null;
-		}
-		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat(format, java.util.Locale.KOREA);
-		try {
-			return formatter.parse(str);
-		} catch (ParseException e) {
-			return null;
-		}
+		return getDate(key, format, (Date) null);
 	}
 
 	/** 
@@ -460,11 +433,16 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDate(String key, String format, Date defaultValue) {
-		Date value = getDate(key, format);
-		if (value == null) {
+		String str = getString(key).trim();
+		if (str.isEmpty()) {
 			return defaultValue;
 		}
-		return value;
+		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat(format, java.util.Locale.KOREA);
+		try {
+			return formatter.parse(str);
+		} catch (ParseException e) {
+			return defaultValue;
+		}
 	}
 
 	/**
