@@ -3,6 +3,7 @@ package framework.action;
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -343,13 +344,13 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public String getString(String key, String defaultValue) {
-		String str = get(key);
-		if (str.isEmpty()) {
+		String value = get(key);
+		if (value.isEmpty()) {
 			return defaultValue;
 		}
-		StringBuilder result = new StringBuilder(str.length());
-		for (int i = 0; i < str.length(); i++) {
-			switch (str.charAt(i)) {
+		StringBuilder result = new StringBuilder(value.length());
+		for (int i = 0; i < value.length(); i++) {
+			switch (value.charAt(i)) {
 			case '<':
 				result.append("&lt;");
 				break;
@@ -357,7 +358,7 @@ public class Params extends HashMap<String, String[]> {
 				result.append("&gt;");
 				break;
 			default:
-				result.append(str.charAt(i));
+				result.append(value.charAt(i));
 				break;
 			}
 		}
@@ -403,13 +404,14 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDate(String key, Date defaultValue) {
-		String str = getString(key).trim();
-		if (str.isEmpty()) {
+		String value = getString(key).trim().replaceAll("[-|/|.]", "");
+		if (value.isEmpty()) {
 			return defaultValue;
 		}
-		java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.KOREA);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		sdf.setLenient(false);
 		try {
-			return formater.parse(str);
+			return sdf.parse(value);
 		} catch (ParseException e) {
 			return defaultValue;
 		}
@@ -433,13 +435,14 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDate(String key, String format, Date defaultValue) {
-		String str = getString(key).trim();
-		if (str.isEmpty()) {
+		String value = getString(key).trim();
+		if (value.isEmpty()) {
 			return defaultValue;
 		}
-		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat(format, java.util.Locale.KOREA);
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		sdf.setLenient(false);
 		try {
-			return formatter.parse(str);
+			return sdf.parse(value);
 		} catch (ParseException e) {
 			return defaultValue;
 		}
