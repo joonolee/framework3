@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * 날짜관련 유틸리티 클래스이다.
- * @Author	: JCJ
+ * @author	: JCJ
  */
 public class DateUtil {
 
