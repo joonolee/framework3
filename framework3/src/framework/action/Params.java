@@ -125,24 +125,34 @@ public class Params extends HashMap<String, String[]> {
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 값(value)문자열을 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 값 문자열
+	 * @return key에 매핑되어 있는 값
 	 */
 	public String get(String key) {
 		String[] value = super.get(key);
-		if (value == null) {
-			return null;
+		if (value == null || value.length == 0) {
+			return "";
 		}
-		if (value.length == 0) {
-			return null;
-		} else {
-			return value[0];
+		return value[0];
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 값(value)문자열을 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public String get(String key, String defaultValue) {
+		String[] value = super.get(key);
+		if (value == null || value.length == 0) {
+			return defaultValue;
 		}
+		return value[0];
 	}
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 문자열 배열을 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 문자열 배열
+	 * @return key에 매핑되어 있는 값
 	 */
 	public String[] getArray(String key) {
 		String[] value = super.get(key);
@@ -153,22 +163,70 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
+	 * 키(key)문자열과 매핑되어 있는 문자열 배열을 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public String[] getArray(String key, String[] defaultValue) {
+		String[] value = super.get(key);
+		if (value == null) {
+			return defaultValue;
+		}
+		return value;
+	}
+
+	/** 
 	 * 키(key)문자열과 매핑되어 있는 Boolean 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 Boolean 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public Boolean getBoolean(String key) {
-		return Boolean.valueOf(getString(key).trim());
+		String value = getString(key).trim();
+		return Boolean.valueOf(value);
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Boolean 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Boolean getBoolean(String key, Boolean defaultValue) {
+		String value = getString(key).trim();
+		if (value.isEmpty()) {
+			return defaultValue;
+		}
+		return Boolean.valueOf(value);
 	}
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Double 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 Double 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public Double getDouble(String key) {
 		try {
-			return Double.valueOf(getString(key).trim().replaceAll(",", ""));
+			String value = getString(key).trim();
+			return Double.valueOf(value.replaceAll(",", ""));
+		} catch (NumberFormatException e) {
+			return Double.valueOf(0);
+		}
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Double 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Double getDouble(String key, Double defaultValue) {
+		try {
+			String value = getString(key).trim();
+			if (value.isEmpty()) {
+				return defaultValue;
+			}
+			return Double.valueOf(value.replaceAll(",", ""));
 		} catch (NumberFormatException e) {
 			return Double.valueOf(0);
 		}
@@ -177,11 +235,30 @@ public class Params extends HashMap<String, String[]> {
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 BigDecimal 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 BigDecimal 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public BigDecimal getBigDecimal(String key) {
 		try {
-			return new BigDecimal(getString(key).trim().replaceAll(",", ""));
+			String value = getString(key).trim();
+			return new BigDecimal(value.replaceAll(",", ""));
+		} catch (NumberFormatException e) {
+			return BigDecimal.valueOf(0);
+		}
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 BigDecimal 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public BigDecimal getBigDecimal(String key, BigDecimal defaultValue) {
+		try {
+			String value = getString(key).trim();
+			if (value.isEmpty()) {
+				return defaultValue;
+			}
+			return new BigDecimal(value.replaceAll(",", ""));
 		} catch (NumberFormatException e) {
 			return BigDecimal.valueOf(0);
 		}
@@ -190,39 +267,84 @@ public class Params extends HashMap<String, String[]> {
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Float 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 Float 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public Float getFloat(String key) {
-		return Float.valueOf(getDouble(key).floatValue());
+		Double value = getDouble(key);
+		return Float.valueOf(value.floatValue());
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Float 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Float getFloat(String key, Float defaultValue) {
+		Double value = getDouble(key);
+		if (value == 0) {
+			return defaultValue;
+		}
+		return Float.valueOf(value.floatValue());
 	}
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Integer 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 Integer 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public Integer getInteger(String key) {
-		return Integer.valueOf(getDouble(key).intValue());
+		Double value = getDouble(key);
+		return Integer.valueOf(value.intValue());
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Integer 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Integer getInteger(String key, Integer defaultValue) {
+		Double value = getDouble(key);
+		if (value == 0) {
+			return defaultValue;
+		}
+		return Integer.valueOf(value.intValue());
 	}
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Long 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 Long 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public Long getLong(String key) {
-		return Long.valueOf(getDouble(key).longValue());
+		Double value = getDouble(key);
+		return Long.valueOf(value.longValue());
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Long 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Long getLong(String key, Long defaultValue) {
+		Double value = getDouble(key);
+		if (value == 0) {
+			return defaultValue;
+		}
+		return Long.valueOf(value.longValue());
 	}
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 String 객체를 리턴한다.
 	 * 크로스사이트 스크립팅 공격 방지를 위해 &lt;, &gt; 치환을 수행한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 String 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public String getString(String key) {
 		String str = get(key);
-		if (str == null) {
+		if (str.isEmpty()) {
 			return "";
 		}
 		StringBuilder result = new StringBuilder(str.length());
@@ -234,15 +356,6 @@ public class Params extends HashMap<String, String[]> {
 			case '>':
 				result.append("&gt;");
 				break;
-			case '\'':
-				result.append("&#39;");
-				break;
-			case '"':
-				result.append("&quot;");
-				break;
-			case '&':
-				result.append("&amp;");
-				break;
 			default:
 				result.append(str.charAt(i));
 				break;
@@ -252,22 +365,50 @@ public class Params extends HashMap<String, String[]> {
 	}
 
 	/** 
+	 * 키(key)문자열과 매핑되어 있는 String 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public String getString(String key, String defaultValue) {
+		String str = getString(key);
+		if (str.isEmpty()) {
+			return defaultValue;
+		}
+		return str;
+	}
+
+	/** 
 	 * 키(key)문자열과 매핑되어 있는 String 객체를 변환없이 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 String 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public String getRawString(String key) {
-		return StringUtil.nullToBlankString(get(key));
+		return get(key);
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 String 객체를 변환없이 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public String getRawString(String key, String defaultValue) {
+		String value = get(key);
+		if (value.isEmpty()) {
+			return defaultValue;
+		}
+		return value;
 	}
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열(기본형식: yyyy-MM-dd)
-	 * @return key에 매핑되어 있는 Date 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDate(String key) {
 		String str = getString(key);
-		if ("".equals(str)) {
+		if (str.isEmpty()) {
 			return null;
 		}
 		java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.KOREA);
@@ -280,13 +421,27 @@ public class Params extends HashMap<String, String[]> {
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열(기본형식: yyyy-MM-dd)
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Date getDate(String key, Date defaultValue) {
+		Date value = getDate(key);
+		if (value == null) {
+			return defaultValue;
+		}
+		return value;
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param format 날짜 포맷(예, yyyy-MM-dd HH:mm:ss)
-	 * @return key에 매핑되어 있는 Date 객체
+	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDate(String key, String format) {
 		String str = getString(key);
-		if ("".equals(str)) {
+		if (str.isEmpty()) {
 			return null;
 		}
 		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat(format, java.util.Locale.KOREA);
@@ -295,6 +450,21 @@ public class Params extends HashMap<String, String[]> {
 		} catch (ParseException e) {
 			return null;
 		}
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param format 날짜 포맷(예, yyyy-MM-dd HH:mm:ss)
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Date getDate(String key, String format, Date defaultValue) {
+		Date value = getDate(key, format);
+		if (value == null) {
+			return defaultValue;
+		}
+		return value;
 	}
 
 	/**

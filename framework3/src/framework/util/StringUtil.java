@@ -300,13 +300,10 @@ public class StringUtil {
 	 * @return 널(null)값을 빈문자("") 로 변환한 문자열
 	 */
 	public static String nullToBlankString(String str) {
-		String rval = "";
 		if (str == null) {
-			rval = "";
-		} else {
-			rval = str;
+			return "";
 		}
-		return rval;
+		return str;
 	}
 
 	/**
@@ -316,13 +313,10 @@ public class StringUtil {
 	 * @return 널(null)값을 두번째 인자의 값 문자열
 	 */
 	public static String null2Str(String str1, String str2) {
-		String rval = "";
 		if (str1 == null) {
-			rval = str2;
-		} else {
-			rval = str1;
+			return str2;
 		}
-		return rval;
+		return str1;
 	}
 
 	/**
