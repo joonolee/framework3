@@ -62,7 +62,7 @@ public class DateUtil {
 	 * @return Date : 원하는 날짜의 Date객체
 	 */
 	public static Date toDate(String dateStr) {
-		return toDate(dateStr.replaceAll("[-|/|.]", ""), "yyyyMMdd");
+		return toDate(dateStr.replaceAll("[^\\d]", ""), "yyyyMMdd");
 	}
 
 	/**

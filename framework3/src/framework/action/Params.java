@@ -404,7 +404,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDate(String key, Date defaultValue) {
-		String value = getString(key).trim().replaceAll("[-|/|.]", "");
+		String value = getString(key).trim().replaceAll("[^\\d]", "");
 		if (value.isEmpty()) {
 			return defaultValue;
 		}
