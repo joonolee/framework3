@@ -88,11 +88,10 @@ public class CsvUtil {
 	 * RecordSet을 CSV 형식으로 변환하여 응답객체로 전송한다. 
 	 * @param response
 	 * @param rs
-	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderCSV(HttpServletResponse response, RecordSet rs, String fileName) {
-		return renderSep(response, rs, fileName, ",");
+	public static int renderCSV(HttpServletResponse response, RecordSet rs) {
+		return renderSep(response, rs, ",");
 	}
 
 	/**
@@ -108,11 +107,10 @@ public class CsvUtil {
 	 * RecordSet을 TSV 형식으로 변환하여 응답객체로 전송한다. 
 	 * @param response
 	 * @param rs
-	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderTSV(HttpServletResponse response, RecordSet rs, String fileName) {
-		return renderSep(response, rs, fileName, "\t");
+	public static int renderTSV(HttpServletResponse response, RecordSet rs) {
+		return renderSep(response, rs, "\t");
 	}
 
 	/**
@@ -130,21 +128,15 @@ public class CsvUtil {
 	 * ex) response로 rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.renderSep(response, rs, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs 구분자(CSV, TSV 등)파일 형식으로 변환할 RecordSet 객체
-	 * @param fileName
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int renderSep(HttpServletResponse response, RecordSet rs, String fileName, String sep) {
+	public static int renderSep(HttpServletResponse response, RecordSet rs, String sep) {
 		if (rs == null) {
 			return 0;
 		}
 		int rowCount = 0;
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
 			PrintWriter pw = response.getWriter();
 			String[] colNms = rs.getColumns();
 			rs.moveRow(0);
@@ -189,11 +181,10 @@ public class CsvUtil {
 	 * ResultSet을 CSV 형식으로 변환하여 응답객체로 전송한다. 
 	 * @param response
 	 * @param rs
-	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderCSV(HttpServletResponse response, ResultSet rs, String fileName) {
-		return renderSep(response, rs, fileName, ",");
+	public static int renderCSV(HttpServletResponse response, ResultSet rs) {
+		return renderSep(response, rs, ",");
 	}
 
 	/**
@@ -209,11 +200,10 @@ public class CsvUtil {
 	 * ResultSet을 TSV 형식으로 변환하여 응답객체로 전송한다. 
 	 * @param response
 	 * @param rs
-	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderTSV(HttpServletResponse response, ResultSet rs, String fileName) {
-		return renderSep(response, rs, fileName, "\t");
+	public static int renderTSV(HttpServletResponse response, ResultSet rs) {
+		return renderSep(response, rs, "\t");
 	}
 
 	/**
@@ -231,20 +221,14 @@ public class CsvUtil {
 	 * ex) response로 rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.renderSep(response, rs, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs 구분자(CSV, TSV 등)파일 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @param fileName
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int renderSep(HttpServletResponse response, ResultSet rs, String fileName, String sep) {
+	public static int renderSep(HttpServletResponse response, ResultSet rs, String sep) {
 		if (rs == null) {
 			return 0;
 		}
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
 			PrintWriter pw = response.getWriter();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
@@ -350,11 +334,10 @@ public class CsvUtil {
 	 * List객체를 CSV 형식으로 변환하여 응답객체로 전송한다. 
 	 * @param response
 	 * @param mapList
-	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderCSV(HttpServletResponse response, List<RecordMap> mapList, String fileName) {
-		return renderSep(response, mapList, fileName, ",");
+	public static int renderCSV(HttpServletResponse response, List<RecordMap> mapList) {
+		return renderSep(response, mapList, ",");
 	}
 
 	/**
@@ -370,11 +353,10 @@ public class CsvUtil {
 	 * List객체를 TSV 형식으로 변환하여 응답객체로 전송한다. 
 	 * @param response
 	 * @param mapList
-	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderTSV(HttpServletResponse response, List<RecordMap> mapList, String fileName) {
-		return renderSep(response, mapList, fileName, "\t");
+	public static int renderTSV(HttpServletResponse response, List<RecordMap> mapList) {
+		return renderSep(response, mapList, "\t");
 	}
 
 	/**
@@ -392,21 +374,15 @@ public class CsvUtil {
 	 * ex) response로 mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.renderSep(response, mapList, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param mapList 구분자(CSV, TSV 등)파일 형식으로 변환할 List 객체
-	 * @param fileName
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int renderSep(HttpServletResponse response, List<RecordMap> mapList, String fileName, String sep) {
+	public static int renderSep(HttpServletResponse response, List<RecordMap> mapList, String sep) {
 		if (mapList == null) {
 			return 0;
 		}
 		int rowCount = 0;
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
 			PrintWriter pw = response.getWriter();
 			for (RecordMap map : mapList) {
 				if (rowCount++ > 0) {
@@ -447,11 +423,10 @@ public class CsvUtil {
 	 * Map객체를 CSV 형식으로 변환하여 응답객체로 전송한다. 
 	 * @param response
 	 * @param map
-	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderCSV(HttpServletResponse response, RecordMap map, String fileName) {
-		return renderSep(response, map, fileName, ",");
+	public static int renderCSV(HttpServletResponse response, RecordMap map) {
+		return renderSep(response, map, ",");
 	}
 
 	/**
@@ -467,11 +442,10 @@ public class CsvUtil {
 	 * Map객체를 TSV 형식으로 변환하여 응답객체로 전송한다. 
 	 * @param response
 	 * @param map
-	 * @param fileName
 	 * @return 처리건수
 	 */
-	public static int renderTSV(HttpServletResponse response, RecordMap map, String fileName) {
-		return renderSep(response, map, fileName, "\t");
+	public static int renderTSV(HttpServletResponse response, RecordMap map) {
+		return renderSep(response, map, "\t");
 	}
 
 	/**
@@ -489,20 +463,14 @@ public class CsvUtil {
 	 * ex) response로 map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.renderSep(response, map, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param map 변환할 Map객체
-	 * @param fileName
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int renderSep(HttpServletResponse response, RecordMap map, String fileName, String sep) {
+	public static int renderSep(HttpServletResponse response, RecordMap map, String sep) {
 		if (map == null) {
 			return 0;
 		}
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
 			PrintWriter pw = response.getWriter();
 			pw.print(sepRowStr(map, sep));
 		} catch (IOException e) {
