@@ -42,8 +42,8 @@ public class Redis extends AbstractCache {
 	 */
 	private Redis() {
 		List<JedisShardInfo> shards;
-		if (getConfig().containsKey("redis.servers")) {
-			shards = getAddresses(getConfig().getString("redis.servers"));
+		if (Config.getInstance().containsKey("redis.servers")) {
+			shards = getAddresses(Config.getInstance().getString("redis.servers"));
 		} else {
 			throw new RuntimeException("redis의 호스트설정이 누락되었습니다.");
 		}
@@ -204,14 +204,6 @@ public class Redis extends AbstractCache {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////Private 메소드
-
-	/**
-	* 설정파일(config.properties)에서 값을 읽어오는 클래스를 리턴한다.
-	* @return 설정객체
-	*/
-	private Config getConfig() {
-		return Config.getInstance();
-	}
 
 	/**
 	 * 문자열에서 redis 호스트 주소를 파싱하여 리턴한다.

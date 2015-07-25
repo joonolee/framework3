@@ -203,7 +203,7 @@ public abstract class Controller {
 	/** 
 	 * 데이타베이스 객체를 리턴한다.
 	 * <br>
-	 * config.properties에 datasource가 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
+	 * application.properties에 datasource가 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
 	 * datasource가 등록되어 있지 않는 경우 연결정보를 바탕으로 jdbc 컨넥션을 생성한다.
 	 * 업무명이 default에 해당하는 설정파일 정보를 이용하여 컨넥션을 생성한다.
 	 * 생성된 컨넥션의 autoCommit 속성은 false 로 셋팅된다.
@@ -216,7 +216,7 @@ public abstract class Controller {
 	/** 
 	 * 데이타베이스 객체를 리턴한다.
 	 * <br>
-	 * config.properties에 jndiName이 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
+	 * application.properties에 jndiName이 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
 	 * jndiName이 등록되어 있지 않는 경우 연결정보를 바탕으로 db 컨넥션을 생성한다.
 	 * 파라미터로 넘겨진 업무명에 해당하는 설정파일 정보를 이용하여 컨넥션을 생성한다.
 	 * 생성된 컨넥션의 autoCommit 속성은 false 로 셋팅된다.
@@ -257,7 +257,7 @@ public abstract class Controller {
 
 	/** 
 	 * 설정정보를 가지고 있는 객체를 생성하여 리턴한다.
-	 * @return config.properties의 설정정보를 가지고 있는 객체
+	 * @return application.properties의 설정정보를 가지고 있는 객체
 	 */
 	protected Config getConfig() {
 		return Config.getInstance();

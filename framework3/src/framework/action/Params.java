@@ -55,10 +55,10 @@ public class Params extends HashMap<String, String[]> {
 		if (ServletFileUpload.isMultipartContent(request)) {
 			try {
 				DiskFileItemFactory factory = new DiskFileItemFactory();
-				factory.setSizeThreshold(getConfig().getInt("fileupload.sizeThreshold"));
-				factory.setRepository(new File(getConfig().getString("fileupload.repository")));
+				factory.setSizeThreshold(Config.getInstance().getInt("fileupload.sizeThreshold"));
+				factory.setRepository(new File(Config.getInstance().getString("fileupload.repository")));
 				ServletFileUpload upload = new ServletFileUpload(factory);
-				upload.setSizeMax(getConfig().getInt("fileupload.sizeMax"));
+				upload.setSizeMax(Config.getInstance().getInt("fileupload.sizeMax"));
 				List<FileItem> items = upload.parseRequest(request);
 				for (FileItem item : items) {
 					if (item.isFormField()) {
@@ -657,13 +657,5 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	private boolean addFileItem(FileItem item) {
 		return fileItems.add(item);
-	}
-
-	/** 
-	 * 설정정보를 가지고 있는 객체를 생성하여 리턴한다.
-	 * @return config.properties의 설정정보를 가지고 있는 객체
-	 */
-	private static Config getConfig() {
-		return Config.getInstance();
 	}
 }
