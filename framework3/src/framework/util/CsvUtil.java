@@ -39,7 +39,7 @@ public class CsvUtil {
 	}
 
 	/**
-	 * 확장자에 의해서 파일을 파싱한다.
+	 * 구분자에 의해서 파일을 파싱한다.
 	 * @param fileItem 파일아이템
 	 * @return 데이터의 리스트
 	 */
@@ -62,7 +62,7 @@ public class CsvUtil {
 	}
 
 	/**
-	 * 확장자에 의해서 파일을 파싱한다.
+	 * 구분자에 의해서 파일을 파싱한다.
 	 * @param file 파일
 	 * @return 데이터의 리스트
 	 */
@@ -85,53 +85,15 @@ public class CsvUtil {
 	}
 
 	/**
-	 * RecordSet을 CSV 형식으로 변환하여 응답객체로 전송한다. 
-	 * @param response
-	 * @param rs
-	 * @return 처리건수
-	 */
-	public static int renderCSV(HttpServletResponse response, RecordSet rs) {
-		return renderSep(response, rs, ",");
-	}
-
-	/**
-	 * RecordSet을 CSV 형식으로 변환한다. 
-	 * @param rs
-	 * @return CSV 형식으로 변환된 문자열
-	 */
-	public static String renderCSV(RecordSet rs) {
-		return renderSep(rs, ",");
-	}
-
-	/**
-	 * RecordSet을 TSV 형식으로 변환하여 응답객체로 전송한다. 
-	 * @param response
-	 * @param rs
-	 * @return 처리건수
-	 */
-	public static int renderTSV(HttpServletResponse response, RecordSet rs) {
-		return renderSep(response, rs, "\t");
-	}
-
-	/**
-	 * RecordSet을 TSV 형식으로 변환한다. 
-	 * @param rs
-	 * @return TSV 형식으로 변환된 문자열
-	 */
-	public static String renderTSV(RecordSet rs) {
-		return renderSep(rs, "\t");
-	}
-
-	/**
 	 * RecordSet을 구분자(CSV, TSV 등)파일 형식으로 출력한다. 
 	 * <br>
-	 * ex) response로 rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.renderSep(response, rs, ",")
+	 * ex) response로 rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.render(response, rs, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs 구분자(CSV, TSV 등)파일 형식으로 변환할 RecordSet 객체
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int renderSep(HttpServletResponse response, RecordSet rs, String sep) {
+	public static int render(HttpServletResponse response, RecordSet rs, String sep) {
 		if (rs == null) {
 			return 0;
 		}
@@ -155,12 +117,12 @@ public class CsvUtil {
 	/**
 	 * RecordSet을 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
 	 * <br>
-	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.renderSep(rs, ",")
+	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.render(rs, ",")
 	 * @param rs 변환할 RecordSet 객체
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
-	public static String renderSep(RecordSet rs, String sep) {
+	public static String render(RecordSet rs, String sep) {
 		if (rs == null) {
 			return "";
 		}
@@ -178,53 +140,15 @@ public class CsvUtil {
 	}
 
 	/**
-	 * ResultSet을 CSV 형식으로 변환하여 응답객체로 전송한다. 
-	 * @param response
-	 * @param rs
-	 * @return 처리건수
-	 */
-	public static int renderCSV(HttpServletResponse response, ResultSet rs) {
-		return renderSep(response, rs, ",");
-	}
-
-	/**
-	 * ResultSet을 CSV 형식으로 변환한다. 
-	 * @param rs
-	 * @return CSV 형식으로 변환된 문자열
-	 */
-	public static String renderCSV(ResultSet rs) {
-		return renderSep(rs, ",");
-	}
-
-	/**
-	 * ResultSet을 TSV 형식으로 변환하여 응답객체로 전송한다. 
-	 * @param response
-	 * @param rs
-	 * @return 처리건수
-	 */
-	public static int renderTSV(HttpServletResponse response, ResultSet rs) {
-		return renderSep(response, rs, "\t");
-	}
-
-	/**
-	 * ResultSet을 TSV 형식으로 변환한다. 
-	 * @param rs
-	 * @return TSV 형식으로 변환된 문자열
-	 */
-	public static String renderTSV(ResultSet rs) {
-		return renderSep(rs, "\t");
-	}
-
-	/**
 	 * ResultSet을 구분자(CSV, TSV 등)파일 형식으로 출력한다. 
 	 * <br>
-	 * ex) response로 rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.renderSep(response, rs, ",")
+	 * ex) response로 rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.render(response, rs, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs 구분자(CSV, TSV 등)파일 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int renderSep(HttpServletResponse response, ResultSet rs, String sep) {
+	public static int render(HttpServletResponse response, ResultSet rs, String sep) {
 		if (rs == null) {
 			return 0;
 		}
@@ -276,12 +200,12 @@ public class CsvUtil {
 	/**
 	 * ResultSet을 구분자(CSV, TSV 등)파일 형식으로 변환한다.
 	 * <br>
-	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.renderSep(rs, ",")
+	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.render(rs, ",")
 	 * @param rs 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
-	public static String renderSep(ResultSet rs, String sep) {
+	public static String render(ResultSet rs, String sep) {
 		if (rs == null) {
 			return null;
 		}
@@ -331,53 +255,15 @@ public class CsvUtil {
 	}
 
 	/**
-	 * List객체를 CSV 형식으로 변환하여 응답객체로 전송한다. 
-	 * @param response
-	 * @param mapList
-	 * @return 처리건수
-	 */
-	public static int renderCSV(HttpServletResponse response, List<RecordMap> mapList) {
-		return renderSep(response, mapList, ",");
-	}
-
-	/**
-	 * List객체를 CSV 형식으로 변환한다. 
-	 * @param mapList
-	 * @return CSV 형식으로 변환된 문자열
-	 */
-	public static String renderCSV(List<RecordMap> mapList) {
-		return renderSep(mapList, ",");
-	}
-
-	/**
-	 * List객체를 TSV 형식으로 변환하여 응답객체로 전송한다. 
-	 * @param response
-	 * @param mapList
-	 * @return 처리건수
-	 */
-	public static int renderTSV(HttpServletResponse response, List<RecordMap> mapList) {
-		return renderSep(response, mapList, "\t");
-	}
-
-	/**
-	 * List객체를 TSV 형식으로 변환한다. 
-	 * @param mapList
-	 * @return TSV 형식으로 변환된 문자열
-	 */
-	public static String renderTSV(List<RecordMap> mapList) {
-		return renderSep(mapList, "\t");
-	}
-
-	/**
 	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 출력한다. 
 	 * <br>
-	 * ex) response로 mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.renderSep(response, mapList, ",")
+	 * ex) response로 mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.render(response, mapList, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param mapList 구분자(CSV, TSV 등)파일 형식으로 변환할 List 객체
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int renderSep(HttpServletResponse response, List<RecordMap> mapList, String sep) {
+	public static int render(HttpServletResponse response, List<RecordMap> mapList, String sep) {
 		if (mapList == null) {
 			return 0;
 		}
@@ -399,12 +285,12 @@ public class CsvUtil {
 	/**
 	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
 	 * <br>
-	 * ex1) mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.renderSep(mapList, ",")
+	 * ex1) mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.render(mapList, ",")
 	 * @param mapList 변환할 List객체
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
-	public static String renderSep(List<RecordMap> mapList, String sep) {
+	public static String render(List<RecordMap> mapList, String sep) {
 		if (mapList == null) {
 			return "";
 		}
@@ -420,53 +306,15 @@ public class CsvUtil {
 	}
 
 	/**
-	 * Map객체를 CSV 형식으로 변환하여 응답객체로 전송한다. 
-	 * @param response
-	 * @param map
-	 * @return 처리건수
-	 */
-	public static int renderCSV(HttpServletResponse response, RecordMap map) {
-		return renderSep(response, map, ",");
-	}
-
-	/**
-	 * Map객체를 CSV 형식으로 변환한다. 
-	 * @param map
-	 * @return CSV 형식으로 변환된 문자열
-	 */
-	public static String renderCSV(RecordMap map) {
-		return renderSep(map, ",");
-	}
-
-	/**
-	 * Map객체를 TSV 형식으로 변환하여 응답객체로 전송한다. 
-	 * @param response
-	 * @param map
-	 * @return 처리건수
-	 */
-	public static int renderTSV(HttpServletResponse response, RecordMap map) {
-		return renderSep(response, map, "\t");
-	}
-
-	/**
-	 * Map객체를 TSV 형식으로 변환한다. 
-	 * @param map
-	 * @return TSV 형식으로 변환된 문자열
-	 */
-	public static String renderTSV(RecordMap map) {
-		return renderSep(map, "\t");
-	}
-
-	/**
 	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 출력한다. 
 	 * <br>
-	 * ex) response로 map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.renderSep(response, map, ",")
+	 * ex) response로 map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.render(response, map, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param map 변환할 Map객체
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 처리건수
 	 */
-	public static int renderSep(HttpServletResponse response, RecordMap map, String sep) {
+	public static int render(HttpServletResponse response, RecordMap map, String sep) {
 		if (map == null) {
 			return 0;
 		}
@@ -482,12 +330,12 @@ public class CsvUtil {
 	/**
 	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
 	 * <br>
-	 * ex) map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.renderSep(map, ",")
+	 * ex) map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.render(map, ",")
 	 * @param map 변환할 Map객체
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
-	public static String renderSep(RecordMap map, String sep) {
+	public static String render(RecordMap map, String sep) {
 		if (map == null) {
 			return "";
 		}
