@@ -382,7 +382,7 @@ public class CsvUtil {
 	 * @param str 변환할 문자열
 	 * @param sep 열 구분자로 쓰일 문자열
 	 */
-	public static String escapeSep(String str, String sep) {
+	public static String escape(String str, String sep) {
 		if (str == null) {
 			return "";
 		}
@@ -410,7 +410,7 @@ public class CsvUtil {
 				if (value instanceof Number) {
 					buffer.append(value.toString());
 				} else {
-					buffer.append(escapeSep(value.toString(), sep));
+					buffer.append(escape(value.toString(), sep));
 				}
 			}
 		}
@@ -438,7 +438,7 @@ public class CsvUtil {
 				if (value instanceof Number) {
 					buffer.append(value.toString());
 				} else {
-					buffer.append(escapeSep(value.toString(), sep));
+					buffer.append(escape(value.toString(), sep));
 				}
 			}
 		}
@@ -468,7 +468,7 @@ public class CsvUtil {
 				if (value instanceof Number) {
 					buffer.append(value.toString());
 				} else {
-					buffer.append(escapeSep(value.toString(), sep));
+					buffer.append(escape(value.toString(), sep));
 				}
 			}
 		}
