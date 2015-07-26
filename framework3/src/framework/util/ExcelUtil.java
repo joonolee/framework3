@@ -26,7 +26,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.record.crypto.Biff8EncryptionKey;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.crypt.Decryptor;
@@ -1097,31 +1096,25 @@ public class ExcelUtil {
 	}
 
 	private static List<LinkedHashMap<String, String>> parseExcel2003(InputStream is) {
-		POIFSFileSystem poiFileSystem;
-		HSSFSheet sheet;
+		HSSFWorkbook workbook;
 		try {
-			poiFileSystem = new POIFSFileSystem(is);
-			HSSFWorkbook workbook = new HSSFWorkbook(poiFileSystem);
-			sheet = workbook.getSheetAt(0);
+			workbook = new HSSFWorkbook(new POIFSFileSystem(is));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return parseSheet(sheet);
+		return parseSheet(workbook.getSheetAt(0));
 	}
 
 	private static List<LinkedHashMap<String, String>> parseExcel2003(InputStream is, String password) {
-		POIFSFileSystem poiFileSystem;
-		HSSFSheet sheet;
+		HSSFWorkbook workbook;
 		try {
-			poiFileSystem = new POIFSFileSystem(is);
 			Biff8EncryptionKey.setCurrentUserPassword(password);
-			HSSFWorkbook workbook = new HSSFWorkbook(poiFileSystem);
+			workbook = new HSSFWorkbook(new POIFSFileSystem(is));
 			Biff8EncryptionKey.setCurrentUserPassword(null);
-			sheet = workbook.getSheetAt(0);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return parseSheet(sheet);
+		return parseSheet(workbook.getSheetAt(0));
 	}
 
 	private static List<LinkedHashMap<String, String>> parseExcel2007(InputStream is) {

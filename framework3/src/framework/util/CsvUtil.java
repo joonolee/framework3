@@ -47,7 +47,7 @@ public class CsvUtil {
 		InputStream is = null;
 		try {
 			is = fileItem.getInputStream();
-			return parseSep(is, sep);
+			return parse(is, sep);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -70,7 +70,7 @@ public class CsvUtil {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
-			return parseSep(fis, sep);
+			return parse(fis, sep);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -82,6 +82,39 @@ public class CsvUtil {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 구분자에 의해서 파일을 파싱한다.
+	 * @param is 입력스트림
+	 * @return 데이터의 리스트
+	 */
+	public static List<LinkedHashMap<String, String>> parse(InputStream is, String sep) {
+		List<LinkedHashMap<String, String>> mapList = new ArrayList<LinkedHashMap<String, String>>();
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new InputStreamReader(is));
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				String[] items = line.split(sep);
+				LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+				for (int i = 0; i < items.length; i++) {
+					map.put(String.valueOf(i), items[i]);
+				}
+				mapList.add(map);
+			}
+		} catch (IOException e) {
+			logger.error("", e);
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
+		}
+		return mapList;
 	}
 
 	/**
@@ -440,33 +473,5 @@ public class CsvUtil {
 			}
 		}
 		return buffer.toString();
-	}
-
-	private static List<LinkedHashMap<String, String>> parseSep(InputStream is, String sep) {
-		List<LinkedHashMap<String, String>> mapList = new ArrayList<LinkedHashMap<String, String>>();
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new InputStreamReader(is));
-			String line = null;
-			while ((line = br.readLine()) != null) {
-				String[] items = line.split(sep);
-				LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-				for (int i = 0; i < items.length; i++) {
-					map.put(String.valueOf(i), items[i]);
-				}
-				mapList.add(map);
-			}
-		} catch (IOException e) {
-			logger.error("", e);
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					logger.error("", e);
-				}
-			}
-		}
-		return mapList;
 	}
 }
