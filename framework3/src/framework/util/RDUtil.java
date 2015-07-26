@@ -408,19 +408,19 @@ public class RDUtil {
 		return buf.toString();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
+
 	/**
 	 * 캐리지리턴, 라인피드 문자들을 변환하여준다.
 	 * 
 	 * @param str 변환할 문자열
 	 */
-	public static String escape(String str) {
+	private static String escape(String str) {
 		if (str == null) {
 			return "";
 		}
 		return str.replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n");
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	/**
 	 * RD(리포트디자이너) 용 Row 문자열 생성

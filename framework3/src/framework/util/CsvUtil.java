@@ -377,19 +377,19 @@ public class CsvUtil {
 		return buffer.toString();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
+
 	/**
 	 * 구분자로 쓰이는 문자열 또는 개행문자가 값에 포함되어 있을 경우 값을 쌍따옴표로 둘러싸도록 변환한다.
 	 * @param str 변환할 문자열
 	 * @param sep 열 구분자로 쓰일 문자열
 	 */
-	public static String escape(String str, String sep) {
+	private static String escape(String str, String sep) {
 		if (str == null) {
 			return "";
 		}
 		return (str.contains(sep) || str.contains("\n")) ? "\"" + str + "\"" : str;
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	/**
 	 * 구분자(CSV, TSV 등)파일 생성용 Row 문자열 생성

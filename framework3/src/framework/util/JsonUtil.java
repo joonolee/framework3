@@ -372,18 +372,18 @@ public class JsonUtil {
 		return buf.toString();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
+
 	/**
 	 * 자바스크립트상에 특수하게 인식되는 문자들을 JSON등에 사용하기 위해 변환하여준다.
 	 * @param str 변환할 문자열
 	 */
-	public static String escape(String str) {
+	private static String escape(String str) {
 		if (str == null) {
 			return "";
 		}
 		return str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\"", "\\\\\"").replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n").replaceAll("\t", "\\\\t");
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	/**
 	 * JSON 용 Row 문자열 생성
