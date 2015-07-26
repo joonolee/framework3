@@ -376,7 +376,7 @@ public class JsonUtil {
 	 * 자바스크립트상에 특수하게 인식되는 문자들을 JSON등에 사용하기 위해 변환하여준다.
 	 * @param str 변환할 문자열
 	 */
-	public static String escapeJS(String str) {
+	public static String escape(String str) {
 		if (str == null) {
 			return "";
 		}
@@ -394,7 +394,7 @@ public class JsonUtil {
 		if (map.entrySet().size() > 0) {
 			buf.append("{");
 			for (Entry<String, Object> entry : map.entrySet()) {
-				String key = "\"" + escapeJS(entry.getKey().toLowerCase()) + "\"";
+				String key = "\"" + escape(entry.getKey().toLowerCase()) + "\"";
 				Object value = entry.getValue();
 				if (value == null) {
 					buf.append(key + ":" + "\"\"");
@@ -406,7 +406,7 @@ public class JsonUtil {
 					} else if (value instanceof List) {
 						buf.append(key + ":" + render((List<RecordMap>) value));
 					} else {
-						buf.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
+						buf.append(key + ":" + "\"" + escape(value.toString()) + "\"");
 					}
 				}
 				buf.append(",");
@@ -428,7 +428,7 @@ public class JsonUtil {
 			buf.append("{");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.get(colNms[c]);
-				String key = "\"" + escapeJS(colNms[c].toLowerCase()) + "\"";
+				String key = "\"" + escape(colNms[c].toLowerCase()) + "\"";
 
 				if (value == null) {
 					buf.append(key + ":" + "\"\"");
@@ -436,7 +436,7 @@ public class JsonUtil {
 					if (value instanceof Number || value instanceof Boolean) {
 						buf.append(key + ":" + value.toString());
 					} else {
-						buf.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
+						buf.append(key + ":" + "\"" + escape(value.toString()) + "\"");
 					}
 				}
 				buf.append(",");
@@ -460,7 +460,7 @@ public class JsonUtil {
 				} catch (SQLException e) {
 					throw new RuntimeException(e);
 				}
-				String key = "\"" + escapeJS(colNms[c].toLowerCase()) + "\"";
+				String key = "\"" + escape(colNms[c].toLowerCase()) + "\"";
 
 				if (value == null) {
 					buf.append(key + ":" + "\"\"");
@@ -468,7 +468,7 @@ public class JsonUtil {
 					if (value instanceof Number || value instanceof Boolean) {
 						buf.append(key + ":" + value.toString());
 					} else {
-						buf.append(key + ":" + "\"" + escapeJS(value.toString()) + "\"");
+						buf.append(key + ":" + "\"" + escape(value.toString()) + "\"");
 					}
 				}
 				buf.append(",");

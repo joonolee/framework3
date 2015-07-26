@@ -584,7 +584,7 @@ public class JQGridUtil {
 	 * 자바스크립트상에 특수하게 인식되는 문자들을 JSON등에 사용하기 위해 변환하여준다.
 	 * @param str 변환할 문자열
 	 */
-	public static String escapeJS(String str) {
+	public static String escape(String str) {
 		if (str == null) {
 			return "";
 		}
@@ -605,7 +605,7 @@ public class JQGridUtil {
 				if (value == null) {
 					buf.append("\"\"");
 				} else {
-					buf.append("\"" + escapeJS(value.toString()) + "\"");
+					buf.append("\"" + escape(value.toString()) + "\"");
 				}
 				buf.append(",");
 			}
@@ -629,7 +629,7 @@ public class JQGridUtil {
 				if (value == null) {
 					buf.append("\"\"");
 				} else {
-					buf.append("\"" + escapeJS(value.toString()) + "\"");
+					buf.append("\"" + escape(value.toString()) + "\"");
 				}
 				buf.append(",");
 			}
@@ -655,7 +655,7 @@ public class JQGridUtil {
 				if (value == null) {
 					buf.append("\"\"");
 				} else {
-					buf.append("\"" + escapeJS(value.toString()) + "\"");
+					buf.append("\"" + escape(value.toString()) + "\"");
 				}
 				buf.append(",");
 			}

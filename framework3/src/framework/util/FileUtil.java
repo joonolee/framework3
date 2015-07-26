@@ -249,7 +249,12 @@ public class FileUtil {
 		}
 	}
 
-	private static void download(HttpServletResponse response, File file) {
+	/**
+	 * 파일을 stream 으로 전달하는 메소드
+	 * @param response
+	 * @param file
+	 */
+	public static void download(HttpServletResponse response, File file) {
 		BufferedInputStream bis = null;
 		BufferedOutputStream bos = null;
 		try {

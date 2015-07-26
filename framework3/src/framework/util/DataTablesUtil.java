@@ -440,7 +440,7 @@ public class DataTablesUtil {
 	 * 자바스크립트상에 특수하게 인식되는 문자들을 JSON등에 사용하기 위해 변환하여준다.
 	 * @param str 변환할 문자열
 	 */
-	public static String escapeJS(String str) {
+	public static String escape(String str) {
 		if (str == null) {
 			return "";
 		}
@@ -461,7 +461,7 @@ public class DataTablesUtil {
 				if (value == null) {
 					buffer.append("\"\"");
 				} else {
-					buffer.append("\"" + escapeJS(value.toString()) + "\"");
+					buffer.append("\"" + escape(value.toString()) + "\"");
 				}
 				buffer.append(",");
 			}
@@ -485,7 +485,7 @@ public class DataTablesUtil {
 				if (value == null) {
 					buffer.append("\"\"");
 				} else {
-					buffer.append("\"" + escapeJS(value.toString()) + "\"");
+					buffer.append("\"" + escape(value.toString()) + "\"");
 				}
 				buffer.append(",");
 			}
@@ -511,7 +511,7 @@ public class DataTablesUtil {
 				if (value == null) {
 					buffer.append("\"\"");
 				} else {
-					buffer.append("\"" + escapeJS(value.toString()) + "\"");
+					buffer.append("\"" + escape(value.toString()) + "\"");
 				}
 				buffer.append(",");
 			}
