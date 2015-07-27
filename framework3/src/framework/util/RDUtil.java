@@ -24,12 +24,6 @@ public class RDUtil {
 	private static final Log logger = LogFactory.getLog(framework.util.RDUtil.class);
 
 	/**
-	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
-	 */
-	private RDUtil() {
-	}
-
-	/**
 	 * 디폴트 열 구분자
 	 */
 	private static final String DEFAULT_COLSEP = "##";
@@ -37,7 +31,13 @@ public class RDUtil {
 	/**
 	 * 디폴트 행 구분자
 	 */
-	private static final String DEFAULT_LINESEP = "\n";
+	private static final String DEFAULT_LINESEP = "\r\n";
+
+	/**
+	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
+	 */
+	private RDUtil() {
+	}
 
 	/**
 	 * RecordSet을 RD 파일 형식으로 출력한다.

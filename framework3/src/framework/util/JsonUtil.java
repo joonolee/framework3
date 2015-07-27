@@ -26,6 +26,8 @@ import framework.db.RecordSet;
 public class JsonUtil {
 	private static final Log logger = LogFactory.getLog(framework.util.JsonUtil.class);
 
+	private static final String CRLF = "\r\n";
+
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
@@ -347,13 +349,13 @@ public class JsonUtil {
 		for (int i = 0; i < json.length(); i++) {
 			target = json.substring(i, i + 1);
 			if (target.equals("{") || target.equals("[")) {
-				buf.append(target).append("\n");
+				buf.append(target).append(CRLF);
 				level++;
 				for (int j = 0; j < level; j++) {
 					buf.append(indent);
 				}
 			} else if (target.equals("}") || target.equals("]")) {
-				buf.append("\n");
+				buf.append(CRLF);
 				level--;
 				for (int j = 0; j < level; j++) {
 					buf.append(indent);
@@ -361,7 +363,7 @@ public class JsonUtil {
 				buf.append(target);
 			} else if (target.equals(",")) {
 				buf.append(target);
-				buf.append("\n");
+				buf.append(CRLF);
 				for (int j = 0; j < level; j++) {
 					buf.append(indent);
 				}

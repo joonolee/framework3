@@ -32,6 +32,8 @@ import framework.db.RecordSet;
 public class CsvUtil {
 	private static final Log logger = LogFactory.getLog(framework.util.CsvUtil.class);
 
+	private static final String CRLF = "\r\n";
+
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
@@ -137,7 +139,7 @@ public class CsvUtil {
 			rs.moveRow(0);
 			while (rs.nextRow()) {
 				if (rowCount++ > 0) {
-					pw.print("\n");
+					pw.print(CRLF);
 				}
 				pw.print(sepRowStr(rs, colNms, sep));
 			}
@@ -165,7 +167,7 @@ public class CsvUtil {
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			if (rowCount++ > 0) {
-				buffer.append("\n");
+				buffer.append(CRLF);
 			}
 			buffer.append(sepRowStr(rs, colNms, sep));
 		}
@@ -198,7 +200,7 @@ public class CsvUtil {
 				int rowCount = 0;
 				while (rs.next()) {
 					if (rowCount++ > 0) {
-						pw.print("\n");
+						pw.print(CRLF);
 					}
 					pw.print(sepRowStr(rs, colNms, sep));
 				}
@@ -255,7 +257,7 @@ public class CsvUtil {
 				int rowCount = 0;
 				while (rs.next()) {
 					if (rowCount++ > 0) {
-						buffer.append("\n");
+						buffer.append(CRLF);
 					}
 					buffer.append(sepRowStr(rs, colNms, sep));
 				}
@@ -305,7 +307,7 @@ public class CsvUtil {
 			PrintWriter pw = response.getWriter();
 			for (RecordMap map : mapList) {
 				if (rowCount++ > 0) {
-					pw.print("\n");
+					pw.print(CRLF);
 				}
 				pw.print(sepRowStr(map, sep));
 			}
@@ -331,7 +333,7 @@ public class CsvUtil {
 		int rowCount = 0;
 		for (RecordMap map : mapList) {
 			if (rowCount++ > 0) {
-				buffer.append("\n");
+				buffer.append(CRLF);
 			}
 			buffer.append(sepRowStr(map, sep));
 		}
