@@ -22,14 +22,13 @@ import framework.db.RecordSet;
  */
 public class RssUtil {
 	private static final Log logger = LogFactory.getLog(framework.util.RssUtil.class);
+	private static final String CRLF = "\r\n";
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
 	private RssUtil() {
 	}
-
-	private static final String CRLF = "\r\n";
 
 	/**
 	 * RssItem 객체

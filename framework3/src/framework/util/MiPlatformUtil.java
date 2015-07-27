@@ -31,12 +31,6 @@ public class MiPlatformUtil {
 	private static final Log logger = LogFactory.getLog(framework.util.MiPlatformUtil.class);
 
 	/**
-	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
-	 */
-	private MiPlatformUtil() {
-	}
-
-	/**
 	 * 미압축 방식의 바이너리 송수신 형식
 	 */
 	public static final int BIN = PlatformRequest.BIN;
@@ -50,6 +44,12 @@ public class MiPlatformUtil {
 	 * Zlib 압축 방식의 바이너리 송수신 형식
 	 */
 	public static final int ZLIB_COMP = PlatformRequest.ZLIB_COMP;
+
+	/**
+	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
+	 */
+	private MiPlatformUtil() {
+	}
 
 	/**
 	 * RecordSet을 마이플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.

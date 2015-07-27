@@ -20,12 +20,12 @@ public abstract class AbstractOrmDao {
 	}
 
 	protected RecordSet executeQuery(String query, Object[] where) {
-		RecordSet rs = null;
 		if (this.db == null) {
 			logger.error("Can't open DB Connection!");
 			return null;
 		}
 		PreparedStatement pstmt = null;
+		RecordSet rs = null;
 		try {
 			pstmt = this.db.createPrepareStatement(query);
 			if (where != null) {
@@ -41,12 +41,12 @@ public abstract class AbstractOrmDao {
 	}
 
 	protected int execute(String query, Object[] values) {
-		int result = 0;
 		if (this.db == null) {
 			logger.error("Can't open DB Connection!");
 			return 0;
 		}
 		PreparedStatement pstmt = null;
+		int result = 0;
 		try {
 			pstmt = this.db.createPrepareStatement(query);
 			pstmt.set(values);
@@ -60,7 +60,6 @@ public abstract class AbstractOrmDao {
 	}
 
 	public int[] save(ValueObjectArray voArray) {
-		int result[] = null;
 		if (this.db == null) {
 			logger.error("Can't open DB Connection!");
 			return null;
@@ -68,7 +67,7 @@ public abstract class AbstractOrmDao {
 		if (voArray.size() == 0) {
 			return new int[] { 0 };
 		}
-		result = new int[voArray.size()];
+		int[] result = new int[voArray.size()];
 		int cnt = 0;
 		cnt += executeArray(voArray, ValueObjectArray.INSERT, result, cnt);
 		cnt += executeArray(voArray, ValueObjectArray.UPDATE, result, cnt);
@@ -80,8 +79,7 @@ public abstract class AbstractOrmDao {
 	}
 
 	private int executeArray(ValueObjectArray vo, String type, int[] result, int cnt) {
-		ValueObject[] values = null;
-		values = vo.get(type);
+		ValueObject[] values = vo.get(type);
 		if (values == null || values.length == 0) {
 			return 0;
 		}

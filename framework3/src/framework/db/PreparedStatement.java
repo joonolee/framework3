@@ -12,12 +12,12 @@ import java.util.StringTokenizer;
  * Prepared Statement 를 이용하기 위한 객체
  */
 public class PreparedStatement extends AbstractStatement {
+	private final List<Object> param = new ArrayList<Object>();
 	private String sql = null;
 	private DB db = null;
 	private java.sql.PreparedStatement pstmt = null;
 	private RecordSet rs = null;
 	private int upCnt = 0;
-	private List<Object> param = new ArrayList<Object>();
 	private Object caller = null;
 
 	public static PreparedStatement create(String sql, DB db, Object caller) {
@@ -45,7 +45,7 @@ public class PreparedStatement extends AbstractStatement {
 	}
 
 	public void clearParam() {
-		param = new ArrayList<Object>();
+		param.clear();
 	}
 
 	public RecordSet executeQuery() {

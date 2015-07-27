@@ -23,15 +23,15 @@ import javax.mail.internet.MimeUtility;
 public class EmailUtil {
 
 	/**
+	 * 기본 인코딩 값
+	 */
+	private static final String DEFAULT_CHARSET = "utf-8";
+
+	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */
 	private EmailUtil() {
 	}
-
-	/**
-	 * 기본 인코딩 값
-	 */
-	private static final String DEFAULT_CHARSET = "utf-8";
 
 	//////////////////////////////////////////////////////////////////////////////////////////SMTP서버가 인증이 필요한 경우
 

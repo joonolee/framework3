@@ -13,10 +13,10 @@ import java.util.StringTokenizer;
  * PreparedStatement의 Batch 처리를 이용하기 위한 객체
  */
 public class BatchPreparedStatement extends AbstractStatement {
+	private final List<List<Object>> paramList = new ArrayList<List<Object>>();
 	private String sql = null;
 	private DB db = null;
 	private PreparedStatement pstmt = null;
-	private List<List<Object>> paramList = new ArrayList<List<Object>>();
 	private Object caller = null;
 
 	public static BatchPreparedStatement create(String sql, DB db, Object caller) {
@@ -72,7 +72,7 @@ public class BatchPreparedStatement extends AbstractStatement {
 	}
 
 	public void clearParamList() {
-		paramList = new ArrayList<List<Object>>();
+		paramList.clear();
 	}
 
 	public int[] executeBatch() {

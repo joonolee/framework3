@@ -25,7 +25,6 @@ import framework.db.RecordSet;
  */
 public class JsonUtil {
 	private static final Log logger = LogFactory.getLog(framework.util.JsonUtil.class);
-
 	private static final String CRLF = "\r\n";
 
 	/**

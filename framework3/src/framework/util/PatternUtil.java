@@ -7,6 +7,13 @@ import java.util.regex.Pattern;
  * 정규표현식 패턴 라이브러리
  */
 public class PatternUtil {
+
+	/**
+	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
+	 */
+	private PatternUtil() {
+	}
+
 	/**
 	 * 주민등록번호 패턴
 	 */

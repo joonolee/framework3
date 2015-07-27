@@ -12,6 +12,12 @@ import java.util.Date;
 public class DateUtil {
 
 	/**
+	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
+	 */
+	private DateUtil() {
+	}
+
+	/**
 	 * 날짜여부 체크
 	 * @param year : 년
 	 * @param month : 월

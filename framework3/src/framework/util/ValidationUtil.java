@@ -6,6 +6,12 @@ package framework.util;
 public class ValidationUtil {
 
 	/**
+	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
+	 */
+	private ValidationUtil() {
+	}
+
+	/**
 	 * 주민등록번호/외국인등록번호 유효성 체크
 	 * @param residentRegistrationNo
 	 * @return 매치여부

@@ -16,6 +16,8 @@ import java.util.List;
  */
 public class RecordSet implements Iterable<RecordMap>, Serializable {
 	private static final long serialVersionUID = -1248669129395067939L;
+	//Rows의 값
+	private final List<RecordMap> rows = new ArrayList<RecordMap>();
 	/**
 	 * DB의 columns 이름
 	 */
@@ -25,8 +27,6 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	private int[] colScale = null;
 	private String[] colInfo = null;
 	private int[] columnsType = null;
-	//Rows의 값
-	private final List<RecordMap> rows = new ArrayList<RecordMap>();
 	private int currow = 0;
 
 	public RecordSet() {

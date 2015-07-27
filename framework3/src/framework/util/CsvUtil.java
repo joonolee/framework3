@@ -31,7 +31,6 @@ import framework.db.RecordSet;
  */
 public class CsvUtil {
 	private static final Log logger = LogFactory.getLog(framework.util.CsvUtil.class);
-
 	private static final String CRLF = "\r\n";
 
 	/**
