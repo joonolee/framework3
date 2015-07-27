@@ -183,23 +183,36 @@ public class RssUtil {
 		}
 		StringBuilder buf = new StringBuilder();
 		rs.moveRow(0);
-		buf.append(xmlHeaderStr(encoding) + CRLF);
-		buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">" + CRLF);
-		buf.append("  <channel>" + CRLF);
-		buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>" + CRLF);
-		buf.append("    <link>" + link + "</link>" + CRLF);
-		buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>" + CRLF);
-		buf.append("    <language>ko</language>" + CRLF);
-		buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>" + CRLF);
-		buf.append("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>" + CRLF);
+		buf.append(xmlHeaderStr(encoding));
+		buf.append(CRLF);
+		buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">");
+		buf.append(CRLF);
+		buf.append("  <channel>");
+		buf.append(CRLF);
+		buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>");
+		buf.append(CRLF);
+		buf.append("    <link>" + link + "</link>");
+		buf.append(CRLF);
+		buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>");
+		buf.append(CRLF);
+		buf.append("    <language>ko</language>");
+		buf.append(CRLF);
+		buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>");
+		buf.append(CRLF);
+		buf.append("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>");
+		buf.append(CRLF);
 		if (webMaster != null && !"".equals(webMaster)) {
-			buf.append("    <webMaster>" + webMaster + "</webMaster>" + CRLF);
+			buf.append("    <webMaster>" + webMaster + "</webMaster>");
+			buf.append(CRLF);
 		}
 		while (rs.nextRow()) {
-			buf.append(rssItemStr(rs) + CRLF);
+			buf.append(rssItemStr(rs));
+			buf.append(CRLF);
 		}
-		buf.append("  </channel>" + CRLF);
-		buf.append("</rss>" + CRLF);
+		buf.append("  </channel>");
+		buf.append(CRLF);
+		buf.append("</rss>");
+		buf.append(CRLF);
 		return buf.toString();
 	}
 
@@ -288,23 +301,36 @@ public class RssUtil {
 		StringBuilder buf = new StringBuilder();
 		try {
 			try {
-				buf.append(xmlHeaderStr(encoding) + CRLF);
-				buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">" + CRLF);
-				buf.append("  <channel>" + CRLF);
-				buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>" + CRLF);
-				buf.append("    <link>" + link + "</link>" + CRLF);
-				buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>" + CRLF);
-				buf.append("    <language>ko</language>" + CRLF);
-				buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>" + CRLF);
-				buf.append("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>" + CRLF);
+				buf.append(xmlHeaderStr(encoding));
+				buf.append(CRLF);
+				buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">");
+				buf.append(CRLF);
+				buf.append("  <channel>");
+				buf.append(CRLF);
+				buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>");
+				buf.append(CRLF);
+				buf.append("    <link>" + link + "</link>");
+				buf.append(CRLF);
+				buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>");
+				buf.append(CRLF);
+				buf.append("    <language>ko</language>");
+				buf.append(CRLF);
+				buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>");
+				buf.append(CRLF);
+				buf.append("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>");
+				buf.append(CRLF);
 				if (webMaster != null && !"".equals(webMaster)) {
-					buf.append("    <webMaster>" + webMaster + "</webMaster>" + CRLF);
+					buf.append("    <webMaster>" + webMaster + "</webMaster>");
+					buf.append(CRLF);
 				}
 				while (rs.next()) {
-					buf.append(rssItemStr(rs) + CRLF);
+					buf.append(rssItemStr(rs));
+					buf.append(CRLF);
 				}
-				buf.append("  </channel>" + CRLF);
-				buf.append("</rss>" + CRLF);
+				buf.append("  </channel>");
+				buf.append(CRLF);
+				buf.append("</rss>");
+				buf.append(CRLF);
 			} finally {
 				Statement stmt = null;
 				try {
@@ -395,23 +421,36 @@ public class RssUtil {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
-		buf.append(xmlHeaderStr(encoding) + CRLF);
-		buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">" + CRLF);
-		buf.append("  <channel>" + CRLF);
-		buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>" + CRLF);
-		buf.append("    <link>" + link + "</link>" + CRLF);
-		buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>" + CRLF);
-		buf.append("    <language>ko</language>" + CRLF);
-		buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>" + CRLF);
-		buf.append("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>" + CRLF);
+		buf.append(xmlHeaderStr(encoding));
+		buf.append(CRLF);
+		buf.append("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">");
+		buf.append(CRLF);
+		buf.append("  <channel>");
+		buf.append(CRLF);
+		buf.append("    <title>" + "<![CDATA[" + title + "]]>" + "</title>");
+		buf.append(CRLF);
+		buf.append("    <link>" + link + "</link>");
+		buf.append(CRLF);
+		buf.append("    <description>" + "<![CDATA[" + description + "]]>" + "</description>");
+		buf.append(CRLF);
+		buf.append("    <language>ko</language>");
+		buf.append(CRLF);
+		buf.append("    <atom:link href=\"" + link + "\" rel=\"self\" type=\"application/rss+xml\"/>");
+		buf.append(CRLF);
+		buf.append("    <pubDate>" + toRfc822DateFormat(new Date()) + "</pubDate>");
+		buf.append(CRLF);
 		if (webMaster != null && !"".equals(webMaster)) {
-			buf.append("    <webMaster>" + webMaster + "</webMaster>" + CRLF);
+			buf.append("    <webMaster>" + webMaster + "</webMaster>");
+			buf.append(CRLF);
 		}
 		for (RssItem rssItem : rssItemList) {
-			buf.append(rssItemStr(rssItem) + CRLF);
+			buf.append(rssItemStr(rssItem));
+			buf.append(CRLF);
 		}
-		buf.append("  </channel>" + CRLF);
-		buf.append("</rss>" + CRLF);
+		buf.append("  </channel>");
+		buf.append(CRLF);
+		buf.append("</rss>");
+		buf.append(CRLF);
 		return buf.toString();
 	}
 
