@@ -68,7 +68,7 @@ public class Statement extends AbstractStatement {
 			}
 		} catch (SQLException e) {
 			logger.error("", e);
-			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
+			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL(), e);
 		}
 		return rs;
 	}
@@ -106,7 +106,7 @@ public class Statement extends AbstractStatement {
 			}
 		} catch (SQLException e) {
 			logger.error("", e);
-			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL());
+			throw new RuntimeException(e.getMessage() + "\nSQL : " + getSQL(), e);
 		}
 		return upCnt;
 	}

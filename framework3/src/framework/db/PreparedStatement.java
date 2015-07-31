@@ -84,7 +84,7 @@ public class PreparedStatement extends AbstractStatement {
 			}
 		} catch (SQLException e) {
 			logger.error("", e);
-			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
+			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString(), e);
 		}
 		return rs;
 	}
@@ -141,7 +141,7 @@ public class PreparedStatement extends AbstractStatement {
 			}
 		} catch (SQLException e) {
 			logger.error("", e);
-			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
+			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString(), e);
 		}
 		return upCnt;
 	}

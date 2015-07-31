@@ -79,7 +79,7 @@ public class BatchStatement extends AbstractStatement {
 			if (logger.isDebugEnabled()) {
 				logger.error("", e);
 			}
-			throw new RuntimeException(e.getMessage() + "\nSQL : \n" + getSQL());
+			throw new RuntimeException(e.getMessage() + "\nSQL : \n" + getSQL(), e);
 		}
 		return upCnts;
 	}

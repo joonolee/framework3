@@ -119,7 +119,7 @@ public class BatchPreparedStatement extends AbstractStatement {
 			}
 		} catch (SQLException e) {
 			logger.error("", e);
-			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString());
+			throw new RuntimeException(e.getMessage() + "\nSQL : " + getQueryString(), e);
 		}
 		return upCnts;
 	}
