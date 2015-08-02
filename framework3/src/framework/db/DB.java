@@ -1,7 +1,5 @@
 package framework.db;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -17,10 +15,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 /**
  * 데이타베이스 컨넥션을 관리하는 클래스
@@ -32,9 +26,8 @@ public class DB {
 	private String jndiName = null;
 	private Object caller = null;
 	private Connection connection = null;
-	// MyBatis
-	private static SqlSessionFactory sqlSessionFactory = null;
-	private SqlSession sqlSession = null;
+	// Mybatis
+	private MybatisDB mybatisDB = null;
 
 	public DB(String jndiName, Object caller) {
 		this.jndiName = jndiName;
@@ -111,13 +104,6 @@ public class DB {
 		return connection;
 	}
 
-	public SqlSession getSqlSession() {
-		if (sqlSession == null) {
-			sqlSession = getSqlSessionFactory().openSession(connection);
-		}
-		return sqlSession;
-	}
-
 	public void release() {
 		if (stmtList != null) {
 			for (AbstractStatement stmt : stmtList) {
@@ -173,24 +159,10 @@ public class DB {
 		}
 	}
 
-	private synchronized SqlSessionFactory getSqlSessionFactory() {
-		if (sqlSessionFactory == null) {
-			Reader reader = null;
-			try {
-				reader = Resources.getResourceAsReader("mybatis-config.xml");
-				sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-			} catch (Throwable e) {
-				throw new RuntimeException("Something bad happened while building the SqlSessionFactory instance." + e, e);
-			} finally {
-				if (reader != null) {
-					try {
-						reader.close();
-					} catch (IOException e) {
-						logger.error("", e);
-					}
-				}
-			}
+	public MybatisDB getMybatisDB() {
+		if (mybatisDB == null) {
+			mybatisDB = new MybatisDB(connection);
 		}
-		return sqlSessionFactory;
+		return mybatisDB;
 	}
 }
