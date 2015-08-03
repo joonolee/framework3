@@ -30,6 +30,10 @@ public class SqlSessionDaoSupport {
 		this.db.rollback();
 	}
 
+	protected void clearCache() {
+		sqlSession.clearCache();
+	}
+
 	protected int delete(String statement) {
 		return sqlSession.delete(statement);
 	}

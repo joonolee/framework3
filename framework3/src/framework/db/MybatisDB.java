@@ -44,6 +44,10 @@ public class MybatisDB {
 		}
 	}
 
+	public void clearCache() {
+		sqlSession.clearCache();
+	}
+
 	private synchronized SqlSessionFactory getSqlSessionFactory() {
 		if (sqlSessionFactory == null) {
 			Reader reader = null;

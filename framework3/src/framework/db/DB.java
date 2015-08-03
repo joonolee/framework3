@@ -114,6 +114,9 @@ public class DB {
 				}
 			}
 		}
+		if (mybatisDB != null) {
+			mybatisDB.clearCache();
+		}
 		if (connection != null) {
 			try {
 				connection.rollback();
