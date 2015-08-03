@@ -20,8 +20,8 @@ public class MybatisDB {
 	private static SqlSessionFactory sqlSessionFactory = null;
 	private SqlSession sqlSession = null;
 
-	public MybatisDB(Connection conn) {
-		sqlSession = getSqlSessionFactory().openSession(conn);
+	public MybatisDB(Connection connection) {
+		sqlSession = getSqlSessionFactory().openSession(connection);
 	}
 
 	public SqlSession getSqlSession() {
