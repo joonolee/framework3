@@ -10,42 +10,52 @@ import java.util.List;
 import java.util.Map;
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import framework.config.Config;
+
 /**
  * 데이타베이스 컨넥션을 관리하는 클래스
  */
 public class DB {
-	private static final Map<String, DataSource> dsMap = new HashMap<String, DataSource>();
 	private static final Log logger = LogFactory.getLog(framework.db.DB.class);
-	private List<AbstractStatement> stmtList = null;
-	private String jndiName = null;
+	private static final Map<String, DataSource> dsMap = new HashMap<String, DataSource>();
+	private final List<AbstractStatement> stmtList = new ArrayList<AbstractStatement>();
+	private String serviceName = null;
 	private Object caller = null;
 	private Connection connection = null;
 	// Mybatis
 	private MybatisDB mybatisDB = null;
 
-	public DB(String jndiName, Object caller) {
-		this.jndiName = jndiName;
+	public DB(String serviceName, Object caller) {
+		this.serviceName = serviceName;
 		this.caller = caller;
-		if (stmtList == null) {
-			stmtList = new ArrayList<AbstractStatement>();
-		}
-		if (jndiName != null) {
+		Config config = Config.getInstance();
+		try {
+			String jndiName = config.getString("db." + serviceName + ".jndiName");
 			if (dsMap.get(jndiName) == null) {
-				DataSource ds;
-				try {
-					InitialContext ctx = new InitialContext();
-					ds = (DataSource) ctx.lookup(jndiName);
-				} catch (NamingException e) {
-					throw new RuntimeException(e);
-				}
+				InitialContext ctx = new InitialContext();
+				DataSource ds = (DataSource) ctx.lookup(jndiName);
 				dsMap.put(jndiName, ds);
 			}
+			setConnection(dsMap.get(jndiName).getConnection());
+		} catch (Throwable e) {
+			String driver = config.getString("db." + serviceName + ".driver");
+			String url = config.getString("db." + serviceName + ".url");
+			String username = config.getString("db." + serviceName + ".username");
+			String password = config.getString("db." + serviceName + ".password");
+			try {
+				DriverManager.registerDriver((Driver) Class.forName(driver).newInstance());
+				setConnection(DriverManager.getConnection(url, username, password));
+			} catch (Throwable e2) {
+				throw new RuntimeException(e2);
+			}
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("DB연결 성공! : " + serviceName);
 		}
 	}
 
@@ -73,29 +83,6 @@ public class DB {
 		return bstmt;
 	}
 
-	public void connect() {
-		try {
-			setConnection(dsMap.get(jndiName).getConnection());
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		if (logger.isDebugEnabled()) {
-			logger.debug("DB연결 성공! : " + jndiName);
-		}
-	}
-
-	public void connect(String driver, String url, String username, String password) {
-		try {
-			DriverManager.registerDriver((Driver) Class.forName(driver).newInstance());
-			setConnection(DriverManager.getConnection(url, username, password));
-		} catch (Throwable e) {
-			throw new RuntimeException(e);
-		}
-		if (logger.isDebugEnabled()) {
-			logger.debug("DB연결 성공! : " + url);
-		}
-	}
-
 	public void setConnection(Connection conn) {
 		connection = conn;
 	}
@@ -105,13 +92,11 @@ public class DB {
 	}
 
 	public void release() {
-		if (stmtList != null) {
-			for (AbstractStatement stmt : stmtList) {
-				try {
-					stmt.close();
-				} catch (Throwable e) {
-					logger.error("", e);
-				}
+		for (AbstractStatement stmt : stmtList) {
+			try {
+				stmt.close();
+			} catch (Throwable e) {
+				logger.error("", e);
 			}
 		}
 		if (mybatisDB != null) {
@@ -129,7 +114,7 @@ public class DB {
 				logger.error("", e);
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("DB연결 종료! : " + jndiName);
+				logger.debug("DB연결 종료! : " + serviceName);
 			}
 		} else {
 			if (logger.isDebugEnabled()) {
@@ -160,6 +145,10 @@ public class DB {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public String getServiceName() {
+		return serviceName;
 	}
 
 	public MybatisDB getMybatisDB() {

@@ -225,29 +225,10 @@ public abstract class Controller {
 	 */
 	protected DB getDB(String serviceName) {
 		if (!dbMap.containsKey(serviceName)) {
-			String jndiName = null;
-			String driver = null;
-			String url = null;
-			String username = null;
-			String password = null;
 			try {
-				jndiName = getConfig().getString("db." + serviceName + ".jndiName");
-			} catch (Throwable e) {
-				// 설정파일에 데이타소스가 정의되어있지 않으면 실행
-				driver = getConfig().getString("db." + serviceName + ".driver");
-				url = getConfig().getString("db." + serviceName + ".url");
-				username = getConfig().getString("db." + serviceName + ".username");
-				password = getConfig().getString("db." + serviceName + ".password");
-			}
-			try {
-				DB db = new DB(jndiName, this);
-				if (jndiName != null) {
-					db.connect();
-				} else {
-					db.connect(driver, url, username, password);
-				}
-				dbMap.put(serviceName, db);
+				DB db = new DB(serviceName, this);
 				db.setAutoCommit(false);
+				dbMap.put(serviceName, db);
 			} catch (Throwable e) {
 				logger.error("", e);
 			}
