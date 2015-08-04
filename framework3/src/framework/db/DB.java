@@ -36,7 +36,7 @@ public class DB {
 		Config config = Config.getInstance();
 		try {
 			String jndiName = config.getString("db." + serviceName + ".jndiName");
-			if (dsMap.get(jndiName) == null) {
+			if (!dsMap.containsKey(jndiName)) {
 				InitialContext ctx = new InitialContext();
 				DataSource ds = (DataSource) ctx.lookup(jndiName);
 				dsMap.put(jndiName, ds);
