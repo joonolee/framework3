@@ -24,6 +24,25 @@ public class Config {
 	}
 
 	/** 
+	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 String 객체
+	 */
+	public String get(String key) {
+		return getString(key);
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 String 객체 또는 기본 값
+	 */
+	public String get(String key, String defaultValue) {
+		return getString(key, defaultValue);
+	}
+
+	/** 
 	 * 키(key)문자열과 매핑되어 있는 int형 변수를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 int형 변수
