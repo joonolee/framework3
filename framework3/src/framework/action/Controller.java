@@ -227,8 +227,10 @@ public abstract class Controller {
 		if (!dbMap.containsKey(serviceName)) {
 			try {
 				DB db = new DB(serviceName, this);
-				dbMap.put(serviceName, db);
-				db.setAutoCommit(false);
+				if (db != null) {
+					dbMap.put(serviceName, db);
+					db.setAutoCommit(false);
+				}
 			} catch (Throwable e) {
 				logger.error("", e);
 			}
