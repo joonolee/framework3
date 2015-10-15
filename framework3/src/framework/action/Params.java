@@ -390,7 +390,7 @@ public class Params extends HashMap<String, String[]> {
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열(기본형식: yyyy-MM-dd)
+	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd)
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDate(String key) {
@@ -399,22 +399,31 @@ public class Params extends HashMap<String, String[]> {
 
 	/** 
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열(기본형식: yyyy-MM-dd)
+	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd)
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDate(String key, Date defaultValue) {
-		String value = getString(key).trim().replaceAll("[^\\d]", "");
-		if (value.isEmpty()) {
-			return defaultValue;
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		sdf.setLenient(false);
-		try {
-			return sdf.parse(value);
-		} catch (ParseException e) {
-			return defaultValue;
-		}
+		return getDate(key, "yyyy-MM-dd", (Date) null);
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd HH:mm:ss)
+	 * @return key에 매핑되어 있는 값
+	 */
+	public Date getDateTime(String key) {
+		return getDateTime(key, (Date) null);
+	}
+
+	/** 
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd HH:mm:ss)
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Date getDateTime(String key, Date defaultValue) {
+		return getDate(key, "yyyy-MM-dd HH:mm:ss", (Date) null);
 	}
 
 	/** 
@@ -436,9 +445,6 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	public Date getDate(String key, String format, Date defaultValue) {
 		String value = getString(key).trim();
-		if (value.isEmpty()) {
-			return defaultValue;
-		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		sdf.setLenient(false);
 		try {

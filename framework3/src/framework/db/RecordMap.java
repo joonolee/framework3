@@ -72,7 +72,11 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 	}
 
 	public Date getDate(String key) {
-		return getDate(key, "yyyyMMdd");
+		return getDate(key, "yyyy-MM-dd");
+	}
+
+	public Date getDateTime(String key) {
+		return getDate(key, "yyyy-MM-dd HH:mm:ss");
 	}
 
 	public Date getDate(String key, String format) {
@@ -85,10 +89,7 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 		} else if (value instanceof java.util.Date) {
 			return (Date) value;
 		} else {
-			String str = value.toString().trim().replaceAll("[^\\d]", "");
-			if (str.isEmpty()) {
-				return null;
-			}
+			String str = value.toString().trim();
 			SimpleDateFormat sdf = new SimpleDateFormat(format);
 			sdf.setLenient(false);
 			try {

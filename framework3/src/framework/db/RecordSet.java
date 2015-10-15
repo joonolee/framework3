@@ -393,13 +393,23 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	}
 
 	/**
-	 * RecordSet의 column 값을 Date형으로 반환하는 메소드
+	 * RecordSet의 column 값을 Date형으로 반환하는 메소드(형식: "yyyy-MM-dd")
 	 * @param row  row number, 첫번째 row는 1
 	 * @param colName column name
 	 * @return float  column data
 	 */
 	public Date getDate(int row, String colName) {
-		return getDate(row, colName, "yyyyMMdd");
+		return getDate(row, colName, "yyyy-MM-dd");
+	}
+
+	/**
+	 * RecordSet의 column 값을 Date형으로 반환하는 메소드(형식: "yyyy-MM-dd HH:mm:ss")
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return float  column data
+	 */
+	public Date getDateTime(int row, String colName) {
+		return getDate(row, colName, "yyyy-MM-dd HH:mm:ss");
 	}
 
 	/**
@@ -419,10 +429,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 		} else if (value instanceof java.util.Date) {
 			return (Date) value;
 		} else {
-			String str = value.toString().trim().replaceAll("[^\\d]", "");
-			if (str.isEmpty()) {
-				return null;
-			}
+			String str = value.toString().trim();
 			SimpleDateFormat sdf = new SimpleDateFormat(format);
 			sdf.setLenient(false);
 			try {
