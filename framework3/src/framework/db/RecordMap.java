@@ -2,9 +2,11 @@ package framework.db;
 
 import java.math.BigDecimal;
 import java.sql.Clob;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 
 public class RecordMap extends LinkedHashMap<String, Object> {
@@ -70,14 +72,24 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 	}
 
 	public Date getDate(String key) {
-		return Date.valueOf(getString(key).substring(0, 10));
+		String value = getString(key).trim().replaceAll("[^\\d]", "");
+		if (value.isEmpty()) {
+			return null;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		sdf.setLenient(false);
+		try {
+			return sdf.parse(value);
+		} catch (ParseException e) {
+			return null;
+		}
 	}
 
 	public Timestamp getTimestamp(String key) {
 		if (get(key) == null) {
 			return null;
 		} else {
-			return Timestamp.valueOf(get(key).toString());
+			return Timestamp.valueOf(getString(key));
 		}
 	}
 }

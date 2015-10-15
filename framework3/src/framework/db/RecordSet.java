@@ -2,12 +2,14 @@ package framework.db;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -398,7 +400,17 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return float  column data
 	 */
 	public Date getDate(int row, String colName) {
-		return Date.valueOf(getString(row, colName).substring(0, 10));
+		String value = getString(getString(row, colName)).trim().replaceAll("[^\\d]", "");
+		if (value.isEmpty()) {
+			return null;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		sdf.setLenient(false);
+		try {
+			return sdf.parse(value);
+		} catch (ParseException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -412,7 +424,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 		if (get(row, colName) == null) {
 			return null;
 		} else {
-			return Timestamp.valueOf(get(row, colName).toString());
+			return Timestamp.valueOf(getString(row, colName));
 		}
 	}
 
