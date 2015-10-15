@@ -394,22 +394,42 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 
 	/**
 	 * RecordSet의 column 값을 Date형으로 반환하는 메소드
-	 * YYYY-MM-DD 로 반환
 	 * @param row  row number, 첫번째 row는 1
 	 * @param colName column name
 	 * @return float  column data
 	 */
 	public Date getDate(int row, String colName) {
-		String value = getString(getString(row, colName)).trim().replaceAll("[^\\d]", "");
-		if (value.isEmpty()) {
+		return getDate(row, colName, "yyyyMMdd");
+	}
+
+	/**
+	 * RecordSet의 column 값을 Date형으로 반환하는 메소드
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @param format date format
+	 * @return float  column data
+	 */
+	public Date getDate(int row, String colName, String format) {
+		Object value = get(row, colName);
+		if (value == null) {
 			return null;
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		sdf.setLenient(false);
-		try {
-			return sdf.parse(value);
-		} catch (ParseException e) {
-			return null;
+		} else if (value instanceof java.sql.Date) {
+			java.sql.Date sqlDate = (java.sql.Date) value;
+			return new Date(sqlDate.getTime());
+		} else if (value instanceof java.util.Date) {
+			return (Date) value;
+		} else {
+			String str = value.toString().trim().replaceAll("[^\\d]", "");
+			if (str.isEmpty()) {
+				return null;
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat(format);
+			sdf.setLenient(false);
+			try {
+				return sdf.parse(str);
+			} catch (ParseException e) {
+				return null;
+			}
 		}
 	}
 
@@ -421,10 +441,19 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return float  column data
 	 */
 	public Timestamp getTimestamp(int row, String colName) {
-		if (get(row, colName) == null) {
+		Object value = get(row, colName);
+		if (value == null) {
 			return null;
+		} else if (value instanceof java.sql.Date) {
+			java.sql.Date sqlDate = (java.sql.Date) value;
+			return new Timestamp(sqlDate.getTime());
+		} else if (value instanceof java.sql.Timestamp) {
+			return (Timestamp) value;
+		} else if (value instanceof java.util.Date) {
+			java.util.Date date = (java.util.Date) value;
+			return new Timestamp(date.getTime());
 		} else {
-			return Timestamp.valueOf(getString(row, colName));
+			return Timestamp.valueOf(value.toString());
 		}
 	}
 

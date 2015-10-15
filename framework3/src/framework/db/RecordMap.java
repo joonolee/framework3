@@ -72,24 +72,47 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 	}
 
 	public Date getDate(String key) {
-		String value = getString(key).trim().replaceAll("[^\\d]", "");
-		if (value.isEmpty()) {
+		return getDate(key, "yyyyMMdd");
+	}
+
+	public Date getDate(String key, String format) {
+		Object value = get(key);
+		if (value == null) {
 			return null;
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		sdf.setLenient(false);
-		try {
-			return sdf.parse(value);
-		} catch (ParseException e) {
-			return null;
+		} else if (value instanceof java.sql.Date) {
+			java.sql.Date sqlDate = (java.sql.Date) value;
+			return new Date(sqlDate.getTime());
+		} else if (value instanceof java.util.Date) {
+			return (Date) value;
+		} else {
+			String str = value.toString().trim().replaceAll("[^\\d]", "");
+			if (str.isEmpty()) {
+				return null;
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat(format);
+			sdf.setLenient(false);
+			try {
+				return sdf.parse(str);
+			} catch (ParseException e) {
+				return null;
+			}
 		}
 	}
 
 	public Timestamp getTimestamp(String key) {
-		if (get(key) == null) {
+		Object value = get(key);
+		if (value == null) {
 			return null;
+		} else if (value instanceof java.sql.Date) {
+			java.sql.Date sqlDate = (java.sql.Date) value;
+			return new Timestamp(sqlDate.getTime());
+		} else if (value instanceof java.sql.Timestamp) {
+			return (Timestamp) value;
+		} else if (value instanceof java.util.Date) {
+			java.util.Date date = (java.util.Date) value;
+			return new Timestamp(date.getTime());
 		} else {
-			return Timestamp.valueOf(getString(key));
+			return Timestamp.valueOf(value.toString());
 		}
 	}
 }
