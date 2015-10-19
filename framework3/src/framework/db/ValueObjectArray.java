@@ -1,7 +1,7 @@
 package framework.db;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +15,7 @@ public class ValueObjectArray {
 	public final static String USER_UPDATE = "UU";
 	public final static String USER_DELETE = "UD";
 	public final static String UPDATE_ONLY = "UO";
-	private final Map<String, ValueObject> voMap = new HashMap<String, ValueObject>();
+	private final Map<String, ValueObject> voMap = new LinkedHashMap<String, ValueObject>();
 	private String[] keys = null;
 	private String[] fields = null;
 	private int seq = 0;
