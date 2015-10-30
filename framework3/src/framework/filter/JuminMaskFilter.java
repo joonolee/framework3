@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
@@ -21,7 +20,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * 응답데이터에서 주민번호 패턴 마스킹 필터
  */
 public class JuminMaskFilter implements Filter {
-	private final Pattern juminPattern = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])?", Pattern.MULTILINE);
+	private final Pattern JUMIN_PATTERN = Pattern.compile("(?<=[^0-9])(\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])(?:\\s|&nbsp;)*[-|~]?(?:\\s|&nbsp;)*)[1-8]\\d{6}(?=[^0-9])?", Pattern.MULTILINE);
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -52,8 +51,7 @@ public class JuminMaskFilter implements Filter {
 	}
 
 	private void juminMasking(ServletResponse response, MyResponseWrapper resWrapper) throws IOException {
-		Matcher matcher = juminPattern.matcher(resWrapper.toString());
-		String juminMaskData = matcher.replaceAll("$1******");
+		String juminMaskData = JUMIN_PATTERN.matcher(resWrapper.toString()).replaceAll("$1******");
 		PrintWriter writer = response.getWriter();
 		writer.print(juminMaskData);
 		writer.flush();

@@ -348,33 +348,7 @@ public class Params extends HashMap<String, String[]> {
 		if (value.isEmpty()) {
 			return defaultValue;
 		}
-		StringBuilder result = new StringBuilder(value.length() * 2);
-		for (int i = 0; i < value.length(); i++) {
-			switch (value.charAt(i)) {
-			case '<':
-				result.append("&lt;");
-				break;
-			case '>':
-				result.append("&gt;");
-				break;
-			case '&':
-				result.append("&amp;");
-				break;
-			case '"':
-				result.append("&#34;");
-				break;
-			case '\'':
-				result.append("&#39;");
-				break;
-			case '%':
-				result.append("&#37;");
-				break;
-			default:
-				result.append(value.charAt(i));
-				break;
-			}
-		}
-		return result.toString();
+		return StringUtil.escapeHtmlSpecialChars(value);
 	}
 
 	/** 

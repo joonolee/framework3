@@ -164,7 +164,7 @@ public class RDUtil {
 					if (rowCount++ > 0) {
 						pw.print(lineSep);
 					}
-					pw.print(StringUtil.stripScriptTag(rdRowStr(rs, colNms, colSep)));
+					pw.print(rdRowStr(rs, colNms, colSep));
 				}
 				return rowCount;
 			} finally {

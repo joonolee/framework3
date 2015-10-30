@@ -20,7 +20,10 @@ public class CORSFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		res.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
+		String origin = req.getHeader("Origin");
+		if (origin != null) {
+			res.setHeader("Access-Control-Allow-Origin", origin.replaceAll("\r", "").replaceAll("\n", ""));
+		}
 		res.setHeader("Access-Control-Allow-Methods", "POST, GET, HEAD, PUT, OPTIONS, DELETE");
 		res.setHeader("Access-Control-Max-Age", "3600");
 		res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
