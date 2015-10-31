@@ -130,7 +130,11 @@ public abstract class Controller {
 			try {
 				method.invoke(this, (Object[]) null);
 			} catch (InvocationTargetException e) {
-				catchFilter(e.getCause());
+				if (e.getCause() instanceof ActionStopException) {
+					throw e.getCause();
+				} else {
+					catchFilter(e.getCause());
+				}
 			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
