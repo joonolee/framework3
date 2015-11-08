@@ -118,7 +118,7 @@ public class Params extends HashMap<String, String[]> {
 		Enumeration<?> headerNames = request.getHeaderNames();
 		while (headerNames.hasMoreElements()) {
 			String headerName = (String) headerNames.nextElement();
-			headerParams.put(headerName, new String[] { StringUtil.nullToBlankString(request.getHeader(headerName)) });
+			headerParams.put(headerName.toLowerCase(), new String[] { StringUtil.nullToBlankString(request.getHeader(headerName)) });
 		}
 		return headerParams;
 	}
