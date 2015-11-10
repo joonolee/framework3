@@ -164,27 +164,31 @@ public class DaogenForOracle {
 			bw.write("  <description></description>\n");
 			bw.write("  <columns>\n");
 			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-				StringBuilder buf = new StringBuilder();
+				StringBuffer buf = new StringBuffer();
+				String columnName = rsmd.getColumnName(i).toUpperCase();
 				buf.append("    <column name=\"");
-				buf.append(rsmd.getColumnName(i));
+				buf.append(columnName);
 				buf.append("\" type=\"");
 				buf.append(_getJavaType(rsmd.getColumnType(i), rsmd.getPrecision(i), rsmd.getScale(i)));
 				buf.append("\" dbType=\"");
 				buf.append(_getDBType(rsmd.getColumnType(i), rsmd.getPrecision(i), rsmd.getScale(i)));
 				buf.append("\" desc=\"\" notnull=\"");
 				buf.append((rsmd.isNullable(i) == 0 ? "true" : "false") + "\"");
-				if (rsmd.getColumnName(i).equals("ENTERID") || rsmd.getColumnName(i).equals("ENTERNAME") || rsmd.getColumnName(i).equals("ENTERPGM")) {
+				if (columnName.equals("ENTERID") || columnName.equals("ENTERNAME") || columnName.equals("ENTERPGM")) {
 					buf.append(" update=\"none\"");
 				}
 				// 입력일, 수정일에 대한 별도 처리
-				if (rsmd.getColumnName(i).equals("ENTERDATE")) {
-					buf.append(" insert=\"sysdate\" update=\"none\"");
+				if (columnName.equals("ENTERDATE")) {
+					buf.append(" insert=\"now()\" update=\"none\"");
 				}
-				if (rsmd.getColumnName(i).equals("UPDATEDATE")) {
-					buf.append(" insert=\"none\" update=\"sysdate\"");
+				if (columnName.equals("UPDATEDATE")) {
+					buf.append(" insert=\"none\" update=\"now()\"");
 				}
-				if (pkList.contains(rsmd.getColumnName(i))) {
+				if (pkList.contains(columnName)) {
 					buf.append(" primarykey=\"true\"");
+				}
+				if (rsmd.isAutoIncrement(i)) {
+					buf.append(" auto_increment=\"true\"");
 				}
 				buf.append(" />\n");
 				bw.write(buf.toString());
@@ -227,7 +231,7 @@ public class DaogenForOracle {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(query.toString());
 			while (rs.next()) {
-				pkList.add(rs.getString("COLUMN_NAME"));
+				pkList.add(rs.getString("COLUMN_NAME").toUpperCase());
 			}
 		} finally {
 			if (rs != null) {

@@ -163,30 +163,31 @@ public class DaogenForMySQL {
 			bw.write("<table name=\"" + tbName + "\"  schema=\"" + _jdbcUid + "\" class=\"" + tbName + "\">\n");
 			bw.write("  <description></description>\n");
 			bw.write("  <columns>\n");
-			for (int c = 1; c <= rsmd.getColumnCount(); c++) {
+			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 				StringBuffer buf = new StringBuffer();
+				String columnName = rsmd.getColumnName(i).toUpperCase();
 				buf.append("    <column name=\"");
-				buf.append(rsmd.getColumnName(c));
+				buf.append(columnName);
 				buf.append("\" type=\"");
-				buf.append(_getJavaType(rsmd.getColumnType(c), rsmd.getPrecision(c), rsmd.getScale(c)));
+				buf.append(_getJavaType(rsmd.getColumnType(i), rsmd.getPrecision(i), rsmd.getScale(i)));
 				buf.append("\" dbType=\"");
-				buf.append(_getDBType(rsmd.getColumnType(c), rsmd.getPrecision(c), rsmd.getScale(c)));
+				buf.append(_getDBType(rsmd.getColumnType(i), rsmd.getPrecision(i), rsmd.getScale(i)));
 				buf.append("\" desc=\"\" notnull=\"");
-				buf.append((rsmd.isNullable(c) == 0 ? "true" : "false") + "\"");
-				if (rsmd.getColumnName(c).equals("ENTERID") || rsmd.getColumnName(c).equals("ENTERNAME") || rsmd.getColumnName(c).equals("ENTERPGM")) {
+				buf.append((rsmd.isNullable(i) == 0 ? "true" : "false") + "\"");
+				if (columnName.equals("ENTERID") || columnName.equals("ENTERNAME") || columnName.equals("ENTERPGM")) {
 					buf.append(" update=\"none\"");
 				}
 				// 입력일, 수정일에 대한 별도 처리
-				if (rsmd.getColumnName(c).equals("ENTERDATE")) {
+				if (columnName.equals("ENTERDATE")) {
 					buf.append(" insert=\"now()\" update=\"none\"");
 				}
-				if (rsmd.getColumnName(c).equals("UPDATEDATE")) {
+				if (columnName.equals("UPDATEDATE")) {
 					buf.append(" insert=\"none\" update=\"now()\"");
 				}
-				if (pkList.contains(rsmd.getColumnName(c))) {
+				if (pkList.contains(columnName)) {
 					buf.append(" primarykey=\"true\"");
 				}
-				if (rsmd.isAutoIncrement(c)) {
+				if (rsmd.isAutoIncrement(i)) {
 					buf.append(" auto_increment=\"true\"");
 				}
 				buf.append(" />\n");
@@ -229,7 +230,7 @@ public class DaogenForMySQL {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(query.toString());
 			while (rs.next()) {
-				pkList.add(rs.getString("COLUMN_NAME"));
+				pkList.add(rs.getString("COLUMN_NAME").toUpperCase());
 			}
 		} finally {
 			if (rs != null) {
