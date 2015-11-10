@@ -186,7 +186,7 @@ public class DaogenForMSSQL {
 				if (pkList.contains(rsmd.getColumnName(c))) {
 					buf.append(" primarykey=\"true\"");
 				}
-				if(rsmd.isAutoIncrement(c)) {
+				if (rsmd.isAutoIncrement(c)) {
 					buf.append(" auto_increment=\"true\"");
 				}
 				buf.append(" />\n");
