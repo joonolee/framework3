@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DaogenForMSSQL {
+public class DaogenForMySQL {
 	private static final String _filePath = "xml";
 	private static String _jdbcDriver = "";
 	private static String _jdbcUrl = "";
@@ -57,7 +57,7 @@ public class DaogenForMSSQL {
 			for (String tbName : _tbList) {
 				ResultSet rs = null;
 				try {
-					rs = stmt.executeQuery("select top 1 * from " + tbName);
+					rs = stmt.executeQuery("select * from " + tbName + " limit 1");
 					ResultSetMetaData rsmd = rs.getMetaData();
 					_writeFile(rsmd, tbName, conn);
 				} finally {
@@ -104,7 +104,7 @@ public class DaogenForMSSQL {
 				try {
 					String tbName = rs.getString(1);
 					stmt2 = conn.createStatement();
-					rs2 = stmt2.executeQuery("select top 1 * from " + tbName);
+					rs2 = stmt2.executeQuery("select * from " + tbName + " limit 1");
 					ResultSetMetaData rsmd = rs2.getMetaData();
 					_writeFile(rsmd, tbName, conn);
 				} finally {
@@ -178,10 +178,10 @@ public class DaogenForMSSQL {
 				}
 				// 입력일, 수정일에 대한 별도 처리
 				if (rsmd.getColumnName(c).equals("ENTERDATE")) {
-					buf.append(" insert=\"getdate()\" update=\"none\"");
+					buf.append(" insert=\"now()\" update=\"none\"");
 				}
 				if (rsmd.getColumnName(c).equals("UPDATEDATE")) {
-					buf.append(" insert=\"none\" update=\"getdate()\"");
+					buf.append(" insert=\"none\" update=\"now()\"");
 				}
 				if (pkList.contains(rsmd.getColumnName(c))) {
 					buf.append(" primarykey=\"true\"");
@@ -221,9 +221,9 @@ public class DaogenForMSSQL {
 		try {
 			StringBuffer query = new StringBuffer();
 			query.append("select col.column_name  ");
-			query.append("from sysobjects cons ");
-			query.append("    inner join information_schema.key_column_usage col on cons.name = col.column_name ");
-			query.append("where cons.xtype = 'PK' ");
+			query.append("from information_schema.columns cons ");
+			query.append("    inner join information_schema.key_column_usage col on cons.column_name = col.column_name ");
+			query.append("where cons.column_key = 'PRI' ");
 			query.append("    and col.table_name = '" + tableName + "' ");
 			query.append("order by col.ordinal_position ");
 			stmt = conn.createStatement();
@@ -257,7 +257,7 @@ public class DaogenForMSSQL {
 				return "BigDecimal";
 			}
 		case Types.DATE:
-			return "Date";
+			return "String";
 		default:
 			return "String";
 		}
@@ -272,12 +272,8 @@ public class DaogenForMSSQL {
 			return "number(" + len + (s == 0 ? ")" : "." + s + ")");
 		case Types.VARCHAR:
 			return "varchar(" + len + ")";
-		case Types.NVARCHAR:
-			return "nvarchar(" + len + ")";
 		case Types.CHAR:
 			return "char(" + len + ")";
-		case Types.NCHAR:
-			return "nchar(" + len + ")";
 		case Types.DATE:
 			return "date";
 		default:

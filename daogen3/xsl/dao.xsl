@@ -42,10 +42,10 @@ public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
 	public String getInsertSql(){
 		StringBuilder query = new StringBuilder();
 		query.append("INSERT INTO <xsl:value-of select='@name'/> (");
-		query.append("	<xsl:for-each select="columns/column[not(@insert ='none')]"><xsl:if test='position()!=1'>,</xsl:if> <xsl:value-of select='@name'/> </xsl:for-each>");
+		query.append("	<xsl:for-each select="columns/column[not(@insert ='none') and not(@auto_increment ='true')]"><xsl:if test='position()!=1'>,</xsl:if> <xsl:value-of select='@name'/> </xsl:for-each>");
 		query.append(") ");
 		query.append("VALUES (");
-		query.append("	<xsl:for-each select="columns/column[not(@insert ='none')]"><xsl:if test='position()!=1'>,</xsl:if><xsl:if test='@insert'><xsl:value-of select='@insert'/></xsl:if><xsl:if test='not(@insert)'>?</xsl:if></xsl:for-each>");
+		query.append("	<xsl:for-each select="columns/column[not(@insert ='none') and not(@auto_increment ='true')]"><xsl:if test='position()!=1'>,</xsl:if><xsl:if test='@insert'><xsl:value-of select='@insert'/></xsl:if><xsl:if test='not(@insert)'>?</xsl:if></xsl:for-each>");
 		query.append(")");
 		return query.toString();
 	}
