@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -60,7 +59,7 @@ public class ExcelUtil {
 	 * @param fileItem 파일아이템
 	 * @return 데이터의 리스트
 	 */
-	public static List<LinkedHashMap<String, String>> parse(FileItem fileItem) {
+	public static List<RecordMap> parse(FileItem fileItem) {
 		String ext = FileUtil.getFileExtension(fileItem.getName());
 		InputStream is = null;
 		try {
@@ -91,7 +90,7 @@ public class ExcelUtil {
 	 * @param password 비밀번호
 	 * @return 데이터의 리스트
 	 */
-	public static List<LinkedHashMap<String, String>> parse(FileItem fileItem, String password) {
+	public static List<RecordMap> parse(FileItem fileItem, String password) {
 		String ext = FileUtil.getFileExtension(fileItem.getName());
 		InputStream is = null;
 		try {
@@ -121,7 +120,7 @@ public class ExcelUtil {
 	 * @param file 파일
 	 * @return 데이터의 리스트
 	 */
-	public static List<LinkedHashMap<String, String>> parse(File file) {
+	public static List<RecordMap> parse(File file) {
 		FileInputStream fis = null;
 		try {
 			String ext = FileUtil.getFileExtension(file);
@@ -151,7 +150,7 @@ public class ExcelUtil {
 	 * @param file 파일
 	 * @return 데이터의 리스트
 	 */
-	public static List<LinkedHashMap<String, String>> parse(File file, String password) {
+	public static List<RecordMap> parse(File file, String password) {
 		FileInputStream fis = null;
 		try {
 			String ext = FileUtil.getFileExtension(file);
@@ -1095,7 +1094,7 @@ public class ExcelUtil {
 		}
 	}
 
-	private static List<LinkedHashMap<String, String>> parseExcel2003(InputStream is) {
+	private static List<RecordMap> parseExcel2003(InputStream is) {
 		HSSFWorkbook workbook;
 		try {
 			workbook = new HSSFWorkbook(new POIFSFileSystem(is));
@@ -1105,7 +1104,7 @@ public class ExcelUtil {
 		return parseSheet(workbook.getSheetAt(0));
 	}
 
-	private static List<LinkedHashMap<String, String>> parseExcel2003(InputStream is, String password) {
+	private static List<RecordMap> parseExcel2003(InputStream is, String password) {
 		HSSFWorkbook workbook;
 		try {
 			Biff8EncryptionKey.setCurrentUserPassword(password);
@@ -1117,7 +1116,7 @@ public class ExcelUtil {
 		return parseSheet(workbook.getSheetAt(0));
 	}
 
-	private static List<LinkedHashMap<String, String>> parseExcel2007(InputStream is) {
+	private static List<RecordMap> parseExcel2007(InputStream is) {
 		XSSFWorkbook workbook;
 		try {
 			workbook = new XSSFWorkbook(is);
@@ -1127,7 +1126,7 @@ public class ExcelUtil {
 		return parseSheet(workbook.getSheetAt(0));
 	}
 
-	private static List<LinkedHashMap<String, String>> parseExcel2007(InputStream is, String password) {
+	private static List<RecordMap> parseExcel2007(InputStream is, String password) {
 		XSSFWorkbook workbook;
 		try {
 			POIFSFileSystem fs = new POIFSFileSystem(is);
@@ -1144,14 +1143,14 @@ public class ExcelUtil {
 	/**
 	 * 엑셀 시트의 데이터 파싱하여 맵의 리스트로 리턴
 	 */
-	private static List<LinkedHashMap<String, String>> parseSheet(Sheet sheet) {
-		List<LinkedHashMap<String, String>> mapList = new ArrayList<LinkedHashMap<String, String>>();
+	private static List<RecordMap> parseSheet(Sheet sheet) {
+		List<RecordMap> mapList = new ArrayList<RecordMap>();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		int rowCount = sheet.getPhysicalNumberOfRows();
 		int colCount = sheet.getRow(0).getPhysicalNumberOfCells();
 		for (int i = 0; i < rowCount; i++) {
 			Row row = sheet.getRow(i);
-			LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+			RecordMap map = new RecordMap();
 			for (int j = 0; j < colCount; j++) {
 				Cell cell = row.getCell(j);
 				String item = "";
@@ -1160,7 +1159,6 @@ public class ExcelUtil {
 					case Cell.CELL_TYPE_BOOLEAN:
 					case Cell.CELL_TYPE_FORMULA:
 					case Cell.CELL_TYPE_STRING:
-						cell.setCellType(Cell.CELL_TYPE_STRING);
 						item = cell.getStringCellValue();
 						break;
 					case Cell.CELL_TYPE_NUMERIC:
