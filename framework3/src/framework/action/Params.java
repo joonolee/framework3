@@ -363,7 +363,7 @@ public class Params extends HashMap<String, String[]> {
 	 */
 	public String getRawString(String key, String defaultValue) {
 		String[] value = super.get(key);
-		if (value == null || value.length == 0 || value[0].isEmpty()) {
+		if (value == null || value.length == 0 || StringUtil.isEmpty(value[0])) {
 			return defaultValue;
 		}
 		return value[0];
