@@ -419,7 +419,7 @@ public class RDUtil {
 		if (str == null) {
 			return "";
 		}
-		return str.replaceAll("\r\n", "\\\\n").replaceAll("\n", "\\\\n");
+		return str.replaceAll("\r\n", "\\\\n").replaceAll("\r", "\\\\n").replaceAll("\n", "\\\\n");
 	}
 
 	/**
