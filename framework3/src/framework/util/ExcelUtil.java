@@ -1160,6 +1160,7 @@ public class ExcelUtil {
 						case Cell.CELL_TYPE_BOOLEAN:
 						case Cell.CELL_TYPE_FORMULA:
 						case Cell.CELL_TYPE_STRING:
+							cell.setCellType(Cell.CELL_TYPE_STRING);
 							item = cell.getStringCellValue();
 							break;
 						case Cell.CELL_TYPE_NUMERIC:
