@@ -14,6 +14,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
+import framework.action.Params;
+
 /**
  * Velocity를 이용한 템플릿 처리 라이브러리
  */
@@ -34,10 +36,10 @@ public class VelocityUtil {
 	 * @param servlet 서블릿 객체
 	 * @param key routes.properties에 등록한 템플릿의 키 문자열 
 	 * @param statement 문장식별 문자열
-	 * @param param 파라미터 Object 객체
+	 * @param param 파라미터 Params 객체
 	 * @return 템플릿이 적용된 문자열
 	 */
-	public static String render(HttpServlet servlet, String key, String statement, Object param) {
+	public static String render(HttpServlet servlet, String key, String statement, Params param) {
 		StringWriter writer = new StringWriter();
 		try {
 			Velocity.init();
