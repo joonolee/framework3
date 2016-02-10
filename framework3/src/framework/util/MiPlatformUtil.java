@@ -78,6 +78,9 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray, int dataFormat) {
+		if (response == null || datasetNameArray == null || rsArray == null) {
+			return 0;
+		}
 		if (datasetNameArray.length != rsArray.length) {
 			throw new IllegalArgumentException("Dataset이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
 		}
@@ -122,6 +125,9 @@ public class MiPlatformUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray, int dataFormat) {
+		if (response == null || datasetNameArray == null || rsArray == null) {
+			return 0;
+		}
 		if (datasetNameArray.length != rsArray.length) {
 			throw new IllegalArgumentException("Dataset이름 갯수와 ResultSet갯수가 일치하지 않습니다.");
 		}
@@ -274,7 +280,7 @@ public class MiPlatformUtil {
 	 */
 	public static Double getDouble(Dataset dSet, int row, String colName) {
 		String value = getString(dSet, row, colName).trim().replaceAll(",", "");
-		if (value.equals("")) {
+		if ("".equals(value)) {
 			return Double.valueOf(0);
 		}
 		Double num = null;
@@ -330,7 +336,7 @@ public class MiPlatformUtil {
 	 */
 	public static BigDecimal getBigDecimal(Dataset dSet, int row, String colName) {
 		String value = getString(dSet, row, colName).trim().replaceAll(",", "");
-		if (value.equals("")) {
+		if ("".equals(value)) {
 			return BigDecimal.valueOf(0);
 		}
 		try {
@@ -346,7 +352,7 @@ public class MiPlatformUtil {
 	 * RecordSet을 마이플랫폼 데이타셋으로 변환한다.
 	 */
 	private static int appendDataset(Dataset dSet, RecordSet rs) {
-		if (rs == null) {
+		if (dSet == null || rs == null) {
 			return 0;
 		}
 		String[] colNms = rs.getColumns();
@@ -386,7 +392,7 @@ public class MiPlatformUtil {
 	 * ResultSet을 마이플랫폼 데이타셋으로 변환한다.
 	 */
 	private static int appendDataset(Dataset dSet, ResultSet rs) {
-		if (rs == null) {
+		if (dSet == null || rs == null) {
 			return 0;
 		}
 		try {
@@ -460,7 +466,7 @@ public class MiPlatformUtil {
 	 * 마이플랫폼 데이타셋에 RecordSet 한행 추가
 	 */
 	private static void appendRow(Dataset dSet, RecordSet rs, String[] colNms) {
-		if (colNms == null) {
+		if (dSet == null || rs == null || colNms == null) {
 			return;
 		}
 		int row = dSet.appendRow();
@@ -482,7 +488,7 @@ public class MiPlatformUtil {
 	 * 마이플랫폼 데이타셋에 ResultSet 한행 추가
 	 */
 	private static void appendRow(Dataset dSet, ResultSet rs, String[] colNms) {
-		if (colNms == null) {
+		if (dSet == null || rs == null || colNms == null) {
 			return;
 		}
 		try {

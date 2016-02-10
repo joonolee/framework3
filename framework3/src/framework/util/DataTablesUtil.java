@@ -38,7 +38,7 @@ public class DataTablesUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
-		if (rs == null) {
+		if (response == null || rs == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -69,11 +69,11 @@ public class DataTablesUtil {
 	 * ex) response로 rs를 DataTables 형식으로 출력하는 경우 : DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs DataTables 형식으로 변환할 RecordSet 객체
-	 * @param colNames 컬럼이름 배열
+	 * @param colNms 컬럼이름 배열
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, RecordSet rs, String[] colNames) {
-		if (rs == null) {
+	public static int render(HttpServletResponse response, RecordSet rs, String[] colNms) {
+		if (response == null || rs == null || colNms == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -90,7 +90,7 @@ public class DataTablesUtil {
 			if (rowCount++ > 0) {
 				pw.print(",");
 			}
-			pw.print(dataTablesRowStr(rs, colNames));
+			pw.print(dataTablesRowStr(rs, colNms));
 		}
 		pw.print("]");
 		pw.print("}");
@@ -105,10 +105,10 @@ public class DataTablesUtil {
 	 * @return DataTables 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs) {
-		StringBuilder buffer = new StringBuilder();
 		if (rs == null) {
 			return "";
 		}
+		StringBuilder buffer = new StringBuilder();
 		String[] colNms = rs.getColumns();
 		rs.moveRow(0);
 		buffer.append("{");
@@ -130,14 +130,14 @@ public class DataTablesUtil {
 	 * <br>
 	 * ex) rs를 DataTables 형식으로 변환하는 경우 : String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
 	 * @param rs DataTables 형식으로 변환할 RecordSet 객체
-	 * @param colNames 컬럼이름 배열
+	 * @param colNms 컬럼이름 배열
 	 * @return DataTables 형식으로 변환된 문자열
 	 */
-	public static String render(RecordSet rs, String[] colNames) {
-		StringBuilder buffer = new StringBuilder();
-		if (rs == null) {
+	public static String render(RecordSet rs, String[] colNms) {
+		if (rs == null || colNms == null) {
 			return "";
 		}
+		StringBuilder buffer = new StringBuilder();
 		rs.moveRow(0);
 		buffer.append("{");
 		int rowCount = 0;
@@ -146,7 +146,7 @@ public class DataTablesUtil {
 			if (rowCount++ > 0) {
 				buffer.append(",");
 			}
-			buffer.append(dataTablesRowStr(rs, colNames));
+			buffer.append(dataTablesRowStr(rs, colNms));
 		}
 		buffer.append("]");
 		buffer.append("}");
@@ -162,7 +162,7 @@ public class DataTablesUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
-		if (rs == null) {
+		if (response == null || rs == null) {
 			return 0;
 		}
 		try {
@@ -216,11 +216,11 @@ public class DataTablesUtil {
 	 * ex) response로 rs를 DataTables 형식으로 출력하는 경우 : DataTablesUtil.render(response, rs, new String[] { "col1", "col2" })
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs DataTables 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @param colNames 컬럼이름 배열
+	 * @param colNms 컬럼이름 배열
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, ResultSet rs, String[] colNames) {
-		if (rs == null) {
+	public static int render(HttpServletResponse response, ResultSet rs, String[] colNms) {
+		if (response == null || rs == null || colNms == null) {
 			return 0;
 		}
 		try {
@@ -233,7 +233,7 @@ public class DataTablesUtil {
 					if (rowCount++ > 0) {
 						pw.print(",");
 					}
-					pw.print(dataTablesRowStr(rs, colNames));
+					pw.print(dataTablesRowStr(rs, colNms));
 				}
 				pw.print("]");
 				pw.print("}");
@@ -326,11 +326,11 @@ public class DataTablesUtil {
 	 * <br>
 	 * ex) rs를 DataTables 형식으로 변환하는 경우 : String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
 	 * @param rs DataTables 형식으로 변환할 ResultSet 객체
-	 * @param colNames 컬럼이름 배열
+	 * @param colNms 컬럼이름 배열
 	 * @return DataTables 형식으로 변환된 문자열
 	 */
-	public static String render(ResultSet rs, String[] colNames) {
-		if (rs == null) {
+	public static String render(ResultSet rs, String[] colNms) {
+		if (rs == null || colNms == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
@@ -343,7 +343,7 @@ public class DataTablesUtil {
 					if (rowCount++ > 0) {
 						buffer.append(",");
 					}
-					buffer.append(dataTablesRowStr(rs, colNames));
+					buffer.append(dataTablesRowStr(rs, colNms));
 				}
 				buffer.append("]");
 				buffer.append("}");
@@ -384,7 +384,7 @@ public class DataTablesUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, List<RecordMap> mapList) {
-		if (mapList == null) {
+		if (response == null || mapList == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -453,6 +453,9 @@ public class DataTablesUtil {
 	 * DataTables 용 Row 문자열 생성
 	 */
 	private static String dataTablesRowStr(RecordMap map) {
+		if (map == null) {
+			return "";
+		}
 		StringBuilder buffer = new StringBuilder();
 		if (map.entrySet().size() > 0) {
 			buffer.append("[");
@@ -477,8 +480,11 @@ public class DataTablesUtil {
 	 * DataTables 용 Row 문자열 생성
 	 */
 	private static String dataTablesRowStr(RecordSet rs, String[] colNms) {
+		if (rs == null || colNms == null) {
+			return "";
+		}
 		StringBuilder buffer = new StringBuilder();
-		if (colNms != null && colNms.length > 0) {
+		if (colNms.length > 0) {
 			buffer.append("[");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.get(colNms[c].toUpperCase());
@@ -498,8 +504,11 @@ public class DataTablesUtil {
 	}
 
 	private static String dataTablesRowStr(ResultSet rs, String[] colNms) {
+		if (rs == null || colNms == null) {
+			return "";
+		}
 		StringBuilder buffer = new StringBuilder();
-		if (colNms != null && colNms.length > 0) {
+		if (colNms.length > 0) {
 			buffer.append("[");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value;

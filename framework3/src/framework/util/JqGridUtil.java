@@ -41,7 +41,7 @@ public class JqGridUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage) {
-		if (rs == null) {
+		if (response == null || rs == null) {
 			return 0;
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
@@ -86,11 +86,11 @@ public class JqGridUtil {
 	 * @param totalCount 전체페이지수
 	 * @param currentPage 현재페이지수
 	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @param colNames 컬럼이름 배열
+	 * @param colNms 컬럼이름 배열
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
-		if (rs == null) {
+	public static int render(HttpServletResponse response, RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNms) {
+		if (response == null || rs == null || colNms == null) {
 			return 0;
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
@@ -114,7 +114,7 @@ public class JqGridUtil {
 			}
 			pw.print("{");
 			pw.print("\"id\":" + rowCount + ",");
-			pw.print("\"cell\":" + jqGridRowStr(rs, colNames));
+			pw.print("\"cell\":" + jqGridRowStr(rs, colNms));
 			pw.print("}");
 		}
 		pw.print("],");
@@ -175,11 +175,11 @@ public class JqGridUtil {
 	 * @param totalCount 전체페이지수
 	 * @param currentPage 현재페이지수
 	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @param colNames 컬럼이름 배열
+	 * @param colNms 컬럼이름 배열
 	 * @return jqGrid 형식으로 변환된 문자열
 	 */
-	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
-		if (rs == null) {
+	public static String render(RecordSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNms) {
+		if (rs == null || colNms == null) {
 			return "";
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
@@ -198,7 +198,7 @@ public class JqGridUtil {
 			}
 			buf.append("{");
 			buf.append("\"id\":" + rowCount + ",");
-			buf.append("\"cell\":" + jqGridRowStr(rs, colNames));
+			buf.append("\"cell\":" + jqGridRowStr(rs, colNms));
 			buf.append("}");
 		}
 		buf.append("],");
@@ -221,7 +221,7 @@ public class JqGridUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage) {
-		if (rs == null) {
+		if (response == null || rs == null) {
 			return 0;
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
@@ -289,11 +289,11 @@ public class JqGridUtil {
 	 * @param totalCount 전체페이지수
 	 * @param currentPage 현재페이지수
 	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @param colNames 컬럼이름 배열
+	 * @param colNms 컬럼이름 배열
 	 * @return 처리건수
 	 */
-	public static int render(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
-		if (rs == null) {
+	public static int render(HttpServletResponse response, ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNms) {
+		if (response == null || rs == null || colNms == null) {
 			return 0;
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
@@ -313,7 +313,7 @@ public class JqGridUtil {
 					}
 					pw.print("{");
 					pw.print("\"id\":" + rowCount + ",");
-					pw.print("\"cell\":" + jqGridRowStr(rs, colNames));
+					pw.print("\"cell\":" + jqGridRowStr(rs, colNms));
 					pw.print("}");
 				}
 				pw.print("],");
@@ -427,11 +427,11 @@ public class JqGridUtil {
 	 * @param totalCount 전체페이지수
 	 * @param currentPage 현재페이지수
 	 * @param rowsPerPage 한페이지에 표시할 로우수
-	 * @param colNames 컬럼이름 배열
+	 * @param colNms 컬럼이름 배열
 	 * @return jqGrid 형식으로 변환된 문자열
 	 */
-	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNames) {
-		if (rs == null) {
+	public static String render(ResultSet rs, int totalCount, int currentPage, int rowsPerPage, String[] colNms) {
+		if (rs == null || colNms == null) {
 			return "";
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
@@ -451,7 +451,7 @@ public class JqGridUtil {
 					}
 					buf.append("{");
 					buf.append("\"id\":" + rowCount + ",");
-					buf.append("\"cell\":" + jqGridRowStr(rs, colNames));
+					buf.append("\"cell\":" + jqGridRowStr(rs, colNms));
 					buf.append("}");
 				}
 				buf.append("],");
@@ -499,7 +499,7 @@ public class JqGridUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, List<RecordMap> mapList, int totalCount, int currentPage, int rowsPerPage) {
-		if (mapList == null) {
+		if (response == null || mapList == null) {
 			return 0;
 		}
 		rowsPerPage = ((rowsPerPage == 0) ? 1 : rowsPerPage);
@@ -595,6 +595,9 @@ public class JqGridUtil {
 	 * jqGrid 용 Row 문자열 생성
 	 */
 	private static String jqGridRowStr(RecordMap map) {
+		if (map == null) {
+			return "";
+		}
 		StringBuilder buf = new StringBuilder();
 		if (map.entrySet().size() > 0) {
 			buf.append("[");
@@ -619,8 +622,11 @@ public class JqGridUtil {
 	 * jqGrid 용 Row 문자열 생성
 	 */
 	private static String jqGridRowStr(RecordSet rs, String[] colNms) {
+		if (rs == null || colNms == null) {
+			return "";
+		}
 		StringBuilder buf = new StringBuilder();
-		if (colNms != null && colNms.length > 0) {
+		if (colNms.length > 0) {
 			buf.append("[");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.get(colNms[c].toUpperCase());
@@ -640,6 +646,9 @@ public class JqGridUtil {
 	}
 
 	private static String jqGridRowStr(ResultSet rs, String[] colNms) {
+		if (rs == null || colNms == null) {
+			return "";
+		}
 		StringBuilder buf = new StringBuilder();
 		if (colNms.length > 0) {
 			buf.append("[");

@@ -128,7 +128,7 @@ public class CsvUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, String sep) {
-		if (rs == null) {
+		if (response == null || rs == null || sep == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -157,7 +157,7 @@ public class CsvUtil {
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs, String sep) {
-		if (rs == null) {
+		if (rs == null || sep == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
@@ -183,7 +183,7 @@ public class CsvUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, String sep) {
-		if (rs == null) {
+		if (response == null || rs == null || sep == null) {
 			return 0;
 		}
 		try {
@@ -240,8 +240,8 @@ public class CsvUtil {
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
 	public static String render(ResultSet rs, String sep) {
-		if (rs == null) {
-			return null;
+		if (rs == null || sep == null) {
+			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
 		try {
@@ -298,7 +298,7 @@ public class CsvUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, List<RecordMap> mapList, String sep) {
-		if (mapList == null) {
+		if (response == null || mapList == null || sep == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -325,7 +325,7 @@ public class CsvUtil {
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
 	public static String render(List<RecordMap> mapList, String sep) {
-		if (mapList == null) {
+		if (mapList == null || sep == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
@@ -349,7 +349,7 @@ public class CsvUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordMap map, String sep) {
-		if (map == null) {
+		if (response == null || map == null || sep == null) {
 			return 0;
 		}
 		try {
@@ -370,7 +370,7 @@ public class CsvUtil {
 	 * @return 구분자(CSV, TSV 등)파일 형식으로 변환된 문자열
 	 */
 	public static String render(RecordMap map, String sep) {
-		if (map == null) {
+		if (map == null || sep == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
@@ -386,7 +386,7 @@ public class CsvUtil {
 	 * @param sep 열 구분자로 쓰일 문자열
 	 */
 	private static String escape(String str, String sep) {
-		if (str == null) {
+		if (str == null || sep == null) {
 			return "";
 		}
 		return (str.contains(sep) || str.contains("\n")) ? "\"" + str + "\"" : str;
@@ -397,6 +397,9 @@ public class CsvUtil {
 	 * 데이타가 숫자가 아닐때에는 구분자로 쓰인 문자열 또는 개행문자를 escape 하기 위해 값을 쌍따옴표로 둘러싼다.
 	 */
 	private static String sepRowStr(RecordMap map, String sep) {
+		if (map == null || sep == null) {
+			return "";
+		}
 		StringBuilder buffer = new StringBuilder();
 		Set<String> keys = map.keySet();
 		int rowCount = 0;
@@ -423,7 +426,7 @@ public class CsvUtil {
 	 * 데이타가 숫자가 아닐때에는 구분자로 쓰인 문자열 또는 개행문자를 escape 하기 위해 값을 쌍따옴표로 둘러싼다.
 	 */
 	private static String sepRowStr(RecordSet rs, String[] colNms, String sep) {
-		if (colNms == null) {
+		if (rs == null || colNms == null || sep == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
@@ -451,6 +454,9 @@ public class CsvUtil {
 	 * 데이타가 숫자가 아닐때에는 구분자로 쓰인 문자열 또는 개행문자를 escape 하기 위해 값을 쌍따옴표로 둘러싼다.
 	 */
 	private static String sepRowStr(ResultSet rs, String[] colNms, String sep) {
+		if (rs == null || colNms == null || sep == null) {
+			return "";
+		}
 		StringBuilder buffer = new StringBuilder();
 		int rowCount = 0;
 		for (int c = 0; c < colNms.length; c++) {

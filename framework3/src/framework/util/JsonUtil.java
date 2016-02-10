@@ -42,7 +42,7 @@ public class JsonUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs) {
-		if (rs == null) {
+		if (response == null || rs == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -100,7 +100,7 @@ public class JsonUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
-		if (rs == null) {
+		if (response == null || rs == null) {
 			return 0;
 		}
 		try {
@@ -217,7 +217,7 @@ public class JsonUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, List<RecordMap> mapList) {
-		if (mapList == null) {
+		if (response == null || mapList == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -273,7 +273,7 @@ public class JsonUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordMap map) {
-		if (map == null) {
+		if (response == null || map == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -342,6 +342,9 @@ public class JsonUtil {
 	 * @return Object 형식으로 변환된 객체
 	 */
 	public static String pretty(String json, String indent) {
+		if (json == null || indent == null) {
+			return "";
+		}
 		StringBuilder buf = new StringBuilder();
 		int level = 0;
 		String target = null;
@@ -391,6 +394,9 @@ public class JsonUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	private static String jsonRowStr(RecordMap map) {
+		if (map == null) {
+			return "";
+		}
 		StringBuilder buf = new StringBuilder();
 		if (map.entrySet().size() > 0) {
 			buf.append("{");
@@ -424,8 +430,11 @@ public class JsonUtil {
 	 * JSON 용 Row 문자열 생성
 	 */
 	private static String jsonRowStr(RecordSet rs, String[] colNms) {
+		if (rs == null || colNms == null) {
+			return "";
+		}
 		StringBuilder buf = new StringBuilder();
-		if (colNms != null && colNms.length > 0) {
+		if (colNms.length > 0) {
 			buf.append("{");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.get(colNms[c]);
@@ -451,6 +460,9 @@ public class JsonUtil {
 	}
 
 	private static String jsonRowStr(ResultSet rs, String[] colNms) {
+		if (rs == null || colNms == null) {
+			return "";
+		}
 		StringBuilder buf = new StringBuilder();
 		if (colNms.length > 0) {
 			buf.append("{");

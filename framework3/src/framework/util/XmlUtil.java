@@ -40,7 +40,7 @@ public class XmlUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, String encoding) {
-		if (rs == null) {
+		if (response == null || rs == null || encoding == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -93,7 +93,7 @@ public class XmlUtil {
 	 * @return xml 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs, String encoding) {
-		if (rs == null) {
+		if (rs == null || encoding == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
@@ -112,7 +112,7 @@ public class XmlUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, String encoding) {
-		if (rs == null) {
+		if (response == null || rs == null || encoding == null) {
 			return 0;
 		}
 		try {
@@ -222,7 +222,7 @@ public class XmlUtil {
 	 * @param encoding 헤더에 포함될 인코딩
 	 */
 	public static String render(ResultSet rs, String encoding) {
-		if (rs == null) {
+		if (rs == null || encoding == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
@@ -241,7 +241,7 @@ public class XmlUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, List<RecordMap> mapList, String encoding) {
-		if (mapList == null) {
+		if (response == null || mapList == null || encoding == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -290,7 +290,7 @@ public class XmlUtil {
 	 * @return xml형식으로 변환된 문자열
 	 */
 	public static String render(List<RecordMap> mapList, String encoding) {
-		if (mapList == null) {
+		if (mapList == null || encoding == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
@@ -309,7 +309,7 @@ public class XmlUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordMap map, String encoding) {
-		if (map == null) {
+		if (response == null || map == null || encoding == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -352,7 +352,7 @@ public class XmlUtil {
 	 * @return xml 형식으로 변환된 문자열
 	 */
 	public static String render(RecordMap map, String encoding) {
-		if (map == null) {
+		if (map == null || encoding == null) {
 			return "";
 		}
 		StringBuilder buffer = new StringBuilder();
@@ -375,6 +375,9 @@ public class XmlUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	private static String xmlItemStr(RecordMap map) {
+		if (map == null) {
+			return "<item></item>";
+		}
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<item>");
 		for (Entry<String, Object> entry : map.entrySet()) {
@@ -402,7 +405,7 @@ public class XmlUtil {
 	 * xml item 문자열 생성
 	 */
 	private static String xmlItemStr(RecordSet rs, String[] colNms) {
-		if (colNms == null) {
+		if (rs == null || colNms == null) {
 			return "<item></item>";
 		}
 		StringBuilder buffer = new StringBuilder();
@@ -424,7 +427,7 @@ public class XmlUtil {
 	}
 
 	private static String xmlItemStr(ResultSet rs, String[] colNms) {
-		if (colNms == null) {
+		if (rs == null || colNms == null) {
 			return "<item></item>";
 		}
 		StringBuilder buffer = new StringBuilder();

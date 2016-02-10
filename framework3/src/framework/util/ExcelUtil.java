@@ -195,7 +195,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
-		if (rs == null) {
+		if (response == null || rs == null || fileName == null || header == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -253,7 +253,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2003(File file, RecordSet rs, String[] header) {
-		if (rs == null) {
+		if (file == null || rs == null || header == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -317,7 +317,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
-		if (rs == null) {
+		if (response == null || rs == null || fileName == null || header == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -375,7 +375,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, RecordSet rs, String[] header) {
-		if (rs == null) {
+		if (file == null || rs == null || header == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -439,7 +439,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
-		if (rs == null) {
+		if (response == null || rs == null || fileName == null || header == null) {
 			return 0;
 		}
 		try {
@@ -525,7 +525,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2003(File file, ResultSet rs, String[] header) {
-		if (rs == null) {
+		if (file == null || rs == null || header == null) {
 			return 0;
 		}
 		try {
@@ -616,7 +616,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
-		if (rs == null) {
+		if (response == null || rs == null || fileName == null || header == null) {
 			return 0;
 		}
 		try {
@@ -702,7 +702,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, ResultSet rs, String[] header) {
-		if (rs == null) {
+		if (file == null || rs == null || header == null) {
 			return 0;
 		}
 		try {
@@ -793,7 +793,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header) {
-		if (mapList == null) {
+		if (response == null || mapList == null || fileName == null || header == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -849,7 +849,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2003(File file, List<RecordMap> mapList, String[] header) {
-		if (mapList == null) {
+		if (file == null || mapList == null || header == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -911,7 +911,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header) {
-		if (mapList == null) {
+		if (response == null || mapList == null || fileName == null || header == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -967,7 +967,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, List<RecordMap> mapList, String[] header) {
-		if (mapList == null) {
+		if (file == null || mapList == null || header == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -1012,7 +1012,7 @@ public class ExcelUtil {
 	////////////////////////////////////////////////////////////////////////////////////////// Private 메소드
 
 	private static void appendHeader(Row row, String[] header, CellStyle cellStyle) {
-		if (header == null) {
+		if (row == null || header == null || cellStyle == null) {
 			return;
 		}
 		for (int c = 0; c < header.length; c++) {
@@ -1024,7 +1024,7 @@ public class ExcelUtil {
 	}
 
 	private static void appendRow(Row row, RecordSet rs, String[] colNms, CellStyle cellStyle) {
-		if (colNms == null) {
+		if (row == null || rs == null || colNms == null || cellStyle == null) {
 			return;
 		}
 		for (int c = 0; c < colNms.length; c++) {
@@ -1047,7 +1047,7 @@ public class ExcelUtil {
 	}
 
 	private static void appendRow(Row row, ResultSet rs, String[] colNms, CellStyle cellStyle) {
-		if (colNms == null) {
+		if (row == null || rs == null || colNms == null || cellStyle == null) {
 			return;
 		}
 		try {
@@ -1074,6 +1074,9 @@ public class ExcelUtil {
 	}
 
 	private static void appendRow(Row row, RecordMap map, CellStyle cellStyle) {
+		if (row == null || map == null || cellStyle == null) {
+			return;
+		}
 		int c = 0;
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object value = entry.getValue();

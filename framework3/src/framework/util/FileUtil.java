@@ -183,9 +183,7 @@ public class FileUtil {
 			File[] fileItems = directory.listFiles();
 			if (fileItems != null) {
 				for (File item : fileItems) {
-					if (!item.delete()) {
-						return false;
-					}
+					item.delete();
 				}
 			}
 			return directory.delete();

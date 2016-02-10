@@ -132,7 +132,7 @@ public class RssUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, String encoding, String title, String link, String description, String webMaster) {
-		if (rs == null) {
+		if (response == null || rs == null || encoding == null || title == null || link == null || description == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -177,7 +177,7 @@ public class RssUtil {
 	 * @return RSS 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs, String encoding, String title, String link, String description, String webMaster) {
-		if (rs == null) {
+		if (rs == null || encoding == null || title == null || link == null || description == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
@@ -229,7 +229,7 @@ public class RssUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, String encoding, String title, String link, String description, String webMaster) {
-		if (rs == null) {
+		if (response == null || rs == null || encoding == null || title == null || link == null || description == null) {
 			return 0;
 		}
 		try {
@@ -294,7 +294,7 @@ public class RssUtil {
 	 * @param webMaster 웹마스터 e-mail 주소(validator를 통과하기 위해서는 "이메일주소(이름)" 형식으로 표기하여야 함) : 옵션
 	 */
 	public static String render(ResultSet rs, String encoding, String title, String link, String description, String webMaster) {
-		if (rs == null) {
+		if (rs == null || encoding == null || title == null || link == null || description == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
@@ -372,7 +372,7 @@ public class RssUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, List<RssItem> rssItemList, String encoding, String title, String link, String description, String webMaster) {
-		if (rssItemList == null) {
+		if (rssItemList == null || encoding == null || title == null || link == null || description == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -416,7 +416,7 @@ public class RssUtil {
 	 * @return RSS 형식으로 변환된 문자열
 	 */
 	public static String render(List<RssItem> rssItemList, String encoding, String title, String link, String description, String webMaster) {
-		if (rssItemList == null) {
+		if (rssItemList == null || encoding == null || title == null || link == null || description == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
@@ -466,6 +466,9 @@ public class RssUtil {
 	 * rss item 문자열 생성
 	 */
 	private static String rssItemStr(RssItem item) {
+		if (item == null) {
+			return "";
+		}
 		StringBuilder buf = new StringBuilder();
 		buf.append("    "); // 들여쓰기용
 		buf.append("<item>");

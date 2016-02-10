@@ -63,7 +63,7 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordSet rs, String colSep, String lineSep) {
-		if (rs == null) {
+		if (response == null || rs == null || colSep == null || lineSep == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -106,7 +106,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(RecordSet rs, String colSep, String lineSep) {
-		if (rs == null) {
+		if (rs == null || colSep == null || lineSep == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
@@ -146,7 +146,7 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs, String colSep, String lineSep) {
-		if (rs == null) {
+		if (response == null || rs == null || colSep == null || lineSep == null) {
 			return 0;
 		}
 		try {
@@ -216,7 +216,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(ResultSet rs, String colSep, String lineSep) {
-		if (rs == null) {
+		if (rs == null || colSep == null || lineSep == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
@@ -287,7 +287,7 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, RecordMap map, String colSep) {
-		if (map == null) {
+		if (response == null || map == null || colSep == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -321,7 +321,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(RecordMap map, String colSep) {
-		if (map == null) {
+		if (map == null || colSep == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
@@ -353,7 +353,7 @@ public class RDUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, List<RecordMap> mapList, String colSep, String lineSep) {
-		if (mapList == null) {
+		if (response == null || mapList == null || colSep == null || lineSep == null) {
 			return 0;
 		}
 		PrintWriter pw;
@@ -394,7 +394,7 @@ public class RDUtil {
 	 * @return RD 파일 형식으로 변환된 문자열
 	 */
 	public static String render(List<RecordMap> mapList, String colSep, String lineSep) {
-		if (mapList == null) {
+		if (mapList == null || colSep == null || lineSep == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
@@ -426,6 +426,9 @@ public class RDUtil {
 	 * RD(리포트디자이너) 용 Row 문자열 생성
 	 */
 	private static String rdRowStr(RecordMap map, String colSep) {
+		if (map == null || colSep == null) {
+			return "";
+		}
 		StringBuilder buf = new StringBuilder();
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object value = entry.getValue();
@@ -441,7 +444,7 @@ public class RDUtil {
 	 * RD(리포트디자이너) 용 Row 문자열 생성
 	 */
 	private static String rdRowStr(RecordSet rs, String[] colNms, String colSep) {
-		if (colNms == null) {
+		if (rs == null || colNms == null || colSep == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
@@ -455,7 +458,7 @@ public class RDUtil {
 	}
 
 	private static String rdRowStr(ResultSet rs, String[] colNms, String colSep) {
-		if (colNms == null) {
+		if (rs == null || colNms == null || colSep == null) {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();

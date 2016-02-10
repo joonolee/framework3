@@ -73,6 +73,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray) {
+		if (response == null || datasetNameArray == null || rsArray == null) {
+			return 0;
+		}
 		if (datasetNameArray.length != rsArray.length) {
 			throw new IllegalArgumentException("DataSet이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
 		}
@@ -116,6 +119,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet[] dSetArray, RecordSet[] rsArray) {
+		if (response == null || dSetArray == null || rsArray == null) {
+			return 0;
+		}
 		if (dSetArray.length != rsArray.length) {
 			throw new IllegalArgumentException("DataSet 갯수와 RecordSet갯수가 일치하지 않습니다.");
 		}
@@ -171,6 +177,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray) {
+		if (response == null || datasetNameArray == null || rsArray == null) {
+			return 0;
+		}
 		if (datasetNameArray.length != rsArray.length) {
 			throw new IllegalArgumentException("DataSet이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
 		}
@@ -214,6 +223,9 @@ public class GauceUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, GauceDataSet[] dSetArray, ResultSet[] rsArray) {
+		if (response == null || dSetArray == null || rsArray == null) {
+			return 0;
+		}
 		if (dSetArray.length != rsArray.length) {
 			throw new IllegalArgumentException("DataSet 갯수와 RecordSet갯수가 일치하지 않습니다.");
 		}
@@ -323,7 +335,7 @@ public class GauceUtil {
 	 * RecordSet을 가우스 데이타셋으로 변환한다.
 	 */
 	private static int appendDataSet(GauceDataSet dSet, RecordSet rs) {
-		if (rs == null) {
+		if (dSet == null || rs == null) {
 			return 0;
 		}
 		String[] colNms = rs.getColumns();
@@ -344,7 +356,7 @@ public class GauceUtil {
 	 * ResultSet을 가우스 데이타셋으로 변환한다.
 	 */
 	private static int appendDataSet(GauceDataSet dSet, ResultSet rs) {
-		if (rs == null) {
+		if (dSet == null || rs == null) {
 			return 0;
 		}
 		try {
@@ -402,7 +414,7 @@ public class GauceUtil {
 	 * 가우스 데이타셋에 RecordSet 한행 추가
 	 */
 	private static void appendRow(GauceDataSet dSet, RecordSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
-		if (colNms == null) {
+		if (dSet == null || rs == null || colNms == null || colInfo == null || colSize == null || colSizeReal == null || colScale == null) {
 			return;
 		}
 		for (int c = 0; c < colNms.length; c++) {
@@ -433,7 +445,7 @@ public class GauceUtil {
 	 * 가우스 데이타셋에 ResultSet 한행 추가
 	 */
 	private static void appendRow(GauceDataSet dSet, ResultSet rs, String[] colNms, String[] colInfo, int[] colSize, int[] colSizeReal, int[] colScale) {
-		if (colNms == null) {
+		if (dSet == null || rs == null || colNms == null || colInfo == null || colSize == null || colSizeReal == null || colScale == null) {
 			return;
 		}
 		try {
