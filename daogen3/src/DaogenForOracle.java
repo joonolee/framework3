@@ -179,10 +179,10 @@ public class DaogenForOracle {
 				}
 				// 입력일, 수정일에 대한 별도 처리
 				if (columnName.equals("ENTERDATE")) {
-					buf.append(" insert=\"now()\" update=\"none\"");
+					buf.append(" insert=\"sysdate\" update=\"none\"");
 				}
 				if (columnName.equals("UPDATEDATE")) {
-					buf.append(" insert=\"none\" update=\"now()\"");
+					buf.append(" insert=\"none\" update=\"sysdate\"");
 				}
 				if (pkList.contains(columnName)) {
 					buf.append(" primarykey=\"true\"");
