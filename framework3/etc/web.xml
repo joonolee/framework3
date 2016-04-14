@@ -76,6 +76,10 @@
 			<param-name>routes-mapping</param-name>
 			<param-value>routes</param-value>
 		</init-param>
+		<init-param>
+			<param-name>views-mapping</param-name>
+			<param-value>views</param-value>
+		</init-param>
 		<!--<init-param>
 			<param-name>default-servlet-name</param-name>
 			<param-value>default</param-value>

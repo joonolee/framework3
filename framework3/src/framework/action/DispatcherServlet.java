@@ -26,19 +26,18 @@ import framework.util.StringUtil;
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
 	private static final Log logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
+	private static final String[] defaultServletNames = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
 
 	/**
 	 * 서블릿 객체를 초기화 한다.
-	 * web.xml에 초기화 파라미터로 등록되어 있는 routes-mapping 값을 찾아 리소스 번들을 생성하는 역할을 한다.
+	 * web.xml에 초기화 파라미터로 등록되어 있는 routes-mapping, views-mapping 값을 찾아 리소스 번들을 생성하는 역할을 한다.
 	 * @param config ServletConfig 객체
 	 */
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		ResourceBundle bundle = null;
-		String[] defaultServletNames = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
 		try {
-			bundle = ResourceBundle.getBundle(config.getInitParameter("routes-mapping"));
+			// default servlet 검색
 			String defaultServletName = StringUtil.nullToBlankString(config.getInitParameter("default-servlet-name"));
 			if ("".equals(defaultServletName)) {
 				for (String servletName : defaultServletNames) {
@@ -55,10 +54,15 @@ public class DispatcherServlet extends HttpServlet {
 			} else {
 				logger.info("Default Servlet을 찾을 수 없습니다.");
 			}
+			// routes 번들 설정
+			ResourceBundle routesBundle = ResourceBundle.getBundle(config.getInitParameter("routes-mapping"));
+			getServletContext().setAttribute("routes-mapping", routesBundle);
+			// views 번들 설정
+			ResourceBundle viewsBundle = ResourceBundle.getBundle(config.getInitParameter("views-mapping"));
+			getServletContext().setAttribute("views-mapping", viewsBundle);
 		} catch (MissingResourceException e) {
 			throw new ServletException(e);
 		}
-		getServletContext().setAttribute("routes-mapping", bundle);
 		// Cache
 		Cache.init();
 	}
@@ -162,8 +166,8 @@ public class DispatcherServlet extends HttpServlet {
 
 	private String[] getControllerAction(String routePath) {
 		try {
-			ResourceBundle bundle = (ResourceBundle) getServletContext().getAttribute("routes-mapping");
-			String value = ((String) bundle.getObject(routePath)).trim();
+			ResourceBundle routesBundle = (ResourceBundle) getServletContext().getAttribute("routes-mapping");
+			String value = ((String) routesBundle.getObject(routePath)).trim();
 			int pos = value.lastIndexOf(".");
 			return new String[] { value.substring(0, pos), value.substring(pos + 1) };
 		} catch (MissingResourceException e) {

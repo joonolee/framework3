@@ -162,15 +162,15 @@ public abstract class Controller {
 
 	/**
 	 * 요청을 JSP페이지로 포워드(Forward) 한다.
-	 * 작성된 JSP페이지는 routes.properties에 등록한다.
+	 * 작성된 JSP페이지는 views.properties에 등록한다.
 	 * <br>
 	 * ex) 키가 search-jsp 인 JSP페이지로 포워딩 할 경우 : render("search-jsp")
-	 * @param key routes.properties 파일에 등록된 JSP 페이지의 키
+	 * @param key views.properties 파일에 등록된 JSP 페이지의 키
 	 */
 	protected void render(String key) {
 		try {
-			ResourceBundle bundle = (ResourceBundle) application.getAttribute("routes-mapping");
-			String url = ((String) bundle.getObject(key)).trim();
+			ResourceBundle viewsBundle = (ResourceBundle) application.getAttribute("views-mapping");
+			String url = ((String) viewsBundle.getObject(key)).trim();
 			if (logger.isDebugEnabled()) {
 				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 forward 되었습니다");
 			}
