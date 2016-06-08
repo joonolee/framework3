@@ -433,8 +433,7 @@ public class GauceUtil {
 					}
 					dSet.put(colNms[c], rs.getDouble(colNms[c]), dblSize, GauceDataColumn.TB_DECIMAL);
 				} else {
-					// 한글깨짐으로 인해 colSize[c] 에 2를 곱하여 해결
-					dSet.put(colNms[c], (rs.getString(colNms[c])), colSize[c] * 2, GauceDataColumn.TB_NORMAL);
+					dSet.put(colNms[c], (rs.getString(colNms[c])), colSize[c], GauceDataColumn.TB_NORMAL);
 				}
 			}
 		}
@@ -465,8 +464,7 @@ public class GauceUtil {
 						}
 						dSet.put(colNms[c], rs.getDouble(colNms[c]), dblSize, GauceDataColumn.TB_DECIMAL);
 					} else {
-						// 한글깨짐으로 인해 colSize[c] 에 2를 곱하여 해결
-						dSet.put(colNms[c], (rs.getString(colNms[c])), colSize[c] * 2, GauceDataColumn.TB_NORMAL);
+						dSet.put(colNms[c], (rs.getString(colNms[c])), colSize[c], GauceDataColumn.TB_NORMAL);
 					}
 				}
 			}
