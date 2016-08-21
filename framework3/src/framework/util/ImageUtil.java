@@ -89,6 +89,110 @@ public class ImageUtil {
 	}
 
 	/**
+	 * 이미지를 리사이즈 한다. 
+	 * 소스 이미지 파일의 width를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
+	 * @param srcPath 소스 이미지 경로
+	 * @param destPath 대상 이미지 경로
+	 * @param width 리사이즈할 가로 사이즈
+	 */
+	public static void resizeWidth(String srcPath, String destPath, int width) {
+		File srcFile = new File(srcPath);
+		File destFile = new File(destPath);
+		resizeWidth(srcFile, destFile, width);
+	}
+
+	/**
+	 * 이미지를 리사이즈 한다. 
+	 * 소스 이미지 파일의 width를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
+	 * @param srcFile 소스 이미지 파일
+	 * @param destFile 대상 이미지 파일
+	 * @param width 리사이즈할 가로 사이즈
+	 */
+	public static void resizeWidth(File srcFile, File destFile, int width) {
+		BufferedImage bufImg = null;
+		Image image = null;
+		Image resizedImg = null;
+		try {
+			image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
+			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
+				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
+			}
+			double scale = getWidthScale(width, image.getWidth(null));
+			int scaleWidth = (int) (scale * image.getWidth(null));
+			int scaleHeight = (int) (scale * image.getHeight(null));
+			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+			Graphics2D g2d = bufImg.createGraphics();
+			AffineTransform ax = new AffineTransform();
+			ax.setToScale(1, 1);
+			g2d.drawImage(image, ax, null);
+			resizedImg = bufImg.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+			writePNG(resizedImg, destFile);
+		} finally {
+			if (resizedImg != null) {
+				resizedImg.flush();
+			}
+			if (bufImg != null) {
+				bufImg.flush();
+			}
+			if (image != null) {
+				image.flush();
+			}
+		}
+	}
+
+	/**
+	 * 이미지를 리사이즈 한다. 
+	 * 소스 이미지 파일의 height를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
+	 * @param srcPath 소스 이미지 경로
+	 * @param destPath 대상 이미지 경로
+	 * @param height 리사이즈할 세로 사이즈
+	 */
+	public static void resizeHeight(String srcPath, String destPath, int height) {
+		File srcFile = new File(srcPath);
+		File destFile = new File(destPath);
+		resizeHeight(srcFile, destFile, height);
+	}
+
+	/**
+	 * 이미지를 리사이즈 한다. 
+	 * 소스 이미지 파일의 height를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
+	 * @param srcFile 소스 이미지 파일
+	 * @param destFile 대상 이미지 파일
+	 * @param height 리사이즈할 세로 사이즈
+	 */
+	public static void resizeHeight(File srcFile, File destFile, int height) {
+		BufferedImage bufImg = null;
+		Image image = null;
+		Image resizedImg = null;
+		try {
+			image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
+			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
+				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
+			}
+			double scale = getHeightScale(height, image.getHeight(null));
+			int scaleWidth = (int) (scale * image.getWidth(null));
+			int scaleHeight = (int) (scale * image.getHeight(null));
+			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+			Graphics2D g2d = bufImg.createGraphics();
+			AffineTransform ax = new AffineTransform();
+			ax.setToScale(1, 1);
+			g2d.drawImage(image, ax, null);
+			resizedImg = bufImg.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+			writePNG(resizedImg, destFile);
+		} finally {
+			if (resizedImg != null) {
+				resizedImg.flush();
+			}
+			if (bufImg != null) {
+				bufImg.flush();
+			}
+			if (image != null) {
+				image.flush();
+			}
+		}
+	}
+
+	/**
 	 * CAPTCHA 이미지를 응답객체로 전송하고, 생성된 문자열을 리턴한다.
 	 * 기본사이즈는 가로 200px, 세로 50px으로 한다.
 	 * @param response captcha 이미지를 전송할 응답객체
@@ -119,7 +223,8 @@ public class ImageUtil {
 	 * @param width QRCode 이미지 가로 길이
 	 */
 	public static void qrcode(String url, String destPath, int width) {
-		qrcode(url, new File(destPath), width);
+		File destFile = new File(destPath);
+		qrcode(url, destFile, width);
 	}
 
 	/**
@@ -258,7 +363,7 @@ public class ImageUtil {
 	 * @param resizeHeight 리사이즈할 세로 사이즈
 	 * @param imageWidth 원본 이미지의 가로 사이즈
 	 * @param imageHeight 원본 이미지의 세로 사이즈
-	 * @return 스케일 바율
+	 * @return 스케일 비율
 	 */
 	private static double getScale(int resizeWidth, int resizeHeight, int imageWidth, int imageHeight) {
 		double widthScale = (double) resizeWidth / imageWidth;
@@ -268,6 +373,30 @@ public class ImageUtil {
 		} else {
 			return widthScale;
 		}
+	}
+
+	/**
+	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다. 
+	 * 크기가 큰 폭을 기준으로 동일 비율로 한다.
+	 * @param resizeWidth 리사이즈할 가로 사이즈
+	 * @param imageWidth 원본 이미지의 가로 사이즈
+	 * @return 스케일 비율
+	 */
+	private static double getWidthScale(int resizeWidth, int imageWidth) {
+		double widthScale = (double) resizeWidth / imageWidth;
+		return widthScale;
+	}
+
+	/**
+	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다. 
+	 * 크기가 큰 폭을 기준으로 동일 비율로 한다.
+	 * @param resizeHeight 리사이즈할 세로 사이즈
+	 * @param imageHeight 원본 이미지의 세로 사이즈
+	 * @return 스케일 비율
+	 */
+	private static double getHeightScale(int resizeHeight, int imageHeight) {
+		double heightScale = (double) resizeHeight / (double) imageHeight;
+		return heightScale;
 	}
 
 	/**
