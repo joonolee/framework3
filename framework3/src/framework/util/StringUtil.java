@@ -159,7 +159,7 @@ public class StringUtil {
 	/**
 	 * 스트링 타입의 바이트 단위를 사람이 읽기 좋은 형태로 변환(KByte, MByte, GByte)
 	 * @param stringbyte 스트링으로 표기된 바이트 문자열
-	 * @return 사람이 읽기 좋은 형태의 문자열 
+	 * @return 사람이 읽기 좋은 형태의 문자열
 	 */
 	public static String byteToHumanReadable(String stringbyte) {
 		double d = 0.0;
@@ -440,7 +440,7 @@ public class StringUtil {
 	 * 인자에 해당하는 날짜와 현재 날짜의 간격이 interval에 포함되면 true, 포함되지 않으면 false를 반환하는 함수
 	 * @param regday 등록 날짜 문자열
 	 * @param interval 비교할 시간 간격(일 단위)
-	 * @return interval 보다 작으면 true, 같거나 크면 false 
+	 * @return interval 보다 작으면 true, 같거나 크면 false
 	 */
 	public static boolean isNew(String regday, int interval) {
 		Calendar today = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"));
@@ -522,7 +522,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * html 특수문자를 일치하는 문자 엔티티로 변환하는 함수 
+	 * html 특수문자를 일치하는 문자 엔티티로 변환하는 함수
 	 * @param src 원본문자열
 	 * @return html 특수문자가 escape 된 문자열
 	 */
@@ -538,9 +538,6 @@ public class StringUtil {
 				break;
 			case '>':
 				result.append("&gt;");
-				break;
-			case '&':
-				result.append("&amp;");
 				break;
 			default:
 				result.append(src.charAt(i));
