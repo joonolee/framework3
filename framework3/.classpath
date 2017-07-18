@@ -38,6 +38,7 @@
 	<classpathentry kind="lib" path="lib/mybatis-3.2.8.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis-ehcache-1.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis-memcached-1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/nexacro-xapi-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.7-20101029.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.7-20101029.jar"/>
