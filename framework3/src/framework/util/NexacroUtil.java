@@ -316,6 +316,7 @@ public class NexacroUtil {
 	 */
 	public static void sendData(HttpServletResponse response, VariableList vl, DataSetList dl, String platformType) {
 		try {
+			response.reset();
 			PlatformResponse pResponse = getPRes(response, platformType, "utf-8");
 			PlatformData pData = new PlatformData();
 			pData.setVariableList(vl);
