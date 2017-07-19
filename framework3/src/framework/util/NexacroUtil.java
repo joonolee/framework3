@@ -6,6 +6,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +29,7 @@ import com.nexacro.xapi.tx.PlatformResponse;
 import com.nexacro.xapi.tx.PlatformType;
 
 import framework.action.Params;
+import framework.db.RecordMap;
 import framework.db.RecordSet;
 
 /**
@@ -146,6 +150,68 @@ public class NexacroUtil {
 		for (int i = 0, len = rsArray.length; i < len; i++) {
 			DataSet dSet = new DataSet(datasetNameArray[i]);
 			rowCount += appendDataset(dSet, rsArray[i]);
+			dl.add(dSet);
+		}
+		vl.add("ErrorCode", "0");
+		vl.add("ErrorMsg", "SUCC");
+		sendData(response, vl, dl, platformType);
+		return rowCount;
+	}
+
+	/**
+	 * Map객체를 넥사크로플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) map을 넥사크로플랫폼 데이터셋(명칭은 result)으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, "result", map, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param datasetName 데이타셋 이름
+	 * @param map 넥사크로플랫폼 데이타셋으로 변환할 Map객체
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, String datasetName, RecordMap map, String platformType) {
+		return render(response, datasetName, Arrays.asList(map), platformType);
+	}
+
+	/**
+	 * List객체를 넥사크로플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) list를 넥사크로플랫폼 데이터셋(명칭은 result)으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, "result", list, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param datasetName 데이타셋 이름
+	 * @param list 넥사크로플랫폼 데이타셋으로 변환할 List객체
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	@SuppressWarnings("unchecked")
+	public static int render(HttpServletResponse response, String datasetName, List<RecordMap> list, String platformType) {
+		String[] datasetNameArray = new String[] { datasetName };
+		List<RecordMap>[] listArray = new List[] { list };
+		return render(response, datasetNameArray, listArray, platformType);
+	}
+
+	/**
+	 * List객체를 넥사크로플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) list1과 list2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, new String[] { "result1", "result2" }, new List<RecordMap>[] { list1, list2 }, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param datasetNameArray 데이타셋 이름 배열
+	 * @param listArray 넥사크로플랫폼 데이타셋으로 변환할 List객체 배열
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, String[] datasetNameArray, List<RecordMap>[] listArray, String platformType) {
+		if (response == null || datasetNameArray == null || listArray == null) {
+			return 0;
+		}
+		if (datasetNameArray.length != listArray.length) {
+			throw new IllegalArgumentException("Dataset이름 갯수와 리스트 갯수가 일치하지 않습니다.");
+		}
+		int rowCount = 0;
+		VariableList vl = new VariableList();
+		DataSetList dl = new DataSetList();
+		for (int i = 0, len = listArray.length; i < len; i++) {
+			DataSet dSet = new DataSet(datasetNameArray[i]);
+			rowCount += appendDataset(dSet, listArray[i]);
 			dl.add(dSet);
 		}
 		vl.add("ErrorCode", "0");
@@ -356,6 +422,32 @@ public class NexacroUtil {
 	/**
 	 * RecordSet을 넥사크로플랫폼 데이타셋으로 변환한다.
 	 */
+	private static int appendDataset(DataSet dSet, List<RecordMap> mapList) {
+		if (dSet == null || mapList == null) {
+			return 0;
+		}
+		if (mapList.size() > 0) {
+			for (Entry<String, Object> entry : mapList.get(0).entrySet()) {
+				String key = entry.getKey().toLowerCase();
+				Object value = entry.getValue();
+				if (value instanceof Number) {
+					dSet.addColumn(key, DataTypes.FLOAT);
+				} else {
+					dSet.addColumn(key, DataTypes.STRING);
+				}
+			}
+		}
+		int rowCount = 0;
+		for (RecordMap map : mapList) {
+			rowCount++;
+			appendRow(dSet, map);
+		}
+		return rowCount;
+	}
+
+	/**
+	 * RecordSet을 넥사크로플랫폼 데이타셋으로 변환한다.
+	 */
 	private static int appendDataset(DataSet dSet, RecordSet rs) {
 		if (dSet == null || rs == null) {
 			return 0;
@@ -464,6 +556,29 @@ public class NexacroUtil {
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 넥사크로플랫폼 데이타셋에 RecordMap 한행 추가
+	 */
+	private static void appendRow(DataSet dSet, RecordMap map) {
+		if (dSet == null || map == null) {
+			return;
+		}
+		int row = dSet.newRow();
+		for (Entry<String, Object> entry : map.entrySet()) {
+			String key = entry.getKey().toLowerCase();
+			Object value = entry.getValue();
+			if (value == null) {
+				dSet.set(row, key, "");
+			} else {
+				if (value instanceof Number) {
+					dSet.set(row, key, map.getDouble(key));
+				} else {
+					dSet.set(row, key, map.getString(key));
+				}
+			}
 		}
 	}
 
