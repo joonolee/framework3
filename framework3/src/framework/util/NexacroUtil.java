@@ -81,6 +81,23 @@ public class NexacroUtil {
 	}
 
 	/**
+	 * RecordSet을 넥사크로플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) rs를 넥사크로플랫폼 데이터셋(명칭은 result)으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, "result", rs, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param vl 넥사크로플랫폼 VariableList 객체
+	 * @param datasetName 데이타셋 이름
+	 * @param rs 넥사크로플랫폼 데이타셋으로 변환할 RecordSet 객체
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, VariableList vl, String datasetName, RecordSet rs, String platformType) {
+		String[] datasetNameArray = new String[] { datasetName };
+		RecordSet[] rsArray = new RecordSet[] { rs };
+		return render(response, vl, datasetNameArray, rsArray, platformType);
+	}
+
+	/**
 	 * RecordSet을 넥사크로플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs1과 rs2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, new String[] { "result1", "result2" }, new RecordSet[] { rs1, rs2 }, NexacroUtil.XML)
@@ -91,6 +108,24 @@ public class NexacroUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, RecordSet[] rsArray, String platformType) {
+		VariableList vl = new VariableList();
+		vl.add("ErrorCode", "0");
+		vl.add("ErrorMsg", "SUCC");
+		return render(response, vl, datasetNameArray, rsArray, platformType);
+	}
+
+	/**
+	 * RecordSet을 넥사크로플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) rs1과 rs2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, new String[] { "result1", "result2" }, new RecordSet[] { rs1, rs2 }, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param vl 넥사크로플랫폼 VariableList 객체
+	 * @param datasetNameArray 데이타셋 이름 배열
+	 * @param rsArray 넥사크로플랫폼 데이타셋으로 변환할 RecordSet 객체 배열
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, VariableList vl, String[] datasetNameArray, RecordSet[] rsArray, String platformType) {
 		if (response == null || datasetNameArray == null || rsArray == null) {
 			return 0;
 		}
@@ -98,15 +133,12 @@ public class NexacroUtil {
 			throw new IllegalArgumentException("Dataset이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
 		}
 		int rowCount = 0;
-		VariableList vl = new VariableList();
 		DataSetList dl = new DataSetList();
 		for (int i = 0, len = rsArray.length; i < len; i++) {
 			DataSet dSet = new DataSet(datasetNameArray[i]);
 			rowCount += appendDataset(dSet, rsArray[i]);
 			dl.add(dSet);
 		}
-		vl.add("ErrorCode", "0");
-		vl.add("ErrorMsg", "SUCC");
 		sendData(response, vl, dl, platformType);
 		return rowCount;
 	}
@@ -128,6 +160,23 @@ public class NexacroUtil {
 	}
 
 	/**
+	 * ResultSet을 넥사크로플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) rs를 넥사크로플랫폼 데이터셋(명칭은 result)으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, "result", rs, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param vl 넥사크로플랫폼 VariableList 객체
+	 * @param datasetName 데이타셋 이름
+	 * @param rs 넥사크로플랫폼 데이타셋으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, VariableList vl, String datasetName, ResultSet rs, String platformType) {
+		String[] datasetNameArray = new String[] { datasetName };
+		ResultSet[] rsArray = new ResultSet[] { rs };
+		return render(response, vl, datasetNameArray, rsArray, platformType);
+	}
+
+	/**
 	 * ResultSet을 넥사크로플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs1과 rs2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, new String[] { "result1", "result2" }, new ResultSet[] { rs1, rs2 }, NexacroUtil.XML)
@@ -138,6 +187,24 @@ public class NexacroUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, ResultSet[] rsArray, String platformType) {
+		VariableList vl = new VariableList();
+		vl.add("ErrorCode", "0");
+		vl.add("ErrorMsg", "SUCC");
+		return render(response, vl, datasetNameArray, rsArray, platformType);
+	}
+
+	/**
+	 * ResultSet을 넥사크로플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) rs1과 rs2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, new String[] { "result1", "result2" }, new ResultSet[] { rs1, rs2 }, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param vl 넥사크로플랫폼 VariableList 객체
+	 * @param datasetNameArray 데이타셋 이름 배열
+	 * @param rsArray 넥사크로플랫폼 데이타셋으로 변환할 ResultSet 객체 배열, ResultSet 객체는 자동으로 close 된다.
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, VariableList vl, String[] datasetNameArray, ResultSet[] rsArray, String platformType) {
 		if (response == null || datasetNameArray == null || rsArray == null) {
 			return 0;
 		}
@@ -145,15 +212,12 @@ public class NexacroUtil {
 			throw new IllegalArgumentException("Dataset이름 갯수와 ResultSet갯수가 일치하지 않습니다.");
 		}
 		int rowCount = 0;
-		VariableList vl = new VariableList();
 		DataSetList dl = new DataSetList();
 		for (int i = 0, len = rsArray.length; i < len; i++) {
 			DataSet dSet = new DataSet(datasetNameArray[i]);
 			rowCount += appendDataset(dSet, rsArray[i]);
 			dl.add(dSet);
 		}
-		vl.add("ErrorCode", "0");
-		vl.add("ErrorMsg", "SUCC");
 		sendData(response, vl, dl, platformType);
 		return rowCount;
 	}
@@ -170,6 +234,21 @@ public class NexacroUtil {
 	 */
 	public static int render(HttpServletResponse response, String datasetName, RecordMap map, String platformType) {
 		return render(response, datasetName, Arrays.asList(map), platformType);
+	}
+
+	/**
+	 * Map객체를 넥사크로플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) map을 넥사크로플랫폼 데이터셋(명칭은 result)으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, "result", map, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param vl 넥사크로플랫폼 VariableList 객체
+	 * @param datasetName 데이타셋 이름
+	 * @param map 넥사크로플랫폼 데이타셋으로 변환할 Map객체
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, VariableList vl, String datasetName, RecordMap map, String platformType) {
+		return render(response, vl, datasetName, Arrays.asList(map), platformType);
 	}
 
 	/**
@@ -190,6 +269,24 @@ public class NexacroUtil {
 	}
 
 	/**
+	 * List객체를 넥사크로플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) list를 넥사크로플랫폼 데이터셋(명칭은 result)으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, "result", list, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param vl 넥사크로플랫폼 VariableList 객체
+	 * @param datasetName 데이타셋 이름
+	 * @param list 넥사크로플랫폼 데이타셋으로 변환할 List객체
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	@SuppressWarnings("unchecked")
+	public static int render(HttpServletResponse response, VariableList vl, String datasetName, List<RecordMap> list, String platformType) {
+		String[] datasetNameArray = new String[] { datasetName };
+		List<RecordMap>[] listArray = new List[] { list };
+		return render(response, vl, datasetNameArray, listArray, platformType);
+	}
+
+	/**
 	 * List객체를 넥사크로플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) list1과 list2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, new String[] { "result1", "result2" }, new List<RecordMap>[] { list1, list2 }, NexacroUtil.XML)
@@ -200,6 +297,24 @@ public class NexacroUtil {
 	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, String[] datasetNameArray, List<RecordMap>[] listArray, String platformType) {
+		VariableList vl = new VariableList();
+		vl.add("ErrorCode", "0");
+		vl.add("ErrorMsg", "SUCC");
+		return render(response, vl, datasetNameArray, listArray, platformType);
+	}
+
+	/**
+	 * List객체를 넥사크로플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
+	 * <br>
+	 * ex) list1과 list2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, new String[] { "result1", "result2" }, new List<RecordMap>[] { list1, list2 }, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param vl 넥사크로플랫폼 VariableList 객체
+	 * @param datasetNameArray 데이타셋 이름 배열
+	 * @param listArray 넥사크로플랫폼 데이타셋으로 변환할 List객체 배열
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 * @return 처리건수
+	 */
+	public static int render(HttpServletResponse response, VariableList vl, String[] datasetNameArray, List<RecordMap>[] listArray, String platformType) {
 		if (response == null || datasetNameArray == null || listArray == null) {
 			return 0;
 		}
@@ -207,15 +322,12 @@ public class NexacroUtil {
 			throw new IllegalArgumentException("Dataset이름 갯수와 리스트 갯수가 일치하지 않습니다.");
 		}
 		int rowCount = 0;
-		VariableList vl = new VariableList();
 		DataSetList dl = new DataSetList();
 		for (int i = 0, len = listArray.length; i < len; i++) {
 			DataSet dSet = new DataSet(datasetNameArray[i]);
 			rowCount += appendDataset(dSet, listArray[i]);
 			dl.add(dSet);
 		}
-		vl.add("ErrorCode", "0");
-		vl.add("ErrorMsg", "SUCC");
 		sendData(response, vl, dl, platformType);
 		return rowCount;
 	}
