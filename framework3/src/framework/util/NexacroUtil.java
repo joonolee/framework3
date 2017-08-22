@@ -65,6 +65,19 @@ public class NexacroUtil {
 	}
 
 	/**
+	 * RecordSet을 넥사크로플랫폼 VariableList를 응답객체로 전송한다.
+	 * <br>
+	 * ex) vl을 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, NexacroUtil.XML)
+	 * @param response 클라이언트로 응답할 Response 객체
+	 * @param vl 넥사크로플랫폼 VariableList 객체
+	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
+	 */
+	public static void render(HttpServletResponse response, VariableList vl, String platformType) {
+		DataSetList dl = new DataSetList();
+		sendData(response, vl, dl, platformType);
+	}
+
+	/**
 	 * RecordSet을 넥사크로플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs를 넥사크로플랫폼 데이터셋(명칭은 result)으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, "result", rs, NexacroUtil.XML)
