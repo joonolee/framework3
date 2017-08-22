@@ -12,6 +12,10 @@
 	<typeAliases>
 		<typeAlias alias="recordmap" type="framework.db.RecordMap"/>
 	</typeAliases>
+	
+	<!--<plugins>
+		<plugin interceptor="framework.db.MybatisMetaDataPlugin"/>
+	</plugins>-->
 
 	<mappers>
 		<mapper resource="" />

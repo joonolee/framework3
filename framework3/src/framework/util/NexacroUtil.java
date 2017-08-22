@@ -552,14 +552,29 @@ public class NexacroUtil {
 		if (dSet == null || mapList == null) {
 			return 0;
 		}
-		if (mapList.size() > 0) {
-			for (Entry<String, Object> entry : mapList.get(0).entrySet()) {
-				String key = entry.getKey().toLowerCase();
-				Object value = entry.getValue();
-				if (value instanceof Number) {
-					dSet.addColumn(key, DataTypes.FLOAT);
-				} else {
-					dSet.addColumn(key, DataTypes.STRING);
+		if (mapList.size() > 0 && mapList.get(0).isMetaData()) {
+			// 메타정보를 가져오고 삭제
+			RecordMap metaMap = mapList.remove(0);
+			String[] colNms = (String[]) metaMap.get("colNms");
+			int[] colSize = (int[]) metaMap.get("colSize");
+			int[] colType = (int[]) metaMap.get("colType");
+			// 컬럼 레이아웃 셋팅
+			for (int c = 0; c < colNms.length; c++) {
+				switch (colType[c]) {
+				case Types.BIGINT:
+				case Types.DECIMAL:
+				case Types.DOUBLE:
+				case Types.FLOAT:
+				case Types.INTEGER:
+				case Types.NUMERIC:
+				case Types.REAL:
+				case Types.SMALLINT:
+				case Types.TINYINT:
+					dSet.addColumn(colNms[c].toLowerCase(), DataTypes.FLOAT, colSize[c]);
+					break;
+				default:
+					dSet.addColumn(colNms[c].toLowerCase(), DataTypes.STRING, colSize[c]);
+					break;
 				}
 			}
 		}

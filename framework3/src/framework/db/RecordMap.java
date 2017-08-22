@@ -11,12 +11,21 @@ import java.util.LinkedHashMap;
 
 public class RecordMap extends LinkedHashMap<String, Object> {
 	private static final long serialVersionUID = 8720579036875443934L;
+	private boolean isMetaData = false;
 
 	public RecordMap() {
 	}
 
 	public RecordMap(int cnt) {
 		super(cnt);
+	}
+
+	public boolean isMetaData() {
+		return isMetaData;
+	}
+
+	public void setMetaData(boolean isMetaData) {
+		this.isMetaData = isMetaData;
 	}
 
 	@Override
