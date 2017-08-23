@@ -154,7 +154,7 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * ResultSet을 DataTables 형식으로 출력한다. 
+	 * ResultSet을 DataTables 형식으로 출력한다.
 	 * <br>
 	 * ex) response로 rs를 DataTables 형식으로 출력하는 경우 : DataTablesUtil.render(response, rs)
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -171,6 +171,9 @@ public class DataTablesUtil {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
+				}
 				pw.print("{");
 				int rowCount = 0;
 				pw.print("\"aaData\":[");
@@ -282,6 +285,9 @@ public class DataTablesUtil {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
+				}
 				int rowCount = 0;
 				buffer.append("{");
 				buffer.append("\"aaData\":[");
@@ -322,7 +328,7 @@ public class DataTablesUtil {
 	}
 
 	/**
-	 * ResultSet을 DataTables 형식으로 변환한다. 
+	 * ResultSet을 DataTables 형식으로 변환한다.
 	 * <br>
 	 * ex) rs를 DataTables 형식으로 변환하는 경우 : String json = DataTablesUtil.render(rs, new String[] { "col1", "col2" })
 	 * @param rs DataTables 형식으로 변환할 ResultSet 객체
@@ -487,7 +493,7 @@ public class DataTablesUtil {
 		if (colNms.length > 0) {
 			buffer.append("[");
 			for (int c = 0; c < colNms.length; c++) {
-				Object value = rs.get(colNms[c].toUpperCase());
+				Object value = rs.get(colNms[c]);
 				if (value == null) {
 					buffer.append("\"\"");
 				} else {
@@ -513,7 +519,7 @@ public class DataTablesUtil {
 			for (int c = 0; c < colNms.length; c++) {
 				Object value;
 				try {
-					value = rs.getObject(colNms[c].toUpperCase());
+					value = rs.getObject(colNms[c]);
 				} catch (SQLException e) {
 					throw new RuntimeException(e);
 				}
