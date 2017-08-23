@@ -12,7 +12,7 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 
 /**
- * Mybatis 에서 ResultMetaData 정보를 얻어오기 위한 플러그인
+ * ResultSet => RecordSet 변환용 Mybatis 플러그인
  */
 @Intercepts({ @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }) })
 public class MybatisResultSetToRecordSetPlugin implements Interceptor {
