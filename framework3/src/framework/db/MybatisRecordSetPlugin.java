@@ -15,7 +15,7 @@ import org.apache.ibatis.plugin.Signature;
  * ResultSet => RecordSet 변환용 Mybatis 플러그인
  */
 @Intercepts({ @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }) })
-public class MybatisResultSetToRecordSetPlugin implements Interceptor {
+public class MybatisRecordSetPlugin implements Interceptor {
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object[] args = invocation.getArgs();

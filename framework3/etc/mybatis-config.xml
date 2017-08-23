@@ -14,7 +14,7 @@
 	</typeAliases>
 	
 	<!--<plugins>
-		<plugin interceptor="framework.db.MybatisResultSetToRecordSetPlugin"/>
+		<plugin interceptor="framework.db.MybatisRecordSetPlugin"/>
 	</plugins>-->
 
 	<mappers>
