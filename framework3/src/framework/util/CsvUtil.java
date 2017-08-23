@@ -119,7 +119,7 @@ public class CsvUtil {
 	}
 
 	/**
-	 * RecordSet을 구분자(CSV, TSV 등)파일 형식으로 출력한다. 
+	 * RecordSet을 구분자(CSV, TSV 등)파일 형식으로 출력한다.
 	 * <br>
 	 * ex) response로 rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.render(response, rs, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -149,7 +149,7 @@ public class CsvUtil {
 	}
 
 	/**
-	 * RecordSet을 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
+	 * RecordSet을 구분자(CSV, TSV 등)파일 형식으로 변환한다.
 	 * <br>
 	 * ex) rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.render(rs, ",")
 	 * @param rs 변환할 RecordSet 객체
@@ -174,7 +174,7 @@ public class CsvUtil {
 	}
 
 	/**
-	 * ResultSet을 구분자(CSV, TSV 등)파일 형식으로 출력한다. 
+	 * ResultSet을 구분자(CSV, TSV 등)파일 형식으로 출력한다.
 	 * <br>
 	 * ex) response로 rs를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.render(response, rs, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -193,8 +193,7 @@ public class CsvUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				int rowCount = 0;
 				while (rs.next()) {
@@ -250,8 +249,7 @@ public class CsvUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				int rowCount = 0;
 				while (rs.next()) {
@@ -289,7 +287,7 @@ public class CsvUtil {
 	}
 
 	/**
-	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 출력한다. 
+	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 출력한다.
 	 * <br>
 	 * ex) response로 mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.render(response, mapList, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -317,7 +315,7 @@ public class CsvUtil {
 	}
 
 	/**
-	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
+	 * List객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다.
 	 * <br>
 	 * ex1) mapList를 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.render(mapList, ",")
 	 * @param mapList 변환할 List객체
@@ -340,7 +338,7 @@ public class CsvUtil {
 	}
 
 	/**
-	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 출력한다. 
+	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 출력한다.
 	 * <br>
 	 * ex) response로 map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 출력하는 경우 => CsvUtil.render(response, map, ",")
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -362,7 +360,7 @@ public class CsvUtil {
 	}
 
 	/**
-	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다. 
+	 * Map객체를 구분자(CSV, TSV 등)파일 형식으로 변환한다.
 	 * <br>
 	 * ex) map을 열구분자 콤마(,) 인 구분자(CSV, TSV 등)파일 형식으로 변환하는 경우 : String csv = CsvUtil.render(map, ",")
 	 * @param map 변환할 Map객체

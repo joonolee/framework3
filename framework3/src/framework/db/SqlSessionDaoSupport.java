@@ -105,4 +105,12 @@ public class SqlSessionDaoSupport {
 	protected int update(String statement, Object parameter) {
 		return sqlSession.update(statement, parameter);
 	}
+
+	protected RecordSet selectRecordSet(String statement) {
+		return sqlSession.selectOne(statement);
+	}
+
+	protected RecordSet selectRecordSet(String statement, Object parameter) {
+		return sqlSession.selectOne(statement, parameter);
+	}
 }

@@ -78,7 +78,7 @@ public class JqGridUtil {
 	}
 
 	/**
-	 * RecordSet을 jqGrid 형식으로 출력한다. 
+	 * RecordSet을 jqGrid 형식으로 출력한다.
 	 * <br>
 	 * ex) response로 rs를 jqGrid 형식으로 출력하는 경우 : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -126,7 +126,7 @@ public class JqGridUtil {
 	}
 
 	/**
-	 * RecordSet을 jqGrid 형식으로 변환한다. 
+	 * RecordSet을 jqGrid 형식으로 변환한다.
 	 * <br>
 	 * ex) rs를 jqGrid 형식으로 변환하는 경우 : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage)
 	 * @param rs jqGrid 형식으로 변환할 RecordSet 객체
@@ -168,7 +168,7 @@ public class JqGridUtil {
 	}
 
 	/**
-	 * RecordSet을 jqGrid 형식으로 변환한다. 
+	 * RecordSet을 jqGrid 형식으로 변환한다.
 	 * <br>
 	 * ex) rs를 jqGrid 형식으로 변환하는 경우 : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
 	 * @param rs jqGrid 형식으로 변환할 RecordSet 객체
@@ -235,6 +235,9 @@ public class JqGridUtil {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
+				}
 				pw.print("{");
 				int rowCount = 0;
 				pw.print("\"rows\":[");
@@ -281,7 +284,7 @@ public class JqGridUtil {
 	}
 
 	/**
-	 * ResultSet을 jqGrid 형식으로 출력한다. 
+	 * ResultSet을 jqGrid 형식으로 출력한다.
 	 * <br>
 	 * ex) response로 rs를 jqGrid 형식으로 출력하는 경우 : JQGridUtil.render(response, rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -374,6 +377,9 @@ public class JqGridUtil {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
+				}
 				int rowCount = 0;
 				buf.append("{");
 				buf.append("\"rows\":[");
@@ -420,7 +426,7 @@ public class JqGridUtil {
 	}
 
 	/**
-	 * ResultSet을 jqGrid 형식으로 변환한다. 
+	 * ResultSet을 jqGrid 형식으로 변환한다.
 	 * <br>
 	 * ex) rs를 jqGrid 형식으로 변환하는 경우 : String json = JQGridUtil.render(rs, totalCount, currentPage, rowsPerPage, new String[] { "col1", "col2" })
 	 * @param rs jqGrid 형식으로 변환할 ResultSet 객체
@@ -534,7 +540,7 @@ public class JqGridUtil {
 	}
 
 	/**
-	 * List객체를 jqGrid 형식으로 변환한다. 
+	 * List객체를 jqGrid 형식으로 변환한다.
 	 * <br>
 	 * ex1) mapList를 jqGrid 형식으로 변환하는 경우 : String json = JQGridUtil.render(mapList, totalCount, currentPage, rowsPerPage)
 	 * @param mapList 변환할 List객체
@@ -629,7 +635,7 @@ public class JqGridUtil {
 		if (colNms.length > 0) {
 			buf.append("[");
 			for (int c = 0; c < colNms.length; c++) {
-				Object value = rs.get(colNms[c].toUpperCase());
+				Object value = rs.get(colNms[c]);
 				if (value == null) {
 					buf.append("\"\"");
 				} else {
@@ -655,7 +661,7 @@ public class JqGridUtil {
 			for (int c = 0; c < colNms.length; c++) {
 				Object value;
 				try {
-					value = rs.getObject(colNms[c].toUpperCase());
+					value = rs.getObject(colNms[c]);
 				} catch (SQLException e) {
 					throw new RuntimeException(e);
 				}

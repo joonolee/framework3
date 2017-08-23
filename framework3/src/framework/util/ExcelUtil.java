@@ -195,7 +195,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
-		if (response == null || rs == null || fileName == null || header == null) {
+		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -253,7 +253,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2003(File file, RecordSet rs, String[] header) {
-		if (file == null || rs == null || header == null) {
+		if (file == null || rs == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -298,7 +298,7 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * RecordSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다. 
+	 * RecordSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
 	 * @param response
 	 * @param rs
 	 * @param fileName
@@ -309,7 +309,7 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * RecordSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다. 
+	 * RecordSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
 	 * @param response
 	 * @param rs
 	 * @param fileName
@@ -317,7 +317,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
-		if (response == null || rs == null || fileName == null || header == null) {
+		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -375,7 +375,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, RecordSet rs, String[] header) {
-		if (file == null || rs == null || header == null) {
+		if (file == null || rs == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -439,7 +439,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
-		if (response == null || rs == null || fileName == null || header == null) {
+		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
 		try {
@@ -456,8 +456,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				int rowCount = 0;
 				if (header != null) {
@@ -525,7 +524,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2003(File file, ResultSet rs, String[] header) {
-		if (file == null || rs == null || header == null) {
+		if (file == null || rs == null) {
 			return 0;
 		}
 		try {
@@ -538,8 +537,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				int rowCount = 0;
 				if (header != null) {
@@ -616,7 +614,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
-		if (response == null || rs == null || fileName == null || header == null) {
+		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
 		try {
@@ -633,8 +631,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				int rowCount = 0;
 				if (header != null) {
@@ -702,7 +699,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, ResultSet rs, String[] header) {
-		if (file == null || rs == null || header == null) {
+		if (file == null || rs == null) {
 			return 0;
 		}
 		try {
@@ -715,8 +712,7 @@ public class ExcelUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				int rowCount = 0;
 				if (header != null) {
@@ -793,7 +789,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2003(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header) {
-		if (response == null || mapList == null || fileName == null || header == null) {
+		if (response == null || mapList == null || fileName == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -849,7 +845,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2003(File file, List<RecordMap> mapList, String[] header) {
-		if (file == null || mapList == null || header == null) {
+		if (file == null || mapList == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -892,7 +888,7 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * List객체를 엑셀2007 형식으로 변환하여 응답객체로 전송한다. 
+	 * List객체를 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
 	 * @param response
 	 * @param mapList
 	 * @param fileName
@@ -903,7 +899,7 @@ public class ExcelUtil {
 	}
 
 	/**
-	 * List객체를 엑셀2007 형식으로 변환하여 응답객체로 전송한다. 
+	 * List객체를 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
 	 * @param response
 	 * @param mapList
 	 * @param fileName
@@ -911,7 +907,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header) {
-		if (response == null || mapList == null || fileName == null || header == null) {
+		if (response == null || mapList == null || fileName == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -967,7 +963,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, List<RecordMap> mapList, String[] header) {
-		if (file == null || mapList == null || header == null) {
+		if (file == null || mapList == null) {
 			return 0;
 		}
 		int rowCount = 0;
@@ -1185,7 +1181,7 @@ public class ExcelUtil {
 		return mapList;
 	}
 
-	/** 
+	/**
 	 * 헤더 셀 스타일 리턴
 	 */
 	private static CellStyle headerStyle(Workbook workbook) {
@@ -1212,7 +1208,7 @@ public class ExcelUtil {
 		return cellStyle;
 	}
 
-	/** 
+	/**
 	 * 로우 셀 스타일 리턴
 	 */
 	private static CellStyle rowStyle(Workbook workbook) {

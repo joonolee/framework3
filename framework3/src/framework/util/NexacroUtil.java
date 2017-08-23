@@ -552,29 +552,14 @@ public class NexacroUtil {
 		if (dSet == null || mapList == null) {
 			return 0;
 		}
-		if (mapList.size() > 0 && mapList.get(0).isMetaData()) {
-			// 메타정보를 가져오고 삭제
-			RecordMap metaMap = mapList.remove(0);
-			String[] colNms = (String[]) metaMap.get("colNms");
-			int[] colSize = (int[]) metaMap.get("colSize");
-			int[] colType = (int[]) metaMap.get("colType");
-			// 컬럼 레이아웃 셋팅
-			for (int c = 0; c < colNms.length; c++) {
-				switch (colType[c]) {
-				case Types.BIGINT:
-				case Types.DECIMAL:
-				case Types.DOUBLE:
-				case Types.FLOAT:
-				case Types.INTEGER:
-				case Types.NUMERIC:
-				case Types.REAL:
-				case Types.SMALLINT:
-				case Types.TINYINT:
-					dSet.addColumn(colNms[c].toLowerCase(), DataTypes.FLOAT, colSize[c]);
-					break;
-				default:
-					dSet.addColumn(colNms[c].toLowerCase(), DataTypes.STRING, colSize[c]);
-					break;
+		if (mapList.size() > 0) {
+			for (Entry<String, Object> entry : mapList.get(0).entrySet()) {
+				String key = entry.getKey();
+				Object value = entry.getValue();
+				if (value instanceof Number) {
+					dSet.addColumn(key, DataTypes.FLOAT);
+				} else {
+					dSet.addColumn(key, DataTypes.STRING);
 				}
 			}
 		}
@@ -609,10 +594,10 @@ public class NexacroUtil {
 				case Types.REAL:
 				case Types.SMALLINT:
 				case Types.TINYINT:
-					dSet.addColumn(colNms[c].toLowerCase(), DataTypes.FLOAT, colSize[c]);
+					dSet.addColumn(colNms[c], DataTypes.FLOAT, colSize[c]);
 					break;
 				default:
-					dSet.addColumn(colNms[c].toLowerCase(), DataTypes.STRING, colSize[c]);
+					dSet.addColumn(colNms[c], DataTypes.STRING, colSize[c]);
 					break;
 				}
 			}
@@ -641,11 +626,8 @@ public class NexacroUtil {
 				int[] colSize = new int[cnt];
 				int[] colType = new int[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-					//Field 의 정보 및 Size 추가
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 					colSize[i - 1] = rsmd.getColumnDisplaySize(i);
-					// Field 의 타입 추가
 					colType[i - 1] = rsmd.getColumnType(i);
 				}
 				// 컬럼 레이아웃 셋팅
@@ -660,10 +642,10 @@ public class NexacroUtil {
 					case Types.REAL:
 					case Types.SMALLINT:
 					case Types.TINYINT:
-						dSet.addColumn(colNms[c].toLowerCase(), DataTypes.FLOAT, colSize[c]);
+						dSet.addColumn(colNms[c], DataTypes.FLOAT, colSize[c]);
 						break;
 					default:
-						dSet.addColumn(colNms[c].toLowerCase(), DataTypes.STRING, colSize[c]);
+						dSet.addColumn(colNms[c], DataTypes.STRING, colSize[c]);
 						break;
 					}
 				}
@@ -709,7 +691,7 @@ public class NexacroUtil {
 		}
 		int row = dSet.newRow();
 		for (Entry<String, Object> entry : map.entrySet()) {
-			String key = entry.getKey().toLowerCase();
+			String key = entry.getKey();
 			Object value = entry.getValue();
 			if (value == null) {
 				dSet.set(row, key, "");
@@ -734,12 +716,12 @@ public class NexacroUtil {
 		for (int c = 0; c < colNms.length; c++) {
 			Object value = rs.get(colNms[c]);
 			if (value == null) {
-				dSet.set(row, colNms[c].toLowerCase(), "");
+				dSet.set(row, colNms[c], "");
 			} else {
 				if (value instanceof Number) {
-					dSet.set(row, colNms[c].toLowerCase(), rs.getDouble(colNms[c]));
+					dSet.set(row, colNms[c], rs.getDouble(colNms[c]));
 				} else {
-					dSet.set(row, colNms[c].toLowerCase(), rs.getString(colNms[c]));
+					dSet.set(row, colNms[c], rs.getString(colNms[c]));
 				}
 			}
 		}
@@ -757,12 +739,12 @@ public class NexacroUtil {
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.getObject(colNms[c]);
 				if (value == null) {
-					dSet.set(row, colNms[c].toLowerCase(), "");
+					dSet.set(row, colNms[c], "");
 				} else {
 					if (value instanceof Number) {
-						dSet.set(row, colNms[c].toLowerCase(), rs.getDouble(colNms[c]));
+						dSet.set(row, colNms[c], rs.getDouble(colNms[c]));
 					} else {
-						dSet.set(row, colNms[c].toLowerCase(), rs.getString(colNms[c]));
+						dSet.set(row, colNms[c], rs.getString(colNms[c]));
 					}
 				}
 			}

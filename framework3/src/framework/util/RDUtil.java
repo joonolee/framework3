@@ -97,7 +97,7 @@ public class RDUtil {
 	}
 
 	/**
-	 * RecordSet을 RD 파일 형식으로 변환한다. 
+	 * RecordSet을 RD 파일 형식으로 변환한다.
 	 * <br>
 	 * ex) rs를 열구분자 ##, 행구분자 !! 인 RD 파일 형식으로 변환하는 경우 : String rd = RDUtil.render(rs, "##", "!!")
 	 * @param rs 변환할 RecordSet 객체
@@ -129,14 +129,14 @@ public class RDUtil {
 	 * ex) response로 rs를 RD 파일 형식으로 출력하는 경우 : RDUtil.render(response, rs)
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs RD 파일 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
-	 * @return 처리건수 
+	 * @return 처리건수
 	 */
 	public static int render(HttpServletResponse response, ResultSet rs) {
 		return render(response, rs, DEFAULT_COLSEP, DEFAULT_LINESEP);
 	}
 
 	/**
-	 * ResultSet을 RD 파일 형식으로 출력한다. 
+	 * ResultSet을 RD 파일 형식으로 출력한다.
 	 * <br>
 	 * ex) response로 rs를 RD 파일 형식으로 출력하는 경우 : RDUtil.render(response, rs)
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -156,8 +156,7 @@ public class RDUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				int rowCount = 0;
 				while (rs.next()) {
@@ -196,7 +195,7 @@ public class RDUtil {
 
 	/**
 	 * ResultSet을 RD 파일 형식으로 변환한다.
-	 * 행, 열 구분자로 디폴트 구분자를 사용한다. 
+	 * 행, 열 구분자로 디폴트 구분자를 사용한다.
 	 * <br>
 	 * ex) rs를 RD 파일 형식으로 변환하는 경우 : String rd = RDUtil.render(rs)
 	 * @param rs 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
@@ -207,7 +206,7 @@ public class RDUtil {
 	}
 
 	/**
-	 * ResultSet을 RD 파일 형식으로 변환한다. 
+	 * ResultSet을 RD 파일 형식으로 변환한다.
 	 * <br>
 	 * ex) rs를 열구분자 ##, 행구분자 !! 인 RD 파일 형식으로 변환하는 경우 : String rd = RDUtil.render(rs, "##", "!!")
 	 * @param rs 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
@@ -226,8 +225,7 @@ public class RDUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				int rowCount = 0;
 				while (rs.next()) {
@@ -302,7 +300,7 @@ public class RDUtil {
 
 	/**
 	 * Map객체를 RD 파일 형식으로 변환한다.
-	 * 열 구분자로 디폴트 구분자를 사용한다. 
+	 * 열 구분자로 디폴트 구분자를 사용한다.
 	 * <br>
 	 * ex) map을 RD 파일 형식으로 변환하는 경우 : String rd = RDUtil.render(map)
 	 * @param map 변환할 Map객체
@@ -313,7 +311,7 @@ public class RDUtil {
 	}
 
 	/**
-	 * Map객체를 RD 파일 형식으로 변환한다. 
+	 * Map객체를 RD 파일 형식으로 변환한다.
 	 * <br>
 	 * ex) map을 열구분자 ## 인 RD 파일 형식으로 변환하는 경우 : String rd = RDUtil.render(map, "##")
 	 * @param map 변환할 Map객체
@@ -385,7 +383,7 @@ public class RDUtil {
 	}
 
 	/**
-	 * List객체를 RD 파일 형식으로 변환한다. 
+	 * List객체를 RD 파일 형식으로 변환한다.
 	 * <br>
 	 * ex1) mapList를 열구분자 ##, 행구분자 !! 인 RD 파일 형식으로 변환하는 경우 : String rd = RDUtil.render(mapList, "##", "!!")
 	 * @param mapList 변환할 List객체
@@ -412,7 +410,7 @@ public class RDUtil {
 
 	/**
 	 * 캐리지리턴, 라인피드 문자들을 변환하여준다.
-	 * 
+	 *
 	 * @param str 변환할 문자열
 	 */
 	private static String escape(String str) {

@@ -31,7 +31,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * RecordSet을 xml 형식으로 출력한다. (xml 헤더포함). 
+	 * RecordSet을 xml 형식으로 출력한다. (xml 헤더포함).
 	 * <br>
 	 * ex) response로 rs를 xml 형식으로 출력하는 경우 : XmlUtil.render(response, rs, "utf-8")
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -85,7 +85,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * RecordSet을 xml 형식으로 변환한다. (xml 헤더포함). 
+	 * RecordSet을 xml 형식으로 변환한다. (xml 헤더포함).
 	 * <br>
 	 * ex) rs를 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(rs, "utf-8")
 	 * @param rs xml 형식으로 변환할 RecordSet 객체
@@ -103,7 +103,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * ResultSet을 xml 형식으로 출력한다 (xml 헤더포함). 
+	 * ResultSet을 xml 형식으로 출력한다 (xml 헤더포함).
 	 * <br>
 	 * ex) response로 rs를 xml 형식으로 출력하는 경우 : XmlUtil.render(response, rs, "utf-8")
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -122,8 +122,7 @@ public class XmlUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				pw.print(xmlHeaderStr(encoding));
 				pw.print("<items>");
@@ -162,7 +161,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * ResultSet을 xml 형식으로 변환한다 (xml 헤더 미포함). 
+	 * ResultSet을 xml 형식으로 변환한다 (xml 헤더 미포함).
 	 * <br>
 	 * ex) rs를 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(rs)
 	 * @param rs xml 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
@@ -178,8 +177,7 @@ public class XmlUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				buffer.append("<items>");
 				while (rs.next()) {
@@ -215,7 +213,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * ResultSet을 xml 형식으로 변환한다 (xml 헤더포함). 
+	 * ResultSet을 xml 형식으로 변환한다 (xml 헤더포함).
 	 * <br>
 	 * ex) rs를 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(rs, "utf-8")
 	 * @param rs xml 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
@@ -232,7 +230,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * List객체를 xml 형식으로 출력한다. (xml 헤더포함). 
+	 * List객체를 xml 형식으로 출력한다. (xml 헤더포함).
 	 * <br>
 	 * ex) response로 mapList를 xml 형식으로 출력하는 경우 : XmlUtil.render(response, mapList, "utf-8")
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -262,7 +260,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * List객체를 xml 형태로 변환한다 (xml 헤더 미포함). 
+	 * List객체를 xml 형태로 변환한다 (xml 헤더 미포함).
 	 * <br>
 	 * ex) mapList를 xml으로 변환하는 경우 : String xml = XmlUtil.render(mapList)
 	 * @param mapList 변환할 List객체
@@ -300,7 +298,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * Map객체를 xml 형식으로 출력한다. (xml 헤더포함). 
+	 * Map객체를 xml 형식으로 출력한다. (xml 헤더포함).
 	 * <br>
 	 * ex) response로 map을 xml 형식으로 출력하는 경우 : XmlUtil.render(response, map, "utf-8")
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -326,7 +324,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * Map객체를 xml 형식으로 변환한다 (xml 헤더 미포함). 
+	 * Map객체를 xml 형식으로 변환한다 (xml 헤더 미포함).
 	 * <br>
 	 * ex) map을 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(map)
 	 * @param map 변환할 Map객체
@@ -344,7 +342,7 @@ public class XmlUtil {
 	}
 
 	/**
-	 * Map객체를 xml 형식으로 변환한다 (xml 헤더포함). 
+	 * Map객체를 xml 형식으로 변환한다 (xml 헤더포함).
 	 * <br>
 	 * ex) map을 xml 형식으로 변환하는 경우  : String xml = XmlUtil.render(map, "utf-8")
 	 * @param map 변환할 Map객체
@@ -384,16 +382,16 @@ public class XmlUtil {
 			String key = entry.getKey();
 			Object value = entry.getValue();
 			if (value == null) {
-				buffer.append("<" + key.toLowerCase() + ">" + "</" + key.toLowerCase() + ">");
+				buffer.append("<" + key + ">" + "</" + key + ">");
 			} else {
 				if (value instanceof Number) {
-					buffer.append("<" + key.toLowerCase() + ">" + value.toString() + "</" + key.toLowerCase() + ">");
+					buffer.append("<" + key + ">" + value.toString() + "</" + key + ">");
 				} else if (value instanceof Map) {
-					buffer.append("<" + key.toLowerCase() + ">" + render((RecordMap) value) + "</" + key.toLowerCase() + ">");
+					buffer.append("<" + key + ">" + render((RecordMap) value) + "</" + key + ">");
 				} else if (value instanceof List) {
-					buffer.append("<" + key.toLowerCase() + ">" + render((List<RecordMap>) value) + "</" + key.toLowerCase() + ">");
+					buffer.append("<" + key + ">" + render((List<RecordMap>) value) + "</" + key + ">");
 				} else {
-					buffer.append("<" + key.toLowerCase() + ">" + "<![CDATA[" + value.toString() + "]]>" + "</" + key.toLowerCase() + ">");
+					buffer.append("<" + key + ">" + "<![CDATA[" + value.toString() + "]]>" + "</" + key + ">");
 				}
 			}
 		}
@@ -413,12 +411,12 @@ public class XmlUtil {
 		for (int c = 0; c < colNms.length; c++) {
 			Object value = rs.get(colNms[c]);
 			if (value == null) {
-				buffer.append("<" + colNms[c].toLowerCase() + ">" + "</" + colNms[c].toLowerCase() + ">");
+				buffer.append("<" + colNms[c] + ">" + "</" + colNms[c] + ">");
 			} else {
 				if (value instanceof Number) {
-					buffer.append("<" + colNms[c].toLowerCase() + ">" + value.toString() + "</" + colNms[c].toLowerCase() + ">");
+					buffer.append("<" + colNms[c] + ">" + value.toString() + "</" + colNms[c] + ">");
 				} else {
-					buffer.append("<" + colNms[c].toLowerCase() + ">" + "<![CDATA[" + value.toString() + "]]>" + "</" + colNms[c].toLowerCase() + ">");
+					buffer.append("<" + colNms[c] + ">" + "<![CDATA[" + value.toString() + "]]>" + "</" + colNms[c] + ">");
 				}
 			}
 		}
@@ -440,12 +438,12 @@ public class XmlUtil {
 				throw new RuntimeException(e);
 			}
 			if (value == null) {
-				buffer.append("<" + colNms[c].toLowerCase() + ">" + "</" + colNms[c].toLowerCase() + ">");
+				buffer.append("<" + colNms[c] + ">" + "</" + colNms[c] + ">");
 			} else {
 				if (value instanceof Number) {
-					buffer.append("<" + colNms[c].toLowerCase() + ">" + value.toString() + "</" + colNms[c].toLowerCase() + ">");
+					buffer.append("<" + colNms[c] + ">" + value.toString() + "</" + colNms[c] + ">");
 				} else {
-					buffer.append("<" + colNms[c].toLowerCase() + ">" + "<![CDATA[" + value.toString() + "]]>" + "</" + colNms[c].toLowerCase() + ">");
+					buffer.append("<" + colNms[c] + ">" + "<![CDATA[" + value.toString() + "]]>" + "</" + colNms[c] + ">");
 				}
 			}
 		}

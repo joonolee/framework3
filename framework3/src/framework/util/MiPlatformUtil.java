@@ -99,7 +99,7 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ResultSet을 마이플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다. 
+	 * ResultSet을 마이플랫폼 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs를 마이플랫폼 데이터셋(명칭은 result)으로 변환하여 response로 XML 형식으로 전송하는 경우 : MiPlatformUtil.render(response, "result", rs, MiPlatformUtil.XML)
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -115,7 +115,7 @@ public class MiPlatformUtil {
 	}
 
 	/**
-	 * ResultSet을 마이플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다. 
+	 * ResultSet을 마이플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs1과 rs2를 마이플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : MiPlatformUtil.render(response, new String[] { "result1", "result2" }, new ResultSet[] { rs1, rs2 }, MiPlatformUtil.XML)
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -207,7 +207,7 @@ public class MiPlatformUtil {
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param dataFormat 송수신 형식 (MiPlatformUtil.BIN, MiPlatformUtil.ZLIB_COMP, MiPlatformUtil.XML)
 	 * @param encoding 인코딩할 형식
-	 * @return 응답객체에서 구한 PlatformResponse 객체 
+	 * @return 응답객체에서 구한 PlatformResponse 객체
 	 */
 	public static PlatformResponse getPRes(HttpServletResponse response, int dataFormat, String encoding) {
 		PlatformResponse inputPRes = null;
@@ -256,7 +256,7 @@ public class MiPlatformUtil {
 		}
 	}
 
-	/** 
+	/**
 	 * Dataset의 값을 추출하여 String 객체를 리턴한다.
 	 * @param dSet 값을 추출할 Dataset
 	 * @param row 추출할 행번호
@@ -271,7 +271,7 @@ public class MiPlatformUtil {
 		return str;
 	}
 
-	/** 
+	/**
 	 * Dataset의 값을 추출하여 Double 객체를 리턴한다.
 	 * @param dSet 값을 추출할 Dataset
 	 * @param row 추출할 행번호
@@ -292,7 +292,7 @@ public class MiPlatformUtil {
 		return num;
 	}
 
-	/** 
+	/**
 	 * Dataset의 값을 추출하여 Long 객체를 리턴한다.
 	 * @param dSet 값을 추출할 Dataset
 	 * @param row 추출할 행번호
@@ -304,7 +304,7 @@ public class MiPlatformUtil {
 		return Long.valueOf(value.longValue());
 	}
 
-	/** 
+	/**
 	 * Dataset의 값을 추출하여 Integer 객체를 리턴한다.
 	 * @param dSet 값을 추출할 Dataset
 	 * @param row 추출할 행번호
@@ -316,7 +316,7 @@ public class MiPlatformUtil {
 		return Integer.valueOf(value.intValue());
 	}
 
-	/** 
+	/**
 	 * Dataset의 값을 추출하여 Float 객체를 리턴한다.
 	 * @param dSet 값을 추출할 Dataset
 	 * @param row 추출할 행번호
@@ -327,7 +327,7 @@ public class MiPlatformUtil {
 		return new Float(getDouble(dSet, row, colName).doubleValue());
 	}
 
-	/** 
+	/**
 	 * Dataset의 값을 추출하여 BigDecimal 객체를 리턴한다.
 	 * @param dSet 값을 추출할 Dataset
 	 * @param row 추출할 행번호
@@ -371,15 +371,15 @@ public class MiPlatformUtil {
 				case Types.REAL:
 				case Types.SMALLINT:
 				case Types.TINYINT:
-					dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_DECIMAL, colSize[c]);
+					dSet.addColumn(colNms[c], ColumnInfo.COLUMN_TYPE_DECIMAL, colSize[c]);
 					break;
 				default:
-					dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_STRING, colSize[c]);
+					dSet.addColumn(colNms[c], ColumnInfo.COLUMN_TYPE_STRING, colSize[c]);
 					break;
 				}
 			}
 		}
-		rs.moveRow(0); // rs의 위치를 1번째로 이동 
+		rs.moveRow(0); // rs의 위치를 1번째로 이동
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			rowCount++;
@@ -403,11 +403,8 @@ public class MiPlatformUtil {
 				int[] colSize = new int[cnt];
 				int[] colType = new int[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-					//Field 의 정보 및 Size 추가
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 					colSize[i - 1] = rsmd.getColumnDisplaySize(i);
-					// Field 의 타입 추가
 					colType[i - 1] = rsmd.getColumnType(i);
 				}
 				// 컬럼 레이아웃 셋팅
@@ -422,10 +419,10 @@ public class MiPlatformUtil {
 					case Types.REAL:
 					case Types.SMALLINT:
 					case Types.TINYINT:
-						dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_DECIMAL, colSize[c]);
+						dSet.addColumn(colNms[c], ColumnInfo.COLUMN_TYPE_DECIMAL, colSize[c]);
 						break;
 					default:
-						dSet.addColumn(colNms[c].toLowerCase(), ColumnInfo.COLUMN_TYPE_STRING, colSize[c]);
+						dSet.addColumn(colNms[c], ColumnInfo.COLUMN_TYPE_STRING, colSize[c]);
 						break;
 					}
 				}
@@ -473,12 +470,12 @@ public class MiPlatformUtil {
 		for (int c = 0; c < colNms.length; c++) {
 			Object value = rs.get(colNms[c]);
 			if (value == null) {
-				dSet.setColumn(row, colNms[c].toLowerCase(), "");
+				dSet.setColumn(row, colNms[c], "");
 			} else {
 				if (value instanceof Number) {
-					dSet.setColumn(row, colNms[c].toLowerCase(), rs.getDouble(colNms[c]));
+					dSet.setColumn(row, colNms[c], rs.getDouble(colNms[c]));
 				} else {
-					dSet.setColumn(row, colNms[c].toLowerCase(), rs.getString(colNms[c]));
+					dSet.setColumn(row, colNms[c], rs.getString(colNms[c]));
 				}
 			}
 		}
@@ -496,12 +493,12 @@ public class MiPlatformUtil {
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.getObject(colNms[c]);
 				if (value == null) {
-					dSet.setColumn(row, colNms[c].toLowerCase(), "");
+					dSet.setColumn(row, colNms[c], "");
 				} else {
 					if (value instanceof Number) {
-						dSet.setColumn(row, colNms[c].toLowerCase(), rs.getDouble(colNms[c]));
+						dSet.setColumn(row, colNms[c], rs.getDouble(colNms[c]));
 					} else {
-						dSet.setColumn(row, colNms[c].toLowerCase(), rs.getString(colNms[c]));
+						dSet.setColumn(row, colNms[c], rs.getString(colNms[c]));
 					}
 				}
 			}

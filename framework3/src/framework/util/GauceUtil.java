@@ -95,7 +95,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * RecordSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다. 
+	 * RecordSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs를 가우스 데이터셋으로 변환하여 response로 전송하는 경우 : GauceUtil.render(response, dSet, rs)
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -110,7 +110,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * RecordSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다. 
+	 * RecordSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs1과 rs2를 가우스 데이터셋으로 변환하여 response로 전송하는 경우 : GauceUtil.render(response, new GauceDataSet[] { dSet1, dSet2 }, new RecordSet[] { rs1, rs2 })
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -141,7 +141,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ResultSet을 가우스 데이타셋으로 변환하여 응답객체로 전송한다. 
+	 * ResultSet을 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs를 가우스 데이터셋으로 변환하여 response로 전송하는 경우 : GauceUtil.render(response, rs)
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -153,7 +153,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ResultSet을 가우스 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다. 
+	 * ResultSet을 가우스 데이타셋(명칭은 datasetName 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs를 가우스 데이터셋(명칭은 result)으로 변환하여 response로 전송하는 경우 : GauceUtil.render(response, "result", rs)
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -168,7 +168,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ResultSet을 가우스 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다. 
+	 * ResultSet을 가우스 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs1과 rs2를 가우스 데이터셋으로 변환하여 response로 전송하는 경우 : GauceUtil.render(response, new String[] { "result1", "result2" }, new ResultSet[] { rs1, rs2 })
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -199,7 +199,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ResultSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다. 
+	 * ResultSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs를 가우스 데이터셋으로 변환하여 response로 전송하는 경우 : GauceUtil.render(response, dSet, rs)
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -214,7 +214,7 @@ public class GauceUtil {
 	}
 
 	/**
-	 * ResultSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다. 
+	 * ResultSet을 인자로 넘어온 가우스 데이타셋으로 변환하여 응답객체로 전송한다.
 	 * <br>
 	 * ex) rs1과 rs2를 가우스 데이터셋으로 변환하여 response로 전송하는 경우 : GauceUtil.render(response, new GauceDataSet[] { dSet1, dSet2 }, new ResultSet[] { rs1, rs2 })
 	 * @param response 클라이언트로 응답할 Response 객체
@@ -343,7 +343,7 @@ public class GauceUtil {
 		int[] colSize = rs.getColumnsSize();
 		int[] colSizeReal = rs.getColumnsSizeReal();
 		int[] colScale = rs.getColumnsScale();
-		rs.moveRow(0); // rs의 위치를 1번째로 이동 
+		rs.moveRow(0); // rs의 위치를 1번째로 이동
 		int rowCount = 0;
 		while (rs.nextRow()) {
 			rowCount++;
@@ -369,9 +369,7 @@ public class GauceUtil {
 				int[] colSizeReal = new int[cnt];
 				int[] colScale = new int[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
-					//Fiels 의 정보 및 Size 추가
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 					colSize[i - 1] = rsmd.getColumnDisplaySize(i);
 					colSizeReal[i - 1] = rsmd.getPrecision(i);
 					colScale[i - 1] = rsmd.getScale(i);

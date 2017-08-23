@@ -68,7 +68,7 @@ public class JsonUtil {
 	/**
 	 * RecordSet을 Json 배열 형태로 변환한다.
 	 * <br>
-	 * ex) rs를 JSON 형식으로 변환하는 경우 : String json = JsonUtil.render(rs) 
+	 * ex) rs를 JSON 형식으로 변환하는 경우 : String json = JsonUtil.render(rs)
 	 * @param rs JSON 형식으로 변환할 RecordSet 객체
 	 * @return JSON 형식으로 변환된 문자열
 	 */
@@ -110,8 +110,7 @@ public class JsonUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				pw.print("[");
 				int rowCount = 0;
@@ -168,8 +167,7 @@ public class JsonUtil {
 				int cnt = rsmd.getColumnCount();
 				String[] colNms = new String[cnt];
 				for (int i = 1; i <= cnt; i++) {
-					//Table의 Field 가 소문자 인것은 대문자로 변경처리
-					colNms[i - 1] = rsmd.getColumnName(i).toUpperCase();
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				}
 				buffer.append("[");
 				int rowCount = 0;
@@ -401,7 +399,7 @@ public class JsonUtil {
 		if (map.entrySet().size() > 0) {
 			buf.append("{");
 			for (Entry<String, Object> entry : map.entrySet()) {
-				String key = "\"" + escape(entry.getKey().toLowerCase()) + "\"";
+				String key = "\"" + escape(entry.getKey()) + "\"";
 				Object value = entry.getValue();
 				if (value == null) {
 					buf.append(key + ":" + "\"\"");
@@ -438,7 +436,7 @@ public class JsonUtil {
 			buf.append("{");
 			for (int c = 0; c < colNms.length; c++) {
 				Object value = rs.get(colNms[c]);
-				String key = "\"" + escape(colNms[c].toLowerCase()) + "\"";
+				String key = "\"" + escape(colNms[c]) + "\"";
 
 				if (value == null) {
 					buf.append(key + ":" + "\"\"");
@@ -473,7 +471,7 @@ public class JsonUtil {
 				} catch (SQLException e) {
 					throw new RuntimeException(e);
 				}
-				String key = "\"" + escape(colNms[c].toLowerCase()) + "\"";
+				String key = "\"" + escape(colNms[c]) + "\"";
 
 				if (value == null) {
 					buf.append(key + ":" + "\"\"");

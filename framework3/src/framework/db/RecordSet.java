@@ -65,7 +65,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 				//Table의 Field 가 대문자 인것은 소문자로 변경처리
 				colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 				columnsType[i - 1] = rsmd.getColumnType(i);
-				//Fiels 의 정보 및 Size 추가 
+				//Fiels 의 정보 및 Size 추가
 				colSize[i - 1] = rsmd.getColumnDisplaySize(i);
 				colSizeReal[i - 1] = rsmd.getPrecision(i);
 				colScale[i - 1] = rsmd.getScale(i);
@@ -116,7 +116,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	}
 
 	/**
-	 * 주어진 쿼리를 수행 후 컬럼의 Size을 int[] 로 반환 
+	 * 주어진 쿼리를 수행 후 컬럼의 Size을 int[] 로 반환
 	 * @return String[]
 	 */
 	public int[] getColumnsSize() {
@@ -127,7 +127,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	}
 
 	/**
-	 * 주어진 쿼리를 수행 후 컬럼의 실제 Size(숫자속성에 사용)을 int[] 로 반환 
+	 * 주어진 쿼리를 수행 후 컬럼의 실제 Size(숫자속성에 사용)을 int[] 로 반환
 	 * @return String[]
 	 */
 	public int[] getColumnsSizeReal() {
@@ -138,7 +138,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	}
 
 	/**
-	 * 주어진 쿼리를 수행 후 컬럼의 소숫점 아래 사이즈를 int[] 로 반환 
+	 * 주어진 쿼리를 수행 후 컬럼의 소숫점 아래 사이즈를 int[] 로 반환
 	 * @return String[]
 	 */
 	public int[] getColumnsScale() {
@@ -160,7 +160,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	}
 
 	/**
-	 * 주어진 쿼리를 수행 후 컬럼의 타입을 int[] 로 반환 
+	 * 주어진 쿼리를 수행 후 컬럼의 타입을 int[] 로 반환
 	 * @return String[]
 	 */
 	public int[] getColumnsType() {
@@ -196,6 +196,17 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return	int Row의 갯수
 	 */
 	public int getRowCount() {
+		if (rows == null) {
+			return 0;
+		}
+		return rows.size();
+	}
+
+	/**
+	 * 주어진 쿼리 수행 후 결과 row의 갯수를 구한다
+	 * @return	int Row의 갯수
+	 */
+	public int size() {
 		if (rows == null) {
 			return 0;
 		}
@@ -330,11 +341,11 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 		return getBigDecimal(row, colName).intValue();
 	}
 
-	/** 
+	/**
 	 * RecordSet의 column 값을 int로 반환하는 메소드
 	 * @param row  row number, 첫번째 row는 1
 	 * @param colName   column name
-	 * @return int  column data   
+	 * @return int  column data
 	 */
 	public int getInteger(int row, String colName) {
 		return getBigDecimal(row, colName).intValue();
@@ -568,20 +579,20 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 
 	/**
 	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 long형 column 데이터를 구한다
-	 * 
+	 *
 	 * @param colName 읽고자 하는 column 이름
-	 * 
+	 *
 	 * @return long
 	 */
 	public long getLong(String colName) {
 		return getLong(currow, colName);
 	}
 
-	/** 
+	/**
 	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 String형 column 데이터를 구한다
-	 * 
+	 *
 	 * @param colName 읽고자 하는 column 이름
-	 * 
+	 *
 	 * @return String
 	 */
 	public String getString(String colName) {
@@ -661,6 +672,6 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 */
 	@Override
 	public Iterator<RecordMap> iterator() {
-		return getRows().iterator();
+		return rows.iterator();
 	}
 }
