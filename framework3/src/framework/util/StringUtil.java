@@ -25,7 +25,7 @@ public class StringUtil {
 	/**
 	 * 특정 기호를 기준으로 스트링을 잘라서 배열로 반환하는 함수
 	 * <br>
-	 * ex) abc||def||efg -> array[0]:"abc", array[1]:"def", array[2]:"efg"
+	 * ex) abc||def||efg : array[0]:"abc", array[1]:"def", array[2]:"efg"
 	 * @param str 원본 문자열
 	 * @param token 토큰 문자열
 	 * @return 토큰으로 분리된 문자열의 배열

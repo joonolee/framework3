@@ -12,12 +12,14 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Catch {
 	/**
-	 * 예외클래스가 일치하거나 하위 클래스일 때 동작한다. 
+	 * 예외클래스가 일치하거나 하위 클래스일 때 동작한다.
+	 * @return 적용할 예외 클래스 배열
 	 */
 	Class<? extends Exception>[] value() default {};
 
-	/** 
+	/**
 	 * 우선순위
+	 * @return 우선순위
 	 */
 	int priority() default 0;
 }

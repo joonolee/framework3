@@ -165,6 +165,7 @@ public class XmlUtil {
 	 * <br>
 	 * ex) rs를 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(rs)
 	 * @param rs xml 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
+	 * @return Xml 문자열
 	 */
 	public static String render(ResultSet rs) {
 		if (rs == null) {
@@ -218,6 +219,7 @@ public class XmlUtil {
 	 * ex) rs를 xml 형식으로 변환하는 경우 : String xml = XmlUtil.render(rs, "utf-8")
 	 * @param rs xml 형식으로 변환할 ResultSet 객체, ResultSet 객체는 자동으로 close 된다.
 	 * @param encoding 헤더에 포함될 인코딩
+	 * @return Xml 문자열
 	 */
 	public static String render(ResultSet rs, String encoding) {
 		if (rs == null || encoding == null) {

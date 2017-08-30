@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
-import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -24,6 +21,9 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 
 /**
  * OAuth 1.0a 인증을 사용하기 위한 유틸리티 클래스이다.
@@ -119,9 +119,9 @@ public class OAuth10aUtil {
 
 	/**
 	 * 입력한 값으로 Provider을 생성한다.
-	 * @param requestTokenEndpointUrl
-	 * @param accessTokenEndpointUrl
-	 * @param authorizationWebsiteUrl
+	 * @param requestTokenEndpointUrl 요청 토큰 주소
+	 * @param accessTokenEndpointUrl 엑세스 토큰 주소
+	 * @param authorizationWebsiteUrl 인증 주소
 	 * @return Provider 객체
 	 */
 	public static Provider makeProvider(String requestTokenEndpointUrl, String accessTokenEndpointUrl, String authorizationWebsiteUrl) {
@@ -129,7 +129,7 @@ public class OAuth10aUtil {
 	}
 
 	/**
-	 * Provider에 RequestToken을 요청하여, RequestToken과 RequestTokenSecret을 받아온다. 
+	 * Provider에 RequestToken을 요청하여, RequestToken과 RequestTokenSecret을 받아온다.
 	 * @param consumer 컨슈머 객체
 	 * @param provider 프로바이더 객체
 	 * @param callbackUrl 콜백주소

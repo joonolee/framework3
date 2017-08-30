@@ -302,7 +302,7 @@ public class NexacroUtil {
 	/**
 	 * List객체를 넥사크로플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
-	 * ex) list1과 list2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, new String[] { "result1", "result2" }, new List<RecordMap>[] { list1, list2 }, NexacroUtil.XML)
+	 * ex) list1과 list2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, new String[] { "result1", "result2" }, new List&lt;RecordMap&gt;[] { list1, list2 }, NexacroUtil.XML)
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param datasetNameArray 데이타셋 이름 배열
 	 * @param listArray 넥사크로플랫폼 데이타셋으로 변환할 List객체 배열
@@ -319,7 +319,7 @@ public class NexacroUtil {
 	/**
 	 * List객체를 넥사크로플랫폼 데이타셋(명칭은 datasetNameArray 인자 값)으로 변환하여 응답객체로 전송한다.
 	 * <br>
-	 * ex) list1과 list2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, new String[] { "result1", "result2" }, new List<RecordMap>[] { list1, list2 }, NexacroUtil.XML)
+	 * ex) list1과 list2를 넥사크로플랫폼 데이터셋으로 변환하여 response로 XML 형식으로 전송하는 경우 : NexacroUtil.render(response, vl, new String[] { "result1", "result2" }, new List&lt;RecordMap&gt;[] { list1, list2 }, NexacroUtil.XML)
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param vl 넥사크로플랫폼 VariableList 객체
 	 * @param datasetNameArray 데이타셋 이름 배열

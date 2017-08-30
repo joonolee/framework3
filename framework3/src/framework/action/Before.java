@@ -13,16 +13,19 @@ import java.lang.annotation.Target;
 public @interface Before {
 	/**
 	 * 메소드 이름이 일치 할때 동작한다.
+	 * @return 필터를 적용하는 메소드 배열
 	 */
 	String[] only() default {};
 
 	/**
 	 * 메소드 이름이 일치하지 않을때 동작한다.
+	 * @return 필터를 적용하지 않는 메소드 배열
 	 */
 	String[] unless() default {};
 
-	/** 
+	/**
 	 * 우선순위
+	 * @return 우선순위
 	 */
 	int priority() default 0;
 }

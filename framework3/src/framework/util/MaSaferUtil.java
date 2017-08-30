@@ -27,17 +27,17 @@ public class MaSaferUtil {
 
 	/**
 	 * 원본파일을 DRM 암호화를 적용하여 대상파일로 저장한다.
-	 * @param configpath
-	 * @param srcFile
-	 * @param destFile
-	 * @param systemName
-	 * @param companyId
-	 * @param companyName
-	 * @param orgCode
-	 * @param orgName
-	 * @param userid
-	 * @param userName
-	 * @param ipAddr
+	 * @param configpath 설정파일 경로
+	 * @param srcFile 원본 파일
+	 * @param destFile 암호화된 파일
+	 * @param systemName 시스템명
+	 * @param companyId 회사 아이디
+	 * @param companyName 회사명
+	 * @param orgCode 기관코드
+	 * @param orgName 기관명
+	 * @param userid 사용자 아이디
+	 * @param userName 사용자명
+	 * @param ipAddr 아이피주소
 	 */
 	public static void encrypt(String configpath, File srcFile, File destFile, String systemName, String companyId, String companyName, String orgCode, String orgName, String userid, String userName, String ipAddr) {
 		FileInputStream fis = null;
@@ -72,17 +72,17 @@ public class MaSaferUtil {
 
 	/**
 	 * 원본파일을 DRM 암호화를 적용하여 응답객체로 전송한다.
-	 * @param configpath
-	 * @param srcFile
-	 * @param response
-	 * @param systemName
-	 * @param companyId
-	 * @param companyName
-	 * @param orgCode
-	 * @param orgName
-	 * @param userid
-	 * @param userName
-	 * @param ipAddr
+	 * @param configpath 설정파일 경로
+	 * @param srcFile 원본 파일
+	 * @param response 응답 객체
+	 * @param systemName 시스템명
+	 * @param companyId 회사 아이디
+	 * @param companyName 회사명
+	 * @param orgCode 기관코드
+	 * @param orgName 기관명
+	 * @param userid 사용자 아이디
+	 * @param userName 사용자명
+	 * @param ipAddr 아이피주소
 	 */
 	public static void encrypt(String configpath, File srcFile, HttpServletResponse response, String systemName, String companyId, String companyName, String orgCode, String orgName, String userid, String userName, String ipAddr) {
 		FileInputStream fis = null;
@@ -113,10 +113,10 @@ public class MaSaferUtil {
 
 	/**
 	 * 원본파일을 DRM 복호화를 적용하여 대상파일로 저장한다.
-	 * @param configpath
-	 * @param srcFile
-	 * @param destFile
-	 * @param userId
+	 * @param configpath 설정파일 경로
+	 * @param srcFile 원본 파일
+	 * @param destFile 암호화된 파일
+	 * @param userId 사용자 아이디
 	 */
 	public static void decrypt(String configpath, File srcFile, File destFile, String userId) {
 		FileInputStream fis = null;
@@ -151,10 +151,10 @@ public class MaSaferUtil {
 
 	/**
 	 * 원본파일을 DRM 복호화를 적용하여 응답객체로 전송한다.
-	 * @param configpath
-	 * @param srcFile
-	 * @param response
-	 * @param userId
+	 * @param configpath 설정파일 경로
+	 * @param srcFile 원본 파일
+	 * @param response 응답 객체
+	 * @param userId 사용자 아이디
 	 */
 	public static void decrypt(String configpath, File srcFile, HttpServletResponse response, String userId) {
 		FileInputStream fis = null;

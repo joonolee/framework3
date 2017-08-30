@@ -36,6 +36,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 
 	/**
 	 * RecordSet의 생성자
+	 * @param rs 쿼리 실행결과
 	 */
 	public RecordSet(ResultSet rs) {
 		this(rs, 0, 0);
@@ -299,6 +300,8 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 
 	/**
 	 * 해당하는 하는 row로 이동
+	 * @param row cnt : start 1
+	 * @return 이동 성공 여부
 	 */
 	public boolean moveRow(int row) {
 		if (rows != null && rows.size() != 0 && row <= rows.size()) {
@@ -541,7 +544,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 
 	/**
 	 * 현재 형의 RecordSet의 Timestamp 값을 반환하는 메소드
-	 * @param colIdx
+	 * @param colIdx  column number, 첫번째 column은 1
 	 * @return Timestamp
 	 */
 	public Timestamp getTimestamp(int colIdx) {

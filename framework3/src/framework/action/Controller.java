@@ -26,10 +26,10 @@ import org.apache.commons.logging.LogFactory;
 import framework.config.Config;
 import framework.db.DB;
 
-/** 
+/**
  * 비지니스 로직을 처리하는 클래스가 상속받아야 할 추상클래스이다.
- * 뷰페이지(jsp 페이지)가 실행되기 전에 클라이언트에서 서버로 전송된 데이터를 편리하게 업무로직에 반영하기 
- * 위한 전처리(Pre-processing)모듈이다. 하나의 서비스에 대해 여러개의 업무로직을 컴포넌트 형태로 제작하여 등록할 수 있다. 
+ * 뷰페이지(jsp 페이지)가 실행되기 전에 클라이언트에서 서버로 전송된 데이터를 편리하게 업무로직에 반영하기
+ * 위한 전처리(Pre-processing)모듈이다. 하나의 서비스에 대해 여러개의 업무로직을 컴포넌트 형태로 제작하여 등록할 수 있다.
  * 작성된 Controller는 routes.properties에 등록한다.
  */
 public abstract class Controller {
@@ -96,14 +96,14 @@ public abstract class Controller {
 	 */
 	protected String actionName = null;
 
-	/** 
+	/**
 	 * 클라이언트에서 서비스를 호출할 때 요청 url에 설정된 값을 참고하여 해당 메소드를 실행한다.
 	 * 정의되지 않은 메소드를 호출할 경우 로그에 오류메시지가 기록되며 메소드 실행을 마친 후 데이터베이스 컨넥을 자동으로 닫아준다.
 	 * @param servlet 서블릿 객체
 	 * @param request 클라이언트에서 요청된 Request객체
 	 * @param response 클라이언트로 응답할 Response객체
 	 * @param method 메소드
-	 * @throws Throwable 
+	 * @throws Throwable 예외 객체
 	 */
 	public void execute(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response, Method method) throws Throwable {
 		try {
@@ -180,7 +180,7 @@ public abstract class Controller {
 		}
 	}
 
-	/** 
+	/**
 	 * 요청을 JSP페이지로 재지향(Redirect) 한다.
 	 * <br>
 	 * ex) search.jsp 인 JSP페이지로 재지향 할 경우 : redirect("/serach.jsp")
@@ -204,7 +204,7 @@ public abstract class Controller {
 		}
 	}
 
-	/** 
+	/**
 	 * 데이타베이스 객체를 리턴한다.
 	 * <br>
 	 * application.properties에 datasource가 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
@@ -217,7 +217,7 @@ public abstract class Controller {
 		return getDB("default");
 	}
 
-	/** 
+	/**
 	 * 데이타베이스 객체를 리턴한다.
 	 * <br>
 	 * application.properties에 jndiName이 등록되어 있으면 JNDI에 등록되어있는 데이타소스에서 컨넥션을 생성한다.
@@ -242,7 +242,7 @@ public abstract class Controller {
 		return dbMap.get(serviceName);
 	}
 
-	/** 
+	/**
 	 * 설정정보를 가지고 있는 객체를 생성하여 리턴한다.
 	 * @return application.properties의 설정정보를 가지고 있는 객체
 	 */
@@ -250,7 +250,7 @@ public abstract class Controller {
 		return Config.getInstance();
 	}
 
-	/** 
+	/**
 	 * 세션객체에서 해당 키에 해당하는 오브젝트를 리턴한다.
 	 * <br>
 	 * ex) 세션에서 result라는 키로 오브젝트를 리턴받는 경우 : Object obj = getSessionAttribute("result")
@@ -262,7 +262,7 @@ public abstract class Controller {
 	}
 
 	/**
-	 * 응답객체를 클라이언트에게 전송하기 전에 컨텐츠타입을 설정한다. 
+	 * 응답객체를 클라이언트에게 전송하기 전에 컨텐츠타입을 설정한다.
 	 * <br>
 	 * ex1) xml파일을 전송 하는 경우 : setContentType("text/xml; charset=utf-8")
 	 * <br>
@@ -273,11 +273,11 @@ public abstract class Controller {
 		response.setContentType(contentType);
 	}
 
-	/** 
+	/**
 	 * 요청객체에 키,값 속성을 설정한다.
 	 * Controller에서 처리한 결과를 뷰 로 넘길때 요청객체에 속성을 설정하여 라우팅한다.
 	 * <br>
-	 * ex) rs라는 RecordSet 객체를 result 라는 키로 요청객체에 설정하는 경우 : setAttribute("result", re) 
+	 * ex) rs라는 RecordSet 객체를 result 라는 키로 요청객체에 설정하는 경우 : setAttribute("result", re)
 	 * @param key 속성의 키 문자열
 	 * @param value 속성의 값 객체
 	 */
@@ -285,7 +285,7 @@ public abstract class Controller {
 		request.setAttribute(key, value);
 	}
 
-	/** 
+	/**
 	 * 세션객체에 키,값 속성을 설정한다.
 	 * Controller에서 처리한 결과를 세션에 저장한다.
 	 * <br>
@@ -297,7 +297,7 @@ public abstract class Controller {
 		session.setAttribute(key, value);
 	}
 
-	/** 
+	/**
 	 * 플래시객체에 키,값 속성을 설정한다.
 	 * Controller에서 처리한 결과를 다음 요청의 요청객체에 저장한다.
 	 * <br>

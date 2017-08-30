@@ -13,7 +13,7 @@ public class ValidationUtil {
 
 	/**
 	 * 주민등록번호/외국인등록번호 유효성 체크
-	 * @param residentRegistrationNo
+	 * @param residentRegistrationNo 주민등록번호/외국인등록번호
 	 * @return 매치여부
 	 */
 	public static boolean isResidentRegistrationNo(String residentRegistrationNo) {
@@ -57,7 +57,7 @@ public class ValidationUtil {
 
 	/**
 	 * 주민등록번호/외국인등록번호 유효성 체크
-	 * @param juminNo
+	 * @param juminNo 주민등록번호/외국인등록번호
 	 * @return 매치여부
 	 */
 	public static boolean isJuminNo(String juminNo) {
@@ -65,8 +65,8 @@ public class ValidationUtil {
 	}
 
 	/**
-	 * 법인번호 유효성 체크 
-	 * @param corporationRegistrationNo
+	 * 법인번호 유효성 체크
+	 * @param corporationRegistrationNo 법인번호
 	 * @return 매치여부
 	 */
 	public static boolean isCorporationRegistrationNo(String corporationRegistrationNo) {
@@ -87,7 +87,7 @@ public class ValidationUtil {
 
 	/**
 	 * 사업자등록번호 유효성 체크
-	 * @param businessRegistrationNo
+	 * @param businessRegistrationNo 사업자등록번호
 	 * @return 매치여부
 	 */
 	public static boolean isBusinessRegistrationNo(String businessRegistrationNo) {
@@ -106,7 +106,7 @@ public class ValidationUtil {
 
 	/**
 	 * 신용카드번호 유효성 체크
-	 * @param creditCardNo
+	 * @param creditCardNo 신용카드번호
 	 * @return 매치여부
 	 */
 	public static boolean isCreditCardNo(String creditCardNo) {
@@ -115,7 +115,7 @@ public class ValidationUtil {
 
 	/**
 	 * 여권번호 유효성 체크
-	 * @param passportNo
+	 * @param passportNo 여권번호
 	 * @return 매치여부
 	 */
 	public static boolean isPassportNo(String passportNo) {
@@ -124,7 +124,7 @@ public class ValidationUtil {
 
 	/**
 	 * 운전면허번호 유효성 체크
-	 * @param driversLicenseNo
+	 * @param driversLicenseNo 운전면허번호
 	 * @return 매치여부
 	 */
 	public static boolean isDriversLicenseNo(String driversLicenseNo) {
@@ -133,7 +133,7 @@ public class ValidationUtil {
 
 	/**
 	 * 휴대폰번호 유효성 체크
-	 * @param cellphoneNo
+	 * @param cellphoneNo 휴대폰번호
 	 * @return 매치여부
 	 */
 	public static boolean isCellphoneNo(String cellphoneNo) {
@@ -142,7 +142,7 @@ public class ValidationUtil {
 
 	/**
 	 * 일반전화번호 유효성 체크
-	 * @param telephoneNo
+	 * @param telephoneNo 일반전화번호
 	 * @return 매치여부
 	 */
 	public static boolean isTelephoneNo(String telephoneNo) {
@@ -150,8 +150,8 @@ public class ValidationUtil {
 	}
 
 	/**
-	 * 건강보험번호 유효성 체크 
-	 * @param healthInsuranceNo
+	 * 건강보험번호 유효성 체크
+	 * @param healthInsuranceNo 건강보험번호
 	 * @return 매치여부
 	 */
 	public static boolean isHealthInsuranceNo(String healthInsuranceNo) {
@@ -160,7 +160,7 @@ public class ValidationUtil {
 
 	/**
 	 * 계좌번호 유효성 체크
-	 * @param bankAccountNo
+	 * @param bankAccountNo 은행계좌번호
 	 * @return 매치여부
 	 */
 	public static boolean isBankAccountNo(String bankAccountNo) {
@@ -169,7 +169,7 @@ public class ValidationUtil {
 
 	/**
 	 * 이메일주소 유효성 체크
-	 * @param emailAddress
+	 * @param emailAddress 이메일주소
 	 * @return 매치여부
 	 */
 	public static boolean isEmailAddress(String emailAddress) {
@@ -178,7 +178,7 @@ public class ValidationUtil {
 
 	/**
 	 * 아이피주소 유효성 체크
-	 * @param ipAddress
+	 * @param ipAddress 아이피주소
 	 * @return 매치여부
 	 */
 	public static boolean isIPAddress(String ipAddress) {

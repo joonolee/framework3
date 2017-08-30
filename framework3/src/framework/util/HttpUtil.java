@@ -66,7 +66,7 @@ public class HttpUtil {
 
 	/**
 	 * url 을 Get 방식으로 호출하고 결과를 리턴한다.
-	 * @param url
+	 * @param url url 주소
 	 * @return Result 객체
 	 */
 	public static Result get(String url) {
@@ -75,8 +75,8 @@ public class HttpUtil {
 
 	/**
 	 * url 을 Get 방식으로 호출하고 결과를 리턴한다.
-	 * @param url
-	 * @param headerMap
+	 * @param url url 주소
+	 * @param headerMap 헤더 맵 객체
 	 * @return Result 객체
 	 */
 	public static Result get(String url, Map<String, String> headerMap) {
@@ -109,7 +109,7 @@ public class HttpUtil {
 
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
-	 * @param url
+	 * @param url url 주소
 	 * @return Result 객체
 	 */
 	public static Result post(String url) {
@@ -118,8 +118,8 @@ public class HttpUtil {
 
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
-	 * @param url
-	 * @param paramMap
+	 * @param url url 주소
+	 * @param paramMap 헤더 맵 객체
 	 * @return Result 객체
 	 */
 	public static Result post(String url, Map<String, String> paramMap) {
@@ -128,9 +128,9 @@ public class HttpUtil {
 
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
-	 * @param url
-	 * @param paramMap
-	 * @param headerMap
+	 * @param url url 주소
+	 * @param paramMap 파라미터 맵 객체
+	 * @param headerMap 헤더 맵 객체
 	 * @return Result 객체
 	 */
 	public static Result post(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
@@ -171,9 +171,9 @@ public class HttpUtil {
 
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다. (첨부파일 포함)
-	 * @param url
-	 * @param paramMap
-	 * @param fileList
+	 * @param url url 주소
+	 * @param paramMap 파라미터 맵 객체
+	 * @param fileList 파일 리스트 객체
 	 * @return Result 객체
 	 */
 	public static Result post(String url, Map<String, String> paramMap, List<File> fileList) {
@@ -182,10 +182,10 @@ public class HttpUtil {
 
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다. (첨부파일 포함)
-	 * @param url
-	 * @param paramMap
-	 * @param fileList
-	 * @param headerMap
+	 * @param url url 주소
+	 * @param paramMap 파라미터 맵 객체
+	 * @param fileList 파일 리스트 객체
+	 * @param headerMap 헤더 맵 객체
 	 * @return Result 객체
 	 */
 	public static Result post(String url, Map<String, String> paramMap, List<File> fileList, Map<String, String> headerMap) {

@@ -12,7 +12,7 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 
 /**
- * ResultSet => RecordSet 변환용 Mybatis 플러그인
+ * ResultSet을 RecordSet으로  변환하는  Mybatis 플러그인
  */
 @Intercepts({ @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }) })
 public class MybatisRecordSetPlugin implements Interceptor {
