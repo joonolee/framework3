@@ -331,7 +331,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 		if (get(row, colName) == null) {
 			return "";
 		}
-		return get(row, colName).toString().trim();
+		return get(row, colName).toString();
 	}
 
 	/**

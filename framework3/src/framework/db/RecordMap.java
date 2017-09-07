@@ -41,7 +41,7 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 		if (get(key) == null) {
 			return "";
 		}
-		return get(key).toString().trim();
+		return get(key).toString();
 	}
 
 	public int getInt(String key) {
@@ -64,7 +64,7 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 		if (get(key) == null) {
 			return BigDecimal.valueOf(0);
 		}
-		return new BigDecimal(get(key).toString());
+		return new BigDecimal(get(key).toString().trim());
 	}
 
 	public float getFloat(String key) {
