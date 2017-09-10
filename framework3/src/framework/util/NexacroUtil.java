@@ -557,9 +557,9 @@ public class NexacroUtil {
 				String key = entry.getKey();
 				Object value = entry.getValue();
 				if (value instanceof Number) {
-					dSet.addColumn(key, DataTypes.FLOAT);
+					dSet.addColumn(key, DataTypes.DOUBLE);
 				} else {
-					dSet.addColumn(key, DataTypes.STRING);
+					dSet.addColumn(key, DataTypes.STRING, 255);
 				}
 			}
 		}
@@ -594,7 +594,7 @@ public class NexacroUtil {
 				case Types.REAL:
 				case Types.SMALLINT:
 				case Types.TINYINT:
-					dSet.addColumn(colNms[c], DataTypes.FLOAT, colSize[c]);
+					dSet.addColumn(colNms[c], DataTypes.DOUBLE, colSize[c]);
 					break;
 				default:
 					dSet.addColumn(colNms[c], DataTypes.STRING, colSize[c]);
@@ -642,7 +642,7 @@ public class NexacroUtil {
 					case Types.REAL:
 					case Types.SMALLINT:
 					case Types.TINYINT:
-						dSet.addColumn(colNms[c], DataTypes.FLOAT, colSize[c]);
+						dSet.addColumn(colNms[c], DataTypes.DOUBLE, colSize[c]);
 						break;
 					default:
 						dSet.addColumn(colNms[c], DataTypes.STRING, colSize[c]);
