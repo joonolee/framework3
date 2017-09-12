@@ -7,6 +7,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -324,7 +327,8 @@ public class MiPlatformUtil {
 	 * @return 추출된 값을 담고 있는 Float 객체
 	 */
 	public static Float getFloat(Dataset dSet, int row, String colName) {
-		return new Float(getDouble(dSet, row, colName).doubleValue());
+		Double value = getDouble(dSet, row, colName);
+		return Float.valueOf(value.floatValue());
 	}
 
 	/**
@@ -337,12 +341,49 @@ public class MiPlatformUtil {
 	public static BigDecimal getBigDecimal(Dataset dSet, int row, String colName) {
 		String value = getString(dSet, row, colName).trim().replaceAll(",", "");
 		if ("".equals(value)) {
-			return BigDecimal.valueOf(0);
+			return BigDecimal.ZERO;
 		}
 		try {
 			return new BigDecimal(value);
 		} catch (NumberFormatException e) {
-			return BigDecimal.valueOf(0);
+			return BigDecimal.ZERO;
+		}
+	}
+
+	/**
+	 * Dataset의 값을 추출하여 Date 객체를 리턴한다.
+	 * @param dSet 값을 추출할 Dataset
+	 * @param row 추출할 행번호
+	 * @param colName 추출할 열이름
+	 * @return 추출된 값을 담고 있는 Date 객체
+	 */
+	public Date getDate(Dataset dSet, int row, String colName) {
+		String value = getString(dSet, row, colName).replaceAll("[^\\d]", "");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		sdf.setLenient(false);
+		try {
+			return sdf.parse(value);
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Dataset의 값을 추출하여 Date 객체를 리턴한다.
+	 * @param dSet 값을 추출할 Dataset
+	 * @param row 추출할 행번호
+	 * @param colName 추출할 열이름
+	 * @param format : 날짜형식(ex : yyyyMMdd, yyyy-MM-dd, yyyy-MM-dd HH:mm:ss...)
+	 * @return 추출된 값을 담고 있는 Date 객체
+	 */
+	public Date getDate(Dataset dSet, int row, String colName, String format) {
+		String value = getString(dSet, row, colName).trim();
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		sdf.setLenient(false);
+		try {
+			return sdf.parse(value);
+		} catch (ParseException e) {
+			return null;
 		}
 	}
 

@@ -146,13 +146,13 @@ public class NexacroUtil {
 			return 0;
 		}
 		if (datasetNameArray.length != rsArray.length) {
-			throw new IllegalArgumentException("Dataset이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
+			throw new IllegalArgumentException("DataSet이름 갯수와 RecordSet갯수가 일치하지 않습니다.");
 		}
 		int rowCount = 0;
 		DataSetList dl = new DataSetList();
 		for (int i = 0, len = rsArray.length; i < len; i++) {
 			DataSet dSet = new DataSet(datasetNameArray[i]);
-			rowCount += appendDataset(dSet, rsArray[i]);
+			rowCount += appendDataSet(dSet, rsArray[i]);
 			dl.add(dSet);
 		}
 		sendData(response, vl, dl, platformType);
@@ -225,13 +225,13 @@ public class NexacroUtil {
 			return 0;
 		}
 		if (datasetNameArray.length != rsArray.length) {
-			throw new IllegalArgumentException("Dataset이름 갯수와 ResultSet갯수가 일치하지 않습니다.");
+			throw new IllegalArgumentException("DataSet이름 갯수와 ResultSet갯수가 일치하지 않습니다.");
 		}
 		int rowCount = 0;
 		DataSetList dl = new DataSetList();
 		for (int i = 0, len = rsArray.length; i < len; i++) {
 			DataSet dSet = new DataSet(datasetNameArray[i]);
-			rowCount += appendDataset(dSet, rsArray[i]);
+			rowCount += appendDataSet(dSet, rsArray[i]);
 			dl.add(dSet);
 		}
 		sendData(response, vl, dl, platformType);
@@ -335,13 +335,13 @@ public class NexacroUtil {
 			return 0;
 		}
 		if (datasetNameArray.length != listArray.length) {
-			throw new IllegalArgumentException("Dataset이름 갯수와 리스트 갯수가 일치하지 않습니다.");
+			throw new IllegalArgumentException("DataSet이름 갯수와 리스트 갯수가 일치하지 않습니다.");
 		}
 		int rowCount = 0;
 		DataSetList dl = new DataSetList();
 		for (int i = 0, len = listArray.length; i < len; i++) {
 			DataSet dSet = new DataSet(datasetNameArray[i]);
-			rowCount += appendDataset(dSet, listArray[i]);
+			rowCount += appendDataSet(dSet, listArray[i]);
 			dl.add(dSet);
 		}
 		sendData(response, vl, dl, platformType);
@@ -434,12 +434,12 @@ public class NexacroUtil {
 	}
 
 	/**
-	 * VariableList와 DatasetList를 응답객체로 전송한다.
+	 * VariableList와 DataSetList를 응답객체로 전송한다.
 	 * <br>
 	 * ex) vl과 dl을 response로 XML 형식으로 전송하는 경우 : NexacroUtil.sendData(response, vl, dl, NexacroUtil.XML)
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param vl 넥사크로플랫폼 VariableList 객체
-	 * @param dl 넥사크로플랫폼 DatasetList 객체
+	 * @param dl 넥사크로플랫폼 DataSetList 객체
 	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
 	 */
 	public static void sendData(HttpServletResponse response, VariableList vl, DataSetList dl, String platformType) {
@@ -457,8 +457,8 @@ public class NexacroUtil {
 	}
 
 	/**
-	 * Dataset의 값을 추출하여 String 객체를 리턴한다.
-	 * @param dSet 값을 추출할 Dataset
+	 * DataSet의 값을 추출하여 String 객체를 리턴한다.
+	 * @param dSet 값을 추출할 DataSet
 	 * @param row 추출할 행번호
 	 * @param colName 추출할 열이름
 	 * @return 추출된 값을 담고 있는 String 객체
@@ -472,8 +472,8 @@ public class NexacroUtil {
 	}
 
 	/**
-	 * Dataset의 값을 추출하여 Double 객체를 리턴한다.
-	 * @param dSet 값을 추출할 Dataset
+	 * DataSet의 값을 추출하여 Double 객체를 리턴한다.
+	 * @param dSet 값을 추출할 DataSet
 	 * @param row 추출할 행번호
 	 * @param colName 추출할 열이름
 	 * @return 추출된 값을 담고 있는 Double 객체
@@ -493,8 +493,8 @@ public class NexacroUtil {
 	}
 
 	/**
-	 * Dataset의 값을 추출하여 Long 객체를 리턴한다.
-	 * @param dSet 값을 추출할 Dataset
+	 * DataSet의 값을 추출하여 Long 객체를 리턴한다.
+	 * @param dSet 값을 추출할 DataSet
 	 * @param row 추출할 행번호
 	 * @param colName 추출할 열이름
 	 * @return 추출된 값을 담고 있는 Long 객체
@@ -505,8 +505,8 @@ public class NexacroUtil {
 	}
 
 	/**
-	 * Dataset의 값을 추출하여 Integer 객체를 리턴한다.
-	 * @param dSet 값을 추출할 Dataset
+	 * DataSet의 값을 추출하여 Integer 객체를 리턴한다.
+	 * @param dSet 값을 추출할 DataSet
 	 * @param row 추출할 행번호
 	 * @param colName 추출할 열이름
 	 * @return 추출된 값을 담고 있는 Integer 객체
@@ -517,8 +517,8 @@ public class NexacroUtil {
 	}
 
 	/**
-	 * Dataset의 값을 추출하여 Float 객체를 리턴한다.
-	 * @param dSet 값을 추출할 Dataset
+	 * DataSet의 값을 추출하여 Float 객체를 리턴한다.
+	 * @param dSet 값을 추출할 DataSet
 	 * @param row 추출할 행번호
 	 * @param colName 추출할 열이름
 	 * @return 추출된 값을 담고 있는 Float 객체
@@ -529,8 +529,8 @@ public class NexacroUtil {
 	}
 
 	/**
-	 * Dataset의 값을 추출하여 BigDecimal 객체를 리턴한다.
-	 * @param dSet 값을 추출할 Dataset
+	 * DataSet의 값을 추출하여 BigDecimal 객체를 리턴한다.
+	 * @param dSet 값을 추출할 DataSet
 	 * @param row 추출할 행번호
 	 * @param colName 추출할 열이름
 	 * @return 추출된 값을 담고 있는 BigDecimal 객체
@@ -548,8 +548,8 @@ public class NexacroUtil {
 	}
 
 	/**
-	 * Dataset의 값을 추출하여 Date 객체를 리턴한다.
-	 * @param dSet 값을 추출할 Dataset
+	 * DataSet의 값을 추출하여 Date 객체를 리턴한다.
+	 * @param dSet 값을 추출할 DataSet
 	 * @param row 추출할 행번호
 	 * @param colName 추출할 열이름
 	 * @return 추출된 값을 담고 있는 Date 객체
@@ -566,14 +566,14 @@ public class NexacroUtil {
 	}
 
 	/**
-	 * Dataset의 값을 추출하여 Date 객체를 리턴한다.
-	 * @param dSet 값을 추출할 Dataset
+	 * DataSet의 값을 추출하여 Date 객체를 리턴한다.
+	 * @param dSet 값을 추출할 DataSet
 	 * @param row 추출할 행번호
 	 * @param colName 추출할 열이름
 	 * @param format : 날짜형식(ex : yyyyMMdd, yyyy-MM-dd, yyyy-MM-dd HH:mm:ss...)
 	 * @return 추출된 값을 담고 있는 Date 객체
 	 */
-	public Date getDateTime(DataSet dSet, int row, String colName, String format) {
+	public Date getDate(DataSet dSet, int row, String colName, String format) {
 		String value = getString(dSet, row, colName).trim();
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		sdf.setLenient(false);
@@ -589,7 +589,7 @@ public class NexacroUtil {
 	/**
 	 * RecordSet을 넥사크로플랫폼 데이타셋으로 변환한다.
 	 */
-	private static int appendDataset(DataSet dSet, List<RecordMap> mapList) {
+	private static int appendDataSet(DataSet dSet, List<RecordMap> mapList) {
 		if (dSet == null || mapList == null) {
 			return 0;
 		}
@@ -615,7 +615,7 @@ public class NexacroUtil {
 	/**
 	 * RecordSet을 넥사크로플랫폼 데이타셋으로 변환한다.
 	 */
-	private static int appendDataset(DataSet dSet, RecordSet rs) {
+	private static int appendDataSet(DataSet dSet, RecordSet rs) {
 		if (dSet == null || rs == null) {
 			return 0;
 		}
@@ -655,7 +655,7 @@ public class NexacroUtil {
 	/**
 	 * ResultSet을 넥사크로플랫폼 데이타셋으로 변환한다.
 	 */
-	private static int appendDataset(DataSet dSet, ResultSet rs) {
+	private static int appendDataSet(DataSet dSet, ResultSet rs) {
 		if (dSet == null || rs == null) {
 			return 0;
 		}
