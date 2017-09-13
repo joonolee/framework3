@@ -357,7 +357,7 @@ public class MiPlatformUtil {
 	 * @param colName 추출할 열이름
 	 * @return 추출된 값을 담고 있는 Date 객체
 	 */
-	public Date getDate(Dataset dSet, int row, String colName) {
+	public static Date getDate(Dataset dSet, int row, String colName) {
 		String value = getString(dSet, row, colName).replaceAll("[^\\d]", "");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		sdf.setLenient(false);
@@ -376,7 +376,7 @@ public class MiPlatformUtil {
 	 * @param format : 날짜형식(ex : yyyyMMdd, yyyy-MM-dd, yyyy-MM-dd HH:mm:ss...)
 	 * @return 추출된 값을 담고 있는 Date 객체
 	 */
-	public Date getDate(Dataset dSet, int row, String colName, String format) {
+	public static Date getDate(Dataset dSet, int row, String colName, String format) {
 		String value = getString(dSet, row, colName).trim();
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		sdf.setLenient(false);
