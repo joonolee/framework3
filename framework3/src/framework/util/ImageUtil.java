@@ -13,15 +13,15 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.ImageIcon;
 
-import nl.captcha.Captcha;
-import nl.captcha.gimpy.RippleGimpyRenderer;
-import nl.captcha.servlet.CaptchaServletUtil;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+
+import nl.captcha.Captcha;
+import nl.captcha.gimpy.RippleGimpyRenderer;
+import nl.captcha.servlet.CaptchaServletUtil;
 
 /**
  * 이미지 포맷 변경, 크기 변경시 이용할 수 있는 유틸리티 클래스이다.
@@ -35,7 +35,7 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다. 
+	 * 이미지를 리사이즈 한다.
 	 * 소스 이미지 파일의 width, height 중 크기가 큰 쪽을 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcPath 소스 이미지 경로
 	 * @param destPath 대상 이미지 경로
@@ -49,7 +49,7 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다. 
+	 * 이미지를 리사이즈 한다.
 	 * 소스 이미지 파일의 width, height 중 크기가 큰 쪽을 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
@@ -89,7 +89,7 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다. 
+	 * 이미지를 리사이즈 한다.
 	 * 소스 이미지 파일의 width를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcPath 소스 이미지 경로
 	 * @param destPath 대상 이미지 경로
@@ -102,7 +102,7 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다. 
+	 * 이미지를 리사이즈 한다.
 	 * 소스 이미지 파일의 width를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
@@ -141,7 +141,7 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다. 
+	 * 이미지를 리사이즈 한다.
 	 * 소스 이미지 파일의 height를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcPath 소스 이미지 경로
 	 * @param destPath 대상 이미지 경로
@@ -154,7 +154,7 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다. 
+	 * 이미지를 리사이즈 한다.
 	 * 소스 이미지 파일의 height를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
@@ -182,6 +182,100 @@ public class ImageUtil {
 		} finally {
 			if (resizedImg != null) {
 				resizedImg.flush();
+			}
+			if (bufImg != null) {
+				bufImg.flush();
+			}
+			if (image != null) {
+				image.flush();
+			}
+		}
+	}
+
+	/**
+	 * 이미지를 왼쪽으로 90도 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 왼쪽으로 90도 회전한다.
+	 * @param srcPath 소스 이미지 경로
+	 * @param destPath 대상 이미지 경로
+	 */
+	public static void rotateLeft(String srcPath, String destPath) {
+		File srcFile = new File(srcPath);
+		File destFile = new File(destPath);
+		rotateLeft(srcFile, destFile);
+	}
+
+	/**
+	 * 이미지를 왼쪽으로 90도 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 왼쪽으로 90도 회전한다.
+	 * @param srcFile 소스 이미지 파일
+	 * @param destFile 대상 이미지 파일
+	 */
+	public static void rotateLeft(File srcFile, File destFile) {
+		BufferedImage bufImg = null;
+		Image image = null;
+		Image rotatedImg = null;
+		try {
+			image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
+			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
+				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
+			}
+			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+			Graphics2D g2d = bufImg.createGraphics();
+			AffineTransform ax = new AffineTransform();
+			ax.setToQuadrantRotation(3, image.getWidth(null) / 2, image.getHeight(null) / 2);
+			g2d.drawImage(image, ax, null);
+			rotatedImg = bufImg.getScaledInstance(image.getHeight(null), image.getWidth(null), Image.SCALE_SMOOTH);
+			writePNG(rotatedImg, destFile);
+		} finally {
+			if (rotatedImg != null) {
+				rotatedImg.flush();
+			}
+			if (bufImg != null) {
+				bufImg.flush();
+			}
+			if (image != null) {
+				image.flush();
+			}
+		}
+	}
+
+	/**
+	 * 이미지를 오른쪽으로 90도 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 오른쪽으로 90도 회전한다.
+	 * @param srcPath 소스 이미지 경로
+	 * @param destPath 대상 이미지 경로
+	 */
+	public static void rotateRight(String srcPath, String destPath) {
+		File srcFile = new File(srcPath);
+		File destFile = new File(destPath);
+		rotateRight(srcFile, destFile);
+	}
+
+	/**
+	 * 이미지를 오른쪽으로 90도 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 오른쪽으로 90도 회전한다.
+	 * @param srcFile 소스 이미지 파일
+	 * @param destFile 대상 이미지 파일
+	 */
+	public static void rotateRight(File srcFile, File destFile) {
+		BufferedImage bufImg = null;
+		Image image = null;
+		Image rotatedImg = null;
+		try {
+			image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
+			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
+				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
+			}
+			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+			Graphics2D g2d = bufImg.createGraphics();
+			AffineTransform ax = new AffineTransform();
+			ax.setToQuadrantRotation(1, image.getWidth(null) / 2, image.getHeight(null) / 2);
+			g2d.drawImage(image, ax, null);
+			rotatedImg = bufImg.getScaledInstance(image.getHeight(null), image.getWidth(null), Image.SCALE_SMOOTH);
+			writePNG(rotatedImg, destFile);
+		} finally {
+			if (rotatedImg != null) {
+				rotatedImg.flush();
 			}
 			if (bufImg != null) {
 				bufImg.flush();
@@ -357,7 +451,7 @@ public class ImageUtil {
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
 
 	/**
-	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다. 
+	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다.
 	 * 크기가 큰 폭을 기준으로 동일 비율로 한다.
 	 * @param resizeWidth 리사이즈할 가로 사이즈
 	 * @param resizeHeight 리사이즈할 세로 사이즈
@@ -376,7 +470,7 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다. 
+	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다.
 	 * 크기가 큰 폭을 기준으로 동일 비율로 한다.
 	 * @param resizeWidth 리사이즈할 가로 사이즈
 	 * @param imageWidth 원본 이미지의 가로 사이즈
@@ -388,7 +482,7 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다. 
+	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다.
 	 * 크기가 큰 폭을 기준으로 동일 비율로 한다.
 	 * @param resizeHeight 리사이즈할 세로 사이즈
 	 * @param imageHeight 원본 이미지의 세로 사이즈
