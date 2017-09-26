@@ -193,24 +193,79 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 왼쪽으로 90도 회전한다.
-	 * 소스 이미지 파일의 크기는 유지한채 이미지를 왼쪽으로 90도 회전한다.
+	 * 이미지를 오른쪽으로 90도 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 오른쪽으로 90도 회전한다.
 	 * @param srcPath 소스 이미지 경로
 	 * @param destPath 대상 이미지 경로
 	 */
-	public static void rotateLeft(String srcPath, String destPath) {
+	public static void rotate90(String srcPath, String destPath) {
 		File srcFile = new File(srcPath);
 		File destFile = new File(destPath);
-		rotateLeft(srcFile, destFile);
+		rotate90(srcFile, destFile);
 	}
 
 	/**
-	 * 이미지를 왼쪽으로 90도 회전한다.
-	 * 소스 이미지 파일의 크기는 유지한채 이미지를 왼쪽으로 90도 회전한다.
+	 * 이미지를 오른쪽으로 90도 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 오른쪽으로 90도 회전한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
 	 */
-	public static void rotateLeft(File srcFile, File destFile) {
+	public static void rotate90(File srcFile, File destFile) {
+		rotate(srcFile, destFile, 1);
+	}
+
+	/**
+	 * 이미지를 180도 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 180도 회전한다.
+	 * @param srcPath 소스 이미지 경로
+	 * @param destPath 대상 이미지 경로
+	 */
+	public static void rotate180(String srcPath, String destPath) {
+		File srcFile = new File(srcPath);
+		File destFile = new File(destPath);
+		rotate180(srcFile, destFile);
+	}
+
+	/**
+	 * 이미지를 180도 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 180도 회전한다.
+	 * @param srcFile 소스 이미지 파일
+	 * @param destFile 대상 이미지 파일
+	 */
+	public static void rotate180(File srcFile, File destFile) {
+		rotate(srcFile, destFile, 2);
+	}
+
+	/**
+	 * 이미지를 270도(왼쪽으로 90도) 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 270도(왼쪽으로 90도) 회전한다.
+	 * @param srcPath 소스 이미지 경로
+	 * @param destPath 대상 이미지 경로
+	 */
+	public static void rotate270(String srcPath, String destPath) {
+		File srcFile = new File(srcPath);
+		File destFile = new File(destPath);
+		rotate270(srcFile, destFile);
+	}
+
+	/**
+	 * 이미지를 270도(왼쪽으로 90도) 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 270도(왼쪽으로 90도) 회전한다.
+	 * @param srcFile 소스 이미지 파일
+	 * @param destFile 대상 이미지 파일
+	 */
+	public static void rotate270(File srcFile, File destFile) {
+		rotate(srcFile, destFile, 3);
+	}
+
+	/**
+	 * 이미지를 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 회전한다.
+	 * @param srcFile 소스 이미지 파일
+	 * @param destFile 대상 이미지 파일
+	 * @param numquadrants 1: 90도, 2: 180도, 3: 270도
+	 */
+	public static void rotate(File srcFile, File destFile, int numquadrants) {
 		BufferedImage bufImg = null;
 		Image image = null;
 		Image rotatedImg = null;
@@ -222,56 +277,13 @@ public class ImageUtil {
 			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
 			Graphics2D g2d = bufImg.createGraphics();
 			AffineTransform ax = new AffineTransform();
-			ax.setToQuadrantRotation(3, image.getWidth(null) / 2, image.getHeight(null) / 2);
+			ax.setToQuadrantRotation(numquadrants, image.getWidth(null) / 2, image.getHeight(null) / 2);
 			g2d.drawImage(image, ax, null);
-			rotatedImg = bufImg.getScaledInstance(image.getHeight(null), image.getWidth(null), Image.SCALE_SMOOTH);
-			writePNG(rotatedImg, destFile);
-		} finally {
-			if (rotatedImg != null) {
-				rotatedImg.flush();
+			if (numquadrants == 2) {
+				rotatedImg = bufImg.getScaledInstance(image.getWidth(null), image.getHeight(null), Image.SCALE_SMOOTH);
+			} else {
+				rotatedImg = bufImg.getScaledInstance(image.getHeight(null), image.getWidth(null), Image.SCALE_SMOOTH);
 			}
-			if (bufImg != null) {
-				bufImg.flush();
-			}
-			if (image != null) {
-				image.flush();
-			}
-		}
-	}
-
-	/**
-	 * 이미지를 오른쪽으로 90도 회전한다.
-	 * 소스 이미지 파일의 크기는 유지한채 이미지를 오른쪽으로 90도 회전한다.
-	 * @param srcPath 소스 이미지 경로
-	 * @param destPath 대상 이미지 경로
-	 */
-	public static void rotateRight(String srcPath, String destPath) {
-		File srcFile = new File(srcPath);
-		File destFile = new File(destPath);
-		rotateRight(srcFile, destFile);
-	}
-
-	/**
-	 * 이미지를 오른쪽으로 90도 회전한다.
-	 * 소스 이미지 파일의 크기는 유지한채 이미지를 오른쪽으로 90도 회전한다.
-	 * @param srcFile 소스 이미지 파일
-	 * @param destFile 대상 이미지 파일
-	 */
-	public static void rotateRight(File srcFile, File destFile) {
-		BufferedImage bufImg = null;
-		Image image = null;
-		Image rotatedImg = null;
-		try {
-			image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
-			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
-				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
-			}
-			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
-			Graphics2D g2d = bufImg.createGraphics();
-			AffineTransform ax = new AffineTransform();
-			ax.setToQuadrantRotation(1, image.getWidth(null) / 2, image.getHeight(null) / 2);
-			g2d.drawImage(image, ax, null);
-			rotatedImg = bufImg.getScaledInstance(image.getHeight(null), image.getWidth(null), Image.SCALE_SMOOTH);
 			writePNG(rotatedImg, destFile);
 		} finally {
 			if (rotatedImg != null) {
