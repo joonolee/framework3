@@ -2,7 +2,6 @@ package framework.util;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,7 +10,6 @@ import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.ImageIcon;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -49,7 +47,7 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다.
+	 * 이미지를 리사이즈 한다.(jpg로 저장)
 	 * 소스 이미지 파일의 width, height 중 크기가 큰 쪽을 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
@@ -57,24 +55,21 @@ public class ImageUtil {
 	 * @param height 리사이즈할 세로 사이즈
 	 */
 	public static void resize(File srcFile, File destFile, int width, int height) {
-		BufferedImage bufImg = null;
-		Image image = null;
 		Image resizedImg = null;
+		BufferedImage bufImg = null;
 		try {
-			image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
-			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
-				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
-			}
-			double scale = getScale(width, height, image.getWidth(null), image.getHeight(null));
-			int scaleWidth = (int) (scale * image.getWidth(null));
-			int scaleHeight = (int) (scale * image.getHeight(null));
-			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+			BufferedImage image = ImageIO.read(srcFile);
+			double scale = getScale(width, height, image.getWidth(), image.getHeight());
+			int scaleWidth = (int) (scale * image.getWidth());
+			int scaleHeight = (int) (scale * image.getHeight());
+			resizedImg = image.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+			bufImg = new BufferedImage(resizedImg.getWidth(null), resizedImg.getHeight(null), image.getType());
 			Graphics2D g2d = bufImg.createGraphics();
-			AffineTransform ax = new AffineTransform();
-			ax.setToScale(1, 1);
-			g2d.drawImage(image, ax, null);
-			resizedImg = bufImg.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-			writePNG(resizedImg, destFile);
+			g2d.drawImage(resizedImg, 0, 0, null);
+			g2d.dispose();
+			ImageIO.write(bufImg, "jpg", destFile);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		} finally {
 			if (resizedImg != null) {
 				resizedImg.flush();
@@ -82,14 +77,11 @@ public class ImageUtil {
 			if (bufImg != null) {
 				bufImg.flush();
 			}
-			if (image != null) {
-				image.flush();
-			}
 		}
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다.
+	 * 이미지를 리사이즈 한다.(jpg로 저장)
 	 * 소스 이미지 파일의 width를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcPath 소스 이미지 경로
 	 * @param destPath 대상 이미지 경로
@@ -102,31 +94,28 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다.
+	 * 이미지를 리사이즈 한다.(jpg로 저장)
 	 * 소스 이미지 파일의 width를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
 	 * @param width 리사이즈할 가로 사이즈
 	 */
 	public static void resizeWidth(File srcFile, File destFile, int width) {
-		BufferedImage bufImg = null;
-		Image image = null;
 		Image resizedImg = null;
+		BufferedImage bufImg = null;
 		try {
-			image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
-			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
-				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
-			}
-			double scale = getWidthScale(width, image.getWidth(null));
-			int scaleWidth = (int) (scale * image.getWidth(null));
-			int scaleHeight = (int) (scale * image.getHeight(null));
-			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+			BufferedImage image = ImageIO.read(srcFile);
+			double scale = getScale(width, image.getWidth());
+			int scaleWidth = (int) (scale * image.getWidth());
+			int scaleHeight = (int) (scale * image.getHeight());
+			resizedImg = image.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+			bufImg = new BufferedImage(resizedImg.getWidth(null), resizedImg.getHeight(null), image.getType());
 			Graphics2D g2d = bufImg.createGraphics();
-			AffineTransform ax = new AffineTransform();
-			ax.setToScale(1, 1);
-			g2d.drawImage(image, ax, null);
-			resizedImg = bufImg.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-			writePNG(resizedImg, destFile);
+			g2d.drawImage(resizedImg, 0, 0, null);
+			g2d.dispose();
+			ImageIO.write(bufImg, "jpg", destFile);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		} finally {
 			if (resizedImg != null) {
 				resizedImg.flush();
@@ -134,14 +123,11 @@ public class ImageUtil {
 			if (bufImg != null) {
 				bufImg.flush();
 			}
-			if (image != null) {
-				image.flush();
-			}
 		}
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다.
+	 * 이미지를 리사이즈 한다.(jpg로 저장)
 	 * 소스 이미지 파일의 height를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcPath 소스 이미지 경로
 	 * @param destPath 대상 이미지 경로
@@ -154,31 +140,28 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 리사이즈 한다.
+	 * 이미지를 리사이즈 한다.(jpg로 저장)
 	 * 소스 이미지 파일의 height를 기준으로 하여 비율을 유지한채 이미지를 생성한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
 	 * @param height 리사이즈할 세로 사이즈
 	 */
 	public static void resizeHeight(File srcFile, File destFile, int height) {
-		BufferedImage bufImg = null;
-		Image image = null;
 		Image resizedImg = null;
+		BufferedImage bufImg = null;
 		try {
-			image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
-			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
-				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
-			}
-			double scale = getHeightScale(height, image.getHeight(null));
-			int scaleWidth = (int) (scale * image.getWidth(null));
-			int scaleHeight = (int) (scale * image.getHeight(null));
-			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+			BufferedImage image = ImageIO.read(srcFile);
+			double scale = getScale(height, image.getHeight());
+			int scaleWidth = (int) (scale * image.getWidth());
+			int scaleHeight = (int) (scale * image.getHeight());
+			resizedImg = image.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
+			bufImg = new BufferedImage(resizedImg.getWidth(null), resizedImg.getHeight(null), image.getType());
 			Graphics2D g2d = bufImg.createGraphics();
-			AffineTransform ax = new AffineTransform();
-			ax.setToScale(1, 1);
-			g2d.drawImage(image, ax, null);
-			resizedImg = bufImg.getScaledInstance(scaleWidth, scaleHeight, Image.SCALE_SMOOTH);
-			writePNG(resizedImg, destFile);
+			g2d.drawImage(resizedImg, 0, 0, null);
+			g2d.dispose();
+			ImageIO.write(bufImg, "jpg", destFile);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		} finally {
 			if (resizedImg != null) {
 				resizedImg.flush();
@@ -186,14 +169,11 @@ public class ImageUtil {
 			if (bufImg != null) {
 				bufImg.flush();
 			}
-			if (image != null) {
-				image.flush();
-			}
 		}
 	}
 
 	/**
-	 * 이미지를 오른쪽으로 90도 회전한다.
+	 * 이미지를 오른쪽으로 90도 회전한다.(jpg로 저장)
 	 * 소스 이미지 파일의 크기는 유지한채 이미지를 오른쪽으로 90도 회전한다.
 	 * @param srcPath 소스 이미지 경로
 	 * @param destPath 대상 이미지 경로
@@ -205,17 +185,17 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 오른쪽으로 90도 회전한다.
+	 * 이미지를 오른쪽으로 90도 회전한다.(jpg로 저장)
 	 * 소스 이미지 파일의 크기는 유지한채 이미지를 오른쪽으로 90도 회전한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
 	 */
 	public static void rotate90(File srcFile, File destFile) {
-		rotate(srcFile, destFile, 1);
+		rotate(srcFile, destFile, 90);
 	}
 
 	/**
-	 * 이미지를 180도 회전한다.
+	 * 이미지를 180도 회전한다.(jpg로 저장)
 	 * 소스 이미지 파일의 크기는 유지한채 이미지를 180도 회전한다.
 	 * @param srcPath 소스 이미지 경로
 	 * @param destPath 대상 이미지 경로
@@ -227,17 +207,17 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 180도 회전한다.
+	 * 이미지를 180도 회전한다.(jpg로 저장)
 	 * 소스 이미지 파일의 크기는 유지한채 이미지를 180도 회전한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
 	 */
 	public static void rotate180(File srcFile, File destFile) {
-		rotate(srcFile, destFile, 2);
+		rotate(srcFile, destFile, 180);
 	}
 
 	/**
-	 * 이미지를 270도(왼쪽으로 90도) 회전한다.
+	 * 이미지를 270도(왼쪽으로 90도) 회전한다.(jpg로 저장)
 	 * 소스 이미지 파일의 크기는 유지한채 이미지를 270도(왼쪽으로 90도) 회전한다.
 	 * @param srcPath 소스 이미지 경로
 	 * @param destPath 대상 이미지 경로
@@ -249,53 +229,13 @@ public class ImageUtil {
 	}
 
 	/**
-	 * 이미지를 270도(왼쪽으로 90도) 회전한다.
+	 * 이미지를 270도(왼쪽으로 90도) 회전한다.(jpg로 저장)
 	 * 소스 이미지 파일의 크기는 유지한채 이미지를 270도(왼쪽으로 90도) 회전한다.
 	 * @param srcFile 소스 이미지 파일
 	 * @param destFile 대상 이미지 파일
 	 */
 	public static void rotate270(File srcFile, File destFile) {
-		rotate(srcFile, destFile, 3);
-	}
-
-	/**
-	 * 이미지를 회전한다.
-	 * 소스 이미지 파일의 크기는 유지한채 이미지를 회전한다.
-	 * @param srcFile 소스 이미지 파일
-	 * @param destFile 대상 이미지 파일
-	 * @param numquadrants 1: 90도, 2: 180도, 3: 270도
-	 */
-	public static void rotate(File srcFile, File destFile, int numquadrants) {
-		BufferedImage bufImg = null;
-		Image image = null;
-		Image rotatedImg = null;
-		try {
-			image = new ImageIcon(srcFile.getAbsolutePath()).getImage();
-			if (image.getWidth(null) < 1 || image.getHeight(null) < 1) {
-				throw new IllegalArgumentException("파일이 존재하지 않습니다.");
-			}
-			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
-			Graphics2D g2d = bufImg.createGraphics();
-			AffineTransform ax = new AffineTransform();
-			ax.setToQuadrantRotation(numquadrants, image.getWidth(null) / 2, image.getHeight(null) / 2);
-			g2d.drawImage(image, ax, null);
-			if (numquadrants == 2) {
-				rotatedImg = bufImg.getScaledInstance(image.getWidth(null), image.getHeight(null), Image.SCALE_SMOOTH);
-			} else {
-				rotatedImg = bufImg.getScaledInstance(image.getHeight(null), image.getWidth(null), Image.SCALE_SMOOTH);
-			}
-			writePNG(rotatedImg, destFile);
-		} finally {
-			if (rotatedImg != null) {
-				rotatedImg.flush();
-			}
-			if (bufImg != null) {
-				bufImg.flush();
-			}
-			if (image != null) {
-				image.flush();
-			}
-		}
+		rotate(srcFile, destFile, 270);
 	}
 
 	/**
@@ -463,6 +403,44 @@ public class ImageUtil {
 	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
 
 	/**
+	 * 이미지를 회전한다.
+	 * 소스 이미지 파일의 크기는 유지한채 이미지를 회전한다.
+	 * @param srcFile 소스 이미지 파일
+	 * @param destFile 대상 이미지 파일
+	 * @param rotation 각도(90, 180, 270)
+	 */
+	private static void rotate(File srcFile, File destFile, int rotation) {
+		BufferedImage rotatedImg = null;
+		try {
+			BufferedImage image = ImageIO.read(srcFile);
+			double x = 0, y = 0;
+			if (rotation % 360 == 90) {
+				x = image.getHeight();
+				rotatedImg = new BufferedImage(image.getHeight(), image.getWidth(), image.getType());
+			} else if (rotation % 360 == 270) {
+				y = image.getWidth();
+				rotatedImg = new BufferedImage(image.getHeight(), image.getWidth(), image.getType());
+			} else if (rotation % 360 == 180) {
+				x = image.getWidth();
+				y = image.getHeight();
+				rotatedImg = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
+			}
+			Graphics2D g2d = rotatedImg.createGraphics();
+			g2d.translate(x, y);
+			g2d.rotate(Math.toRadians(rotation));
+			g2d.drawImage(image, 0, 0, null);
+			g2d.dispose();
+			ImageIO.write(rotatedImg, "jpg", destFile);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (rotatedImg != null) {
+				rotatedImg.flush();
+			}
+		}
+	}
+
+	/**
 	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다.
 	 * 크기가 큰 폭을 기준으로 동일 비율로 한다.
 	 * @param resizeWidth 리사이즈할 가로 사이즈
@@ -483,46 +461,13 @@ public class ImageUtil {
 
 	/**
 	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다.
-	 * 크기가 큰 폭을 기준으로 동일 비율로 한다.
-	 * @param resizeWidth 리사이즈할 가로 사이즈
-	 * @param imageWidth 원본 이미지의 가로 사이즈
+	 * 크기가 큰 쪽을 기준으로 동일 비율로 한다.
+	 * @param size 리사이즈할  사이즈
+	 * @param imageSize 원본 이미지의  사이즈
 	 * @return 스케일 비율
 	 */
-	private static double getWidthScale(int resizeWidth, int imageWidth) {
-		double widthScale = (double) resizeWidth / imageWidth;
-		return widthScale;
-	}
-
-	/**
-	 * 원본 이미지 사이즈와 리사이즈할 사이즈로 이미지 스케일 비율을 구한다.
-	 * 크기가 큰 폭을 기준으로 동일 비율로 한다.
-	 * @param resizeHeight 리사이즈할 세로 사이즈
-	 * @param imageHeight 원본 이미지의 세로 사이즈
-	 * @return 스케일 비율
-	 */
-	private static double getHeightScale(int resizeHeight, int imageHeight) {
-		double heightScale = (double) resizeHeight / (double) imageHeight;
-		return heightScale;
-	}
-
-	/**
-	 * 이미지를 PNG 형식으로 저장한다.
-	 * @param image 저장할 이미지 객체
-	 * @param destFile 대상 이미지 파일
-	 */
-	private static void writePNG(Image image, File destFile) {
-		BufferedImage bufImg = null;
-		try {
-			bufImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
-			Graphics2D g2d = bufImg.createGraphics();
-			g2d.drawImage(image, 0, 0, null);
-			ImageIO.write(bufImg, "png", destFile);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} finally {
-			if (bufImg != null) {
-				bufImg.flush();
-			}
-		}
+	private static double getScale(int size, int imageSize) {
+		double scale = (double) size / imageSize;
+		return scale;
 	}
 }
