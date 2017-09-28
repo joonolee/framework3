@@ -55,7 +55,7 @@ public class MybatisDB {
 				reader = Resources.getResourceAsReader("mybatis-config.xml");
 				sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
 			} catch (Throwable e) {
-				throw new RuntimeException("Something bad happened while building the SqlSessionFactory instance." + e.getMessage(), e);
+				throw new RuntimeException("Something bad happened while building the SqlSessionFactory instance.", e);
 			} finally {
 				if (reader != null) {
 					try {
