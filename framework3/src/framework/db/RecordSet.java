@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -176,9 +177,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return ArrayList
 	 */
 	public List<RecordMap> getRows() {
-		List<RecordMap> list = new ArrayList<RecordMap>();
-		list.addAll(rows);
-		return list;
+		return Collections.unmodifiableList(rows);
 	}
 
 	/**
