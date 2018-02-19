@@ -38,11 +38,11 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 	private static List&lt;String&gt; noUpdateList = new ArrayList&lt;String&gt;();
 
 	public Map&lt;String, Integer&gt; getColumnMap() {
-		return columnMap;
+		return Collections.unmodifiableMap(columnMap);
 	}
 
 	public Map&lt;String, String&gt; getTypeMap() {
-		return typeMap;
+		return Collections.unmodifiableMap(typeMap);
 	}
 
 	static {<xsl:for-each select="columns/column">
