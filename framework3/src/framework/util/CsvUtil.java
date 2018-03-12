@@ -13,7 +13,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +44,7 @@ public class CsvUtil {
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 데이터의 리스트
 	 */
-	public static List<LinkedHashMap<String, String>> parse(FileItem fileItem, String sep) {
+	public static List<RecordMap> parse(FileItem fileItem, String sep) {
 		InputStream is = null;
 		try {
 			is = fileItem.getInputStream();
@@ -69,7 +68,7 @@ public class CsvUtil {
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 데이터의 리스트
 	 */
-	public static List<LinkedHashMap<String, String>> parse(File file, String sep) {
+	public static List<RecordMap> parse(File file, String sep) {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
@@ -93,15 +92,15 @@ public class CsvUtil {
 	 * @param sep 열 구분자로 쓰일 문자열
 	 * @return 데이터의 리스트
 	 */
-	public static List<LinkedHashMap<String, String>> parse(InputStream is, String sep) {
-		List<LinkedHashMap<String, String>> mapList = new ArrayList<LinkedHashMap<String, String>>();
+	public static List<RecordMap> parse(InputStream is, String sep) {
+		List<RecordMap> mapList = new ArrayList<RecordMap>();
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new InputStreamReader(is));
 			String line = null;
 			while ((line = br.readLine()) != null) {
 				String[] items = line.split(sep);
-				LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+				RecordMap map = new RecordMap();
 				for (int i = 0; i < items.length; i++) {
 					map.put(String.valueOf(i), items[i]);
 				}
