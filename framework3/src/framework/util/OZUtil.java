@@ -556,7 +556,7 @@ public class OZUtil {
 				pw.print(colSep);
 			}
 			if (value instanceof Number) {
-				pw.print("Double");
+				pw.print("Numeric");
 			} else {
 				pw.print("VarChar");
 			}
@@ -606,7 +606,7 @@ public class OZUtil {
 				buf.append(colSep);
 			}
 			if (value instanceof Number) {
-				buf.append("Double");
+				buf.append("Numeric");
 			} else {
 				buf.append("VarChar");
 			}
@@ -665,7 +665,7 @@ public class OZUtil {
 					pw.print(colSep);
 				}
 				if (value instanceof Number) {
-					pw.print("Double");
+					pw.print("Numeric");
 				} else {
 					pw.print("VarChar");
 				}
@@ -724,7 +724,7 @@ public class OZUtil {
 					buf.append(colSep);
 				}
 				if (value instanceof Number) {
-					buf.append("Double");
+					buf.append("Numeric");
 				} else {
 					buf.append("VarChar");
 				}
