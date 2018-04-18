@@ -56,7 +56,7 @@ public class OZUtil {
 	/**
 	 * RecordSet을 OZ 파일 형식으로 출력한다.
 	 * <br>
-	 * ex) response로 rs를 OZ 파일 형식으로 출력하는 경우 : OZUtil.render(response, rs)
+	 * ex) response로 rs를 OZ 파일 형식으로 출력하는 경우 : OZUtil.render(response, rs, "##", "!!")
 	 * @param response 클라이언트로 응답할 Response 객체
 	 * @param rs OZ 파일 형식으로 변환할 RecordSet 객체
 	 * @param colSep 열 구분자로 쓰일 문자열
@@ -75,67 +75,12 @@ public class OZUtil {
 		}
 		String[] colNms = rs.getColumns();
 		int[] colType = rs.getColumnsType();
-		if (colNms != null) {
-			// Column Name
-			for (int c = 0; c < colNms.length; c++) {
-				if (c > 0) {
-					pw.print(colSep);
-				}
-				pw.print(colNms[c]);
-			}
+		if (colNms != null && colType != null) {
+			pw.print(ozRowHeader(colNms, colSep));
 			pw.print(lineSep);
-			// Column Type
-			for (int c = 0; c < colNms.length; c++) {
-				if (c > 0) {
-					pw.print(colSep);
-				}
-				switch (colType[c]) {
-				case Types.TINYINT:
-					pw.print("TinyInt");
-					break;
-				case Types.SMALLINT:
-					pw.print("SmallInt");
-					break;
-				case Types.BIGINT:
-					pw.print("BigInt");
-					break;
-				case Types.INTEGER:
-					pw.print("Integer");
-					break;
-				case Types.REAL:
-					pw.print("Real");
-					break;
-				case Types.FLOAT:
-					pw.print("Float");
-					break;
-				case Types.DOUBLE:
-					pw.print("Double");
-					break;
-				case Types.NUMERIC:
-					pw.print("Numeric");
-					break;
-				case Types.DECIMAL:
-					pw.print("Decimal");
-					break;
-				case Types.CHAR:
-					pw.print("Char");
-					break;
-				case Types.DATE:
-					pw.print("Date");
-					break;
-				case Types.TIME:
-					pw.print("Time");
-					break;
-				case Types.TIMESTAMP:
-					pw.print("TimeStamp");
-					break;
-				default:
-					pw.print("VarChar");
-					break;
-				}
-			}
+			pw.print(ozRowType(colType, colSep));
+			pw.print(lineSep);
 		}
-		pw.print(lineSep);
 		rs.moveRow(0);
 		int rowCount = 0;
 		while (rs.nextRow()) {
@@ -175,67 +120,12 @@ public class OZUtil {
 		StringBuilder buf = new StringBuilder();
 		String[] colNms = rs.getColumns();
 		int[] colType = rs.getColumnsType();
-		if (colNms != null) {
-			// Column Name
-			for (int c = 0; c < colNms.length; c++) {
-				if (c > 0) {
-					buf.append(colSep);
-				}
-				buf.append(colNms[c]);
-			}
+		if (colNms != null && colType != null) {
+			buf.append(ozRowHeader(colNms, colSep));
 			buf.append(lineSep);
-			// Column Type
-			for (int c = 0; c < colNms.length; c++) {
-				if (c > 0) {
-					buf.append(colSep);
-				}
-				switch (colType[c]) {
-				case Types.TINYINT:
-					buf.append("TinyInt");
-					break;
-				case Types.SMALLINT:
-					buf.append("SmallInt");
-					break;
-				case Types.BIGINT:
-					buf.append("BigInt");
-					break;
-				case Types.INTEGER:
-					buf.append("Integer");
-					break;
-				case Types.REAL:
-					buf.append("Real");
-					break;
-				case Types.FLOAT:
-					buf.append("Float");
-					break;
-				case Types.DOUBLE:
-					buf.append("Double");
-					break;
-				case Types.NUMERIC:
-					buf.append("Numeric");
-					break;
-				case Types.DECIMAL:
-					buf.append("Decimal");
-					break;
-				case Types.CHAR:
-					buf.append("Char");
-					break;
-				case Types.DATE:
-					buf.append("Date");
-					break;
-				case Types.TIME:
-					buf.append("Time");
-					break;
-				case Types.TIMESTAMP:
-					buf.append("TimeStamp");
-					break;
-				default:
-					buf.append("VarChar");
-					break;
-				}
-			}
+			buf.append(ozRowType(colType, colSep));
+			buf.append(lineSep);
 		}
-		buf.append(lineSep);
 		rs.moveRow(0);
 		int rowCount = 0;
 		while (rs.nextRow()) {
@@ -285,64 +175,9 @@ public class OZUtil {
 					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 					colType[i - 1] = rsmd.getColumnType(i);
 				}
-				// Column Name
-				for (int c = 0; c < colNms.length; c++) {
-					if (c > 0) {
-						pw.print(colSep);
-					}
-					pw.print(colNms[c]);
-				}
+				pw.print(ozRowHeader(colNms, colSep));
 				pw.print(lineSep);
-				// Column Type
-				for (int c = 0; c < colNms.length; c++) {
-					if (c > 0) {
-						pw.print(colSep);
-					}
-					switch (colType[c]) {
-					case Types.TINYINT:
-						pw.print("TinyInt");
-						break;
-					case Types.SMALLINT:
-						pw.print("SmallInt");
-						break;
-					case Types.BIGINT:
-						pw.print("BigInt");
-						break;
-					case Types.INTEGER:
-						pw.print("Integer");
-						break;
-					case Types.REAL:
-						pw.print("Real");
-						break;
-					case Types.FLOAT:
-						pw.print("Float");
-						break;
-					case Types.DOUBLE:
-						pw.print("Double");
-						break;
-					case Types.NUMERIC:
-						pw.print("Numeric");
-						break;
-					case Types.DECIMAL:
-						pw.print("Decimal");
-						break;
-					case Types.CHAR:
-						pw.print("Char");
-						break;
-					case Types.DATE:
-						pw.print("Date");
-						break;
-					case Types.TIME:
-						pw.print("Time");
-						break;
-					case Types.TIMESTAMP:
-						pw.print("TimeStamp");
-						break;
-					default:
-						pw.print("VarChar");
-						break;
-					}
-				}
+				pw.print(ozRowType(colType, colSep));
 				pw.print(lineSep);
 				int rowCount = 0;
 				while (rs.next()) {
@@ -415,64 +250,9 @@ public class OZUtil {
 					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
 					colType[i - 1] = rsmd.getColumnType(i);
 				}
-				// Column Name
-				for (int c = 0; c < colNms.length; c++) {
-					if (c > 0) {
-						buf.append(colSep);
-					}
-					buf.append(colNms[c]);
-				}
+				buf.append(ozRowHeader(colNms, colSep));
 				buf.append(lineSep);
-				// Column Type
-				for (int c = 0; c < colNms.length; c++) {
-					if (c > 0) {
-						buf.append(colSep);
-					}
-					switch (colType[c]) {
-					case Types.TINYINT:
-						buf.append("TinyInt");
-						break;
-					case Types.SMALLINT:
-						buf.append("SmallInt");
-						break;
-					case Types.BIGINT:
-						buf.append("BigInt");
-						break;
-					case Types.INTEGER:
-						buf.append("Integer");
-						break;
-					case Types.REAL:
-						buf.append("Real");
-						break;
-					case Types.FLOAT:
-						buf.append("Float");
-						break;
-					case Types.DOUBLE:
-						buf.append("Double");
-						break;
-					case Types.NUMERIC:
-						buf.append("Numeric");
-						break;
-					case Types.DECIMAL:
-						buf.append("Decimal");
-						break;
-					case Types.CHAR:
-						buf.append("Char");
-						break;
-					case Types.DATE:
-						buf.append("Date");
-						break;
-					case Types.TIME:
-						buf.append("Time");
-						break;
-					case Types.TIMESTAMP:
-						buf.append("TimeStamp");
-						break;
-					default:
-						buf.append("VarChar");
-						break;
-					}
-				}
+				buf.append(ozRowType(colType, colSep));
 				buf.append(lineSep);
 				int rowCount = 0;
 				while (rs.next()) {
@@ -542,25 +322,9 @@ public class OZUtil {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		int rowCount = 0;
-		for (String colName : map.keySet()) {
-			if (rowCount++ > 0) {
-				pw.print(colSep);
-			}
-			pw.print(colName);
-		}
+		pw.print(ozRowHeader(map, colSep));
 		pw.print(lineSep);
-		rowCount = 0;
-		for (Object value : map.values()) {
-			if (rowCount++ > 0) {
-				pw.print(colSep);
-			}
-			if (value instanceof Number) {
-				pw.print("Numeric");
-			} else {
-				pw.print("VarChar");
-			}
-		}
+		pw.print(ozRowType(map, colSep));
 		pw.print(lineSep);
 		pw.print(ozRowStr(map, colSep));
 		return 1;
@@ -592,25 +356,9 @@ public class OZUtil {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
-		int rowCount = 0;
-		for (String colName : map.keySet()) {
-			if (rowCount++ > 0) {
-				buf.append(colSep);
-			}
-			buf.append(colName);
-		}
+		buf.append(ozRowHeader(map, colSep));
 		buf.append(lineSep);
-		rowCount = 0;
-		for (Object value : map.values()) {
-			if (rowCount++ > 0) {
-				buf.append(colSep);
-			}
-			if (value instanceof Number) {
-				buf.append("Numeric");
-			} else {
-				buf.append("VarChar");
-			}
-		}
+		buf.append(ozRowType(map, colSep));
 		buf.append(lineSep);
 		buf.append(ozRowStr(map, colSep));
 		return buf.toString();
@@ -649,30 +397,14 @@ public class OZUtil {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		int rowCount = 0;
 		if (mapList.size() > 0) {
 			RecordMap map = mapList.get(0);
-			for (String colName : map.keySet()) {
-				if (rowCount++ > 0) {
-					pw.print(colSep);
-				}
-				pw.print(colName);
-			}
+			pw.print(ozRowHeader(map, colSep));
 			pw.print(lineSep);
-			rowCount = 0;
-			for (Object value : map.values()) {
-				if (rowCount++ > 0) {
-					pw.print(colSep);
-				}
-				if (value instanceof Number) {
-					pw.print("Numeric");
-				} else {
-					pw.print("VarChar");
-				}
-			}
+			pw.print(ozRowType(map, colSep));
 			pw.print(lineSep);
 		}
-		rowCount = 0;
+		int rowCount = 0;
 		for (RecordMap map : mapList) {
 			if (rowCount++ > 0) {
 				pw.print(lineSep);
@@ -708,30 +440,14 @@ public class OZUtil {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
-		int rowCount = 0;
 		if (mapList.size() > 0) {
 			RecordMap map = mapList.get(0);
-			for (String colName : map.keySet()) {
-				if (rowCount++ > 0) {
-					buf.append(colSep);
-				}
-				buf.append(colName);
-			}
+			buf.append(ozRowHeader(map, colSep));
 			buf.append(lineSep);
-			rowCount = 0;
-			for (Object value : map.values()) {
-				if (rowCount++ > 0) {
-					buf.append(colSep);
-				}
-				if (value instanceof Number) {
-					buf.append("Numeric");
-				} else {
-					buf.append("VarChar");
-				}
-			}
+			buf.append(ozRowType(map, colSep));
 			buf.append(lineSep);
 		}
-		rowCount = 0;
+		int rowCount = 0;
 		for (RecordMap map : mapList) {
 			if (rowCount++ > 0) {
 				buf.append(lineSep);
@@ -753,6 +469,123 @@ public class OZUtil {
 			return "";
 		}
 		return str.replaceAll("\r\n", "\\\\n").replaceAll("\r", "\\\\n").replaceAll("\n", "\\\\n");
+	}
+
+	/**
+	 * OZ 리포트용 Row 헤더(컬럼명)
+	 */
+	private static String ozRowHeader(String[] colNms, String colSep) {
+		if (colNms == null || colSep == null) {
+			return "";
+		}
+		StringBuilder buf = new StringBuilder();
+		for (int c = 0; c < colNms.length; c++) {
+			if (c > 0) {
+				buf.append(colSep);
+			}
+			buf.append(colNms[c]);
+		}
+		return buf.toString();
+	}
+
+	/**
+	 * OZ 리포트용 Row 헤더(컬럼명)
+	 */
+	private static String ozRowHeader(RecordMap map, String colSep) {
+		if (map == null || colSep == null) {
+			return "";
+		}
+		StringBuilder buf = new StringBuilder();
+		int rowCount = 0;
+		for (String colName : map.keySet()) {
+			if (rowCount++ > 0) {
+				buf.append(colSep);
+			}
+			buf.append(colName);
+		}
+		return buf.toString();
+	}
+
+	/**
+	 * OZ 리포트용 Row 타입
+	 */
+	private static String ozRowType(int[] colType, String colSep) {
+		if (colType == null || colSep == null) {
+			return "";
+		}
+		StringBuilder buf = new StringBuilder();
+		for (int c = 0; c < colType.length; c++) {
+			if (c > 0) {
+				buf.append(colSep);
+			}
+			switch (colType[c]) {
+			case Types.TINYINT:
+				buf.append("TinyInt");
+				break;
+			case Types.SMALLINT:
+				buf.append("SmallInt");
+				break;
+			case Types.BIGINT:
+				buf.append("BigInt");
+				break;
+			case Types.INTEGER:
+				buf.append("Integer");
+				break;
+			case Types.REAL:
+				buf.append("Real");
+				break;
+			case Types.FLOAT:
+				buf.append("Float");
+				break;
+			case Types.DOUBLE:
+				buf.append("Double");
+				break;
+			case Types.NUMERIC:
+				buf.append("Numeric");
+				break;
+			case Types.DECIMAL:
+				buf.append("Decimal");
+				break;
+			case Types.CHAR:
+				buf.append("Char");
+				break;
+			case Types.DATE:
+				buf.append("Date");
+				break;
+			case Types.TIME:
+				buf.append("Time");
+				break;
+			case Types.TIMESTAMP:
+				buf.append("TimeStamp");
+				break;
+			default:
+				buf.append("VarChar");
+				break;
+			}
+		}
+		return buf.toString();
+	}
+
+	/**
+	 * OZ 리포트용 Row 타입
+	 */
+	private static String ozRowType(RecordMap map, String colSep) {
+		if (map == null || colSep == null) {
+			return "";
+		}
+		StringBuilder buf = new StringBuilder();
+		int rowCount = 0;
+		for (Object value : map.values()) {
+			if (rowCount++ > 0) {
+				buf.append(colSep);
+			}
+			if (value instanceof Number) {
+				buf.append("Numeric");
+			} else {
+				buf.append("VarChar");
+			}
+		}
+		return buf.toString();
 	}
 
 	/**
