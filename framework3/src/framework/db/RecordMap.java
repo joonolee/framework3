@@ -38,10 +38,11 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 	}
 
 	public String getString(String key) {
-		if (get(key) == null) {
+		Object value = get(key);
+		if (value == null) {
 			return "";
 		}
-		return get(key).toString();
+		return value.toString();
 	}
 
 	public int getInt(String key) {
@@ -61,10 +62,15 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 	}
 
 	public BigDecimal getBigDecimal(String key) {
-		if (get(key) == null) {
+		Object value = get(key);
+		if (value == null) {
 			return BigDecimal.valueOf(0);
 		}
-		return new BigDecimal(get(key).toString().trim());
+		try {
+			return new BigDecimal(value.toString().trim());
+		} catch (NumberFormatException e) {
+			return BigDecimal.valueOf(0);
+		}
 	}
 
 	public float getFloat(String key) {
