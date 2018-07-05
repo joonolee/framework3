@@ -257,6 +257,8 @@ public class DaogenForMSSQL {
 			} else {
 				return "BigDecimal";
 			}
+		case Types.TIME:
+		case Types.TIMESTAMP:
 		case Types.DATE:
 			return "Date";
 		default:
@@ -279,6 +281,8 @@ public class DaogenForMSSQL {
 			return "char(" + len + ")";
 		case Types.NCHAR:
 			return "nchar(" + len + ")";
+		case Types.TIME:
+		case Types.TIMESTAMP:
 		case Types.DATE:
 			return "date";
 		default:

@@ -11,6 +11,8 @@
  */
 package com.vo;
 
+import java.math.*;
+
 import java.util.*;
 
 import framework.db.*;

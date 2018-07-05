@@ -257,6 +257,8 @@ public class DaogenForMySQL {
 			} else {
 				return "BigDecimal";
 			}
+		case Types.TIME:
+		case Types.TIMESTAMP:
 		case Types.DATE:
 			return "Date";
 		default:
@@ -275,6 +277,8 @@ public class DaogenForMySQL {
 			return "varchar(" + len + ")";
 		case Types.CHAR:
 			return "char(" + len + ")";
+		case Types.TIME:
+		case Types.TIMESTAMP:
 		case Types.DATE:
 			return "date";
 		default:
