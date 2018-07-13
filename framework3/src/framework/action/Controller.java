@@ -322,7 +322,7 @@ public abstract class Controller {
 	 * 플래시객체를 세션에 저장
 	 */
 	private void flashSave() {
-		if (!flash.isEmpty()) {
+		if (flash != null && !flash.isEmpty()) {
 			try {
 				session.setAttribute(FLASH_SCOPE_OBJECT_KEY, flash);
 			} catch (IllegalStateException e) {
