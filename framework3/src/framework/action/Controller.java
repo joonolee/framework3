@@ -124,8 +124,9 @@ public abstract class Controller {
 			if (logger.isDebugEnabled()) {
 				currTime = System.currentTimeMillis();
 				logger.debug("Start Class : " + getClass().getName() + ", Method : " + method.getName());
-				logger.debug(this.params.toString());
+				logger.debug(this.headers.toString());
 				logger.debug(this.cookies.toString());
+				logger.debug(this.params.toString());
 			}
 			try {
 				method.invoke(this, (Object[]) null);
