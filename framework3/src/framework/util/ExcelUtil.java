@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -37,6 +36,8 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import framework.db.RecordMap;
@@ -208,7 +209,6 @@ public class ExcelUtil {
 			response.setHeader("Expires", "-1;");
 			Workbook workbook = new HSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
 			String[] colNms = rs.getColumns();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
@@ -229,7 +229,7 @@ public class ExcelUtil {
 					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
-			workbook.write(os);
+			workbook.write(response.getOutputStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -330,7 +330,6 @@ public class ExcelUtil {
 			response.setHeader("Expires", "-1;");
 			Workbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
 			String[] colNms = rs.getColumns();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
@@ -351,7 +350,7 @@ public class ExcelUtil {
 					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
-			workbook.write(os);
+			workbook.write(response.getOutputStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -421,6 +420,129 @@ public class ExcelUtil {
 	}
 
 	/**
+	 * RecordSet을 엑셀2007 스트리밍 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param rs RecordSet 객체
+	 * @param fileName 파일명
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007S(HttpServletResponse response, RecordSet rs, String fileName) {
+		return renderExcel2007S(response, rs, fileName, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2007 스트리밍 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param rs RecordSet 객체
+	 * @param fileName 파일명
+	 * @param header 헤더 배열
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007S(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
+		if (response == null || rs == null || fileName == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		try {
+			response.reset();
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			Sheet sheet = sxssfWorkbook.createSheet();
+			String[] colNms = rs.getColumns();
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				CellStyle cellStyle = headerStyle(sxssfWorkbook);
+				appendHeader(row, header, cellStyle);
+				rowCount++;
+			}
+			rs.moveRow(0);
+			CellStyle cellStyle = rowStyle(sxssfWorkbook);
+			while (rs.nextRow()) {
+				Row row = sheet.createRow(rowCount);
+				appendRow(row, rs, colNms, cellStyle);
+				rowCount++;
+			}
+			if (colNms != null) {
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
+				}
+			}
+			((SXSSFSheet) sheet).flushRows();
+			sxssfWorkbook.write(response.getOutputStream());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
+	}
+
+	/**
+	 * RecordSet을 엑셀2007 스트리밍 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param rs RecordSet 객체
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007S(File file, RecordSet rs) {
+		return writeExcel2007S(file, rs, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2007 스트리밍 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param rs RecordSet 객체
+	 * @param header 헤더 배열
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007S(File file, RecordSet rs, String[] header) {
+		if (file == null || rs == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		FileOutputStream fos = null;
+		try {
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			Sheet sheet = sxssfWorkbook.createSheet();
+			fos = new FileOutputStream(file);
+			String[] colNms = rs.getColumns();
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				CellStyle cellStyle = headerStyle(sxssfWorkbook);
+				appendHeader(row, header, cellStyle);
+				rowCount++;
+			}
+			rs.moveRow(0);
+			CellStyle cellStyle = rowStyle(sxssfWorkbook);
+			while (rs.nextRow()) {
+				Row row = sheet.createRow(rowCount);
+				appendRow(row, rs, colNms, cellStyle);
+				rowCount++;
+			}
+			if (colNms != null) {
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
+				}
+			}
+			((SXSSFSheet) sheet).flushRows();
+			sxssfWorkbook.write(fos);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
+		}
+		return rowCount;
+	}
+
+	/**
 	 * ResultSet을 엑셀2003 형식으로 변환하여 응답객체로 전송한다.
 	 * @param response 응답 객체
 	 * @param rs ResultSet 객체
@@ -451,7 +573,6 @@ public class ExcelUtil {
 			response.setHeader("Expires", "-1;");
 			Workbook workbook = new HSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int cnt = rsmd.getColumnCount();
@@ -478,7 +599,7 @@ public class ExcelUtil {
 						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 					}
 				}
-				workbook.write(os);
+				workbook.write(response.getOutputStream());
 				return rowCount;
 			} finally {
 				Statement stmt = null;
@@ -626,7 +747,6 @@ public class ExcelUtil {
 			response.setHeader("Expires", "-1;");
 			Workbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
 				int cnt = rsmd.getColumnCount();
@@ -653,7 +773,7 @@ public class ExcelUtil {
 						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 					}
 				}
-				workbook.write(os);
+				workbook.write(response.getOutputStream());
 				return rowCount;
 			} finally {
 				Statement stmt = null;
@@ -771,6 +891,182 @@ public class ExcelUtil {
 	}
 
 	/**
+	 * ResultSet을 엑셀2007 스트리밍 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param rs ResultSet 객체
+	 * @param fileName 파일명
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007S(HttpServletResponse response, ResultSet rs, String fileName) {
+		return renderExcel2007S(response, rs, fileName, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2007 스트리밍 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param rs ResultSet 객체
+	 * @param fileName 파일명
+	 * @param header 헤더 배열
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007S(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
+		if (response == null || rs == null || fileName == null) {
+			return 0;
+		}
+		try {
+			response.reset();
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			Sheet sheet = sxssfWorkbook.createSheet();
+			try {
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
+				}
+				int rowCount = 0;
+				if (header != null) {
+					Row row = sheet.createRow(rowCount);
+					CellStyle cellStyle = headerStyle(sxssfWorkbook);
+					appendHeader(row, header, cellStyle);
+					rowCount++;
+				}
+				CellStyle cellStyle = rowStyle(sxssfWorkbook);
+				while (rs.next()) {
+					Row row = sheet.createRow(rowCount);
+					appendRow(row, rs, colNms, cellStyle);
+					rowCount++;
+				}
+				if (colNms != null) {
+					for (int i = 0; i < colNms.length; i++) {
+						sheet.autoSizeColumn(i);
+						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
+					}
+				}
+				((SXSSFSheet) sheet).flushRows();
+				sxssfWorkbook.write(response.getOutputStream());
+				return rowCount;
+			} finally {
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					logger.error("", e);
+				}
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						logger.error("", e);
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						logger.error("", e);
+					}
+				}
+			}
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * ResultSet을 엑셀2007 스트리밍 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param rs ResultSet 객체
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007S(File file, ResultSet rs) {
+		return writeExcel2007S(file, rs, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2007 스트리밍 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param rs ResultSet 객체
+	 * @param header 헤더 배열
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007S(File file, ResultSet rs, String[] header) {
+		if (file == null || rs == null) {
+			return 0;
+		}
+		try {
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			Sheet sheet = sxssfWorkbook.createSheet();
+			FileOutputStream fos = null;
+			try {
+				fos = new FileOutputStream(file);
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int cnt = rsmd.getColumnCount();
+				String[] colNms = new String[cnt];
+				for (int i = 1; i <= cnt; i++) {
+					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
+				}
+				int rowCount = 0;
+				if (header != null) {
+					Row row = sheet.createRow(rowCount);
+					CellStyle cellStyle = headerStyle(sxssfWorkbook);
+					appendHeader(row, header, cellStyle);
+					rowCount++;
+				}
+				CellStyle cellStyle = rowStyle(sxssfWorkbook);
+				while (rs.next()) {
+					Row row = sheet.createRow(rowCount);
+					appendRow(row, rs, colNms, cellStyle);
+					rowCount++;
+				}
+				if (colNms != null) {
+					for (int i = 0; i < colNms.length; i++) {
+						sheet.autoSizeColumn(i);
+						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
+					}
+				}
+				((SXSSFSheet) sheet).flushRows();
+				sxssfWorkbook.write(fos);
+				return rowCount;
+			} finally {
+				Statement stmt = null;
+				try {
+					stmt = rs.getStatement();
+				} catch (SQLException e) {
+					logger.error("", e);
+				}
+				if (fos != null) {
+					try {
+						fos.close();
+					} catch (IOException e) {
+						logger.error("", e);
+					}
+				}
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						logger.error("", e);
+					}
+				}
+				if (stmt != null) {
+					try {
+						stmt.close();
+					} catch (SQLException e) {
+						logger.error("", e);
+					}
+				}
+			}
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
 	 * List객체를 엑셀2003 형식으로 변환하여 응답객체로 전송한다.
 	 * @param response 응답 객체
 	 * @param mapList 리스트 객체
@@ -802,7 +1098,6 @@ public class ExcelUtil {
 			response.setHeader("Expires", "-1;");
 			Workbook workbook = new HSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
 				CellStyle cellStyle = headerStyle(workbook);
@@ -821,7 +1116,7 @@ public class ExcelUtil {
 					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
-			workbook.write(os);
+			workbook.write(response.getOutputStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -920,7 +1215,6 @@ public class ExcelUtil {
 			response.setHeader("Expires", "-1;");
 			Workbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
-			OutputStream os = response.getOutputStream();
 			if (header != null) {
 				Row row = sheet.createRow(rowCount);
 				CellStyle cellStyle = headerStyle(workbook);
@@ -939,7 +1233,7 @@ public class ExcelUtil {
 					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
-			workbook.write(os);
+			workbook.write(response.getOutputStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -992,6 +1286,125 @@ public class ExcelUtil {
 				}
 			}
 			workbook.write(fos);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
+		}
+		return rowCount;
+	}
+
+	/**
+	 * List객체를 엑셀2007 스트리밍 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param mapList 리스트 객체
+	 * @param fileName 파일명
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007S(HttpServletResponse response, List<RecordMap> mapList, String fileName) {
+		return renderExcel2007S(response, mapList, fileName, null);
+	}
+
+	/**
+	 * List객체를 엑셀2007 스트리밍 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param mapList 리스트 객체
+	 * @param fileName 파일명
+	 * @param header 헤더 배열
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007S(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header) {
+		if (response == null || mapList == null || fileName == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		try {
+			response.reset();
+			response.setContentType("application/octet-stream;");
+			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+			response.setHeader("Pragma", "no-cache;");
+			response.setHeader("Expires", "-1;");
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			Sheet sheet = sxssfWorkbook.createSheet();
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				CellStyle cellStyle = headerStyle(sxssfWorkbook);
+				appendHeader(row, header, cellStyle);
+				rowCount++;
+			}
+			CellStyle cellStyle = rowStyle(sxssfWorkbook);
+			for (RecordMap map : mapList) {
+				Row row = sheet.createRow(rowCount);
+				appendRow(row, map, cellStyle);
+				rowCount++;
+			}
+			if (header != null) {
+				for (int i = 0; i < header.length; i++) {
+					sheet.autoSizeColumn(i);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
+				}
+			}
+			((SXSSFSheet) sheet).flushRows();
+			sxssfWorkbook.write(response.getOutputStream());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return rowCount;
+	}
+
+	/**
+	 * List객체를 엑셀2007 스트리밍 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param mapList 리스트 객체
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007S(File file, List<RecordMap> mapList) {
+		return writeExcel2007S(file, mapList, null);
+	}
+
+	/**
+	 * List객체를 엑셀2007 스트리밍 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param mapList 리스트 객체
+	 * @param header 헤더 배열
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007S(File file, List<RecordMap> mapList, String[] header) {
+		if (file == null || mapList == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		FileOutputStream fos = null;
+		try {
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			Sheet sheet = sxssfWorkbook.createSheet();
+			fos = new FileOutputStream(file);
+			if (header != null) {
+				Row row = sheet.createRow(rowCount);
+				CellStyle cellStyle = headerStyle(sxssfWorkbook);
+				appendHeader(row, header, cellStyle);
+				rowCount++;
+			}
+			CellStyle cellStyle = rowStyle(sxssfWorkbook);
+			for (RecordMap map : mapList) {
+				Row row = sheet.createRow(rowCount);
+				appendRow(row, map, cellStyle);
+				rowCount++;
+			}
+			if (header != null) {
+				for (int i = 0; i < header.length; i++) {
+					sheet.autoSizeColumn(i);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
+				}
+			}
+			((SXSSFSheet) sheet).flushRows();
+			sxssfWorkbook.write(fos);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -1131,7 +1544,7 @@ public class ExcelUtil {
 		try {
 			POIFSFileSystem fs = new POIFSFileSystem(is);
 			EncryptionInfo info = new EncryptionInfo(fs);
-			Decryptor d = new Decryptor(info);
+			Decryptor d = Decryptor.getInstance(info);
 			d.verifyPassword(password);
 			workbook = new XSSFWorkbook(d.getDataStream(fs));
 		} catch (Throwable e) {
