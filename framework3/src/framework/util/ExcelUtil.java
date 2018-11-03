@@ -1512,7 +1512,7 @@ public class ExcelUtil {
 		Font font = workbook.createFont();
 		font.setFontHeightInPoints((short) 11);
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-		font.setFontName("돋움");
+		font.setFontName("Dotum");
 		font.setColor(HSSFColor.BLACK.index);
 		CellStyle cellStyle = workbook.createCellStyle();
 		cellStyle.setFont(font);
@@ -1539,7 +1539,7 @@ public class ExcelUtil {
 		Font font = workbook.createFont();
 		font.setFontHeightInPoints((short) 11);
 		font.setBoldweight(Font.BOLDWEIGHT_NORMAL);
-		font.setFontName("돋움");
+		font.setFontName("Dotum");
 		font.setColor(HSSFColor.BLACK.index);
 		CellStyle cellStyle = workbook.createCellStyle();
 		cellStyle.setFont(font);
