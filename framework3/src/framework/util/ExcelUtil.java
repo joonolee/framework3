@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -204,25 +205,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new HSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			String[] colNms = rs.getColumns();
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-				rowCount++;
-			}
-			rs.moveRow(0);
-			CellStyle cellStyle = rowStyle(workbook);
-			while (rs.nextRow()) {
-				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-				rowCount++;
-			}
-			if (colNms != null) {
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			workbook.write(response.getOutputStream());
+			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -253,27 +236,9 @@ public class ExcelUtil {
 		int rowCount = 0;
 		FileOutputStream fos = null;
 		try {
-			Workbook workbook = new HSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
 			fos = new FileOutputStream(file);
-			String[] colNms = rs.getColumns();
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-				rowCount++;
-			}
-			rs.moveRow(0);
-			CellStyle cellStyle = rowStyle(workbook);
-			while (rs.nextRow()) {
-				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-				rowCount++;
-			}
-			if (colNms != null) {
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			workbook.write(fos);
+			Workbook workbook = new HSSFWorkbook();
+			rowCount = writeWorkbook(fos, workbook, rs, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -315,25 +280,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			String[] colNms = rs.getColumns();
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-				rowCount++;
-			}
-			rs.moveRow(0);
-			CellStyle cellStyle = rowStyle(workbook);
-			while (rs.nextRow()) {
-				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-				rowCount++;
-			}
-			if (colNms != null) {
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			workbook.write(response.getOutputStream());
+			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -364,27 +311,9 @@ public class ExcelUtil {
 		int rowCount = 0;
 		FileOutputStream fos = null;
 		try {
-			Workbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
 			fos = new FileOutputStream(file);
-			String[] colNms = rs.getColumns();
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-				rowCount++;
-			}
-			rs.moveRow(0);
-			CellStyle cellStyle = rowStyle(workbook);
-			while (rs.nextRow()) {
-				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-				rowCount++;
-			}
-			if (colNms != null) {
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			workbook.write(fos);
+			Workbook workbook = new XSSFWorkbook();
+			rowCount = writeWorkbook(fos, workbook, rs, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -425,27 +354,9 @@ public class ExcelUtil {
 		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-			sxssfWorkbook.setCompressTempFiles(true);
-			Sheet sheet = sxssfWorkbook.createSheet();
-			String[] colNms = rs.getColumns();
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
-				rowCount++;
-			}
-			rs.moveRow(0);
-			CellStyle cellStyle = rowStyle(sxssfWorkbook);
-			while (rs.nextRow()) {
-				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-				rowCount++;
-			}
-			if (colNms != null) {
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			sxssfWorkbook.write(response.getOutputStream());
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			workbook.setCompressTempFiles(true);
+			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -476,28 +387,10 @@ public class ExcelUtil {
 		int rowCount = 0;
 		FileOutputStream fos = null;
 		try {
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-			sxssfWorkbook.setCompressTempFiles(true);
-			Sheet sheet = sxssfWorkbook.createSheet();
 			fos = new FileOutputStream(file);
-			String[] colNms = rs.getColumns();
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
-				rowCount++;
-			}
-			rs.moveRow(0);
-			CellStyle cellStyle = rowStyle(sxssfWorkbook);
-			while (rs.nextRow()) {
-				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-				rowCount++;
-			}
-			if (colNms != null) {
-				for (int i = 0; i < colNms.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			sxssfWorkbook.write(fos);
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			workbook.setCompressTempFiles(true);
+			rowCount = writeWorkbook(fos, workbook, rs, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -535,60 +428,15 @@ public class ExcelUtil {
 		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
+		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new HSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			try {
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int cnt = rsmd.getColumnCount();
-				String[] colNms = new String[cnt];
-				for (int i = 1; i <= cnt; i++) {
-					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
-				}
-				int rowCount = 0;
-				if (header != null) {
-					appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-					rowCount++;
-				}
-				CellStyle cellStyle = rowStyle(workbook);
-				while (rs.next()) {
-					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-					rowCount++;
-				}
-				if (colNms != null) {
-					for (int i = 0; i < colNms.length; i++) {
-						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-					}
-				}
-				workbook.write(response.getOutputStream());
-				return rowCount;
-			} finally {
-				Statement stmt = null;
-				try {
-					stmt = rs.getStatement();
-				} catch (SQLException e) {
-					logger.error("", e);
-				}
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-				if (stmt != null) {
-					try {
-						stmt.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-			}
+			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
+		return rowCount;
 	}
 
 	/**
@@ -612,68 +460,24 @@ public class ExcelUtil {
 		if (file == null || rs == null) {
 			return 0;
 		}
+		int rowCount = 0;
+		FileOutputStream fos = null;
 		try {
+			fos = new FileOutputStream(file);
 			Workbook workbook = new HSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			FileOutputStream fos = null;
-			try {
-				fos = new FileOutputStream(file);
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int cnt = rsmd.getColumnCount();
-				String[] colNms = new String[cnt];
-				for (int i = 1; i <= cnt; i++) {
-					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
-				}
-				int rowCount = 0;
-				if (header != null) {
-					appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-					rowCount++;
-				}
-				CellStyle cellStyle = rowStyle(workbook);
-				while (rs.next()) {
-					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-					rowCount++;
-				}
-				if (colNms != null) {
-					for (int i = 0; i < colNms.length; i++) {
-						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-					}
-				}
-				workbook.write(fos);
-				return rowCount;
-			} finally {
-				Statement stmt = null;
-				try {
-					stmt = rs.getStatement();
-				} catch (SQLException e) {
-					logger.error("", e);
-				}
-				if (fos != null) {
-					try {
-						fos.close();
-					} catch (IOException e) {
-						logger.error("", e);
-					}
-				}
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-				if (stmt != null) {
-					try {
-						stmt.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-			}
+			rowCount = writeWorkbook(fos, workbook, rs, header);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
 		}
+		return rowCount;
 	}
 
 	/**
@@ -699,60 +503,15 @@ public class ExcelUtil {
 		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
+		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			try {
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int cnt = rsmd.getColumnCount();
-				String[] colNms = new String[cnt];
-				for (int i = 1; i <= cnt; i++) {
-					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
-				}
-				int rowCount = 0;
-				if (header != null) {
-					appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-					rowCount++;
-				}
-				CellStyle cellStyle = rowStyle(workbook);
-				while (rs.next()) {
-					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-					rowCount++;
-				}
-				if (colNms != null) {
-					for (int i = 0; i < colNms.length; i++) {
-						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-					}
-				}
-				workbook.write(response.getOutputStream());
-				return rowCount;
-			} finally {
-				Statement stmt = null;
-				try {
-					stmt = rs.getStatement();
-				} catch (SQLException e) {
-					logger.error("", e);
-				}
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-				if (stmt != null) {
-					try {
-						stmt.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-			}
+			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
+		return rowCount;
 	}
 
 	/**
@@ -776,68 +535,24 @@ public class ExcelUtil {
 		if (file == null || rs == null) {
 			return 0;
 		}
+		int rowCount = 0;
+		FileOutputStream fos = null;
 		try {
+			fos = new FileOutputStream(file);
 			Workbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			FileOutputStream fos = null;
-			try {
-				fos = new FileOutputStream(file);
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int cnt = rsmd.getColumnCount();
-				String[] colNms = new String[cnt];
-				for (int i = 1; i <= cnt; i++) {
-					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
-				}
-				int rowCount = 0;
-				if (header != null) {
-					appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-					rowCount++;
-				}
-				CellStyle cellStyle = rowStyle(workbook);
-				while (rs.next()) {
-					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-					rowCount++;
-				}
-				if (colNms != null) {
-					for (int i = 0; i < colNms.length; i++) {
-						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-					}
-				}
-				workbook.write(fos);
-				return rowCount;
-			} finally {
-				Statement stmt = null;
-				try {
-					stmt = rs.getStatement();
-				} catch (SQLException e) {
-					logger.error("", e);
-				}
-				if (fos != null) {
-					try {
-						fos.close();
-					} catch (IOException e) {
-						logger.error("", e);
-					}
-				}
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-				if (stmt != null) {
-					try {
-						stmt.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-			}
+			rowCount = writeWorkbook(fos, workbook, rs, header);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
 		}
+		return rowCount;
 	}
 
 	/**
@@ -863,61 +578,16 @@ public class ExcelUtil {
 		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
+		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-			sxssfWorkbook.setCompressTempFiles(true);
-			Sheet sheet = sxssfWorkbook.createSheet();
-			try {
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int cnt = rsmd.getColumnCount();
-				String[] colNms = new String[cnt];
-				for (int i = 1; i <= cnt; i++) {
-					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
-				}
-				int rowCount = 0;
-				if (header != null) {
-					appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
-					rowCount++;
-				}
-				CellStyle cellStyle = rowStyle(sxssfWorkbook);
-				while (rs.next()) {
-					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-					rowCount++;
-				}
-				if (colNms != null) {
-					for (int i = 0; i < colNms.length; i++) {
-						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-					}
-				}
-				sxssfWorkbook.write(response.getOutputStream());
-				return rowCount;
-			} finally {
-				Statement stmt = null;
-				try {
-					stmt = rs.getStatement();
-				} catch (SQLException e) {
-					logger.error("", e);
-				}
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-				if (stmt != null) {
-					try {
-						stmt.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-			}
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			workbook.setCompressTempFiles(true);
+			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
+		return rowCount;
 	}
 
 	/**
@@ -941,69 +611,25 @@ public class ExcelUtil {
 		if (file == null || rs == null) {
 			return 0;
 		}
+		int rowCount = 0;
+		FileOutputStream fos = null;
 		try {
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-			sxssfWorkbook.setCompressTempFiles(true);
-			Sheet sheet = sxssfWorkbook.createSheet();
-			FileOutputStream fos = null;
-			try {
-				fos = new FileOutputStream(file);
-				ResultSetMetaData rsmd = rs.getMetaData();
-				int cnt = rsmd.getColumnCount();
-				String[] colNms = new String[cnt];
-				for (int i = 1; i <= cnt; i++) {
-					colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
-				}
-				int rowCount = 0;
-				if (header != null) {
-					appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
-					rowCount++;
-				}
-				CellStyle cellStyle = rowStyle(sxssfWorkbook);
-				while (rs.next()) {
-					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
-					rowCount++;
-				}
-				if (colNms != null) {
-					for (int i = 0; i < colNms.length; i++) {
-						sheet.autoSizeColumn(i);
-						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-					}
-				}
-				sxssfWorkbook.write(fos);
-				return rowCount;
-			} finally {
-				Statement stmt = null;
-				try {
-					stmt = rs.getStatement();
-				} catch (SQLException e) {
-					logger.error("", e);
-				}
-				if (fos != null) {
-					try {
-						fos.close();
-					} catch (IOException e) {
-						logger.error("", e);
-					}
-				}
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-				if (stmt != null) {
-					try {
-						stmt.close();
-					} catch (SQLException e) {
-						logger.error("", e);
-					}
-				}
-			}
+			fos = new FileOutputStream(file);
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			workbook.setCompressTempFiles(true);
+			rowCount = writeWorkbook(fos, workbook, rs, header);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
+		} finally {
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					logger.error("", e);
+				}
+			}
 		}
+		return rowCount;
 	}
 
 	/**
@@ -1033,23 +659,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new HSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-				rowCount++;
-			}
-			CellStyle cellStyle = rowStyle(workbook);
-			for (RecordMap map : mapList) {
-				appendRow(sheet.createRow(rowCount), map, cellStyle);
-				rowCount++;
-			}
-			if (header != null) {
-				for (int i = 0; i < header.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			workbook.write(response.getOutputStream());
+			rowCount = writeWorkbook(response.getOutputStream(), workbook, mapList, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -1080,25 +690,9 @@ public class ExcelUtil {
 		int rowCount = 0;
 		FileOutputStream fos = null;
 		try {
-			Workbook workbook = new HSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
 			fos = new FileOutputStream(file);
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-				rowCount++;
-			}
-			CellStyle cellStyle = rowStyle(workbook);
-			for (RecordMap map : mapList) {
-				appendRow(sheet.createRow(rowCount), map, cellStyle);
-				rowCount++;
-			}
-			if (header != null) {
-				for (int i = 0; i < header.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			workbook.write(fos);
+			Workbook workbook = new HSSFWorkbook();
+			rowCount = writeWorkbook(fos, workbook, mapList, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -1140,23 +734,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-				rowCount++;
-			}
-			CellStyle cellStyle = rowStyle(workbook);
-			for (RecordMap map : mapList) {
-				appendRow(sheet.createRow(rowCount), map, cellStyle);
-				rowCount++;
-			}
-			if (header != null) {
-				for (int i = 0; i < header.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			workbook.write(response.getOutputStream());
+			rowCount = writeWorkbook(response.getOutputStream(), workbook, mapList, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -1187,25 +765,9 @@ public class ExcelUtil {
 		int rowCount = 0;
 		FileOutputStream fos = null;
 		try {
-			Workbook workbook = new XSSFWorkbook();
-			Sheet sheet = workbook.createSheet();
 			fos = new FileOutputStream(file);
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
-				rowCount++;
-			}
-			CellStyle cellStyle = rowStyle(workbook);
-			for (RecordMap map : mapList) {
-				appendRow(sheet.createRow(rowCount), map, cellStyle);
-				rowCount++;
-			}
-			if (header != null) {
-				for (int i = 0; i < header.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			workbook.write(fos);
+			Workbook workbook = new XSSFWorkbook();
+			rowCount = writeWorkbook(fos, workbook, mapList, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -1246,25 +808,9 @@ public class ExcelUtil {
 		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-			sxssfWorkbook.setCompressTempFiles(true);
-			Sheet sheet = sxssfWorkbook.createSheet();
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
-				rowCount++;
-			}
-			CellStyle cellStyle = rowStyle(sxssfWorkbook);
-			for (RecordMap map : mapList) {
-				appendRow(sheet.createRow(rowCount), map, cellStyle);
-				rowCount++;
-			}
-			if (header != null) {
-				for (int i = 0; i < header.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			sxssfWorkbook.write(response.getOutputStream());
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			workbook.setCompressTempFiles(true);
+			rowCount = writeWorkbook(response.getOutputStream(), workbook, mapList, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -1295,26 +841,10 @@ public class ExcelUtil {
 		int rowCount = 0;
 		FileOutputStream fos = null;
 		try {
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-			sxssfWorkbook.setCompressTempFiles(true);
-			Sheet sheet = sxssfWorkbook.createSheet();
 			fos = new FileOutputStream(file);
-			if (header != null) {
-				appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
-				rowCount++;
-			}
-			CellStyle cellStyle = rowStyle(sxssfWorkbook);
-			for (RecordMap map : mapList) {
-				appendRow(sheet.createRow(rowCount), map, cellStyle);
-				rowCount++;
-			}
-			if (header != null) {
-				for (int i = 0; i < header.length; i++) {
-					sheet.autoSizeColumn(i);
-					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
-				}
-			}
-			sxssfWorkbook.write(fos);
+			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			workbook.setCompressTempFiles(true);
+			rowCount = writeWorkbook(fos, workbook, mapList, header);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -1418,49 +948,45 @@ public class ExcelUtil {
 	}
 
 	private static List<RecordMap> parseExcel2003(InputStream is) {
-		HSSFWorkbook workbook;
 		try {
-			workbook = new HSSFWorkbook(new POIFSFileSystem(is));
+			HSSFWorkbook workbook = new HSSFWorkbook(new POIFSFileSystem(is));
+			return parseSheet(workbook.getSheetAt(0));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return parseSheet(workbook.getSheetAt(0));
 	}
 
 	private static List<RecordMap> parseExcel2003(InputStream is, String password) {
-		HSSFWorkbook workbook;
 		try {
 			Biff8EncryptionKey.setCurrentUserPassword(password);
-			workbook = new HSSFWorkbook(new POIFSFileSystem(is));
+			HSSFWorkbook workbook = new HSSFWorkbook(new POIFSFileSystem(is));
 			Biff8EncryptionKey.setCurrentUserPassword(null);
+			return parseSheet(workbook.getSheetAt(0));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return parseSheet(workbook.getSheetAt(0));
 	}
 
 	private static List<RecordMap> parseExcel2007(InputStream is) {
-		XSSFWorkbook workbook;
 		try {
-			workbook = new XSSFWorkbook(is);
+			XSSFWorkbook workbook = new XSSFWorkbook(is);
+			return parseSheet(workbook.getSheetAt(0));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return parseSheet(workbook.getSheetAt(0));
 	}
 
 	private static List<RecordMap> parseExcel2007(InputStream is, String password) {
-		XSSFWorkbook workbook;
 		try {
 			POIFSFileSystem fs = new POIFSFileSystem(is);
 			EncryptionInfo info = new EncryptionInfo(fs);
 			Decryptor d = Decryptor.getInstance(info);
 			d.verifyPassword(password);
-			workbook = new XSSFWorkbook(d.getDataStream(fs));
+			XSSFWorkbook workbook = new XSSFWorkbook(d.getDataStream(fs));
+			return parseSheet(workbook.getSheetAt(0));
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
-		return parseSheet(workbook.getSheetAt(0));
 	}
 
 	/**
@@ -1562,10 +1088,128 @@ public class ExcelUtil {
 	 * 파일 다운로드 헤더 셋팅
 	 */
 	private static void setResponseHeaders(HttpServletResponse response, String fileName) throws UnsupportedEncodingException {
+		if (response == null) {
+			return;
+		}
 		response.reset();
 		response.setContentType("application/octet-stream;");
 		response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
 		response.setHeader("Pragma", "no-cache;");
 		response.setHeader("Expires", "-1;");
+	}
+
+	/**
+	 * RecordSet을 워크북으로 변환하여 스트림으로 전송한다.
+	 */
+	private static int writeWorkbook(OutputStream os, Workbook workbook, RecordSet rs, String[] header) throws IOException {
+		if (os == null || workbook == null || rs == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		Sheet sheet = workbook.createSheet();
+		String[] colNms = rs.getColumns();
+		if (header != null) {
+			appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
+			rowCount++;
+		}
+		rs.moveRow(0);
+		CellStyle cellStyle = rowStyle(workbook);
+		while (rs.nextRow()) {
+			appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
+			rowCount++;
+		}
+		if (colNms != null) {
+			for (int i = 0; i < colNms.length; i++) {
+				sheet.autoSizeColumn(i);
+				sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
+			}
+		}
+		workbook.write(os);
+		return rowCount;
+	}
+
+	/**
+	 * ResultSet을 워크북으로 변환하여 스트림으로 전송한다.
+	 */
+	private static int writeWorkbook(OutputStream os, Workbook workbook, ResultSet rs, String[] header) throws IOException, SQLException {
+		if (os == null || workbook == null || rs == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		Sheet sheet = workbook.createSheet();
+		try {
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int cnt = rsmd.getColumnCount();
+			String[] colNms = new String[cnt];
+			for (int i = 1; i <= cnt; i++) {
+				colNms[i - 1] = rsmd.getColumnName(i).toLowerCase();
+			}
+			if (header != null) {
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
+				rowCount++;
+			}
+			CellStyle cellStyle = rowStyle(workbook);
+			while (rs.next()) {
+				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
+				rowCount++;
+			}
+			if (colNms != null) {
+				for (int i = 0; i < colNms.length; i++) {
+					sheet.autoSizeColumn(i);
+					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
+				}
+			}
+			workbook.write(os);
+		} finally {
+			Statement stmt = null;
+			try {
+				stmt = rs.getStatement();
+			} catch (SQLException e) {
+				logger.error("", e);
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					logger.error("", e);
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					logger.error("", e);
+				}
+			}
+		}
+		return rowCount;
+	}
+
+	/**
+	 * List객체를 워크북으로 변환하여 스트림으로 전송한다.
+	 */
+	private static int writeWorkbook(OutputStream os, Workbook workbook, List<RecordMap> mapList, String[] header) throws IOException {
+		if (os == null || workbook == null || mapList == null) {
+			return 0;
+		}
+		int rowCount = 0;
+		Sheet sheet = workbook.createSheet();
+		if (header != null) {
+			appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
+			rowCount++;
+		}
+		CellStyle cellStyle = rowStyle(workbook);
+		for (RecordMap map : mapList) {
+			appendRow(sheet.createRow(rowCount), map, cellStyle);
+			rowCount++;
+		}
+		if (header != null) {
+			for (int i = 0; i < header.length; i++) {
+				sheet.autoSizeColumn(i);
+				sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
+			}
+		}
+		workbook.write(os);
+		return rowCount;
 	}
 }
