@@ -5,7 +5,7 @@
 	<classpathentry kind="lib" path="lib/activation.jar"/>
 	<classpathentry kind="lib" path="lib/asm-3.3.1.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-2.2.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.5.jar"/>
 	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
@@ -30,10 +30,10 @@
 	<classpathentry kind="lib" path="lib/mybatis-memcached-1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/nexacro-xapi-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc6.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="lib/poi-scratchpad-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="lib/poi-scratchpad-3.10-FINAL-20140208.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/signpost-commonshttp4-1.2.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/signpost-core-1.2.1.2.jar"/>
