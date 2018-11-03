@@ -37,7 +37,6 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -426,7 +425,8 @@ public class ExcelUtil {
 		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+			sxssfWorkbook.setCompressTempFiles(true);
 			Sheet sheet = sxssfWorkbook.createSheet();
 			String[] colNms = rs.getColumns();
 			if (header != null) {
@@ -445,7 +445,6 @@ public class ExcelUtil {
 					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
-			((SXSSFSheet) sheet).flushRows();
 			sxssfWorkbook.write(response.getOutputStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -477,7 +476,8 @@ public class ExcelUtil {
 		int rowCount = 0;
 		FileOutputStream fos = null;
 		try {
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+			sxssfWorkbook.setCompressTempFiles(true);
 			Sheet sheet = sxssfWorkbook.createSheet();
 			fos = new FileOutputStream(file);
 			String[] colNms = rs.getColumns();
@@ -497,7 +497,6 @@ public class ExcelUtil {
 					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
-			((SXSSFSheet) sheet).flushRows();
 			sxssfWorkbook.write(fos);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -866,7 +865,8 @@ public class ExcelUtil {
 		}
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+			sxssfWorkbook.setCompressTempFiles(true);
 			Sheet sheet = sxssfWorkbook.createSheet();
 			try {
 				ResultSetMetaData rsmd = rs.getMetaData();
@@ -891,7 +891,6 @@ public class ExcelUtil {
 						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 					}
 				}
-				((SXSSFSheet) sheet).flushRows();
 				sxssfWorkbook.write(response.getOutputStream());
 				return rowCount;
 			} finally {
@@ -943,7 +942,8 @@ public class ExcelUtil {
 			return 0;
 		}
 		try {
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+			sxssfWorkbook.setCompressTempFiles(true);
 			Sheet sheet = sxssfWorkbook.createSheet();
 			FileOutputStream fos = null;
 			try {
@@ -970,7 +970,6 @@ public class ExcelUtil {
 						sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 					}
 				}
-				((SXSSFSheet) sheet).flushRows();
 				sxssfWorkbook.write(fos);
 				return rowCount;
 			} finally {
@@ -1247,7 +1246,8 @@ public class ExcelUtil {
 		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+			sxssfWorkbook.setCompressTempFiles(true);
 			Sheet sheet = sxssfWorkbook.createSheet();
 			if (header != null) {
 				appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
@@ -1264,7 +1264,6 @@ public class ExcelUtil {
 					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
-			((SXSSFSheet) sheet).flushRows();
 			sxssfWorkbook.write(response.getOutputStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -1296,7 +1295,8 @@ public class ExcelUtil {
 		int rowCount = 0;
 		FileOutputStream fos = null;
 		try {
-			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
+			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+			sxssfWorkbook.setCompressTempFiles(true);
 			Sheet sheet = sxssfWorkbook.createSheet();
 			fos = new FileOutputStream(file);
 			if (header != null) {
@@ -1314,7 +1314,6 @@ public class ExcelUtil {
 					sheet.setColumnWidth(i, (int) (sheet.getColumnWidth(i) * 1.2));
 				}
 			}
-			((SXSSFSheet) sheet).flushRows();
 			sxssfWorkbook.write(fos);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
