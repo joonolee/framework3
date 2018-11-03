@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -202,25 +203,18 @@ public class ExcelUtil {
 		}
 		int rowCount = 0;
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
+			setResponseHeaders(response, fileName);
 			Workbook workbook = new HSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
 			String[] colNms = rs.getColumns();
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(workbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 				rowCount++;
 			}
 			rs.moveRow(0);
 			CellStyle cellStyle = rowStyle(workbook);
 			while (rs.nextRow()) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, rs, colNms, cellStyle);
+				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -265,16 +259,13 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			String[] colNms = rs.getColumns();
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(workbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 				rowCount++;
 			}
 			rs.moveRow(0);
 			CellStyle cellStyle = rowStyle(workbook);
 			while (rs.nextRow()) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, rs, colNms, cellStyle);
+				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -323,25 +314,18 @@ public class ExcelUtil {
 		}
 		int rowCount = 0;
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
+			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
 			String[] colNms = rs.getColumns();
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(workbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 				rowCount++;
 			}
 			rs.moveRow(0);
 			CellStyle cellStyle = rowStyle(workbook);
 			while (rs.nextRow()) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, rs, colNms, cellStyle);
+				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -386,16 +370,13 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			String[] colNms = rs.getColumns();
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(workbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 				rowCount++;
 			}
 			rs.moveRow(0);
 			CellStyle cellStyle = rowStyle(workbook);
 			while (rs.nextRow()) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, rs, colNms, cellStyle);
+				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -444,25 +425,18 @@ public class ExcelUtil {
 		}
 		int rowCount = 0;
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
+			setResponseHeaders(response, fileName);
 			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
 			Sheet sheet = sxssfWorkbook.createSheet();
 			String[] colNms = rs.getColumns();
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(sxssfWorkbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
 				rowCount++;
 			}
 			rs.moveRow(0);
 			CellStyle cellStyle = rowStyle(sxssfWorkbook);
 			while (rs.nextRow()) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, rs, colNms, cellStyle);
+				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -508,16 +482,13 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			String[] colNms = rs.getColumns();
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(sxssfWorkbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
 				rowCount++;
 			}
 			rs.moveRow(0);
 			CellStyle cellStyle = rowStyle(sxssfWorkbook);
 			while (rs.nextRow()) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, rs, colNms, cellStyle);
+				appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 				rowCount++;
 			}
 			if (colNms != null) {
@@ -566,11 +537,7 @@ public class ExcelUtil {
 			return 0;
 		}
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
+			setResponseHeaders(response, fileName);
 			Workbook workbook = new HSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
 			try {
@@ -582,15 +549,12 @@ public class ExcelUtil {
 				}
 				int rowCount = 0;
 				if (header != null) {
-					Row row = sheet.createRow(rowCount);
-					CellStyle cellStyle = headerStyle(workbook);
-					appendHeader(row, header, cellStyle);
+					appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 					rowCount++;
 				}
 				CellStyle cellStyle = rowStyle(workbook);
 				while (rs.next()) {
-					Row row = sheet.createRow(rowCount);
-					appendRow(row, rs, colNms, cellStyle);
+					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -663,15 +627,12 @@ public class ExcelUtil {
 				}
 				int rowCount = 0;
 				if (header != null) {
-					Row row = sheet.createRow(rowCount);
-					CellStyle cellStyle = headerStyle(workbook);
-					appendHeader(row, header, cellStyle);
+					appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 					rowCount++;
 				}
 				CellStyle cellStyle = rowStyle(workbook);
 				while (rs.next()) {
-					Row row = sheet.createRow(rowCount);
-					appendRow(row, rs, colNms, cellStyle);
+					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -740,11 +701,7 @@ public class ExcelUtil {
 			return 0;
 		}
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
+			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
 			try {
@@ -756,15 +713,12 @@ public class ExcelUtil {
 				}
 				int rowCount = 0;
 				if (header != null) {
-					Row row = sheet.createRow(rowCount);
-					CellStyle cellStyle = headerStyle(workbook);
-					appendHeader(row, header, cellStyle);
+					appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 					rowCount++;
 				}
 				CellStyle cellStyle = rowStyle(workbook);
 				while (rs.next()) {
-					Row row = sheet.createRow(rowCount);
-					appendRow(row, rs, colNms, cellStyle);
+					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -837,15 +791,12 @@ public class ExcelUtil {
 				}
 				int rowCount = 0;
 				if (header != null) {
-					Row row = sheet.createRow(rowCount);
-					CellStyle cellStyle = headerStyle(workbook);
-					appendHeader(row, header, cellStyle);
+					appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 					rowCount++;
 				}
 				CellStyle cellStyle = rowStyle(workbook);
 				while (rs.next()) {
-					Row row = sheet.createRow(rowCount);
-					appendRow(row, rs, colNms, cellStyle);
+					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -914,11 +865,7 @@ public class ExcelUtil {
 			return 0;
 		}
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
+			setResponseHeaders(response, fileName);
 			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
 			Sheet sheet = sxssfWorkbook.createSheet();
 			try {
@@ -930,15 +877,12 @@ public class ExcelUtil {
 				}
 				int rowCount = 0;
 				if (header != null) {
-					Row row = sheet.createRow(rowCount);
-					CellStyle cellStyle = headerStyle(sxssfWorkbook);
-					appendHeader(row, header, cellStyle);
+					appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
 					rowCount++;
 				}
 				CellStyle cellStyle = rowStyle(sxssfWorkbook);
 				while (rs.next()) {
-					Row row = sheet.createRow(rowCount);
-					appendRow(row, rs, colNms, cellStyle);
+					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -1012,15 +956,12 @@ public class ExcelUtil {
 				}
 				int rowCount = 0;
 				if (header != null) {
-					Row row = sheet.createRow(rowCount);
-					CellStyle cellStyle = headerStyle(sxssfWorkbook);
-					appendHeader(row, header, cellStyle);
+					appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
 					rowCount++;
 				}
 				CellStyle cellStyle = rowStyle(sxssfWorkbook);
 				while (rs.next()) {
-					Row row = sheet.createRow(rowCount);
-					appendRow(row, rs, colNms, cellStyle);
+					appendRow(sheet.createRow(rowCount), rs, colNms, cellStyle);
 					rowCount++;
 				}
 				if (colNms != null) {
@@ -1091,23 +1032,16 @@ public class ExcelUtil {
 		}
 		int rowCount = 0;
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
+			setResponseHeaders(response, fileName);
 			Workbook workbook = new HSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(workbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 				rowCount++;
 			}
 			CellStyle cellStyle = rowStyle(workbook);
 			for (RecordMap map : mapList) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, map, cellStyle);
+				appendRow(sheet.createRow(rowCount), map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1151,15 +1085,12 @@ public class ExcelUtil {
 			Sheet sheet = workbook.createSheet();
 			fos = new FileOutputStream(file);
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(workbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 				rowCount++;
 			}
 			CellStyle cellStyle = rowStyle(workbook);
 			for (RecordMap map : mapList) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, map, cellStyle);
+				appendRow(sheet.createRow(rowCount), map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1208,23 +1139,16 @@ public class ExcelUtil {
 		}
 		int rowCount = 0;
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
+			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
 			Sheet sheet = workbook.createSheet();
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(workbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 				rowCount++;
 			}
 			CellStyle cellStyle = rowStyle(workbook);
 			for (RecordMap map : mapList) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, map, cellStyle);
+				appendRow(sheet.createRow(rowCount), map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1268,15 +1192,12 @@ public class ExcelUtil {
 			Sheet sheet = workbook.createSheet();
 			fos = new FileOutputStream(file);
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(workbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 				rowCount++;
 			}
 			CellStyle cellStyle = rowStyle(workbook);
 			for (RecordMap map : mapList) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, map, cellStyle);
+				appendRow(sheet.createRow(rowCount), map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1325,23 +1246,16 @@ public class ExcelUtil {
 		}
 		int rowCount = 0;
 		try {
-			response.reset();
-			response.setContentType("application/octet-stream;");
-			response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
+			setResponseHeaders(response, fileName);
 			SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(new XSSFWorkbook());
 			Sheet sheet = sxssfWorkbook.createSheet();
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(sxssfWorkbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
 				rowCount++;
 			}
 			CellStyle cellStyle = rowStyle(sxssfWorkbook);
 			for (RecordMap map : mapList) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, map, cellStyle);
+				appendRow(sheet.createRow(rowCount), map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1386,15 +1300,12 @@ public class ExcelUtil {
 			Sheet sheet = sxssfWorkbook.createSheet();
 			fos = new FileOutputStream(file);
 			if (header != null) {
-				Row row = sheet.createRow(rowCount);
-				CellStyle cellStyle = headerStyle(sxssfWorkbook);
-				appendHeader(row, header, cellStyle);
+				appendHeader(sheet.createRow(rowCount), header, headerStyle(sxssfWorkbook));
 				rowCount++;
 			}
 			CellStyle cellStyle = rowStyle(sxssfWorkbook);
 			for (RecordMap map : mapList) {
-				Row row = sheet.createRow(rowCount);
-				appendRow(row, map, cellStyle);
+				appendRow(sheet.createRow(rowCount), map, cellStyle);
 				rowCount++;
 			}
 			if (header != null) {
@@ -1646,5 +1557,16 @@ public class ExcelUtil {
 		cellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		cellStyle.setWrapText(true);
 		return cellStyle;
+	}
+
+	/**
+	 * 파일 다운로드 헤더 셋팅
+	 */
+	private static void setResponseHeaders(HttpServletResponse response, String fileName) throws UnsupportedEncodingException {
+		response.reset();
+		response.setContentType("application/octet-stream;");
+		response.setHeader("Content-Disposition", (new StringBuilder("attachment; filename=\"")).append(new String(fileName.getBytes(), "ISO-8859-1")).append("\"").toString());
+		response.setHeader("Pragma", "no-cache;");
+		response.setHeader("Expires", "-1;");
 	}
 }
