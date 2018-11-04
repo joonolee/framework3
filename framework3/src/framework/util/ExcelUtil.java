@@ -205,7 +205,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new HSSFWorkbook();
-			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
+			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -238,7 +238,7 @@ public class ExcelUtil {
 		try {
 			fos = new FileOutputStream(file);
 			Workbook workbook = new HSSFWorkbook();
-			rowCount = writeWorkbook(fos, workbook, rs, header);
+			rowCount = writeWorkbook(fos, rs, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -280,7 +280,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
+			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -313,7 +313,7 @@ public class ExcelUtil {
 		try {
 			fos = new FileOutputStream(file);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(fos, workbook, rs, header);
+			rowCount = writeWorkbook(fos, rs, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -356,7 +356,7 @@ public class ExcelUtil {
 			setResponseHeaders(response, fileName);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
+			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -390,7 +390,7 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(fos, workbook, rs, header);
+			rowCount = writeWorkbook(fos, rs, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -432,7 +432,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new HSSFWorkbook();
-			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
+			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
@@ -465,7 +465,7 @@ public class ExcelUtil {
 		try {
 			fos = new FileOutputStream(file);
 			Workbook workbook = new HSSFWorkbook();
-			rowCount = writeWorkbook(fos, workbook, rs, header);
+			rowCount = writeWorkbook(fos, rs, header, workbook);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -507,7 +507,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
+			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
@@ -540,7 +540,7 @@ public class ExcelUtil {
 		try {
 			fos = new FileOutputStream(file);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(fos, workbook, rs, header);
+			rowCount = writeWorkbook(fos, rs, header, workbook);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -583,7 +583,7 @@ public class ExcelUtil {
 			setResponseHeaders(response, fileName);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(response.getOutputStream(), workbook, rs, header);
+			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
@@ -617,7 +617,7 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(fos, workbook, rs, header);
+			rowCount = writeWorkbook(fos, rs, header, workbook);
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -659,7 +659,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new HSSFWorkbook();
-			rowCount = writeWorkbook(response.getOutputStream(), workbook, mapList, header);
+			rowCount = writeWorkbook(response.getOutputStream(), mapList, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -692,7 +692,7 @@ public class ExcelUtil {
 		try {
 			fos = new FileOutputStream(file);
 			Workbook workbook = new HSSFWorkbook();
-			rowCount = writeWorkbook(fos, workbook, mapList, header);
+			rowCount = writeWorkbook(fos, mapList, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -734,7 +734,7 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(response.getOutputStream(), workbook, mapList, header);
+			rowCount = writeWorkbook(response.getOutputStream(), mapList, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -767,7 +767,7 @@ public class ExcelUtil {
 		try {
 			fos = new FileOutputStream(file);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(fos, workbook, mapList, header);
+			rowCount = writeWorkbook(fos, mapList, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -810,7 +810,7 @@ public class ExcelUtil {
 			setResponseHeaders(response, fileName);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(response.getOutputStream(), workbook, mapList, header);
+			rowCount = writeWorkbook(response.getOutputStream(), mapList, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -844,7 +844,7 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(fos, workbook, mapList, header);
+			rowCount = writeWorkbook(fos, mapList, header, workbook);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -1101,7 +1101,7 @@ public class ExcelUtil {
 	/**
 	 * RecordSet을 워크북으로 변환하여 스트림으로 전송한다.
 	 */
-	private static int writeWorkbook(OutputStream os, Workbook workbook, RecordSet rs, String[] header) throws IOException {
+	private static int writeWorkbook(OutputStream os, RecordSet rs, String[] header, Workbook workbook) throws IOException {
 		if (os == null || workbook == null || rs == null) {
 			return 0;
 		}
@@ -1131,7 +1131,7 @@ public class ExcelUtil {
 	/**
 	 * ResultSet을 워크북으로 변환하여 스트림으로 전송한다.
 	 */
-	private static int writeWorkbook(OutputStream os, Workbook workbook, ResultSet rs, String[] header) throws IOException, SQLException {
+	private static int writeWorkbook(OutputStream os, ResultSet rs, String[] header, Workbook workbook) throws IOException, SQLException {
 		if (os == null || workbook == null || rs == null) {
 			return 0;
 		}
@@ -1188,7 +1188,7 @@ public class ExcelUtil {
 	/**
 	 * List객체를 워크북으로 변환하여 스트림으로 전송한다.
 	 */
-	private static int writeWorkbook(OutputStream os, Workbook workbook, List<RecordMap> mapList, String[] header) throws IOException {
+	private static int writeWorkbook(OutputStream os, List<RecordMap> mapList, String[] header, Workbook workbook) throws IOException {
 		if (os == null || workbook == null || mapList == null) {
 			return 0;
 		}
