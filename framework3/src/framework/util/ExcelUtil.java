@@ -30,6 +30,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.crypt.Decryptor;
 import org.apache.poi.poifs.crypt.EncryptionInfo;
+import org.apache.poi.poifs.crypt.EncryptionMode;
+import org.apache.poi.poifs.crypt.Encryptor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -261,7 +263,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName) {
-		return renderExcel2007(response, rs, fileName, null);
+		return renderExcel2007(response, rs, fileName, null, null);
 	}
 
 	/**
@@ -273,6 +275,19 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
+		return renderExcel2007(response, rs, fileName, header, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param rs 객체
+	 * @param fileName 파일명
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007(HttpServletResponse response, RecordSet rs, String fileName, String[] header, String password) {
 		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
@@ -280,8 +295,18 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
-		} catch (IOException e) {
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, rs, header, workbook);
+				fs.writeFilesystem(response.getOutputStream());
+			}
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -294,7 +319,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, RecordSet rs) {
-		return writeExcel2007(file, rs, null);
+		return writeExcel2007(file, rs, null, null);
 	}
 
 	/**
@@ -305,6 +330,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, RecordSet rs, String[] header) {
+		return writeExcel2007(file, rs, header, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2007 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param rs RecordSet 객체
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007(File file, RecordSet rs, String[] header, String password) {
 		if (file == null || rs == null) {
 			return 0;
 		}
@@ -313,8 +350,18 @@ public class ExcelUtil {
 		try {
 			fos = new FileOutputStream(file);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(fos, rs, header, workbook);
-		} catch (IOException e) {
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(fos, rs, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, rs, header, workbook);
+				fs.writeFilesystem(fos);
+			}
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
 			if (fos != null) {
@@ -336,7 +383,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007S(HttpServletResponse response, RecordSet rs, String fileName) {
-		return renderExcel2007S(response, rs, fileName, null);
+		return renderExcel2007S(response, rs, fileName, null, null);
 	}
 
 	/**
@@ -348,6 +395,19 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007S(HttpServletResponse response, RecordSet rs, String fileName, String[] header) {
+		return renderExcel2007S(response, rs, fileName, header, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2007 스트리밍 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param rs RecordSet 객체
+	 * @param fileName 파일명
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007S(HttpServletResponse response, RecordSet rs, String fileName, String[] header, String password) {
 		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
@@ -356,8 +416,18 @@ public class ExcelUtil {
 			setResponseHeaders(response, fileName);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
-		} catch (IOException e) {
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, rs, header, workbook);
+				fs.writeFilesystem(response.getOutputStream());
+			}
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -370,7 +440,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007S(File file, RecordSet rs) {
-		return writeExcel2007S(file, rs, null);
+		return writeExcel2007S(file, rs, null, null);
 	}
 
 	/**
@@ -381,6 +451,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007S(File file, RecordSet rs, String[] header) {
+		return writeExcel2007S(file, rs, header, null);
+	}
+
+	/**
+	 * RecordSet을 엑셀2007 스트리밍 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param rs RecordSet 객체
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007S(File file, RecordSet rs, String[] header, String password) {
 		if (file == null || rs == null) {
 			return 0;
 		}
@@ -390,8 +472,18 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(fos, rs, header, workbook);
-		} catch (IOException e) {
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(fos, rs, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, rs, header, workbook);
+				fs.writeFilesystem(fos);
+			}
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
 			if (fos != null) {
@@ -488,7 +580,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName) {
-		return renderExcel2007(response, rs, fileName, null);
+		return renderExcel2007(response, rs, fileName, null, null);
 	}
 
 	/**
@@ -500,6 +592,19 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
+		return renderExcel2007(response, rs, fileName, header, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param rs ResultSet 객체
+	 * @param fileName 파일명
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007(HttpServletResponse response, ResultSet rs, String fileName, String[] header, String password) {
 		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
@@ -507,7 +612,17 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, rs, header, workbook);
+				fs.writeFilesystem(response.getOutputStream());
+			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
@@ -521,7 +636,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, ResultSet rs) {
-		return writeExcel2007(file, rs, null);
+		return writeExcel2007(file, rs, null, null);
 	}
 
 	/**
@@ -532,6 +647,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, ResultSet rs, String[] header) {
+		return writeExcel2007(file, rs, header, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2007 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param rs ResultSet 객체
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007(File file, ResultSet rs, String[] header, String password) {
 		if (file == null || rs == null) {
 			return 0;
 		}
@@ -540,7 +667,17 @@ public class ExcelUtil {
 		try {
 			fos = new FileOutputStream(file);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(fos, rs, header, workbook);
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(fos, rs, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, rs, header, workbook);
+				fs.writeFilesystem(fos);
+			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -563,7 +700,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007S(HttpServletResponse response, ResultSet rs, String fileName) {
-		return renderExcel2007S(response, rs, fileName, null);
+		return renderExcel2007S(response, rs, fileName, null, null);
 	}
 
 	/**
@@ -575,6 +712,19 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007S(HttpServletResponse response, ResultSet rs, String fileName, String[] header) {
+		return renderExcel2007S(response, rs, fileName, header, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2007 스트리밍 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param rs ResultSet 객체
+	 * @param fileName 파일명
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007S(HttpServletResponse response, ResultSet rs, String fileName, String[] header, String password) {
 		if (response == null || rs == null || fileName == null) {
 			return 0;
 		}
@@ -583,7 +733,17 @@ public class ExcelUtil {
 			setResponseHeaders(response, fileName);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, rs, header, workbook);
+				fs.writeFilesystem(response.getOutputStream());
+			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
@@ -597,7 +757,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007S(File file, ResultSet rs) {
-		return writeExcel2007S(file, rs, null);
+		return writeExcel2007S(file, rs, null, null);
 	}
 
 	/**
@@ -608,6 +768,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007S(File file, ResultSet rs, String[] header) {
+		return writeExcel2007S(file, rs, header, null);
+	}
+
+	/**
+	 * ResultSet을 엑셀2007 스트리밍 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param rs ResultSet 객체
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007S(File file, ResultSet rs, String[] header, String password) {
 		if (file == null || rs == null) {
 			return 0;
 		}
@@ -617,7 +789,17 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(fos, rs, header, workbook);
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(fos, rs, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, rs, header, workbook);
+				fs.writeFilesystem(fos);
+			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -715,7 +897,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, List<RecordMap> mapList, String fileName) {
-		return renderExcel2007(response, mapList, fileName, null);
+		return renderExcel2007(response, mapList, fileName, null, null);
 	}
 
 	/**
@@ -727,6 +909,19 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header) {
+		return renderExcel2007(response, mapList, fileName, header, null);
+	}
+
+	/**
+	 * List객체를 엑셀2007 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param mapList 리스트 객체
+	 * @param fileName 파일명
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header, String password) {
 		if (response == null || mapList == null || fileName == null) {
 			return 0;
 		}
@@ -734,8 +929,18 @@ public class ExcelUtil {
 		try {
 			setResponseHeaders(response, fileName);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(response.getOutputStream(), mapList, header, workbook);
-		} catch (IOException e) {
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(response.getOutputStream(), mapList, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, mapList, header, workbook);
+				fs.writeFilesystem(response.getOutputStream());
+			}
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -748,7 +953,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, List<RecordMap> mapList) {
-		return writeExcel2007(file, mapList, null);
+		return writeExcel2007(file, mapList, null, null);
 	}
 
 	/**
@@ -759,6 +964,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007(File file, List<RecordMap> mapList, String[] header) {
+		return writeExcel2007(file, mapList, header, null);
+	}
+
+	/**
+	 * List객체를 엑셀2007 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param mapList 리스트 객체
+	 * @param header 헤더 배열
+	 * @param password 읽기암호
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007(File file, List<RecordMap> mapList, String[] header, String password) {
 		if (file == null || mapList == null) {
 			return 0;
 		}
@@ -767,8 +984,18 @@ public class ExcelUtil {
 		try {
 			fos = new FileOutputStream(file);
 			Workbook workbook = new XSSFWorkbook();
-			rowCount = writeWorkbook(fos, mapList, header, workbook);
-		} catch (IOException e) {
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(fos, mapList, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, mapList, header, workbook);
+				fs.writeFilesystem(fos);
+			}
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
 			if (fos != null) {
@@ -790,7 +1017,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007S(HttpServletResponse response, List<RecordMap> mapList, String fileName) {
-		return renderExcel2007S(response, mapList, fileName, null);
+		return renderExcel2007S(response, mapList, fileName, null, null);
 	}
 
 	/**
@@ -802,6 +1029,19 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int renderExcel2007S(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header) {
+		return renderExcel2007S(response, mapList, fileName, header, null);
+	}
+
+	/**
+	 * List객체를 엑셀2007 스트리밍 형식으로 변환하여 응답객체로 전송한다.
+	 * @param response 응답 객체
+	 * @param mapList 리스트 객체
+	 * @param fileName 파일명
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int renderExcel2007S(HttpServletResponse response, List<RecordMap> mapList, String fileName, String[] header, String password) {
 		if (response == null || mapList == null || fileName == null) {
 			return 0;
 		}
@@ -810,8 +1050,18 @@ public class ExcelUtil {
 			setResponseHeaders(response, fileName);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(response.getOutputStream(), mapList, header, workbook);
-		} catch (IOException e) {
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(response.getOutputStream(), mapList, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, mapList, header, workbook);
+				fs.writeFilesystem(response.getOutputStream());
+			}
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 		return rowCount;
@@ -824,7 +1074,7 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007S(File file, List<RecordMap> mapList) {
-		return writeExcel2007S(file, mapList, null);
+		return writeExcel2007S(file, mapList, null, null);
 	}
 
 	/**
@@ -835,6 +1085,18 @@ public class ExcelUtil {
 	 * @return 처리건수
 	 */
 	public static int writeExcel2007S(File file, List<RecordMap> mapList, String[] header) {
+		return writeExcel2007S(file, mapList, header, null);
+	}
+
+	/**
+	 * List객체를 엑셀2007 스트리밍 형식으로 변환하여 파일로 저장한다.
+	 * @param file 파일
+	 * @param mapList 리스트 객체
+	 * @param header 헤더 배열
+	 * @param password 열기암호
+	 * @return 처리건수
+	 */
+	public static int writeExcel2007S(File file, List<RecordMap> mapList, String[] header, String password) {
 		if (file == null || mapList == null) {
 			return 0;
 		}
@@ -844,8 +1106,18 @@ public class ExcelUtil {
 			fos = new FileOutputStream(file);
 			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
-			rowCount = writeWorkbook(fos, mapList, header, workbook);
-		} catch (IOException e) {
+			if (password == null || "".equals(password)) {
+				rowCount = writeWorkbook(fos, mapList, header, workbook);
+			} else {
+				POIFSFileSystem fs = new POIFSFileSystem();
+				EncryptionInfo info = new EncryptionInfo(fs, EncryptionMode.agile);
+				Encryptor enc = info.getEncryptor();
+				enc.confirmPassword(password);
+				OutputStream os = enc.getDataStream(fs);
+				rowCount = writeWorkbook(os, mapList, header, workbook);
+				fs.writeFilesystem(fos);
+			}
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		} finally {
 			if (fos != null) {
@@ -960,10 +1232,11 @@ public class ExcelUtil {
 		try {
 			Biff8EncryptionKey.setCurrentUserPassword(password);
 			HSSFWorkbook workbook = new HSSFWorkbook(new POIFSFileSystem(is));
-			Biff8EncryptionKey.setCurrentUserPassword(null);
 			return parseSheet(workbook.getSheetAt(0));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		} finally {
+			Biff8EncryptionKey.setCurrentUserPassword(null);
 		}
 	}
 
