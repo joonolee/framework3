@@ -275,7 +275,7 @@ public class CryptUtil {
 	/**
 	 * 메시지를 개인키를 이용하여 AES 알고리즘으로 암호화한다.
 	 * @param message 원본메시지
-	 * @param privateKey 개인키 
+	 * @param privateKey 개인키
 	 * @return 암호화된 문자열
 	 */
 	public static String encryptAES(String message, String privateKey) {
@@ -292,7 +292,7 @@ public class CryptUtil {
 	/**
 	 * 메시지를 개인키를 이용하여 AES 알고리즘으로 복호화한다.
 	 * @param message 원본메시지
-	 * @param privateKey 개인키 
+	 * @param privateKey 개인키
 	 * @return 복호화된 문자열
 	 */
 	public static String decryptAES(String message, String privateKey) {
@@ -309,7 +309,7 @@ public class CryptUtil {
 	/**
 	 * 메시지를 개인키를 이용하여 DES 알고리즘으로 암호화한다.
 	 * @param message 원본메시지
-	 * @param privateKey 개인키 
+	 * @param privateKey 개인키
 	 * @return 암호화된 문자열
 	 */
 	public static String encryptDES(String message, String privateKey) {
@@ -326,7 +326,7 @@ public class CryptUtil {
 	/**
 	 * 메시지를 개인키를 이용하여 DES 알고리즘으로 복호화한다.
 	 * @param message 원본메시지
-	 * @param privateKey 개인키 
+	 * @param privateKey 개인키
 	 * @return 복호화된 문자열
 	 */
 	public static String decryptDES(String message, String privateKey) {

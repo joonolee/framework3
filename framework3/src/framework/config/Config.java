@@ -2,8 +2,8 @@ package framework.config;
 
 import java.util.ResourceBundle;
 
-/** 
- * 설정파일(application.properties)에서 값을 읽어오는 클래스이다. 
+/**
+ * 설정파일(application.properties)에서 값을 읽어오는 클래스이다.
  * 싱글톤 패턴으로 설정파일에 접근하는 객체의 인스턴스가 오직 한개만 생성이 된다.
  */
 public class Config {
@@ -23,7 +23,7 @@ public class Config {
 		return INSTANCE;
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 String 객체
@@ -32,7 +32,7 @@ public class Config {
 		return getString(key);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -42,7 +42,7 @@ public class Config {
 		return getString(key, defaultValue);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 int형 변수를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 int형 변수
@@ -55,7 +55,7 @@ public class Config {
 		}
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 int형 변수를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -69,7 +69,7 @@ public class Config {
 		}
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 String 객체
@@ -78,7 +78,7 @@ public class Config {
 		return bundle.getString(key).trim();
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값

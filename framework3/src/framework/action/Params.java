@@ -20,7 +20,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import framework.config.Config;
 import framework.util.StringUtil;
 
-/** 
+/**
  * 요청객체, 쿠키객체의 값을 담는 해시테이블 객체이다.
  * 요청객체의 파라미터를 추상화 하여 Params 를 생성해 놓고 파라미터이름을 키로 해당 값을 원하는 데이타 타입으로 반환받는다.
  */
@@ -38,7 +38,7 @@ public class Params extends HashMap<String, String[]> {
 		this.name = name;
 	}
 
-	/** 
+	/**
 	 * 요청객체의 파라미터 이름과 값을 저장한 해시테이블을 생성한다.
 	 * <br>
 	 * ex) request Params 객체를 얻는 경우 : Params params = Params.getParams(request)
@@ -87,7 +87,7 @@ public class Params extends HashMap<String, String[]> {
 		return params;
 	}
 
-	/** 
+	/**
 	 * 요청객체의 쿠키 이름과 값을 저장한 해시테이블을 생성한다.
 	 * <br>
 	 * ex) cookie Params 객체를 얻는 경우 : Params params = Params.getParamsFromCookie(request)
@@ -106,7 +106,7 @@ public class Params extends HashMap<String, String[]> {
 		return cookieParams;
 	}
 
-	/** 
+	/**
 	 * 요청객체의 헤더 이름과 값을 저장한 해시테이블을 생성한다.
 	 * <br>
 	 * ex) header Params 객체를 얻는 경우 : Params params = Params.getParamsFromHeader(request)
@@ -123,7 +123,7 @@ public class Params extends HashMap<String, String[]> {
 		return headerParams;
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 문자열 배열을 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 값
@@ -132,7 +132,7 @@ public class Params extends HashMap<String, String[]> {
 		return getArray(key, new String[] {});
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 문자열 배열을 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -146,7 +146,7 @@ public class Params extends HashMap<String, String[]> {
 		return value;
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Boolean 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 값
@@ -155,7 +155,7 @@ public class Params extends HashMap<String, String[]> {
 		return getBoolean(key, Boolean.FALSE);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Boolean 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -169,7 +169,7 @@ public class Params extends HashMap<String, String[]> {
 		return Boolean.valueOf(value);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Double 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 값
@@ -178,7 +178,7 @@ public class Params extends HashMap<String, String[]> {
 		return getDouble(key, Double.valueOf(0));
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Double 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -196,7 +196,7 @@ public class Params extends HashMap<String, String[]> {
 		}
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 BigDecimal 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 값
@@ -205,7 +205,7 @@ public class Params extends HashMap<String, String[]> {
 		return getBigDecimal(key, BigDecimal.ZERO);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 BigDecimal 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -223,7 +223,7 @@ public class Params extends HashMap<String, String[]> {
 		}
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Float 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 값
@@ -232,7 +232,7 @@ public class Params extends HashMap<String, String[]> {
 		return getFloat(key, Float.valueOf(0));
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Float 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -250,7 +250,7 @@ public class Params extends HashMap<String, String[]> {
 		}
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Integer 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 값
@@ -259,7 +259,7 @@ public class Params extends HashMap<String, String[]> {
 		return getInteger(key, Integer.valueOf(0));
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Integer 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -277,7 +277,7 @@ public class Params extends HashMap<String, String[]> {
 		}
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Long 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 값
@@ -286,7 +286,7 @@ public class Params extends HashMap<String, String[]> {
 		return getLong(key, Long.valueOf(0));
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Long 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -304,7 +304,7 @@ public class Params extends HashMap<String, String[]> {
 		}
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 객체를 리턴한다.
 	 * 크로스사이트 스크립팅 공격 방지를 위해 &lt;, &gt; 치환을 수행한다.
 	 * @param key 값을 찾기 위한 키 문자열
@@ -315,7 +315,7 @@ public class Params extends HashMap<String, String[]> {
 		return getString(key);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 객체를 리턴한다.
 	 * 크로스사이트 스크립팅 공격 방지를 위해 &lt;, &gt; 치환을 수행한다.
 	 * @param key 값을 찾기 위한 키 문자열
@@ -325,7 +325,7 @@ public class Params extends HashMap<String, String[]> {
 		return getString(key, "");
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -336,7 +336,7 @@ public class Params extends HashMap<String, String[]> {
 		return getString(key, defaultValue);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -346,7 +346,7 @@ public class Params extends HashMap<String, String[]> {
 		return StringUtil.escapeHtmlSpecialChars(getRawString(key, defaultValue));
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 객체를 변환없이 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 값
@@ -355,7 +355,7 @@ public class Params extends HashMap<String, String[]> {
 		return getRawString(key, "");
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 String 객체를 변환없이 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -369,7 +369,7 @@ public class Params extends HashMap<String, String[]> {
 		return value[0];
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd)
 	 * @return key에 매핑되어 있는 값
@@ -378,7 +378,7 @@ public class Params extends HashMap<String, String[]> {
 		return getDate(key, (Date) null);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd)
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -388,7 +388,7 @@ public class Params extends HashMap<String, String[]> {
 		return getDate(key, "yyyy-MM-dd", (Date) null);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd HH:mm:ss)
 	 * @return key에 매핑되어 있는 값
@@ -397,7 +397,7 @@ public class Params extends HashMap<String, String[]> {
 		return getDateTime(key, (Date) null);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd HH:mm:ss)
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
@@ -407,7 +407,7 @@ public class Params extends HashMap<String, String[]> {
 		return getDate(key, "yyyy-MM-dd HH:mm:ss", (Date) null);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param format 날짜 포맷(예, yyyy-MM-dd HH:mm:ss)
@@ -417,7 +417,7 @@ public class Params extends HashMap<String, String[]> {
 		return getDate(key, format, (Date) null);
 	}
 
-	/** 
+	/**
 	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @param format 날짜 포맷(예, yyyy-MM-dd HH:mm:ss)
@@ -455,7 +455,7 @@ public class Params extends HashMap<String, String[]> {
 		return put(key, new String[] { value });
 	}
 
-	/** 
+	/**
 	 * Param 객체가 가지고 있는 값들을 화면 출력을 위해 문자열로 변환한다.
 	 * @return 화면에 출력하기 위해 변환된 문자열
 	 */
@@ -505,7 +505,7 @@ public class Params extends HashMap<String, String[]> {
 		return name + "=" + buf.toString();
 	}
 
-	/** 
+	/**
 	 * Params 객체가 가지고 있는 값들을 쿼리 스트링으로 변환한다.
 	 * @return 쿼리 스트링으로 변환된 문자열
 	 */
@@ -536,7 +536,7 @@ public class Params extends HashMap<String, String[]> {
 		return buf.toString();
 	}
 
-	/** 
+	/**
 	 * Params 객체가 가지고 있는 값들을 Xml로 변환한다.
 	 * @return Xml로 변환된 문자열
 	 */
@@ -576,7 +576,7 @@ public class Params extends HashMap<String, String[]> {
 		return buf.toString();
 	}
 
-	/** 
+	/**
 	 * Params 객체가 가지고 있는 값들을 Json 표기법으로 변환한다.
 	 * @return Json 표기법으로 변환된 문자열
 	 */

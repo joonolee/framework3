@@ -40,9 +40,9 @@ public class EhCache extends AbstractCache {
 		cache = cacheManager.getCache(CACHE_NAME);
 	}
 
-	/** 
+	/**
 	 * 객체의 인스턴스를 리턴해준다.
-	 * 
+	 *
 	 * @return EhCache 객체의 인스턴스
 	 */
 	public synchronized static EhCache getInstance() {

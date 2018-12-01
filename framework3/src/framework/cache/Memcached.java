@@ -45,9 +45,9 @@ public class Memcached extends AbstractCache {
 		}
 	}
 
-	/** 
+	/**
 	 * 객체의 인스턴스를 리턴해준다.
-	 * 
+	 *
 	 * @return Memcached 객체의 인스턴스
 	 */
 	public synchronized static Memcached getInstance() {

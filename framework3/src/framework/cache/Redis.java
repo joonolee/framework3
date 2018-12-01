@@ -50,9 +50,9 @@ public class Redis extends AbstractCache {
 		pool = new ShardedJedisPool(new JedisPoolConfig(), shards);
 	}
 
-	/** 
+	/**
 	 * 객체의 인스턴스를 리턴해준다.
-	 * 
+	 *
 	 * @return Redis 객체의 인스턴스
 	 */
 	public synchronized static Redis getInstance() {
