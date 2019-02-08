@@ -13,6 +13,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
@@ -113,17 +114,27 @@ public class HttpUtil {
 	 * @return Result 객체
 	 */
 	public static Result post(String url) {
-		return post(url, null, (Map<String, String>) null);
+		return post(url, (String) null, (Map<String, String>) null);
 	}
 
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
 	 * @param url url 주소
-	 * @param paramMap 헤더 맵 객체
+	 * @param paramMap 파라미터 맵 객체
 	 * @return Result 객체
 	 */
 	public static Result post(String url, Map<String, String> paramMap) {
 		return post(url, paramMap, (Map<String, String>) null);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
+	 * @param url url 주소
+	 * @param paramStr 파라미터 문자열
+	 * @return Result 객체
+	 */
+	public static Result post(String url, String paramStr) {
+		return post(url, paramStr, (Map<String, String>) null);
 	}
 
 	/**
@@ -145,14 +156,53 @@ public class HttpUtil {
 					httpPost.addHeader(entry.getKey(), entry.getValue());
 				}
 			}
-			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			if (paramMap != null) {
+				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				for (Entry<String, String> entry : paramMap.entrySet()) {
 					params.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
 				}
+				UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, "UTF-8");
+				httpPost.setEntity(ent);
 			}
-			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, "UTF-8");
-			httpPost.setEntity(ent);
+			HttpResponse response = httpClient.execute(httpPost);
+			statusCode = response.getStatusLine().getStatusCode();
+			HttpEntity resEntity = response.getEntity();
+			if (resEntity != null) {
+				content = EntityUtils.toString(resEntity);
+			}
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (httpClient != null) {
+				httpClient.getConnectionManager().shutdown();
+			}
+		}
+		return new Result(statusCode, content);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
+	 * @param url url 주소
+	 * @param paramStr 파라미터 문자열
+	 * @param headerMap 헤더 맵 객체
+	 * @return Result 객체
+	 */
+	public static Result post(String url, String paramStr, Map<String, String> headerMap) {
+		int statusCode = 0;
+		String content = "";
+		HttpClient httpClient = null;
+		try {
+			httpClient = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost(url);
+			if (headerMap != null) {
+				for (Entry<String, String> entry : headerMap.entrySet()) {
+					httpPost.addHeader(entry.getKey(), entry.getValue());
+				}
+			}
+			if (paramStr != null) {
+				StringEntity ent = new StringEntity(paramStr);
+				httpPost.setEntity(ent);
+			}
 			HttpResponse response = httpClient.execute(httpPost);
 			statusCode = response.getStatusLine().getStatusCode();
 			HttpEntity resEntity = response.getEntity();
