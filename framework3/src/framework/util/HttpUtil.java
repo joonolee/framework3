@@ -200,7 +200,7 @@ public class HttpUtil {
 				}
 			}
 			if (paramStr != null) {
-				StringEntity ent = new StringEntity(paramStr);
+				StringEntity ent = new StringEntity(paramStr, "UTF-8");
 				httpPost.setEntity(ent);
 			}
 			HttpResponse response = httpClient.execute(httpPost);
