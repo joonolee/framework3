@@ -1,6 +1,12 @@
 package framework.util;
 
 import java.io.File;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +19,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -85,7 +94,7 @@ public class HttpUtil {
 		String content = "";
 		HttpClient httpClient = null;
 		try {
-			httpClient = new DefaultHttpClient();
+			httpClient = getHttpClient();
 			HttpGet httpGet = new HttpGet(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
@@ -149,7 +158,7 @@ public class HttpUtil {
 		String content = "";
 		HttpClient httpClient = null;
 		try {
-			httpClient = new DefaultHttpClient();
+			httpClient = getHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
@@ -192,7 +201,7 @@ public class HttpUtil {
 		String content = "";
 		HttpClient httpClient = null;
 		try {
-			httpClient = new DefaultHttpClient();
+			httpClient = getHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
@@ -243,7 +252,7 @@ public class HttpUtil {
 		String content = "";
 		HttpClient httpClient = null;
 		try {
-			httpClient = new DefaultHttpClient();
+			httpClient = getHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
@@ -277,5 +286,26 @@ public class HttpUtil {
 			}
 		}
 		return new Result(statusCode, content);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////Private 메소드
+
+	/**
+	 * HttpClient 생성(SSL 인증서 유효성검사 무시)
+	 * @return HttpClient 객체
+	 * @throws KeyStoreException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnrecoverableKeyException
+	 * @throws KeyManagementException
+	 */
+	private static HttpClient getHttpClient() throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
+		HttpClient httpClient = new DefaultHttpClient();
+		SSLSocketFactory sslsf = new SSLSocketFactory(new TrustStrategy() {
+			public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+				return true;
+			}
+		});
+		httpClient.getConnectionManager().getSchemeRegistry().register(new Scheme("https", 443, sslsf));
+		return httpClient;
 	}
 }
