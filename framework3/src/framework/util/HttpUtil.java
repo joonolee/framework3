@@ -21,6 +21,7 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
 /**
@@ -77,15 +78,39 @@ public class HttpUtil {
 	/**
 	 * url 을 Get 방식으로 호출하고 결과를 리턴한다.
 	 * @param url url 주소
+	 * @param timeoutMilliseconds 소켓 타임아웃 시간(밀리세컨드)
+	 * @return Result 객체
+	 */
+	public static Result get(String url, int timeoutMilliseconds) {
+		return get(url, null, timeoutMilliseconds);
+	}
+
+	/**
+	 * url 을 Get 방식으로 호출하고 결과를 리턴한다.
+	 * @param url url 주소
 	 * @param headerMap 헤더 맵 객체
 	 * @return Result 객체
 	 */
 	public static Result get(String url, Map<String, String> headerMap) {
+		return get(url, headerMap, 0);
+	}
+
+	/**
+	 * url 을 Get 방식으로 호출하고 결과를 리턴한다.
+	 * @param url url 주소
+	 * @param headerMap 헤더 맵 객체
+	 * @param timeoutMilliseconds 소켓 타임아웃 시간(밀리세컨드)
+	 * @return Result 객체
+	 */
+	public static Result get(String url, Map<String, String> headerMap, int timeoutMilliseconds) {
 		int statusCode = 0;
 		String content = "";
 		HttpClient httpClient = null;
 		try {
 			httpClient = new DefaultHttpClient();
+			if (timeoutMilliseconds > 0) {
+				httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, timeoutMilliseconds);
+			}
 			HttpGet httpGet = new HttpGet(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
@@ -120,11 +145,32 @@ public class HttpUtil {
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
 	 * @param url url 주소
+	 * @param timeoutMilliseconds 소켓 타임아웃 시간(밀리세컨드)
+	 * @return Result 객체
+	 */
+	public static Result post(String url, int timeoutMilliseconds) {
+		return post(url, (String) null, (Map<String, String>) null, timeoutMilliseconds);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
+	 * @param url url 주소
 	 * @param paramMap 파라미터 맵 객체
 	 * @return Result 객체
 	 */
 	public static Result post(String url, Map<String, String> paramMap) {
 		return post(url, paramMap, (Map<String, String>) null);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
+	 * @param url url 주소
+	 * @param paramMap 파라미터 맵 객체
+	 * @param timeoutMilliseconds 소켓 타임아웃 시간(밀리세컨드)
+	 * @return Result 객체
+	 */
+	public static Result post(String url, Map<String, String> paramMap, int timeoutMilliseconds) {
+		return post(url, paramMap, (Map<String, String>) null, timeoutMilliseconds);
 	}
 
 	/**
@@ -140,16 +186,42 @@ public class HttpUtil {
 	/**
 	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
 	 * @param url url 주소
+	 * @param paramStr 파라미터 문자열
+	 * @param timeoutMilliseconds 소켓 타임아웃 시간(밀리세컨드)
+	 * @return Result 객체
+	 */
+	public static Result post(String url, String paramStr, int timeoutMilliseconds) {
+		return post(url, paramStr, (Map<String, String>) null, timeoutMilliseconds);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
+	 * @param url url 주소
 	 * @param paramMap 파라미터 맵 객체
 	 * @param headerMap 헤더 맵 객체
 	 * @return Result 객체
 	 */
 	public static Result post(String url, Map<String, String> paramMap, Map<String, String> headerMap) {
+		return post(url, paramMap, headerMap, 0);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
+	 * @param url url 주소
+	 * @param paramMap 파라미터 맵 객체
+	 * @param headerMap 헤더 맵 객체
+	 * @param timeoutMilliseconds 소켓 타임아웃 시간(밀리세컨드)
+	 * @return Result 객체
+	 */
+	public static Result post(String url, Map<String, String> paramMap, Map<String, String> headerMap, int timeoutMilliseconds) {
 		int statusCode = 0;
 		String content = "";
 		HttpClient httpClient = null;
 		try {
 			httpClient = new DefaultHttpClient();
+			if (timeoutMilliseconds > 0) {
+				httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, timeoutMilliseconds);
+			}
 			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
@@ -188,11 +260,26 @@ public class HttpUtil {
 	 * @return Result 객체
 	 */
 	public static Result post(String url, String paramStr, Map<String, String> headerMap) {
+		return post(url, paramStr, headerMap, 0);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다.
+	 * @param url url 주소
+	 * @param paramStr 파라미터 문자열
+	 * @param headerMap 헤더 맵 객체
+	 * @param timeoutMilliseconds 소켓 타임아웃 시간(밀리세컨드)
+	 * @return Result 객체
+	 */
+	public static Result post(String url, String paramStr, Map<String, String> headerMap, int timeoutMilliseconds) {
 		int statusCode = 0;
 		String content = "";
 		HttpClient httpClient = null;
 		try {
 			httpClient = new DefaultHttpClient();
+			if (timeoutMilliseconds > 0) {
+				httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, timeoutMilliseconds);
+			}
 			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
@@ -235,15 +322,43 @@ public class HttpUtil {
 	 * @param url url 주소
 	 * @param paramMap 파라미터 맵 객체
 	 * @param fileList 파일 리스트 객체
+	 * @param timeoutMilliseconds 소켓 타임아웃 시간(밀리세컨드)
+	 * @return Result 객체
+	 */
+	public static Result post(String url, Map<String, String> paramMap, List<File> fileList, int timeoutMilliseconds) {
+		return post(url, paramMap, fileList, null, timeoutMilliseconds);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다. (첨부파일 포함)
+	 * @param url url 주소
+	 * @param paramMap 파라미터 맵 객체
+	 * @param fileList 파일 리스트 객체
 	 * @param headerMap 헤더 맵 객체
 	 * @return Result 객체
 	 */
 	public static Result post(String url, Map<String, String> paramMap, List<File> fileList, Map<String, String> headerMap) {
+		return post(url, paramMap, fileList, headerMap, 0);
+	}
+
+	/**
+	 * url 을 Post 방식으로 호출하고 결과를 리턴한다. (첨부파일 포함)
+	 * @param url url 주소
+	 * @param paramMap 파라미터 맵 객체
+	 * @param fileList 파일 리스트 객체
+	 * @param headerMap 헤더 맵 객체
+	 * @param timeoutMilliseconds 소켓 타임아웃 시간(밀리세컨드)
+	 * @return Result 객체
+	 */
+	public static Result post(String url, Map<String, String> paramMap, List<File> fileList, Map<String, String> headerMap, int timeoutMilliseconds) {
 		int statusCode = 0;
 		String content = "";
 		HttpClient httpClient = null;
 		try {
 			httpClient = new DefaultHttpClient();
+			if (timeoutMilliseconds > 0) {
+				httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, timeoutMilliseconds);
+			}
 			HttpPost httpPost = new HttpPost(url);
 			if (headerMap != null) {
 				for (Entry<String, String> entry : headerMap.entrySet()) {
