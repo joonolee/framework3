@@ -39,7 +39,7 @@ public abstract class Controller {
 	/**
 	 * Controller의 로거객체
 	 */
-	protected static final Log logger = LogFactory.getLog(framework.action.Controller.class);
+	protected static final Log logger = LogFactory.getLog(Controller.class);
 
 	/**
 	 * 서블릿 컨텍스트 객체

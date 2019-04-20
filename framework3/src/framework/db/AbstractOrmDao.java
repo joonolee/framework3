@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
  * 테이블을 CRUD 하는 DAO를 작성할때 상속받는 클래스
  */
 public abstract class AbstractOrmDao {
-	protected static final Log logger = LogFactory.getLog(framework.db.AbstractOrmDao.class);
+	protected static final Log logger = LogFactory.getLog(AbstractOrmDao.class);
 	protected DB db = null;
 
 	public AbstractOrmDao(DB db) {

@@ -9,7 +9,7 @@ import net.sf.ehcache.Element;
 /**
  * 기본 캐시 구현체 (http://ehcache.org/)
  */
-public class EhCache extends AbstractCache {
+public final class EhCache extends AbstractCache {
 
 	/**
 	 * 싱글톤 객체

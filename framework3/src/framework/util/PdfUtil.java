@@ -32,8 +32,8 @@ import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 /**
  * PDF 변환시 이용할 수 있는 유틸리티 클래스이다.
  */
-public class PdfUtil {
-	private static final Log logger = LogFactory.getLog(framework.util.PdfUtil.class);
+public final class PdfUtil {
+	private static final Log logger = LogFactory.getLog(PdfUtil.class);
 
 	public enum Orientation {
 		PORTRAIT, LANDSCAPE

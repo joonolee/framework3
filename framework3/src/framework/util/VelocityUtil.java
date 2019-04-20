@@ -18,8 +18,8 @@ import org.apache.velocity.app.Velocity;
 /**
  * Velocity를 이용한 템플릿 처리 라이브러리
  */
-public class VelocityUtil {
-	private static final Log logger = LogFactory.getLog(framework.util.VelocityUtil.class);
+public final class VelocityUtil {
+	private static final Log logger = LogFactory.getLog(VelocityUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

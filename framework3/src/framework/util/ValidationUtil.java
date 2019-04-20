@@ -3,7 +3,7 @@ package framework.util;
 /**
  * 유효성 체크 라이브러리
  */
-public class ValidationUtil {
+public final class ValidationUtil {
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

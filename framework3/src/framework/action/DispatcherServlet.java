@@ -25,8 +25,8 @@ import framework.util.StringUtil;
  */
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = -6478697606075642071L;
-	private static final Log logger = LogFactory.getLog(framework.action.DispatcherServlet.class);
-	private static final String[] defaultServletNames = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
+	private static final Log logger = LogFactory.getLog(DispatcherServlet.class);
+	private static final String[] DEFAULT_SERVLET_NAMES = new String[] { "default", "WorkerServlet", "ResourceServlet", "FileServlet", "resin-file", "SimpleFileServlet", "_ah_default" };
 
 	/**
 	 * 서블릿 객체를 초기화 한다.
@@ -40,7 +40,7 @@ public class DispatcherServlet extends HttpServlet {
 			// default servlet 검색
 			String defaultServletName = StringUtil.nullToBlankString(config.getInitParameter("default-servlet-name"));
 			if ("".equals(defaultServletName)) {
-				for (String servletName : defaultServletNames) {
+				for (String servletName : DEFAULT_SERVLET_NAMES) {
 					if (getServletContext().getNamedDispatcher(servletName) != null) {
 						defaultServletName = servletName;
 						break;

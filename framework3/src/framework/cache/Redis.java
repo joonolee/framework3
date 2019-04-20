@@ -20,7 +20,7 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 /**
  * Redis 캐시 구현체 (http://redis.io/)
  */
-public class Redis extends AbstractCache {
+public final class Redis extends AbstractCache {
 
 	/**
 	 * 싱글톤 객체

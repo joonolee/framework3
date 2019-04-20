@@ -28,8 +28,8 @@ import framework.db.RecordSet;
 /**
  * CSV를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
-public class CsvUtil {
-	private static final Log logger = LogFactory.getLog(framework.util.CsvUtil.class);
+public final class CsvUtil {
+	private static final Log logger = LogFactory.getLog(CsvUtil.class);
 	private static final String CRLF = "\r\n";
 
 	/**

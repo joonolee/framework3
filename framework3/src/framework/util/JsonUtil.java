@@ -23,8 +23,8 @@ import framework.db.RecordSet;
 /**
  * JSON(JavaScript Object Notation)를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
-public class JsonUtil {
-	private static final Log logger = LogFactory.getLog(framework.util.JsonUtil.class);
+public final class JsonUtil {
+	private static final Log logger = LogFactory.getLog(JsonUtil.class);
 	private static final String CRLF = "\r\n";
 
 	/**

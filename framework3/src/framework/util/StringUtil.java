@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * 스트링 처리 라이브러리
  */
-public class StringUtil {
+public final class StringUtil {
 	private static final Pattern TAG_PATTERN = Pattern.compile("<[^<]*?>");
 	private static final Pattern SCRIPT_TAG_PATTERN = Pattern.compile("<\\s*[s|S][c|C][r|R][i|I][p|P][t|T].*?>.*?<\\s*/\\s*[s|S][c|C][r|R][i|I][p|P][t|T]\\s*>", Pattern.DOTALL);
 

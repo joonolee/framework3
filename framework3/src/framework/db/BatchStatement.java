@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Statement의 Batch 처리를 이용하기 위한 객체
  */
-public class BatchStatement extends AbstractStatement {
+public final class BatchStatement extends AbstractStatement {
 	private final List<String> sqlList = new ArrayList<String>();
 	private DB db = null;
 	private Statement stmt = null;

@@ -8,12 +8,12 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class Cache {
+public final class Cache {
 
 	/**
 	 * 로거객체 정의
 	 */
-	private static final Log logger = LogFactory.getLog(framework.cache.Cache.class);
+	private static final Log logger = LogFactory.getLog(Cache.class);
 
 	/**
 	 * 캐시구현체

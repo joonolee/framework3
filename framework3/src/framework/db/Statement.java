@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Statement 를 이용하기 위한 객체
  */
-public class Statement extends AbstractStatement {
+public final class Statement extends AbstractStatement {
 	private String sql = null;
 	private DB db = null;
 	private java.sql.Statement stmt = null;

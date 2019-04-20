@@ -21,7 +21,7 @@ import framework.config.Config;
  * 데이타베이스 컨넥션을 관리하는 클래스
  */
 public class DB {
-	private static final Log logger = LogFactory.getLog(framework.db.DB.class);
+	private static final Log logger = LogFactory.getLog(DB.class);
 	private static final Map<String, DataSource> dsMap = new HashMap<String, DataSource>();
 	private final List<AbstractStatement> stmtList = new ArrayList<AbstractStatement>();
 	private String serviceName = null;

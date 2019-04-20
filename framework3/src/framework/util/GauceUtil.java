@@ -27,8 +27,8 @@ import framework.db.RecordSet;
 /**
  * 가우스를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
-public class GauceUtil {
-	private static final Log logger = LogFactory.getLog(framework.util.GauceUtil.class);
+public final class GauceUtil {
+	private static final Log logger = LogFactory.getLog(GauceUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

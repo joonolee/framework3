@@ -21,8 +21,8 @@ import framework.db.RecordSet;
 /**
  * OZ Report 를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
-public class OZUtil {
-	private static final Log logger = LogFactory.getLog(framework.util.OZUtil.class);
+public final class OZUtil {
+	private static final Log logger = LogFactory.getLog(OZUtil.class);
 
 	/**
 	 * 디폴트 열 구분자

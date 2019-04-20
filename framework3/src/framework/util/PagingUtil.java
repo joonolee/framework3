@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 네비게이션 관련 페이징 정보 추출 라이브러리
  */
-public class PagingUtil {
+public final class PagingUtil {
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

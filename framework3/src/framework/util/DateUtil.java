@@ -9,7 +9,7 @@ import java.util.Date;
  * 날짜관련 유틸리티 클래스이다.
  * @author	: JCJ
  */
-public class DateUtil {
+public final class DateUtil {
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

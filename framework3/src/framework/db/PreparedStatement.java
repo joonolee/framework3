@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 /**
  * Prepared Statement 를 이용하기 위한 객체
  */
-public class PreparedStatement extends AbstractStatement {
+public final class PreparedStatement extends AbstractStatement {
 	private final List<Object> param = new ArrayList<Object>();
 	private String sql = null;
 	private DB db = null;

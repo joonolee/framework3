@@ -20,7 +20,7 @@ import javax.mail.internet.MimeUtility;
 /**
  * JavaMail을 이용해 메일을 발송하는 유틸리티 클래스이다.
  */
-public class EmailUtil {
+public final class EmailUtil {
 
 	/**
 	 * 기본 인코딩 값

@@ -16,7 +16,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  * Mybatis SqlSession 을 관리하는 클래스
  */
 public class MybatisDB {
-	private static final Log logger = LogFactory.getLog(framework.db.MybatisDB.class);
+	private static final Log logger = LogFactory.getLog(MybatisDB.class);
 	private static SqlSessionFactory sqlSessionFactory = null;
 	private SqlSession sqlSession = null;
 

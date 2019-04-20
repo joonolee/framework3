@@ -38,8 +38,8 @@ import framework.db.RecordSet;
 /**
  * 넥사크로플랫폼을 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
-public class NexacroUtil {
-	private static final Log logger = LogFactory.getLog(framework.util.NexacroUtil.class);
+public final class NexacroUtil {
+	private static final Log logger = LogFactory.getLog(NexacroUtil.class);
 
 	/**
 	 * 미압축 방식의 바이너리 송수신 형식

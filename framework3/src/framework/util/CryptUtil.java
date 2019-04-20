@@ -14,7 +14,7 @@ import org.apache.commons.codec.binary.Hex;
 /**
  * 암/복호화 관련 기능을 하는 유틸리티 클래스이다.
  */
-public class CryptUtil {
+public final class CryptUtil {
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

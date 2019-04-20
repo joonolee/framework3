@@ -15,7 +15,7 @@ import net.spy.memcached.MemcachedClient;
 /**
  * Memcached 캐시 구현체 (http://memcached.org/)
  */
-public class Memcached extends AbstractCache {
+public final class Memcached extends AbstractCache {
 
 	/**
 	 * 싱글톤 객체

@@ -49,8 +49,8 @@ import framework.db.RecordSet;
 /**
  * Excel 출력을 위해 이용할 수 있는 유틸리티 클래스이다.
  */
-public class ExcelUtil {
-	private static final Log logger = LogFactory.getLog(framework.util.ExcelUtil.class);
+public final class ExcelUtil {
+	private static final Log logger = LogFactory.getLog(ExcelUtil.class);
 
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정

@@ -20,8 +20,8 @@ import framework.db.RecordSet;
 /**
  * RD(Report Designer)를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
  */
-public class RDUtil {
-	private static final Log logger = LogFactory.getLog(framework.util.RDUtil.class);
+public final class RDUtil {
+	private static final Log logger = LogFactory.getLog(RDUtil.class);
 
 	/**
 	 * 디폴트 열 구분자

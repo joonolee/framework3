@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
  * JDBC를 이용한 DAO를 작성할때 상속받는 부모 클래스이다.
  */
 public class JdbcDaoSupport {
-	protected static final Log logger = LogFactory.getLog(framework.db.JdbcDaoSupport.class);
+	protected static final Log logger = LogFactory.getLog(JdbcDaoSupport.class);
 	protected DB db = null;
 
 	public JdbcDaoSupport(DB db) {

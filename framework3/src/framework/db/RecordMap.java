@@ -113,10 +113,10 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 		} else if (value instanceof java.sql.Date) {
 			java.sql.Date sqlDate = (java.sql.Date) value;
 			return new Timestamp(sqlDate.getTime());
-		} else if (value instanceof java.sql.Timestamp) {
+		} else if (value instanceof Timestamp) {
 			return (Timestamp) value;
-		} else if (value instanceof java.util.Date) {
-			java.util.Date date = (java.util.Date) value;
+		} else if (value instanceof Date) {
+			Date date = (Date) value;
 			return new Timestamp(date.getTime());
 		} else {
 			return Timestamp.valueOf(value.toString());

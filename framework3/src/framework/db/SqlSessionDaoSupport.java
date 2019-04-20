@@ -13,7 +13,7 @@ import org.apache.ibatis.session.SqlSession;
  * MyBatis를 이용한 DAO를 작성할때 상속받는 부모 클래스이다.
  */
 public class SqlSessionDaoSupport {
-	protected static final Log logger = LogFactory.getLog(framework.db.SqlSessionDaoSupport.class);
+	protected static final Log logger = LogFactory.getLog(SqlSessionDaoSupport.class);
 	protected MybatisDB db = null;
 	protected SqlSession sqlSession = null;
 

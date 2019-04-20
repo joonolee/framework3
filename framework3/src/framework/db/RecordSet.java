@@ -250,7 +250,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return boolean
 	 */
 	public boolean isFirst() {
-		return (currow == 0);
+		return currow == 0;
 	}
 
 	/**
@@ -469,8 +469,8 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 			return new Timestamp(sqlDate.getTime());
 		} else if (value instanceof java.sql.Timestamp) {
 			return (Timestamp) value;
-		} else if (value instanceof java.util.Date) {
-			java.util.Date date = (java.util.Date) value;
+		} else if (value instanceof Date) {
+			Date date = (Date) value;
 			return new Timestamp(date.getTime());
 		} else {
 			return Timestamp.valueOf(value.toString());
