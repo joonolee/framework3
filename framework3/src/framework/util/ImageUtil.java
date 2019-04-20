@@ -424,6 +424,8 @@ public class ImageUtil {
 				x = image.getWidth();
 				y = image.getHeight();
 				rotatedImg = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
+			} else {
+				rotatedImg = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
 			}
 			Graphics2D g2d = rotatedImg.createGraphics();
 			g2d.translate(x, y);
