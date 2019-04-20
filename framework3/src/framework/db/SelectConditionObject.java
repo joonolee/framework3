@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * SQL 문장에서 조건조회시 필요한 검색조건을 담는 객체 클래스이다.
+ * SQL 문장에서 조건조회시 필요한 검색조건을 담는 객체 클래스
  * 검색 조건은 PreparedStatement 실행시 바인드 되어지며 로그 출력시 문자열과 바인드 되어 출력된다.
  */
 public class SelectConditionObject {

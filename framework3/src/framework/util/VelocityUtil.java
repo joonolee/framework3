@@ -16,7 +16,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 /**
- * Velocity를 이용한 템플릿 처리 라이브러리
+ * Velocity를 이용한 템플릿 처리 유틸리티 클래스
  */
 public final class VelocityUtil {
 	private static final Log logger = LogFactory.getLog(VelocityUtil.class);

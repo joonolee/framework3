@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * Prepared Statement 를 이용하기 위한 객체
+ * Prepared Statement 를 이용하기 위한 클래스
  */
 public final class PreparedStatement extends AbstractStatement {
 	private final List<Object> param = new ArrayList<Object>();

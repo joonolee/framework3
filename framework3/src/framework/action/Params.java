@@ -21,7 +21,7 @@ import framework.config.Config;
 import framework.util.StringUtil;
 
 /**
- * 요청객체, 쿠키객체의 값을 담는 해시테이블 객체이다.
+ * 요청객체, 쿠키객체의 값을 담는 해시테이블 클래스
  * 요청객체의 파라미터를 추상화 하여 Params 를 생성해 놓고 파라미터이름을 키로 해당 값을 원하는 데이타 타입으로 반환받는다.
  */
 public class Params extends HashMap<String, String[]> {

@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import framework.db.RecordSet;
 
 /**
- * RSS를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
+ * RSS를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스
  */
 public final class RssUtil {
 	private static final Log logger = LogFactory.getLog(RssUtil.class);

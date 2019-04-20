@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 모든 SQL 문장을 처리하는 클래스가 상속받아야 할 추상클래스이다.
+ * 모든 SQL 문장을 처리하는 클래스가 상속받아야 할 추상 클래스
  */
 public abstract class AbstractStatement {
 	protected static final Log logger = LogFactory.getLog(AbstractStatement.class);

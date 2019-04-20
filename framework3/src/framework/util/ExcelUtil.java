@@ -47,7 +47,7 @@ import framework.db.RecordMap;
 import framework.db.RecordSet;
 
 /**
- * Excel 출력을 위해 이용할 수 있는 유틸리티 클래스이다.
+ * Excel 출력을 위해 이용할 수 있는 유틸리티 클래스
  */
 public final class ExcelUtil {
 	private static final Log logger = LogFactory.getLog(ExcelUtil.class);

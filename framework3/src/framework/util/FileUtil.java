@@ -16,7 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 파일처리, 업로드, 다운로드시 이용할 수 있는 유틸리티 클래스이다.
+ * 파일처리, 업로드, 다운로드시 이용할 수 있는 유틸리티 클래스
  */
 public final class FileUtil {
 	private static final Log logger = LogFactory.getLog(FileUtil.class);

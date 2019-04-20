@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Statement의 Batch 처리를 이용하기 위한 객체
+ * Statement의 Batch 처리를 이용하기 위한 클래스
  */
 public final class BatchStatement extends AbstractStatement {
 	private final List<String> sqlList = new ArrayList<String>();

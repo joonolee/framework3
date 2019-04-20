@@ -10,7 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 /**
- * MyBatis를 이용한 DAO를 작성할때 상속받는 부모 클래스이다.
+ * MyBatis를 이용한 DAO를 작성할때 상속받는 부모 클래스
  */
 public class SqlSessionDaoSupport {
 	protected static final Log logger = LogFactory.getLog(SqlSessionDaoSupport.class);

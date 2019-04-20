@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 정규표현식 패턴 라이브러리
+ * 정규표현식 패턴 유틸리티 클래스
  */
 public final class PatternUtil {
 

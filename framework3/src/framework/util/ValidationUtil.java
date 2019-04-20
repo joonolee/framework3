@@ -1,7 +1,7 @@
 package framework.util;
 
 /**
- * 유효성 체크 라이브러리
+ * 유효성 체크 유틸리티 클래스
  */
 public final class ValidationUtil {
 

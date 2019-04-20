@@ -9,6 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
+/**
+ * 키를 소문자로 관리하고, 키가 추가된 순서를 유지하는 범용 맵 클래스
+ */
 public class RecordMap extends LinkedHashMap<String, Object> {
 	private static final long serialVersionUID = 8720579036875443934L;
 

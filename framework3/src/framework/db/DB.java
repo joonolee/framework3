@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import framework.config.Config;
 
 /**
- * 데이타베이스 컨넥션을 관리하는 클래스
+ * DB 컨넥션을 관리하는 클래스
  */
 public class DB {
 	private static final Log logger = LogFactory.getLog(DB.class);

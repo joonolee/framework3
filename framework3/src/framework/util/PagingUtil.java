@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 네비게이션 관련 페이징 정보 추출 라이브러리
+ * 네비게이션 관련 페이징 정보 추출 유틸리티 클래스
  */
 public final class PagingUtil {
 

@@ -6,8 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * 날짜관련 유틸리티 클래스이다.
- * @author	: JCJ
+ * 날짜관련 유틸리티 클래스
  */
 public final class DateUtil {
 

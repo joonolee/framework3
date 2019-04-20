@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Statement 를 이용하기 위한 객체
+ * Statement 를 이용하기 위한 클래스
  */
 public final class Statement extends AbstractStatement {
 	private String sql = null;

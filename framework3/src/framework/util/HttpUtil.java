@@ -25,7 +25,7 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 
 /**
- * HTTP 클라이언트의 기능을 이용할 수 있는 유틸리티 클래스이다.
+ * HTTP 클라이언트의 기능을 이용할 수 있는 유틸리티 클래스
  */
 public final class HttpUtil {
 

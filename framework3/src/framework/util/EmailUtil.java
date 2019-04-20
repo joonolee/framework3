@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
 /**
- * JavaMail을 이용해 메일을 발송하는 유틸리티 클래스이다.
+ * JavaMail을 이용해 메일을 발송하는 유틸리티 클래스
  */
 public final class EmailUtil {
 

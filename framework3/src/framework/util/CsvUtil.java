@@ -26,7 +26,7 @@ import framework.db.RecordMap;
 import framework.db.RecordSet;
 
 /**
- * CSV를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
+ * CSV를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스
  */
 public final class CsvUtil {
 	private static final Log logger = LogFactory.getLog(CsvUtil.class);

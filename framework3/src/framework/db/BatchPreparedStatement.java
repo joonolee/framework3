@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * PreparedStatement의 Batch 처리를 이용하기 위한 객체
+ * PreparedStatement의 Batch 처리를 이용하기 위한 클래스
  */
 public final class BatchPreparedStatement extends AbstractStatement {
 	private final List<List<Object>> paramList = new ArrayList<List<Object>>();

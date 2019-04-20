@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * 데이터베이스 쿼리를 수행한 후 그 결과에 대한 접근 기반을 제공하는 클래스이다.
+ * 데이터베이스 쿼리를 수행한 후 그 결과에 대한 접근 기반을 제공하는 클래스
  */
 public class RecordSet implements Iterable<RecordMap>, Serializable {
 	private static final long serialVersionUID = -1248669129395067939L;

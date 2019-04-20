@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 액션메소드에서 예외가 발행한 후에 호출할 메소드에 적용한다.
+ * 액션메소드에서 예외가 발행한 후에 호출할 메소드에 적용
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

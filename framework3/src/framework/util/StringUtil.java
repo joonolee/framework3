@@ -10,7 +10,7 @@ import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 /**
- * 스트링 처리 라이브러리
+ * 스트링 처리 유틸리티 클래스
  */
 public final class StringUtil {
 	private static final Pattern TAG_PATTERN = Pattern.compile("<[^<]*?>");

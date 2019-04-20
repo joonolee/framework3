@@ -3,7 +3,7 @@ package framework.config;
 import java.util.ResourceBundle;
 
 /**
- * 설정파일(application.properties)에서 값을 읽어오는 클래스이다.
+ * 설정파일(application.properties)에서 값을 읽어오는 클래스
  * 싱글톤 패턴으로 설정파일에 접근하는 객체의 인스턴스가 오직 한개만 생성이 된다.
  */
 public class Config {

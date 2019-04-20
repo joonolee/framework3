@@ -19,7 +19,7 @@ import framework.db.RecordMap;
 import framework.db.RecordSet;
 
 /**
- * XML을 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
+ * XML을 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스
  */
 public final class XmlUtil {
 	private static final Log logger = LogFactory.getLog(XmlUtil.class);

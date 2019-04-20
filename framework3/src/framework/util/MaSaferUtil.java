@@ -14,7 +14,7 @@ import MarkAny.MaSaferJava.Madec;
 import MarkAny.MaSaferJava.Madn;
 
 /**
- * Markany DocSafer(DRM)를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
+ * Markany DocSafer(DRM)를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스
  */
 public final class MaSaferUtil {
 	private static final Log logger = LogFactory.getLog(MaSaferUtil.class);

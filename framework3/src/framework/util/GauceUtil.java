@@ -25,7 +25,7 @@ import framework.action.Params;
 import framework.db.RecordSet;
 
 /**
- * 가우스를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스이다.
+ * 가우스를 이용하여 개발할 때 이용할 수 있는 유틸리티 클래스
  */
 public final class GauceUtil {
 	private static final Log logger = LogFactory.getLog(GauceUtil.class);

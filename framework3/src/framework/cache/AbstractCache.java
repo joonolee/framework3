@@ -3,7 +3,7 @@ package framework.cache;
 import java.util.Map;
 
 /**
- * 캐시구현체가 상속받아야 하는 추상클래스
+ * 캐시구현체가 상속받아야 하는 추상 클래스
  */
 public abstract class AbstractCache {
 

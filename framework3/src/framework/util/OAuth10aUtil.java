@@ -26,7 +26,7 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 
 /**
- * OAuth 1.0a 인증을 사용하기 위한 유틸리티 클래스이다.
+ * OAuth 1.0a 인증을 사용하기 위한 유틸리티 클래스
  */
 public final class OAuth10aUtil {
 

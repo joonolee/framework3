@@ -22,7 +22,7 @@ import nl.captcha.gimpy.RippleGimpyRenderer;
 import nl.captcha.servlet.CaptchaServletUtil;
 
 /**
- * 이미지 포맷 변경, 크기 변경시 이용할 수 있는 유틸리티 클래스이다.
+ * 이미지 포맷 변경, 크기 변경시 이용할 수 있는 유틸리티 클래스
  */
 public final class ImageUtil {
 

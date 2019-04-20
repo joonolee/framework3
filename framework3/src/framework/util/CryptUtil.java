@@ -12,7 +12,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 
 /**
- * 암/복호화 관련 기능을 하는 유틸리티 클래스이다.
+ * 암/복호화 관련 기능을 하는 유틸리티 클래스
  */
 public final class CryptUtil {
 
