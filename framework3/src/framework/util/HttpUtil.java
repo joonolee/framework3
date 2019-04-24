@@ -42,10 +42,6 @@ public final class HttpUtil {
 		private int statusCode;
 		private String content;
 
-		public Result() {
-			super();
-		}
-
 		public Result(int statusCode, String content) {
 			super();
 			this.statusCode = statusCode;
