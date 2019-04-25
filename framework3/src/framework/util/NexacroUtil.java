@@ -277,9 +277,9 @@ public final class NexacroUtil {
 	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
 	 * @return 처리건수
 	 */
-	@SuppressWarnings("unchecked")
 	public static int render(HttpServletResponse response, String datasetName, List<RecordMap> list, String platformType) {
 		String[] datasetNameArray = new String[] { datasetName };
+		@SuppressWarnings("unchecked")
 		List<RecordMap>[] listArray = new List[] { list };
 		return render(response, datasetNameArray, listArray, platformType);
 	}
@@ -295,9 +295,9 @@ public final class NexacroUtil {
 	 * @param platformType 송수신 형식 (NexacroUtil.BIN, NexacroUtil.ZLIB, NexacroUtil.XML, NexacroUtil.SSV)
 	 * @return 처리건수
 	 */
-	@SuppressWarnings("unchecked")
 	public static int render(HttpServletResponse response, VariableList vl, String datasetName, List<RecordMap> list, String platformType) {
 		String[] datasetNameArray = new String[] { datasetName };
+		@SuppressWarnings("unchecked")
 		List<RecordMap>[] listArray = new List[] { list };
 		return render(response, vl, datasetNameArray, listArray, platformType);
 	}

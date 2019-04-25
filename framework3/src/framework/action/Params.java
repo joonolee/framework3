@@ -45,7 +45,6 @@ public class Params extends HashMap<String, String[]> {
 	 * @param request HTTP 클라이언트 요청객체
 	 * @return 요청Params 객체
 	 */
-	@SuppressWarnings("unchecked")
 	public static Params getParams(HttpServletRequest request) {
 		Params params = new Params("Params");
 		for (Object obj : request.getParameterMap().keySet()) {
@@ -59,6 +58,7 @@ public class Params extends HashMap<String, String[]> {
 				factory.setRepository(new File(Config.getInstance().getString("fileupload.repository")));
 				ServletFileUpload upload = new ServletFileUpload(factory);
 				upload.setSizeMax(Config.getInstance().getInt("fileupload.sizeMax"));
+				@SuppressWarnings("unchecked")
 				List<FileItem> items = upload.parseRequest(request);
 				for (FileItem item : items) {
 					if (item.isFormField()) {

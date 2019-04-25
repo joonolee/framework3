@@ -390,7 +390,6 @@ public final class JsonUtil {
 	/**
 	 * JSON 용 Row 문자열 생성
 	 */
-	@SuppressWarnings("unchecked")
 	private static String jsonRowStr(RecordMap map) {
 		if (map == null) {
 			return "";
@@ -409,7 +408,9 @@ public final class JsonUtil {
 					} else if (value instanceof Map) {
 						buf.append(key + ":" + render((RecordMap) value));
 					} else if (value instanceof List) {
-						buf.append(key + ":" + render((List<RecordMap>) value));
+						@SuppressWarnings("unchecked")
+						List<RecordMap> list = (List<RecordMap>) value;
+						buf.append(key + ":" + render(list));
 					} else {
 						buf.append(key + ":" + "\"" + escape(value.toString()) + "\"");
 					}

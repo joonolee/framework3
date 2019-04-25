@@ -335,8 +335,8 @@ public abstract class Controller {
 	/*
 	 * 세션에서 플래시객체를 복원
 	 */
-	@SuppressWarnings("unchecked")
 	private void flashRestore() {
+		@SuppressWarnings("unchecked")
 		Map<String, Object> flashMap = (Map<String, Object>) session.getAttribute(FLASH_SCOPE_OBJECT_KEY);
 		if (flashMap != null) {
 			for (Entry<String, Object> entry : flashMap.entrySet()) {

@@ -373,7 +373,6 @@ public final class XmlUtil {
 	/**
 	 * xml item 문자열 생성
 	 */
-	@SuppressWarnings("unchecked")
 	private static String xmlItemStr(RecordMap map) {
 		if (map == null) {
 			return "<item></item>";
@@ -391,7 +390,9 @@ public final class XmlUtil {
 				} else if (value instanceof Map) {
 					buffer.append("<" + key + ">" + render((RecordMap) value) + "</" + key + ">");
 				} else if (value instanceof List) {
-					buffer.append("<" + key + ">" + render((List<RecordMap>) value) + "</" + key + ">");
+					@SuppressWarnings("unchecked")
+					List<RecordMap> list = (List<RecordMap>) value;
+					buffer.append("<" + key + ">" + render(list) + "</" + key + ">");
 				} else {
 					buffer.append("<" + key + ">" + "<![CDATA[" + value.toString() + "]]>" + "</" + key + ">");
 				}
