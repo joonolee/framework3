@@ -385,7 +385,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDate(String key, Date defaultValue) {
-		return getDate(key, "yyyy-MM-dd", (Date) null);
+		return getDateFormat(key, "yyyy-MM-dd", (Date) null);
 	}
 
 	/**
@@ -404,7 +404,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDateTime(String key, Date defaultValue) {
-		return getDate(key, "yyyy-MM-dd HH:mm:ss", (Date) null);
+		return getDateFormat(key, "yyyy-MM-dd HH:mm:ss", (Date) null);
 	}
 
 	/**
@@ -413,8 +413,8 @@ public class Params extends HashMap<String, String[]> {
 	 * @param format 날짜 포맷(예, yyyy-MM-dd HH:mm:ss)
 	 * @return key에 매핑되어 있는 값
 	 */
-	public Date getDate(String key, String format) {
-		return getDate(key, format, (Date) null);
+	public Date getDateFormat(String key, String format) {
+		return getDateFormat(key, format, (Date) null);
 	}
 
 	/**
@@ -424,7 +424,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @param defaultValue 값이 없을 때 리턴할 기본 값
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
-	public Date getDate(String key, String format, Date defaultValue) {
+	public Date getDateFormat(String key, String format, Date defaultValue) {
 		String value = getRawString(key).trim();
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		sdf.setLenient(false);
