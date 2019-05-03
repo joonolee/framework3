@@ -495,7 +495,7 @@ public final class RssUtil {
 	 * rss item 문자열 생성
 	 */
 	private static String rssItemStr(RecordSet rs) {
-		return rssItemStr(makeRssItem(rs.getString("TITLE"), rs.getString("LINK"), rs.getString("DESCRIPTION"), rs.getString("AUTHOR"), rs.getString("CATEGORY"), rs.getTimestamp("PUBDATE")));
+		return rssItemStr(makeRssItem(rs.getString("title"), rs.getString("link"), rs.getString("description"), rs.getString("author"), rs.getString("category"), rs.getTimestamp("pubdate")));
 	}
 
 	/**
@@ -509,12 +509,12 @@ public final class RssUtil {
 		String category = null;
 		Date pubDate = null;
 		try {
-			title = rs.getString("TITLE");
-			link = rs.getString("LINK");
-			description = rs.getString("DESCRIPTION");
-			author = rs.getString("AUTHOR");
-			category = rs.getString("CATEGORY");
-			pubDate = rs.getTimestamp("PUBDATE");
+			title = rs.getString("title");
+			link = rs.getString("link");
+			description = rs.getString("description");
+			author = rs.getString("author");
+			category = rs.getString("category");
+			pubDate = rs.getTimestamp("pubdate");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

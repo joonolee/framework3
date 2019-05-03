@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -31,9 +29,6 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	private String[] colInfo = null;
 	private int[] columnsType = null;
 	private int currow = 0;
-
-	public RecordSet() {
-	};
 
 	/**
 	 * RecordSet의 생성자
@@ -207,10 +202,7 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 * @return	int Row의 갯수
 	 */
 	public int size() {
-		if (rows == null) {
-			return 0;
-		}
-		return rows.size();
+		return getRowCount();
 	}
 
 	/**
@@ -310,246 +302,9 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 		return false;
 	}
 
-	/**
-	 * Recordset 데이타를 얻어온다.
-	 * @param row cnt : start 1
-	 * @param colName column name
-	 * @return Object  column data
-	 */
-	public Object get(int row, String colName) {
-		return rows.get(row - 1).get(colName.toLowerCase());
-	}
-
-	/**
-	 * RecordSet의 column 값을 String으로 반환하는 메소드
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName  column name
-	 * @return String  column data
-	 */
-	public String getString(int row, String colName) {
-		if (get(row, colName) == null) {
-			return "";
-		}
-		return get(row, colName).toString();
-	}
-
-	/**
-	 * RecordSet의 column 값을 int로 반환하는 메소드
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName   column name
-	 * @return int  column data
-	 */
-	public int getInt(int row, String colName) {
-		return getBigDecimal(row, colName).intValue();
-	}
-
-	/**
-	 * RecordSet의 column 값을 int로 반환하는 메소드
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName   column name
-	 * @return int  column data
-	 */
-	public int getInteger(int row, String colName) {
-		return getBigDecimal(row, colName).intValue();
-	}
-
-	/**
-	 * RecordSet의 column 값을 long 형으로 반환하는 메소드
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName   column name
-	 * @return long  column data
-	 */
-	public long getLong(int row, String colName) {
-		return getBigDecimal(row, colName).longValue();
-	}
-
-	/**
-	 * RecordSet의 Column 값을 double 로 반환하는 메소드
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName   column name
-	 * @return double column data
-	 */
-	public double getDouble(int row, String colName) {
-		return getBigDecimal(row, colName).doubleValue();
-	}
-
-	/**
-	 * RecordSet의 Column 값을 BigDecimal 로 반환하는 메소드
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName column name
-	 * @return BigDecimal column data
-	 */
-	public BigDecimal getBigDecimal(int row, String colName) {
-		if (get(row, colName) == null) {
-			return BigDecimal.valueOf(0);
-		}
-		return new BigDecimal(get(row, colName).toString());
-	}
-
-	/**
-	 * RecordSet의 Column 값을 BigDecimal 로 반환하는 메소드
-	 * @param colName column name
-	 * @return BigDecimal column data
-	 */
-	public BigDecimal getBigDecimal(String colName) {
-		return getBigDecimal(currow, colName);
-	}
-
-	/**
-	 * RecordSet의 column 값을 float로 반환하는 메소드
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName column name
-	 * @return float  column data
-	 */
-	public float getFloat(int row, String colName) {
-		return getBigDecimal(row, colName).floatValue();
-	}
-
-	/**
-	 * RecordSet의 column 값을 Date형으로 반환하는 메소드(형식: "yyyy-MM-dd")
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName column name
-	 * @return float  column data
-	 */
-	public Date getDate(int row, String colName) {
-		return getDate(row, colName, "yyyy-MM-dd");
-	}
-
-	/**
-	 * RecordSet의 column 값을 Date형으로 반환하는 메소드(형식: "yyyy-MM-dd HH:mm:ss")
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName column name
-	 * @return float  column data
-	 */
-	public Date getDateTime(int row, String colName) {
-		return getDate(row, colName, "yyyy-MM-dd HH:mm:ss");
-	}
-
-	/**
-	 * RecordSet의 column 값을 Date형으로 반환하는 메소드
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName column name
-	 * @param format date format
-	 * @return float  column data
-	 */
-	public Date getDate(int row, String colName, String format) {
-		Object value = get(row, colName);
-		if (value == null) {
-			return null;
-		} else if (value instanceof java.sql.Date) {
-			java.sql.Date sqlDate = (java.sql.Date) value;
-			return new Date(sqlDate.getTime());
-		} else if (value instanceof java.util.Date) {
-			return (Date) value;
-		} else {
-			String str = value.toString().trim();
-			SimpleDateFormat sdf = new SimpleDateFormat(format);
-			sdf.setLenient(false);
-			try {
-				return sdf.parse(str);
-			} catch (ParseException e) {
-				return null;
-			}
-		}
-	}
-
-	/**
-	 * RecordSet의 column 값을 Timestamp형으로 반환하는 메소드
-	 * YYYY-MM-DD 로 반환
-	 * @param row  row number, 첫번째 row는 1
-	 * @param colName column name
-	 * @return float  column data
-	 */
-	public Timestamp getTimestamp(int row, String colName) {
-		Object value = get(row, colName);
-		if (value == null) {
-			return null;
-		} else if (value instanceof java.sql.Date) {
-			java.sql.Date sqlDate = (java.sql.Date) value;
-			return new Timestamp(sqlDate.getTime());
-		} else if (value instanceof java.sql.Timestamp) {
-			return (Timestamp) value;
-		} else if (value instanceof Date) {
-			Date date = (Date) value;
-			return new Timestamp(date.getTime());
-		} else {
-			return Timestamp.valueOf(value.toString());
-		}
-	}
-
-	/**
-	 * 현재 pointing 된 row의 column 데이터를 읽는다
-	 * @param colIdx column number, 첫번째 column 은 1
-	 * @return String column data
-	 */
-	public Object get(int colIdx) {
-		return get(currow, colNms[colIdx]);
-	}
-
-	/**
-	 * 현재행의 RecordSet의 int 값을 반환하는 메소드
-	 * @param colIdx column number, 첫번째 column은 1
-	 * @return int
-	 */
-	public int getInt(int colIdx) {
-		return getInt(currow, colNms[colIdx]);
-	}
-
-	/**
-	 * 현재행의 RecordSet의 int 값을 반환하는 메소드
-	 * @param colIdx  column number, 첫번째 column은 1
-	 * @return Integer
-	 */
-	public int getInteger(int colIdx) {
-		return getInteger(currow, colNms[colIdx]);
-	}
-
-	/**
-	 * 현재 행의 RecordSet의 long 값을 반환하는 메소드
-	 * @param colIdx  column number, 첫번째 column은 1
-	 * @return long
-	 */
-	public long getLong(int colIdx) {
-		return getLong(currow, colNms[colIdx]);
-	}
-
-	/**
-	 * 현재 행의 RecordSet의 float 값을 반환하는 메소드
-	 * @param colIdx  column number, 첫번째 column은 1
-	 * @return float
-	 */
-	public float getFloat(int colIdx) {
-		return getFloat(currow, colNms[colIdx]);
-	}
-
-	/**
-	 * 현재 행의 RecordSet의 double 값을 반환하는 메소드
-	 * @param colIdx  column number, 첫번째 column은 1
-	 * @return double
-	 */
-	public double getDouble(int colIdx) {
-		return getDouble(currow, colNms[colIdx]);
-	}
-
-	/**
-	 * 현재 행의 RecordSet의 Date 값을 반환하는 메소드
-	 * YYYY-MM-DD 로 반환
-	 * @param colIdx  column number, 첫번째 column은 1
-	 * @return Date
-	 */
-	public Date getDate(int colIdx) {
-		return getDate(currow, colNms[colIdx]);
-	}
-
-	/**
-	 * 현재 형의 RecordSet의 Timestamp 값을 반환하는 메소드
-	 * @param colIdx  column number, 첫번째 column은 1
-	 * @return Timestamp
-	 */
-	public Timestamp getTimestamp(int colIdx) {
-		return getTimestamp(currow, colNms[colIdx]);
-	}
-
+	///////////////////////////////////////////
+	// 현재 행 컬럼명으로 찾기
+	///////////////////////////////////////////
 	/**
 	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 column 데이터를 구한다
 	 * @param colName	읽고자 하는 column 이름
@@ -560,41 +315,8 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	}
 
 	/**
-	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 int형 column 데이터를 구한다
+	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 String 형 column 데이터를 구한다
 	 * @param colName 읽고자 하는 column 이름
-	 * @return int
-	 */
-	public int getInt(String colName) {
-		return getInt(currow, colName);
-	}
-
-	/**
-	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 int형 column 데이터를 구한다
-	 * @param colName 읽고자 하는 column 이름
-	 * @return Integer
-	 */
-	public Integer getInteger(String colName) {
-		Integer returnValue = null;
-		returnValue = Integer.valueOf(getInt(currow, colName));
-		return returnValue;
-	}
-
-	/**
-	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 long형 column 데이터를 구한다
-	 *
-	 * @param colName 읽고자 하는 column 이름
-	 *
-	 * @return long
-	 */
-	public long getLong(String colName) {
-		return getLong(currow, colName);
-	}
-
-	/**
-	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 String형 column 데이터를 구한다
-	 *
-	 * @param colName 읽고자 하는 column 이름
-	 *
 	 * @return String
 	 */
 	public String getString(String colName) {
@@ -602,21 +324,57 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	}
 
 	/**
-	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 float형 column 데이터를 구한다
+	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 Integer 형 column 데이터를 구한다
 	 * @param colName 읽고자 하는 column 이름
-	 * @return float
+	 * @return Integer
 	 */
-	public float getFloat(String colName) {
+	public Integer getInt(String colName) {
+		return getInt(currow, colName);
+	}
+
+	/**
+	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 Integer 형 column 데이터를 구한다
+	 * @param colName 읽고자 하는 column 이름
+	 * @return Integer
+	 */
+	public Integer getInteger(String colName) {
+		return getInteger(currow, colName);
+	}
+
+	/**
+	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 Long 형 column 데이터를 구한다
+	 * @param colName 읽고자 하는 column 이름
+	 * @return Long
+	 */
+	public Long getLong(String colName) {
+		return getLong(currow, colName);
+	}
+
+	/**
+	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 Float 형 column 데이터를 구한다
+	 * @param colName 읽고자 하는 column 이름
+	 * @return Float
+	 */
+	public Float getFloat(String colName) {
 		return getFloat(currow, colName);
 	}
 
 	/**
-	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 double형 column 데이터를 구한다
+	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 Double 형 column 데이터를 구한다
 	 * @param colName 읽고자 하는 column 이름
-	 * @return double
+	 * @return Double
 	 */
-	public double getDouble(String colName) {
+	public Double getDouble(String colName) {
 		return getDouble(currow, colName);
+	}
+
+	/**
+	 * RecordSet의 Column 값을 BigDecimal 형으로 반환하는 메소드
+	 * @param colName column name
+	 * @return BigDecimal column data
+	 */
+	public BigDecimal getBigDecimal(String colName) {
+		return getBigDecimal(currow, colName);
 	}
 
 	/**
@@ -630,6 +388,25 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	}
 
 	/**
+	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 Date형 column 데이터를 구한다(형식: "yyyy-MM-dd HH:mm:ss")
+	 * @param colName 읽고자 하는 column 이름
+	 * @return Date
+	 */
+	public Date getDateTime(String colName) {
+		return getDateTime(currow, colName);
+	}
+
+	/**
+	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 Date형 column 데이터를 구한다
+	 * @param colName 읽고자 하는 column 이름
+	 * @param format date format
+	 * @return Date
+	 */
+	public Date getDateFormat(String colName, String format) {
+		return getDateFormat(currow, colName, format);
+	}
+
+	/**
 	 * 인자로 전해진 이름을 가지는 현재 pointing된 row의 Date형 column 데이터를 구한다
 	 * YYYY-MM-DD로 반환
 	 * @param colName 읽고자 하는 column 이름
@@ -637,6 +414,244 @@ public class RecordSet implements Iterable<RecordMap>, Serializable {
 	 */
 	public Timestamp getTimestamp(String colName) {
 		return getTimestamp(currow, colName);
+	}
+
+	///////////////////////////////////////////
+	// 현재 행 컬럼 인덱스로 찾기
+	///////////////////////////////////////////
+	/**
+	 * 현재 pointing 된 row의 column 데이터를 읽는다
+	 * @param colIdx column number, 첫번째 column 은 1
+	 * @return Object column data
+	 */
+	public Object get(int colIdx) {
+		return get(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재 pointing 된 row의 String 값을 반환하는 메소드
+	 * @param colIdx column number, 첫번째 column 은 1
+	 * @return String
+	 */
+	public String getString(int colIdx) {
+		return getString(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재행의 RecordSet의 Integer 값을 반환하는 메소드
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @return Integer
+	 */
+	public Integer getInt(int colIdx) {
+		return getInt(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재행의 RecordSet의 Integer 값을 반환하는 메소드
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @return Integer
+	 */
+	public Integer getInteger(int colIdx) {
+		return getInteger(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재 행의 RecordSet의 Long 값을 반환하는 메소드
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @return Long
+	 */
+	public Long getLong(int colIdx) {
+		return getLong(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재 행의 RecordSet의 Float 값을 반환하는 메소드
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @return Float
+	 */
+	public Float getFloat(int colIdx) {
+		return getFloat(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재 행의 RecordSet의 Double 값을 반환하는 메소드
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @return Double
+	 */
+	public Double getDouble(int colIdx) {
+		return getDouble(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재 행의 RecordSet의 BigDecimal 값을 반환하는 메소드
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @return BigDecimal
+	 */
+	public BigDecimal getBigDecimal(int colIdx) {
+		return getBigDecimal(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재 행의 RecordSet의 Date 값을 반환하는 메소드
+	 * YYYY-MM-DD 로 반환
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @return Date
+	 */
+	public Date getDate(int colIdx) {
+		return getDate(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재 행의 RecordSet의 Date 값을 반환하는 메소드(형식: "yyyy-MM-dd HH:mm:ss")
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @return Date
+	 */
+	public Date getDateTime(int colIdx) {
+		return getDateTime(currow, colNms[colIdx]);
+	}
+
+	/**
+	 * 현재 행의 RecordSet의 Date 값을 반환하는 메소드
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @param format date format
+	 * @return Date
+	 */
+	public Date getDateFormat(int colIdx, String format) {
+		return getDateFormat(currow, colNms[colIdx], format);
+	}
+
+	/**
+	 * 현재 형의 RecordSet의 Timestamp 값을 반환하는 메소드
+	 * @param colIdx column number, 첫번째 column은 1
+	 * @return Timestamp
+	 */
+	public Timestamp getTimestamp(int colIdx) {
+		return getTimestamp(currow, colNms[colIdx]);
+	}
+
+	///////////////////////////////////////////
+	// 행번호와 컬럼명으로 찾기
+	///////////////////////////////////////////
+	/**
+	 * Recordset 데이타를 얻어온다.
+	 * @param row cnt : start 1
+	 * @param colName column name
+	 * @return Object  column data
+	 */
+	public Object get(int row, String colName) {
+		return rows.get(row - 1).get(colName);
+	}
+
+	/**
+	 * RecordSet의 column 값을 String 형으로 반환하는 메소드
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName  column name
+	 * @return String  column data
+	 */
+	public String getString(int row, String colName) {
+		return rows.get(row - 1).getString(colName);
+	}
+
+	/**
+	 * RecordSet의 column 값을 Integer 형으로 반환하는 메소드
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return Integer  column data
+	 */
+	public Integer getInt(int row, String colName) {
+		return rows.get(row - 1).getInt(colName);
+	}
+
+	/**
+	 * RecordSet의 column 값을 Integer 형으로 반환하는 메소드
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return Integer  column data
+	 */
+	public Integer getInteger(int row, String colName) {
+		return rows.get(row - 1).getInteger(colName);
+	}
+
+	/**
+	 * RecordSet의 column 값을 Long 형으로 반환하는 메소드
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return Long  column data
+	 */
+	public Long getLong(int row, String colName) {
+		return rows.get(row - 1).getLong(colName);
+	}
+
+	/**
+	 * RecordSet의 column 값을 Float 형으로 반환하는 메소드
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return Float column data
+	 */
+	public Float getFloat(int row, String colName) {
+		return rows.get(row - 1).getFloat(colName);
+	}
+
+	/**
+	 * RecordSet의 Column 값을 Double 형으로 반환하는 메소드
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return Double column data
+	 */
+	public Double getDouble(int row, String colName) {
+		return rows.get(row - 1).getDouble(colName);
+	}
+
+	/**
+	 * RecordSet의 Column 값을 BigDecimal 형으로 반환하는 메소드
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return BigDecimal column data
+	 */
+	public BigDecimal getBigDecimal(int row, String colName) {
+		return rows.get(row - 1).getBigDecimal(colName);
+	}
+
+	/**
+	 * RecordSet의 column 값을 Date 형으로 반환하는 메소드(형식: "yyyy-MM-dd")
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return Date column data
+	 */
+	public Date getDate(int row, String colName) {
+		return getDateFormat(row, colName, "yyyy-MM-dd");
+	}
+
+	/**
+	 * RecordSet의 column 값을 Date 형으로 반환하는 메소드(형식: "yyyy-MM-dd HH:mm:ss")
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return Date column data
+	 */
+	public Date getDateTime(int row, String colName) {
+		return getDateFormat(row, colName, "yyyy-MM-dd HH:mm:ss");
+	}
+
+	/**
+	 * RecordSet의 column 값을 Date형으로 반환하는 메소드
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @param format date format
+	 * @return Date column data
+	 */
+	public Date getDateFormat(int row, String colName, String format) {
+		return rows.get(row - 1).getDateFormat(colName, format);
+	}
+
+	/**
+	 * RecordSet의 column 값을 Timestamp 형으로 반환하는 메소드
+	 * YYYY-MM-DD 로 반환
+	 * @param row  row number, 첫번째 row는 1
+	 * @param colName column name
+	 * @return Timestamp column data
+	 */
+	public Timestamp getTimestamp(int row, String colName) {
+		return rows.get(row - 1).getTimestamp(colName);
 	}
 
 	/**

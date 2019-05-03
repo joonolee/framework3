@@ -48,47 +48,94 @@ public class RecordMap extends LinkedHashMap<String, Object> {
 		return value.toString();
 	}
 
-	public int getInt(String key) {
-		return getBigDecimal(key).intValue();
+	public Integer getInt(String key) {
+		return getInteger(key);
 	}
 
-	public int getInteger(String key) {
-		return getBigDecimal(key).intValue();
+	public Integer getInteger(String key) {
+		Object value = get(key);
+		if (value == null) {
+			return Integer.valueOf(0);
+		} else if (value instanceof Integer) {
+			return (Integer) value;
+		} else {
+			try {
+				return Integer.valueOf(value.toString().trim());
+			} catch (NumberFormatException e) {
+				return Integer.valueOf(0);
+			}
+		}
 	}
 
-	public long getLong(String key) {
-		return getBigDecimal(key).longValue();
+	public Long getLong(String key) {
+		Object value = get(key);
+		if (value == null) {
+			return Long.valueOf(0);
+		} else if (value instanceof Long) {
+			return (Long) value;
+		} else {
+			try {
+				return Long.valueOf(value.toString().trim());
+			} catch (NumberFormatException e) {
+				return Long.valueOf(0);
+			}
+		}
 	}
 
-	public double getDouble(String key) {
-		return getBigDecimal(key).doubleValue();
+	public Float getFloat(String key) {
+		Object value = get(key);
+		if (value == null) {
+			return Float.valueOf(0);
+		} else if (value instanceof Float) {
+			return (Float) value;
+		} else {
+			try {
+				return Float.valueOf(value.toString().trim());
+			} catch (NumberFormatException e) {
+				return Float.valueOf(0);
+			}
+		}
+	}
+
+	public Double getDouble(String key) {
+		Object value = get(key);
+		if (value == null) {
+			return Double.valueOf(0);
+		} else if (value instanceof Double) {
+			return (Double) value;
+		} else {
+			try {
+				return Double.valueOf(value.toString().trim());
+			} catch (NumberFormatException e) {
+				return Double.valueOf(0);
+			}
+		}
 	}
 
 	public BigDecimal getBigDecimal(String key) {
 		Object value = get(key);
 		if (value == null) {
 			return BigDecimal.valueOf(0);
+		} else if (value instanceof BigDecimal) {
+			return (BigDecimal) value;
+		} else {
+			try {
+				return new BigDecimal(value.toString().trim());
+			} catch (NumberFormatException e) {
+				return BigDecimal.valueOf(0);
+			}
 		}
-		try {
-			return new BigDecimal(value.toString().trim());
-		} catch (NumberFormatException e) {
-			return BigDecimal.valueOf(0);
-		}
-	}
-
-	public float getFloat(String key) {
-		return getBigDecimal(key).floatValue();
 	}
 
 	public Date getDate(String key) {
-		return getDate(key, "yyyy-MM-dd");
+		return getDateFormat(key, "yyyy-MM-dd");
 	}
 
 	public Date getDateTime(String key) {
-		return getDate(key, "yyyy-MM-dd HH:mm:ss");
+		return getDateFormat(key, "yyyy-MM-dd HH:mm:ss");
 	}
 
-	public Date getDate(String key, String format) {
+	public Date getDateFormat(String key, String format) {
 		Object value = get(key);
 		if (value == null) {
 			return null;
