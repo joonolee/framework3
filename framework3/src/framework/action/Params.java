@@ -97,11 +97,10 @@ public class Params extends HashMap<String, String[]> {
 	public static Params getParamsFromCookie(HttpServletRequest request) {
 		Params cookieParams = new Params("Cookie");
 		Cookie[] cookies = request.getCookies();
-		if (cookies == null) {
-			return cookieParams;
-		}
-		for (Cookie cookie : cookies) {
-			cookieParams.put(cookie.getName(), new String[] { StringUtil.nullToBlankString(cookie.getValue()) });
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				cookieParams.put(cookie.getName(), new String[] { StringUtil.nullToBlankString(cookie.getValue()) });
+			}
 		}
 		return cookieParams;
 	}
