@@ -1,6 +1,9 @@
 package framework.config;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -29,25 +32,6 @@ public class Config {
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 String 객체
 	 */
-	public String get(String key) {
-		return getString(key);
-	}
-
-	/**
-	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열
-	 * @param defaultValue 값이 없을 때 리턴할 기본 값
-	 * @return key에 매핑되어 있는 String 객체 또는 기본 값
-	 */
-	public String get(String key, String defaultValue) {
-		return getString(key, defaultValue);
-	}
-
-	/**
-	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 String 객체
-	 */
 	public String getString(String key) {
 		return bundle.getString(key).trim();
 	}
@@ -64,6 +48,25 @@ public class Config {
 		} catch (Throwable e) {
 			return defaultValue;
 		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 String 객체
+	 */
+	public String get(String key) {
+		return getString(key);
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 String 객체 또는 기본 값
+	 */
+	public String get(String key, String defaultValue) {
+		return getString(key, defaultValue);
 	}
 
 	/**
@@ -114,11 +117,7 @@ public class Config {
 	 * @return key에 매핑되어 있는 Integer 형 변수
 	 */
 	public Integer getInteger(String key) {
-		try {
-			return Integer.valueOf(getString(key).replaceAll(",", ""));
-		} catch (NumberFormatException e) {
-			return Integer.valueOf(0);
-		}
+		return Integer.valueOf(getString(key));
 	}
 
 	/**
@@ -129,8 +128,8 @@ public class Config {
 	 */
 	public Integer getInteger(String key, Integer defaultValue) {
 		try {
-			return Integer.valueOf(getString(key).replaceAll(",", ""));
-		} catch (Throwable e) {
+			return Integer.valueOf(getString(key));
+		} catch (NumberFormatException e) {
 			return defaultValue;
 		}
 	}
@@ -141,11 +140,7 @@ public class Config {
 	 * @return key에 매핑되어 있는 Long 형 변수
 	 */
 	public Long getLong(String key) {
-		try {
-			return Long.valueOf(getString(key).replaceAll(",", ""));
-		} catch (NumberFormatException e) {
-			return Long.valueOf(0);
-		}
+		return Long.valueOf(getString(key));
 	}
 
 	/**
@@ -156,8 +151,8 @@ public class Config {
 	 */
 	public Long getLong(String key, Long defaultValue) {
 		try {
-			return Long.valueOf(getString(key).replaceAll(",", ""));
-		} catch (Throwable e) {
+			return Long.valueOf(getString(key));
+		} catch (NumberFormatException e) {
 			return defaultValue;
 		}
 	}
@@ -168,11 +163,7 @@ public class Config {
 	 * @return key에 매핑되어 있는 Float 형 변수
 	 */
 	public Float getFloat(String key) {
-		try {
-			return Float.valueOf(getString(key).replaceAll(",", ""));
-		} catch (NumberFormatException e) {
-			return Float.valueOf(0);
-		}
+		return Float.valueOf(getString(key));
 	}
 
 	/**
@@ -183,8 +174,8 @@ public class Config {
 	 */
 	public Float getFloat(String key, Float defaultValue) {
 		try {
-			return Float.valueOf(getString(key).replaceAll(",", ""));
-		} catch (Throwable e) {
+			return Float.valueOf(getString(key));
+		} catch (NumberFormatException e) {
 			return defaultValue;
 		}
 	}
@@ -195,11 +186,7 @@ public class Config {
 	 * @return key에 매핑되어 있는 Double 형 변수
 	 */
 	public Double getDouble(String key) {
-		try {
-			return Double.valueOf(getString(key).replaceAll(",", ""));
-		} catch (NumberFormatException e) {
-			return Double.valueOf(0);
-		}
+		return Double.valueOf(getString(key));
 	}
 
 	/**
@@ -210,8 +197,8 @@ public class Config {
 	 */
 	public Double getDouble(String key, Double defaultValue) {
 		try {
-			return Double.valueOf(getString(key).replaceAll(",", ""));
-		} catch (Throwable e) {
+			return Double.valueOf(getString(key));
+		} catch (NumberFormatException e) {
 			return defaultValue;
 		}
 	}
@@ -222,11 +209,7 @@ public class Config {
 	 * @return key에 매핑되어 있는 BigDecimal 형 변수
 	 */
 	public BigDecimal getBigDecimal(String key) {
-		try {
-			return new BigDecimal(getString(key).replaceAll(",", ""));
-		} catch (NumberFormatException e) {
-			return BigDecimal.ZERO;
-		}
+		return new BigDecimal(getString(key));
 	}
 
 	/**
@@ -237,8 +220,79 @@ public class Config {
 	 */
 	public BigDecimal getBigDecimal(String key, BigDecimal defaultValue) {
 		try {
-			return new BigDecimal(getString(key).replaceAll(",", ""));
-		} catch (Throwable e) {
+			return new BigDecimal(getString(key));
+		} catch (NumberFormatException e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd)
+	 * @return key에 매핑되어 있는 값
+	 */
+	public Date getDate(String key) {
+		return getDateFormat(key, "yyyy-MM-dd");
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd)
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Date getDate(String key, Date defaultValue) {
+		return getDateFormat(key, "yyyy-MM-dd", defaultValue);
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd HH:mm:ss)
+	 * @return key에 매핑되어 있는 값
+	 */
+	public Date getDateTime(String key) {
+		return getDateFormat(key, "yyyy-MM-dd HH:mm:ss");
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열(형식: yyyy-MM-dd HH:mm:ss)
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Date getDateTime(String key, Date defaultValue) {
+		return getDateFormat(key, "yyyy-MM-dd HH:mm:ss", defaultValue);
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param format 날짜 포맷(예, yyyy-MM-dd HH:mm:ss)
+	 * @return key에 매핑되어 있는 값
+	 */
+	public Date getDateFormat(String key, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		sdf.setLenient(false);
+		try {
+			return sdf.parse(getString(key));
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Date 객체를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param format 날짜 포맷(예, yyyy-MM-dd HH:mm:ss)
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 값 또는 기본 값
+	 */
+	public Date getDateFormat(String key, String format, Date defaultValue) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		sdf.setLenient(false);
+		try {
+			return sdf.parse(getString(key));
+		} catch (ParseException e) {
 			return defaultValue;
 		}
 	}

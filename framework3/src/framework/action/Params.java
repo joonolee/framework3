@@ -374,7 +374,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDate(String key) {
-		return getDate(key, (Date) null);
+		return getDateFormat(key, "yyyy-MM-dd");
 	}
 
 	/**
@@ -384,7 +384,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDate(String key, Date defaultValue) {
-		return getDateFormat(key, "yyyy-MM-dd", (Date) null);
+		return getDateFormat(key, "yyyy-MM-dd", defaultValue);
 	}
 
 	/**
@@ -393,7 +393,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDateTime(String key) {
-		return getDateTime(key, (Date) null);
+		return getDateFormat(key, "yyyy-MM-dd HH:mm:ss");
 	}
 
 	/**
@@ -403,7 +403,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDateTime(String key, Date defaultValue) {
-		return getDateFormat(key, "yyyy-MM-dd HH:mm:ss", (Date) null);
+		return getDateFormat(key, "yyyy-MM-dd HH:mm:ss", defaultValue);
 	}
 
 	/**
@@ -413,7 +413,13 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDateFormat(String key, String format) {
-		return getDateFormat(key, format, (Date) null);
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		sdf.setLenient(false);
+		try {
+			return sdf.parse(getRawString(key).trim());
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -424,11 +430,10 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값 또는 기본 값
 	 */
 	public Date getDateFormat(String key, String format, Date defaultValue) {
-		String value = getRawString(key).trim();
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		sdf.setLenient(false);
 		try {
-			return sdf.parse(value);
+			return sdf.parse(getRawString(key).trim());
 		} catch (ParseException e) {
 			return defaultValue;
 		}
