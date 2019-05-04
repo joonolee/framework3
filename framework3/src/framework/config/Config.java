@@ -1,5 +1,6 @@
 package framework.config;
 
+import java.math.BigDecimal;
 import java.util.ResourceBundle;
 
 /**
@@ -43,33 +44,6 @@ public class Config {
 	}
 
 	/**
-	 * 키(key)문자열과 매핑되어 있는 int형 변수를 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열
-	 * @return key에 매핑되어 있는 int형 변수
-	 */
-	public int getInt(String key) {
-		try {
-			return Integer.parseInt(getString(key).replaceAll(",", ""));
-		} catch (NumberFormatException e) {
-			return 0;
-		}
-	}
-
-	/**
-	 * 키(key)문자열과 매핑되어 있는 int형 변수를 리턴한다.
-	 * @param key 값을 찾기 위한 키 문자열
-	 * @param defaultValue 값이 없을 때 리턴할 기본 값
-	 * @return key에 매핑되어 있는 int형 변수 또는 기본 값
-	 */
-	public int getInt(String key, int defaultValue) {
-		try {
-			return Integer.parseInt(getString(key).replaceAll(",", ""));
-		} catch (Throwable e) {
-			return defaultValue;
-		}
-	}
-
-	/**
 	 * 키(key)문자열과 매핑되어 있는 String 리턴한다.
 	 * @param key 값을 찾기 위한 키 문자열
 	 * @return key에 매핑되어 있는 String 객체
@@ -87,6 +61,183 @@ public class Config {
 	public String getString(String key, String defaultValue) {
 		try {
 			return bundle.getString(key).trim();
+		} catch (Throwable e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Boolean 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 Boolean 객체
+	 */
+	public Boolean getBoolean(String key) {
+		return Boolean.valueOf(getString(key));
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Boolean 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 Boolean 객체 또는 기본 값
+	 */
+	public Boolean getBoolean(String key, Boolean defaultValue) {
+		try {
+			return Boolean.valueOf(getString(key));
+		} catch (Throwable e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Integer 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 Integer 형 변수
+	 */
+	public Integer getInt(String key) {
+		return getInteger(key);
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Integer 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 Integer 형 변수
+	 */
+	public Integer getInt(String key, Integer defaultValue) {
+		return getInteger(key, defaultValue);
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Integer 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 Integer 형 변수
+	 */
+	public Integer getInteger(String key) {
+		try {
+			return Integer.valueOf(getString(key).replaceAll(",", ""));
+		} catch (NumberFormatException e) {
+			return Integer.valueOf(0);
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Integer 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 Integer 형 변수
+	 */
+	public Integer getInteger(String key, Integer defaultValue) {
+		try {
+			return Integer.valueOf(getString(key).replaceAll(",", ""));
+		} catch (Throwable e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Long 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 Long 형 변수
+	 */
+	public Long getLong(String key) {
+		try {
+			return Long.valueOf(getString(key).replaceAll(",", ""));
+		} catch (NumberFormatException e) {
+			return Long.valueOf(0);
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Long 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 Long 형 변수
+	 */
+	public Long getLong(String key, Long defaultValue) {
+		try {
+			return Long.valueOf(getString(key).replaceAll(",", ""));
+		} catch (Throwable e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Float 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 Float 형 변수
+	 */
+	public Float getFloat(String key) {
+		try {
+			return Float.valueOf(getString(key).replaceAll(",", ""));
+		} catch (NumberFormatException e) {
+			return Float.valueOf(0);
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Float 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 Float 형 변수
+	 */
+	public Float getFloat(String key, Float defaultValue) {
+		try {
+			return Float.valueOf(getString(key).replaceAll(",", ""));
+		} catch (Throwable e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Double 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 Double 형 변수
+	 */
+	public Double getDouble(String key) {
+		try {
+			return Double.valueOf(getString(key).replaceAll(",", ""));
+		} catch (NumberFormatException e) {
+			return Double.valueOf(0);
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 Double 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 Double 형 변수
+	 */
+	public Double getDouble(String key, Double defaultValue) {
+		try {
+			return Double.valueOf(getString(key).replaceAll(",", ""));
+		} catch (Throwable e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 BigDecimal 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @return key에 매핑되어 있는 BigDecimal 형 변수
+	 */
+	public BigDecimal getBigDecimal(String key) {
+		try {
+			return new BigDecimal(getString(key).replaceAll(",", ""));
+		} catch (NumberFormatException e) {
+			return BigDecimal.ZERO;
+		}
+	}
+
+	/**
+	 * 키(key)문자열과 매핑되어 있는 BigDecimal 형 변수를 리턴한다.
+	 * @param key 값을 찾기 위한 키 문자열
+	 * @param defaultValue 값이 없을 때 리턴할 기본 값
+	 * @return key에 매핑되어 있는 BigDecimal 형 변수
+	 */
+	public BigDecimal getBigDecimal(String key, BigDecimal defaultValue) {
+		try {
+			return new BigDecimal(getString(key).replaceAll(",", ""));
 		} catch (Throwable e) {
 			return defaultValue;
 		}
