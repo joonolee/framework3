@@ -1,7 +1,6 @@
 package framework.config;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -129,7 +128,7 @@ public class Config {
 	public Integer getInteger(String key, Integer defaultValue) {
 		try {
 			return Integer.valueOf(getString(key));
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -152,7 +151,7 @@ public class Config {
 	public Long getLong(String key, Long defaultValue) {
 		try {
 			return Long.valueOf(getString(key));
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -175,7 +174,7 @@ public class Config {
 	public Float getFloat(String key, Float defaultValue) {
 		try {
 			return Float.valueOf(getString(key));
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -198,7 +197,7 @@ public class Config {
 	public Double getDouble(String key, Double defaultValue) {
 		try {
 			return Double.valueOf(getString(key));
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -221,7 +220,7 @@ public class Config {
 	public BigDecimal getBigDecimal(String key, BigDecimal defaultValue) {
 		try {
 			return new BigDecimal(getString(key));
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -275,7 +274,7 @@ public class Config {
 		sdf.setLenient(false);
 		try {
 			return sdf.parse(getString(key));
-		} catch (ParseException e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -292,7 +291,7 @@ public class Config {
 		sdf.setLenient(false);
 		try {
 			return sdf.parse(getString(key));
-		} catch (ParseException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}

@@ -2,7 +2,6 @@ package framework.action;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -190,7 +189,7 @@ public class Params extends HashMap<String, String[]> {
 				return defaultValue;
 			}
 			return Double.valueOf(value);
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -217,7 +216,7 @@ public class Params extends HashMap<String, String[]> {
 				return defaultValue;
 			}
 			return new BigDecimal(value);
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -244,7 +243,7 @@ public class Params extends HashMap<String, String[]> {
 				return defaultValue;
 			}
 			return Float.valueOf(value);
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -271,7 +270,7 @@ public class Params extends HashMap<String, String[]> {
 				return defaultValue;
 			}
 			return Integer.valueOf(value);
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -298,7 +297,7 @@ public class Params extends HashMap<String, String[]> {
 				return defaultValue;
 			}
 			return Long.valueOf(value);
-		} catch (NumberFormatException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
@@ -417,7 +416,7 @@ public class Params extends HashMap<String, String[]> {
 		sdf.setLenient(false);
 		try {
 			return sdf.parse(getRawString(key).trim());
-		} catch (ParseException e) {
+		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -434,7 +433,7 @@ public class Params extends HashMap<String, String[]> {
 		sdf.setLenient(false);
 		try {
 			return sdf.parse(getRawString(key).trim());
-		} catch (ParseException e) {
+		} catch (Throwable e) {
 			return defaultValue;
 		}
 	}
