@@ -144,13 +144,13 @@ public class DispatcherServlet extends HttpServlet {
 			}
 			long currTime = 0;
 			if (logger.isDebugEnabled()) {
-				currTime = System.currentTimeMillis();
+				currTime = System.nanoTime();
 				logger.debug("★★★ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 시작되었습니다");
 				logger.debug("ContentLength : " + request.getContentLength() + "bytes");
 			}
 			controller.execute(this, request, response, action);
 			if (logger.isDebugEnabled()) {
-				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.currentTimeMillis() - currTime) + "ms\n");
+				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.nanoTime() - currTime) + "ns\n");
 			}
 		} catch (Throwable e) {
 			logger.error("", e);

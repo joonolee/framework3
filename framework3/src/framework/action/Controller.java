@@ -122,7 +122,7 @@ public abstract class Controller {
 			flashRestore();
 			beforeFilter();
 			if (logger.isDebugEnabled()) {
-				currTime = System.currentTimeMillis();
+				currTime = System.nanoTime();
 				logger.debug("Start Class : " + getClass().getName() + ", Method : " + method.getName());
 				logger.debug(this.headers.toString());
 				logger.debug(this.cookies.toString());
@@ -138,7 +138,7 @@ public abstract class Controller {
 				}
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("End | duration : " + (System.currentTimeMillis() - currTime) + " msec");
+				logger.debug("End | duration : " + (System.nanoTime() - currTime) + " ns");
 			}
 			afterFilter();
 		} catch (ActionStopException e) {
