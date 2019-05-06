@@ -150,7 +150,7 @@ public class DispatcherServlet extends HttpServlet {
 			}
 			controller.execute(this, request, response, action);
 			if (logger.isDebugEnabled()) {
-				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.nanoTime() - currTime) + "ns\n");
+				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 종료되었습니다 | duration : " + (System.nanoTime() - currTime) + " ns\n");
 			}
 		} catch (Throwable e) {
 			logger.error("", e);
