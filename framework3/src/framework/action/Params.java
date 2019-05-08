@@ -373,7 +373,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDate(String key) {
-		return getDateFormat(key, "yyyy-MM-dd");
+		return getDateFormat(key, "yyyy-MM-dd", null);
 	}
 
 	/**
@@ -392,7 +392,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDateTime(String key) {
-		return getDateFormat(key, "yyyy-MM-dd HH:mm:ss");
+		return getDateFormat(key, "yyyy-MM-dd HH:mm:ss", null);
 	}
 
 	/**
@@ -412,13 +412,7 @@ public class Params extends HashMap<String, String[]> {
 	 * @return key에 매핑되어 있는 값
 	 */
 	public Date getDateFormat(String key, String format) {
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
-		sdf.setLenient(false);
-		try {
-			return sdf.parse(getRawString(key).trim());
-		} catch (Throwable e) {
-			throw new RuntimeException(e);
-		}
+		return getDateFormat(key, format, null);
 	}
 
 	/**
