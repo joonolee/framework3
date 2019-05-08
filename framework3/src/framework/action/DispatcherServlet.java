@@ -146,7 +146,7 @@ public class DispatcherServlet extends HttpServlet {
 			if (logger.isDebugEnabled()) {
 				currTime = System.nanoTime();
 				logger.debug("★★★ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 시작되었습니다");
-				logger.debug("ContentLength : " + request.getContentLength() + "bytes");
+				logger.debug("ContentLength : " + request.getContentLength() + " bytes");
 			}
 			controller.execute(this, request, response, action);
 			if (logger.isDebugEnabled()) {
