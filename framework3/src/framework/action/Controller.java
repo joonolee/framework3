@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 
 import framework.config.Config;
 import framework.db.DB;
+import framework.util.StringUtil;
 
 /**
  * 비지니스 로직을 처리하는 클래스가 상속받아야 할 추상 클래스
@@ -173,7 +174,7 @@ public abstract class Controller {
 			ResourceBundle viewsBundle = (ResourceBundle) application.getAttribute("views-mapping");
 			String url = ((String) viewsBundle.getObject(key)).trim();
 			if (logger.isDebugEnabled()) {
-				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 forward 되었습니다");
+				logger.debug("☆☆☆ " + getIpAddr(request) + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + url + "\" 로 forward 되었습니다");
 			}
 			application.getRequestDispatcher(response.encodeURL(url)).forward(request, response);
 		} catch (Throwable e) {
@@ -197,7 +198,7 @@ public abstract class Controller {
 				encodedUrl = response.encodeRedirectURL(url);
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("☆☆☆ " + request.getRemoteAddr() + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + encodedUrl + "\" 로 redirect 되었습니다");
+				logger.debug("☆☆☆ " + getIpAddr(request) + " 로 부터 \"" + request.getMethod() + " " + request.getRequestURI() + "\" 요청이 \"" + encodedUrl + "\" 로 redirect 되었습니다");
 			}
 			response.sendRedirect(encodedUrl);
 		} catch (Throwable e) {
@@ -572,5 +573,12 @@ public abstract class Controller {
 		} catch (Throwable e) {
 			logger.error("", e);
 		}
+	}
+
+	/*
+	 * 클라이언트 아이피 주소 획득
+	 */
+	private String getIpAddr(HttpServletRequest request) {
+		return StringUtil.null2Str(request.getHeader("X-Forwarded-For"), request.getRemoteAddr());
 	}
 }
