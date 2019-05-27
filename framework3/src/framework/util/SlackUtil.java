@@ -263,10 +263,6 @@ public class SlackUtil {
 	 * @param attachments Attachment 리스트
 	 */
 	public static void sendMessage(String webhookUrl, String text, String username, List<Attachment> attachments) {
-		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
-		for (Attachment attachment : attachments) {
-			mapList.add(attachment.toMap());
-		}
 		Map<String, Object> payloadMap = new HashMap<String, Object>();
 		payloadMap.put("mrkdwn", Boolean.TRUE);
 		if (StringUtil.isNotEmpty(text)) {
@@ -276,6 +272,10 @@ public class SlackUtil {
 			payloadMap.put("username", escapeHtmlSpecialChars(username));
 		}
 		if (attachments != null) {
+			List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+			for (Attachment attachment : attachments) {
+				mapList.add(attachment.toMap());
+			}
 			payloadMap.put("attachments", mapList);
 		}
 		sendMessage(webhookUrl, JsonUtil.stringify(payloadMap));
