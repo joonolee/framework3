@@ -212,55 +212,72 @@ public class SlackUtil {
 	 * 슬랙(slack.com)으로 메시지를 포스팅 한다.(Basic Format)
 	 * @param webhookUrl incoming webhook url
 	 * @param text 메시지
-	 * @param channel 채널
 	 * @param username 사용자명
-	 * @param icon_emoji 이모지(emoji) 아이콘
 	 */
-	public static void sendMessage(String webhookUrl, String text, String channel, String username, String icon_emoji) {
+	public static void sendMessage(String webhookUrl, String text, String username) {
 		Map<String, Object> payloadMap = new HashMap<String, Object>();
+		payloadMap.put("mrkdwn", Boolean.TRUE);
 		if (StringUtil.isNotEmpty(text)) {
 			payloadMap.put("text", escapeHtmlSpecialChars(text));
 		}
 		if (StringUtil.isNotEmpty(username)) {
 			payloadMap.put("username", escapeHtmlSpecialChars(username));
 		}
-		if (StringUtil.isNotEmpty(channel)) {
-			payloadMap.put("channel", channel);
-		}
-		if (StringUtil.isNotEmpty(icon_emoji)) {
-			payloadMap.put("icon_emoji", icon_emoji);
-		}
-		payloadMap.put("mrkdwn", Boolean.TRUE);
 		sendMessage(webhookUrl, JsonUtil.stringify(payloadMap));
 	}
 
 	/**
-	 * 슬랙(slack.com)으로 메시지를 포스팅 한다.(Attachment Format)
+	 * 슬랙(slack.com)으로 메시지를 포스팅 한다.- 간략한 형식(Attachment Format)
 	 * @param webhookUrl incoming webhook url
-	 * @param text 메시지
-	 * @param channel 채널
 	 * @param attachment Attachment 객체
 	 */
-	public static void sendMessage(String webhookUrl, String text, String channel, Attachment attachment) {
-		sendMessage(webhookUrl, text, channel, Arrays.asList(attachment));
+	public static void sendMessage(String webhookUrl, Attachment attachment) {
+		sendMessage(webhookUrl, null, null, attachment);
+	}
+
+	/**
+	 * 슬랙(slack.com)으로 메시지를 포스팅 한다.- 간략한 형식(Attachment Format)
+	 * @param webhookUrl incoming webhook url
+	 * @param attachments Attachment 리스트
+	 */
+	public static void sendMessage(String webhookUrl, List<Attachment> attachments) {
+		sendMessage(webhookUrl, null, null, attachments);
 	}
 
 	/**
 	 * 슬랙(slack.com)으로 메시지를 포스팅 한다.(Attachment Format)
 	 * @param webhookUrl incoming webhook url
 	 * @param text 메시지
-	 * @param channel 채널
+	 * @param username 사용자명
+	 * @param attachment Attachment 객체
+	 */
+	public static void sendMessage(String webhookUrl, String text, String username, Attachment attachment) {
+		sendMessage(webhookUrl, text, username, Arrays.asList(attachment));
+	}
+
+	/**
+	 * 슬랙(slack.com)으로 메시지를 포스팅 한다.(Attachment Format)
+	 * @param webhookUrl incoming webhook url
+	 * @param text 메시지
+	 * @param username 사용자명
 	 * @param attachments Attachment 리스트
 	 */
-	public static void sendMessage(String webhookUrl, String text, String channel, List<Attachment> attachments) {
+	public static void sendMessage(String webhookUrl, String text, String username, List<Attachment> attachments) {
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		for (Attachment attachment : attachments) {
 			mapList.add(attachment.toMap());
 		}
 		Map<String, Object> payloadMap = new HashMap<String, Object>();
-		payloadMap.put("text", text);
-		payloadMap.put("channel", channel);
-		payloadMap.put("attachments", mapList);
+		payloadMap.put("mrkdwn", Boolean.TRUE);
+		if (StringUtil.isNotEmpty(text)) {
+			payloadMap.put("text", escapeHtmlSpecialChars(text));
+		}
+		if (StringUtil.isNotEmpty(username)) {
+			payloadMap.put("username", escapeHtmlSpecialChars(username));
+		}
+		if (attachments != null) {
+			payloadMap.put("attachments", mapList);
+		}
 		sendMessage(webhookUrl, JsonUtil.stringify(payloadMap));
 	}
 
