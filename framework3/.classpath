@@ -21,11 +21,11 @@
 	<classpathentry kind="lib" path="lib/itextpdf-5.5.5.jar"/>
 	<classpathentry kind="lib" path="lib/java-jwt-3.8.3.jar"/>
 	<classpathentry kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
+	<classpathentry kind="lib" path="lib/javax.mail-1.4.7.jar"/>
 	<classpathentry kind="lib" path="lib/jedis-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/jstl.jar"/>
 	<classpathentry kind="lib" path="lib/libMarkanyMaSaferJava.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/miplatform-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis-3.2.8.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis-ehcache-1.0.3.jar"/>
