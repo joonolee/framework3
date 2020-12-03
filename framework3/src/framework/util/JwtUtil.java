@@ -25,7 +25,7 @@ public class JwtUtil {
 	}
 
 	/**
-	 * JWT 토근을 생성한다.
+	 * JWT 토큰을 생성한다.
 	 * @param secret secret 키
 	 * @param issuer 발급자
 	 * @param claims 정보조각 맵
