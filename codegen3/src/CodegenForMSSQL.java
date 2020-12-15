@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DaogenForOracle {
+public class CodegenForMSSQL {
 	private static final String _filePath = "xml";
 	private static String _jdbcDriver = "";
 	private static String _jdbcUrl = "";
@@ -57,7 +57,7 @@ public class DaogenForOracle {
 			for (String tbName : _tbList) {
 				ResultSet rs = null;
 				try {
-					rs = stmt.executeQuery("select * from " + tbName + " where rownum = 1");
+					rs = stmt.executeQuery("select top 1 * from " + tbName);
 					ResultSetMetaData rsmd = rs.getMetaData();
 					_writeFile(rsmd, tbName, conn);
 				} finally {
@@ -97,14 +97,14 @@ public class DaogenForOracle {
 			System.out.println("JDBC Driver 로딩...");
 			System.out.println("=== 전체 테이블 목록에서 파일 생성 START ===");
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select table_name from user_tables order by 1");
+			rs = stmt.executeQuery("select table_name from information_schema.tables");
 			while (rs.next()) {
 				Statement stmt2 = null;
 				ResultSet rs2 = null;
 				try {
 					String tbName = rs.getString(1);
 					stmt2 = conn.createStatement();
-					rs2 = stmt2.executeQuery("select * from " + tbName + " where rownum = 1");
+					rs2 = stmt2.executeQuery("select top 1 * from " + tbName);
 					ResultSetMetaData rsmd = rs2.getMetaData();
 					_writeFile(rsmd, tbName, conn);
 				} finally {
@@ -179,10 +179,10 @@ public class DaogenForOracle {
 				}
 				// 입력일, 수정일에 대한 별도 처리
 				if (columnName.equals("ENTERDATE")) {
-					buf.append(" insert=\"sysdate\" update=\"none\"");
+					buf.append(" insert=\"now()\" update=\"none\"");
 				}
 				if (columnName.equals("UPDATEDATE")) {
-					buf.append(" insert=\"none\" update=\"sysdate\"");
+					buf.append(" insert=\"none\" update=\"now()\"");
 				}
 				if (pkList.contains(columnName)) {
 					buf.append(" primarykey=\"true\"");
@@ -220,14 +220,13 @@ public class DaogenForOracle {
 		ResultSet rs = null;
 		Statement stmt = null;
 		try {
-			StringBuilder query = new StringBuilder();
-			query.append("select ");
-			query.append("    b.column_name ");
-			query.append("from user_constraints a ");
-			query.append("    inner join user_cons_columns b on a.constraint_name = b.constraint_name ");
-			query.append("where a.constraint_type = 'P' ");
-			query.append("    and b.table_name = '" + tableName + "' ");
-			query.append("order by b.position");
+			StringBuffer query = new StringBuffer();
+			query.append("select col.column_name  ");
+			query.append("from sysobjects cons ");
+			query.append("    inner join information_schema.key_column_usage col on cons.name = col.column_name ");
+			query.append("where cons.xtype = 'PK' ");
+			query.append("    and col.table_name = '" + tableName + "' ");
+			query.append("order by col.ordinal_position ");
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(query.toString());
 			while (rs.next()) {
@@ -275,9 +274,13 @@ public class DaogenForOracle {
 		case Types.NUMERIC:
 			return "number(" + len + (s == 0 ? ")" : "." + s + ")");
 		case Types.VARCHAR:
-			return "varchar2(" + len + ")";
+			return "varchar(" + len + ")";
+		case Types.NVARCHAR:
+			return "nvarchar(" + len + ")";
 		case Types.CHAR:
 			return "char(" + len + ")";
+		case Types.NCHAR:
+			return "nchar(" + len + ")";
 		case Types.TIME:
 		case Types.TIMESTAMP:
 		case Types.DATE:
