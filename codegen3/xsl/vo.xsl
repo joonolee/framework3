@@ -4,10 +4,12 @@
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="text" encoding="UTF-8" />
+<xsl:variable name="vLower" select="'abcdefghijklmnopqrstuvwxyz'"/>
+<xsl:variable name="vUpper" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
 <xsl:template match="table">
 /*
- * @(#)<xsl:value-of select="@class"/>VO.java
- * <xsl:value-of select="@class"/> Table VO INFO
+ * @(#)<xsl:value-of select='translate(@class, $vLower, $vUpper)'/>VO.java
+ * <xsl:value-of select='translate(@class, $vLower, $vUpper)'/> Table VO INFO
  */
 package com.crud;
 
@@ -26,7 +28,7 @@ import framework.db.*;
 		<xsl:value-of select="@name"/>:<xsl:value-of select="@dbType"/>:<xsl:value-of select="@desc"/>\n
 		</xsl:for-each>
 */
-public class <xsl:value-of select="@class"/>VO extends ValueObject {
+public class <xsl:value-of select='translate(@class, $vLower, $vUpper)'/>VO extends ValueObject {
 	public static final String TABLE = "<xsl:value-of select='@name'/>";
 	public static final String TABLE_DESC = "<xsl:value-of select='description'/>";
 	public static final String PRIMARYKEY_LIST[] = { <xsl:for-each select="columns/column[@primarykey]"><xsl:if test='position()!=1'>,</xsl:if>"<xsl:value-of select='@name'/>"</xsl:for-each> };
@@ -60,9 +62,9 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 	<xsl:for-each select="columns/column">
 	private <xsl:value-of select="@type"/> _<xsl:value-of select="@name"/>;</xsl:for-each>
 
-	public <xsl:value-of select="@class"/>VO(){}
+	public <xsl:value-of select='translate(@class, $vLower, $vUpper)'/>VO(){}
 	<xsl:for-each select="columns/column">
-	public <xsl:value-of select="@type"/> get<xsl:value-of select="@name"/>() { <xsl:if test='@default'>
+	public <xsl:value-of select="@type"/> get<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>() { <xsl:if test='@default'>
 		if (_<xsl:value-of select="@name"/> == null)
 			return <xsl:value-of select='@default'/>;
 		else
@@ -70,35 +72,35 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 		return _<xsl:value-of select="@name"/>;
 	}
 
-	public void set<xsl:value-of select="@name"/>(<xsl:value-of select="@type"/> new<xsl:value-of select="@name"/>) {
+	public void set<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>(<xsl:value-of select="@type"/> new<xsl:value-of select="@name"/>) {
 		_<xsl:value-of select="@name"/> = new<xsl:value-of select="@name"/>;
 	}
 	</xsl:for-each>
 
 	public Object getByName(String key) {
-		Integer idx = (Integer)columnMap.get(key.toUpperCase());
+		Integer idx = (Integer)columnMap.get(key);
 		if (idx != null) {
 			switch(idx.intValue()) { <xsl:for-each select="columns/column">
 			case <xsl:value-of select='position()'/>:
-				return get<xsl:value-of select='@name'/>();</xsl:for-each>
+				return get<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>();</xsl:for-each>
 			}
 		}
 		return null;
 	}
 
 	public void setByName(String key, Object value) {
-		Integer idx = (Integer)columnMap.get(key.toUpperCase());
+		Integer idx = (Integer)columnMap.get(key);
 		if (idx != null) {
 			switch(idx.intValue()) { <xsl:for-each select="columns/column">
 			case <xsl:value-of select='position()'/>:
-				set<xsl:value-of select='@name'/>((<xsl:value-of select='@type'/>)value);
+				set<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>((<xsl:value-of select='@type'/>)value);
 				return;</xsl:for-each>
 			}
 		}
 	}
 
 	public String getType(String key){
-		return (String)typeMap.get(key.toUpperCase());
+		return (String)typeMap.get(key);
 	}
 
 	public String[] getPrimaryKeysName() {
@@ -110,26 +112,26 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 	}
 
 	public Object[] getPrimaryKeysValue() {
-		return new Object[] { <xsl:for-each select="columns/column[@primarykey]"><xsl:if test='position()>1'>,</xsl:if>get<xsl:value-of select="@name"/>()</xsl:for-each> };
+		return new Object[] { <xsl:for-each select="columns/column[@primarykey]"><xsl:if test='position()>1'>,</xsl:if>get<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>()</xsl:for-each> };
 	}
 
 	public Object[] getFieldsValue() {
-		return new Object[] { <xsl:for-each select="columns/column"><xsl:if test='position()>1'>,</xsl:if>get<xsl:value-of select="@name"/>()</xsl:for-each> };
+		return new Object[] { <xsl:for-each select="columns/column"><xsl:if test='position()>1'>,</xsl:if>get<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>()</xsl:for-each> };
 	}
 
 	public String toString(){
 		StringBuilder buf = new StringBuilder();
-		<xsl:for-each select="columns/column">buf.append("<xsl:value-of select="@name"/>:"+ get<xsl:value-of select="@name"/>()+"\n");
+		<xsl:for-each select="columns/column">buf.append("<xsl:value-of select="@name"/>:"+ get<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>()+"\n");
 		</xsl:for-each>
 		return buf.toString();
 	}
 
 	public Object[] getUpdateValue() {
-		return new Object[] { <xsl:for-each select="columns/column[not(@update) and not(@primarykey)]"><xsl:if test='position()>1'>,</xsl:if>get<xsl:value-of select="@name"/>()</xsl:for-each><xsl:for-each select="columns/column[@primarykey]">, get<xsl:value-of select='@name'/>()</xsl:for-each> };
+		return new Object[] { <xsl:for-each select="columns/column[not(@update) and not(@primarykey)]"><xsl:if test='position()>1'>,</xsl:if>get<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>()</xsl:for-each><xsl:for-each select="columns/column[@primarykey]">, get<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>()</xsl:for-each> };
 	}
 
 	public Object[] getInsertValue() {
-		return new Object[] { <xsl:for-each select="columns/column[not(@insert) and not(@auto_increment)]"><xsl:if test='position()>1'>,</xsl:if>get<xsl:value-of select='@name'/>()</xsl:for-each> };
+		return new Object[] { <xsl:for-each select="columns/column[not(@insert) and not(@auto_increment)]"><xsl:if test='position()>1'>,</xsl:if>get<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>()</xsl:for-each> };
 	}
 
 	public Object[] getUpdateOnlyValue(String[] fields) {
@@ -143,7 +145,7 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 				logger.error("field is null!");
 				return null;
 			}
-			if (!noUpdateList.contains(field.toUpperCase())) {
+			if (!noUpdateList.contains(field)) {
 				list.add(getByName(field));
 			}
 		}
@@ -168,7 +170,7 @@ public class <xsl:value-of select="@class"/>VO extends ValueObject {
 				logger.error("field is null!");
 				return null;
 			}
-			if (!noUpdateList.contains(field.toUpperCase())) {
+			if (!noUpdateList.contains(field)) {
 				list.add(getByName(field));
 			}
 		}

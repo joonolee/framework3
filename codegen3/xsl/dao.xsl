@@ -4,10 +4,12 @@
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
 <xsl:output method="text"  encoding="UTF-8" />
+<xsl:variable name="vLower" select="'abcdefghijklmnopqrstuvwxyz'"/>
+<xsl:variable name="vUpper" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
 <xsl:template match="table">
 /*
- * @(#)<xsl:value-of select="@class"/>DAO.java
- * <xsl:value-of select="@class"/> Table DAO INFO
+ * @(#)<xsl:value-of select='translate(@class, $vLower, $vUpper)'/>DAO.java
+ * <xsl:value-of select='translate(@class, $vLower, $vUpper)'/> Table DAO INFO
  */
 package com.crud;
 
@@ -26,7 +28,7 @@ import framework.db.*;
 		<xsl:value-of select="@name"/>:<xsl:value-of select="@dbType"/>:<xsl:value-of select="@desc"/>\n
 		</xsl:for-each>
 */
-public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
+public class <xsl:value-of select='translate(@class, $vLower, $vUpper)'/>DAO extends AbstractOrmDao {
 	// Update Only Map
 	private static Map&lt;String, String&gt; updateOnlyMap = new HashMap&lt;String, String&gt;();
 
@@ -37,7 +39,7 @@ public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
 		updateOnlyMap.put("<xsl:value-of select='@name'/>", "<xsl:value-of select='@update'/>");</xsl:for-each>
 	}
 
-	public <xsl:value-of select="@class"/>DAO(DB db) {
+	public <xsl:value-of select='translate(@class, $vLower, $vUpper)'/>DAO(DB db) {
 		super(db);
 	}
 
@@ -74,7 +76,7 @@ public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
 	}
 
 	public RecordSet select(ValueObject obj) {
-		<xsl:value-of select="@class"/>VO vo = (<xsl:value-of select="@class"/>VO) obj;
+		<xsl:value-of select='translate(@class, $vLower, $vUpper)'/>VO vo = (<xsl:value-of select='translate(@class, $vLower, $vUpper)'/>VO) obj;
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT <xsl:for-each select='columns/column'><xsl:if test='position()!=1'>,</xsl:if> <xsl:value-of select='@name'/></xsl:for-each> ");
 		query.append("FROM <xsl:value-of select='@name'/> ");
@@ -104,10 +106,10 @@ public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
 				logger.error("getUpdateOnlySql field is null!");
 				return null;
 			}
-			if (!updateOnlyMap.containsKey(field.toUpperCase())) {
+			if (!updateOnlyMap.containsKey(field)) {
 				continue;
 			}
-			query.append(field + " = " + updateOnlyMap.get(field.toUpperCase()));
+			query.append(field + " = " + updateOnlyMap.get(field));
 			query.append(" ,");
 		}
 		query.delete(query.length()-1, query.length());
@@ -133,10 +135,10 @@ public class <xsl:value-of select="@class"/>DAO extends AbstractOrmDao {
 				logger.error("field is null!");
 				return null;
 			}
-			if (!updateOnlyMap.containsKey(field.toUpperCase())) {
+			if (!updateOnlyMap.containsKey(field)) {
 				continue;
 			}
-			query.append(field + " = " + updateOnlyMap.get(field.toUpperCase()));
+			query.append(field + " = " + updateOnlyMap.get(field));
 			query.append(" ,");
 		}
 		query.delete(query.length()-1, query.length());
