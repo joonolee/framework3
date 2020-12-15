@@ -72,8 +72,8 @@ public class <xsl:value-of select='translate(@class, $vLower, $vUpper)'/>VO exte
 		return _<xsl:value-of select="@name"/>;
 	}
 
-	public void set<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>(<xsl:value-of select="@type"/> new<xsl:value-of select="@name"/>) {
-		_<xsl:value-of select="@name"/> = new<xsl:value-of select="@name"/>;
+	public void set<xsl:value-of select='translate(@name, $vLower, $vUpper)'/>(<xsl:value-of select="@type"/> new_<xsl:value-of select="@name"/>) {
+		_<xsl:value-of select="@name"/> = new_<xsl:value-of select="@name"/>;
 	}
 	</xsl:for-each>
 
