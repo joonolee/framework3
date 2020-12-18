@@ -1,6 +1,5 @@
 package framework.util;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -81,7 +80,7 @@ public final class DateUtil {
 		sdf.setLenient(false);
 		try {
 			return sdf.parse(dateStr);
-		} catch (ParseException pe) {
+		} catch (Throwable e) {
 			return null;
 		}
 	}
