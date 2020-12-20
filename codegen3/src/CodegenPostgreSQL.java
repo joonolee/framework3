@@ -179,11 +179,11 @@ public class CodegenPostgreSQL {
 				buf.append("\" notnull=\"");
 				buf.append((rsmd.isNullable(i) == 0 ? "true" : "false") + "\"");
 				if (columnName.equals("enterid") || columnName.equals("entername") || columnName.equals("enterpgm")
-					|| columnName.equals("reg_id") || columnName.equals("reg_nm") || columnName.equals("reg_pgm")) {
+					|| columnName.equals("reg_id") || columnName.equals("reg_usr_no") || columnName.equals("reg_nm") || columnName.equals("reg_pgm")) {
 					buf.append(" update=\"none\"");
 				}
 				if (columnName.equals("updateid") || columnName.equals("updatename") || columnName.equals("updatepgm")
-					|| columnName.equals("upd_id") || columnName.equals("upd_nm") || columnName.equals("upd_pgm")) {
+					|| columnName.equals("upd_id") || columnName.equals("upd_usr_no") || columnName.equals("upd_nm") || columnName.equals("upd_pgm")) {
 					buf.append(" insert=\"none\"");
 				}
 				// 입력일, 수정일에 대한 별도 처리
