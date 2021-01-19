@@ -146,8 +146,9 @@ public class FirebaseUtil {
 	 * @param token fcm 토큰
 	 * @param noti 노티할 데이터
 	 * @param name 앱이름
+	 * @return 성공여부
 	 */
-	public static void sendMessage(String token, Noti noti, String name) {
+	public static boolean sendMessage(String token, Noti noti, String name) {
 		Notification notification = Notification.builder()
 			.setTitle(noti.getTitle())
 			.setBody(noti.getBody())
@@ -160,10 +161,11 @@ public class FirebaseUtil {
 		try {
 			String response = FirebaseMessaging.getInstance(FirebaseApp.getInstance(name)).send(message);
 			logger.debug(response);
+			return true;
 		} catch (FirebaseMessagingException e) {
 			logger.error("", e);
-			throw new RuntimeException(e);
 		}
+		return false;
 	}
 
 	/**
@@ -171,8 +173,9 @@ public class FirebaseUtil {
 	 * @param token fcm 토큰
 	 * @param data 전송할 데이터 맵
 	 * @param name 앱이름
+	 * @return 성공여부
 	 */
-	public static void sendMessage(String token, Map<String, String> data, String name) {
+	public static boolean sendMessage(String token, Map<String, String> data, String name) {
 		Message message = Message.builder()
 			.putAllData(data)
 			.setToken(token)
@@ -180,10 +183,11 @@ public class FirebaseUtil {
 		try {
 			String response = FirebaseMessaging.getInstance(FirebaseApp.getInstance(name)).send(message);
 			logger.debug(response);
+			return true;
 		} catch (FirebaseMessagingException e) {
 			logger.error("", e);
-			throw new RuntimeException(e);
 		}
+		return false;
 	}
 
 	/**
@@ -192,8 +196,9 @@ public class FirebaseUtil {
 	 * @param noti 노티할 데이터
 	 * @param data 전송할 데이터 맵
 	 * @param name 앱이름
+	 * @return 성공여부
 	 */
-	public static void sendMessage(String token, Noti noti, Map<String, String> data, String name) {
+	public static boolean sendMessage(String token, Noti noti, Map<String, String> data, String name) {
 		Notification notification = Notification.builder()
 			.setTitle(noti.getTitle())
 			.setBody(noti.getBody())
@@ -207,10 +212,11 @@ public class FirebaseUtil {
 		try {
 			String response = FirebaseMessaging.getInstance(FirebaseApp.getInstance(name)).send(message);
 			logger.debug(response);
+			return true;
 		} catch (FirebaseMessagingException e) {
 			logger.error("", e);
-			throw new RuntimeException(e);
 		}
+		return false;
 	}
 
 	/**
@@ -218,8 +224,9 @@ public class FirebaseUtil {
 	 * @param tokenList fcm 토큰리스트
 	 * @param noti 노티할 데이터
 	 * @param name 앱이름
+	 * @return 성공여부
 	 */
-	public static void sendMessage(List<String> tokenList, Noti noti, String name) {
+	public static boolean sendMessage(List<String> tokenList, Noti noti, String name) {
 		Notification notification = Notification.builder()
 			.setTitle(noti.getTitle())
 			.setBody(noti.getBody())
@@ -232,10 +239,11 @@ public class FirebaseUtil {
 		try {
 			BatchResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance(name)).sendMulticast(message);
 			logger.debug(response.toString());
+			return true;
 		} catch (FirebaseMessagingException e) {
 			logger.error("", e);
-			throw new RuntimeException(e);
 		}
+		return false;
 	}
 
 	/**
@@ -243,8 +251,9 @@ public class FirebaseUtil {
 	 * @param tokenList fcm 토큰리스트
 	 * @param data 전송할 데이터 맵
 	 * @param name 앱이름
+	 * @return 성공여부
 	 */
-	public static void sendMessage(List<String> tokenList, Map<String, String> data, String name) {
+	public static boolean sendMessage(List<String> tokenList, Map<String, String> data, String name) {
 		MulticastMessage message = MulticastMessage.builder()
 			.putAllData(data)
 			.addAllTokens(tokenList)
@@ -252,10 +261,11 @@ public class FirebaseUtil {
 		try {
 			BatchResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance(name)).sendMulticast(message);
 			logger.debug(response.toString());
+			return true;
 		} catch (FirebaseMessagingException e) {
 			logger.error("", e);
-			throw new RuntimeException(e);
 		}
+		return false;
 	}
 
 	/**
@@ -264,8 +274,9 @@ public class FirebaseUtil {
 	 * @param noti 노티할 데이터
 	 * @param data 전송할 데이터 맵
 	 * @param name 앱이름
+	 * @return 성공여부
 	 */
-	public static void sendMessage(List<String> tokenList, Noti noti, Map<String, String> data, String name) {
+	public static boolean sendMessage(List<String> tokenList, Noti noti, Map<String, String> data, String name) {
 		Notification notification = Notification.builder()
 			.setTitle(noti.getTitle())
 			.setBody(noti.getBody())
@@ -279,9 +290,10 @@ public class FirebaseUtil {
 		try {
 			BatchResponse response = FirebaseMessaging.getInstance(FirebaseApp.getInstance(name)).sendMulticast(message);
 			logger.debug(response.toString());
+			return true;
 		} catch (FirebaseMessagingException e) {
 			logger.error("", e);
-			throw new RuntimeException(e);
 		}
+		return false;
 	}
 }
