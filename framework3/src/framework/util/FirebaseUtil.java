@@ -137,7 +137,7 @@ public class FirebaseUtil {
 		try {
 			FirebaseAuth.getInstance(FirebaseApp.getInstance(name)).deleteUser(uid);
 		} catch (FirebaseAuthException e) {
-			throw new RuntimeException(e);
+			logger.error("", e);
 		}
 	}
 
