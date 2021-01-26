@@ -63,11 +63,7 @@ public final class PreparedStatement extends AbstractStatement {
 				for (int i = 1; i <= getParamSize(); i++) {
 					Object param = getObject(i - 1);
 					if (param == null) {
-						if (param instanceof Number) {
-							pstmt.setNull(i, java.sql.Types.NUMERIC);
-						} else {
-							pstmt.setNull(i, java.sql.Types.VARCHAR);
-						}
+						pstmt.setNull(i, java.sql.Types.NULL);
 					} else if (param instanceof java.util.Date) {
 						java.util.Date d = (java.util.Date) param;
 						pstmt.setObject(i, new java.sql.Timestamp(d.getTime()));
@@ -114,11 +110,7 @@ public final class PreparedStatement extends AbstractStatement {
 				for (int i = 1; i <= getParamSize(); i++) {
 					Object param = getObject(i - 1);
 					if (param == null) {
-						if (param instanceof Number) {
-							pstmt.setNull(i, java.sql.Types.NUMERIC);
-						} else {
-							pstmt.setNull(i, java.sql.Types.VARCHAR);
-						}
+						pstmt.setNull(i, java.sql.Types.NULL);
 					} else if (param instanceof CharSequence) {
 						pstmt.setString(i, param.toString());
 					} else if (param instanceof byte[]) {
