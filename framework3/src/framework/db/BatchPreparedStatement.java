@@ -93,7 +93,7 @@ public final class BatchPreparedStatement extends AbstractStatement {
 				for (int i = 1, length = params.size(); i <= length; i++) {
 					Object param = params.get(i - 1);
 					if (param == null) {
-						pstmt.setNull(i, java.sql.Types.NULL);
+						pstmt.setNull(i, java.sql.Types.OTHER);
 					} else if (param instanceof CharSequence) {
 						pstmt.setString(i, param.toString());
 					} else if (param instanceof byte[]) {
