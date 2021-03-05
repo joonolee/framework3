@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app id="WebApp_ID" version="2.4"
-	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app version="3.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
 	<display-name></display-name>
 
@@ -64,7 +64,7 @@
 		<filter-name>CORSFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>GZIPFilter</filter-name>
 		<filter-class>framework.filter.GZIPFilter</filter-class>
@@ -73,7 +73,7 @@
 		<filter-name>GZIPFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>XSSFilter</filter-name>
 		<filter-class>framework.filter.XSSFilter</filter-class>
@@ -91,13 +91,22 @@
 		<filter-name>JuminMaskFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>MinifyFilter</filter-name>
 		<filter-class>framework.filter.MinifyFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>MinifyFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>SameSiteNoneFilter</filter-name>
+		<filter-class>framework.filter.SameSiteNoneFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SameSiteNoneFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 	-->
@@ -123,7 +132,7 @@
 		<servlet-name>DispatcherServlet</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	
+
 	<!--
 	<error-page>
 		<error-code>404</error-code>
