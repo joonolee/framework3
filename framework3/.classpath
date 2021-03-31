@@ -11,7 +11,11 @@
 	<classpathentry kind="lib" path="lib/aws-java-sdk-textract-1.11.904.jar"/>
 	<classpathentry kind="lib" path="lib/bcprov-jdk16-1.46.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.5.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-digester-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.11.jar"/>
@@ -20,17 +24,29 @@
 	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/ehcache-core-2.6.11.jar"/>
 	<classpathentry kind="lib" path="lib/firebase-admin-7.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/fonts-extension.jar"/>
 	<classpathentry kind="lib" path="lib/gauce4014.jar"/>
 	<classpathentry kind="lib" path="lib/htmlcompressor-1.5.3.jar"/>
 	<classpathentry kind="lib" path="lib/httpclient-4.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.5.13.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.4.13.jar"/>
 	<classpathentry kind="lib" path="lib/httpmime-4.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/ion-java-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext-4.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/itextpdf-5.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-annotations-2.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-2.6.7.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-databind-2.6.7.4.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-dataformat-cbor-2.6.7.jar"/>
+	<classpathentry kind="lib" path="lib/jasperreports-6.16.0.jar"/>
 	<classpathentry kind="lib" path="lib/java-jwt-3.8.3.jar"/>
 	<classpathentry kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
 	<classpathentry kind="lib" path="lib/javax.mail-1.4.7.jar"/>
 	<classpathentry kind="lib" path="lib/jedis-2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jmespath-java-1.11.942.jar"/>
 	<classpathentry kind="lib" path="lib/jmustache-1.15.jar"/>
+	<classpathentry kind="lib" path="lib/joda-time-2.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/jstl.jar"/>
 	<classpathentry kind="lib" path="lib/libMarkanyMaSaferJava.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
@@ -44,6 +60,7 @@
 	<classpathentry kind="lib" path="lib/poi-ooxml-3.10-FINAL-20140208.jar"/>
 	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-3.10-FINAL-20140208.jar"/>
 	<classpathentry kind="lib" path="lib/poi-scratchpad-3.10-FINAL-20140208.jar"/>
+	<classpathentry kind="lib" path="lib/postgresql-42.2.18.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="lib/signpost-commonshttp4-1.2.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/signpost-core-1.2.1.2.jar"/>
