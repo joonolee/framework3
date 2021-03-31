@@ -16,7 +16,7 @@ import com.samskivert.mustache.Mustache;
  */
 public class MustacheUtil {
 	private static final Log logger = LogFactory.getLog(MustacheUtil.class);
-	
+
 	/**
 	 * 생성자, 외부에서 객체를 인스턴스화 할 수 없도록 설정
 	 */

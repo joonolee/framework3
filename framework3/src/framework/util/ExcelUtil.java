@@ -1379,7 +1379,7 @@ public final class ExcelUtil {
 			return 0;
 		}
 		int rowCount = 0;
-		Sheet sheet = workbook.createSheet();
+		Sheet sheet = workbook.createSheet("Sheet1");
 		String[] colNms = rs.getColumns();
 		if (header != null) {
 			appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
@@ -1409,7 +1409,7 @@ public final class ExcelUtil {
 			return 0;
 		}
 		int rowCount = 0;
-		Sheet sheet = workbook.createSheet();
+		Sheet sheet = workbook.createSheet("Sheet1");
 		try {
 			ResultSetMetaData rsmd = rs.getMetaData();
 			int cnt = rsmd.getColumnCount();
@@ -1466,7 +1466,7 @@ public final class ExcelUtil {
 			return 0;
 		}
 		int rowCount = 0;
-		Sheet sheet = workbook.createSheet();
+		Sheet sheet = workbook.createSheet("Sheet1");
 		if (header != null) {
 			appendHeader(sheet.createRow(rowCount), header, headerStyle(workbook));
 			rowCount++;
