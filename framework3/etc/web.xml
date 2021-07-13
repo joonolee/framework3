@@ -109,15 +109,6 @@
 		<filter-name>MinifyFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-
-	<filter>
-		<filter-name>SameSiteNoneFilter</filter-name>
-		<filter-class>framework.filter.SameSiteNoneFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>SameSiteNoneFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
-	</filter-mapping>
 	-->
 
 	<servlet>
@@ -142,6 +133,12 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
 	<!--
 	<error-page>
 		<error-code>404</error-code>
@@ -152,11 +149,5 @@
 		<location>/errorpage/500.jsp</location>
 	</error-page>
 	-->
-
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
 
 </web-app>
