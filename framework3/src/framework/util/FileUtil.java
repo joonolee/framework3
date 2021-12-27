@@ -198,16 +198,7 @@ public final class FileUtil {
 	 * @param file 파일
 	 */
 	public static void displayImage(HttpServletResponse response, File file) {
-		if (file != null && file.isFile() && file.length() != 0) {
-			long fileLen = file.length();
-			response.reset();
-			response.setContentLength((int) fileLen);
-			response.setContentType("image/pjpeg");
-			response.setHeader("Content-Disposition", "inline; filename=\"\"");
-			response.setHeader("Pragma", "no-cache;");
-			response.setHeader("Expires", "-1;");
-			download(response, file);
-		}
+		displayWithContentType(response, file, "image/pjpeg");
 	}
 
 	/**
@@ -216,11 +207,30 @@ public final class FileUtil {
 	 * @param file 파일
 	 */
 	public static void displayVideo(HttpServletResponse response, File file) {
+		displayWithContentType(response, file, "video/x-ms-wmv");
+	}
+
+	/**
+	 * Pdf 데이터를 stream 으로 전달하는 메소드
+	 * @param response 응답 객체
+	 * @param file 파일
+	 */
+	public static void displayPdf(HttpServletResponse response, File file) {
+		displayWithContentType(response, file, "application/pdf");
+	}
+
+	/**
+	 * contentType 데이터를 stream 으로 전달하는 메소드
+	 * @param response 응답 객체
+	 * @param file 파일
+	 * @param contentType 컨텐트타입
+	 */
+	public static void displayWithContentType(HttpServletResponse response, File file, String contentType) {
 		if (file != null && file.isFile() && file.length() != 0) {
 			long fileLen = file.length();
 			response.reset();
 			response.setContentLength((int) fileLen);
-			response.setContentType("video/x-ms-wmv");
+			response.setContentType(contentType);
 			response.setHeader("Content-Disposition", "inline; filename=\"\"");
 			response.setHeader("Pragma", "no-cache;");
 			response.setHeader("Expires", "-1;");
