@@ -1,9 +1,12 @@
 package framework.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -407,6 +410,22 @@ public class CryptUtil {
 	}
 
 	/**
+	 * 메시지를 공개키를 이용하여 RSA-OAEP 알고리즘으로 암호화한다.
+	 * @param message 원본메시지
+	 * @param publicKeyPemReader 공개키 pem Reader
+	 * @return 암호화된 문자열
+	 */
+	public static String encryptRSA(String message, Reader publicKeyPemReader) {
+		try {
+			Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING");
+			cipher.init(Cipher.ENCRYPT_MODE, readKeyFromPemReader(publicKeyPemReader));
+			return new String(Hex.encodeHex(cipher.doFinal(message.getBytes())));
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
 	 * 메시지를 개인키를 이용하여 RSA-OAEP 알고리즘으로 복호화한다.
 	 * @param message 원본메시지
 	 * @param privateKeyBase64 Base64 인코딩된 개인키 문자열
@@ -458,7 +477,24 @@ public class CryptUtil {
 	}
 
 	/**
-	 * RSA 공개키, 개인키를 생성하여 Base64로 인코딩하여 반환한다. 공개키와 개인키는 | 문자로 구분된다. 
+	 * 메시지를 개인키를 이용하여 RSA-OAEP 알고리즘으로 복호화한다.
+	 * @param message 원본메시지
+	 * @param privateKeyPemReader 개인키 pem Reader
+	 * @return 복호화된 문자열
+	 */
+	public static String decryptRSA(String message, Reader privateKeyPemReader) {
+		try {
+			OAEPParameterSpec oaepParams = new OAEPParameterSpec("SHA-256", "MGF1", new MGF1ParameterSpec("SHA-1"), PSpecified.DEFAULT);
+			Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPPadding");
+			cipher.init(Cipher.DECRYPT_MODE, readKeyFromPemReader(privateKeyPemReader), oaepParams);
+			return new String(cipher.doFinal(Hex.decodeHex(message.toCharArray())));
+		} catch (Throwable e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * RSA 공개키, 개인키를 생성하여 Base64로 인코딩하여 반환한다. 공개키와 개인키는 | 문자로 구분된다.
 	 * @return 공개키(base64인코딩)|개인키(base64인코딩) 형식의 문자열
 	 */
 	public static String genRSAKeyPairBase64String() {
@@ -467,7 +503,7 @@ public class CryptUtil {
 	}
 
 	/**
-	 * RSA 공개키, 개인키를 생성하여 pem 파일로 저장한 후 Base64로 인코딩하여 반환한다. 공개키와 개인키는 | 문자로 구분된다. 
+	 * RSA 공개키, 개인키를 생성하여 pem 파일로 저장한 후 Base64로 인코딩하여 반환한다. 공개키와 개인키는 | 문자로 구분된다.
 	 * @param publicKeyFile 공개키 pem 파일
 	 * @param privateKeyFile 개인키 pem 파일
 	 * @return 공개키(base64인코딩)|개인키(base64인코딩) 형식의 문자열
@@ -480,7 +516,20 @@ public class CryptUtil {
 	}
 
 	/**
-	 * RSA 공개키, 개인키를 Base64로 인코딩하여 반환한다. 공개키와 개인키는 | 문자로 구분된다. 
+	 * RSA 공개키, 개인키를 생성하여 pem Writer로 저장한 후 Base64로 인코딩하여 반환한다. 공개키와 개인키는 | 문자로 구분된다.
+	 * @param publicKeyWriter 공개키 pem Writer
+	 * @param privateKeyWriter 개인키 pem Writer
+	 * @return 공개키(base64인코딩)|개인키(base64인코딩) 형식의 문자열
+	 */
+	public static String genRSAKeyPairBase64String(Writer publicKeyWriter, Writer privateKeyWriter) {
+		KeyPair keyPair = genRSAKeyPair();
+		writeKeyToPemWriter(keyPair.getPublic(), "PUBLIC KEY", publicKeyWriter);
+		writeKeyToPemWriter(keyPair.getPrivate(), "PRIVATE KEY", privateKeyWriter);
+		return genRSAKeyPairBase64String(keyPair);
+	}
+
+	/**
+	 * RSA 공개키, 개인키를 Base64로 인코딩하여 반환한다. 공개키와 개인키는 | 문자로 구분된다.
 	 * @param keyPair RSA 키쌍
 	 * @return 공개키(base64인코딩)|개인키(base64인코딩) 형식의 문자열
 	 */
@@ -604,10 +653,21 @@ public class CryptUtil {
 	 * 키를 pem 파일로 쓰기
 	 */
 	private static void writeKeyToPemFile(Key key, String description, File pemFile) {
+		try {
+			writeKeyToPemWriter(key, description, new FileWriter(pemFile));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/*
+	 * 키를 pem Writer로 쓰기
+	 */
+	private static void writeKeyToPemWriter(Key key, String description, Writer writer) {
 		PemWriter pemWriter = null;
 		try {
 			PemObject pemObject = new PemObject(description, key.getEncoded());
-			pemWriter = new PemWriter(new FileWriter(pemFile));
+			pemWriter = new PemWriter(writer);
 			pemWriter.writeObject(pemObject);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -625,9 +685,20 @@ public class CryptUtil {
 	 * pem 파일에서 키 읽기
 	 */
 	private static Key readKeyFromPemFile(File pemFile) {
+		try {
+			return readKeyFromPemReader(new FileReader(pemFile));
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/*
+	 * pem Reader에서 키 읽기
+	 */
+	private static Key readKeyFromPemReader(Reader reader) {
 		PemReader pemReader = null;
 		try {
-			pemReader = new PemReader(new FileReader(pemFile));
+			pemReader = new PemReader(reader);
 			PemObject pemObject = pemReader.readPemObject();
 			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 			if ("PUBLIC KEY".equals(pemObject.getType())) {
