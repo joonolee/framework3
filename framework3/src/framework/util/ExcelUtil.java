@@ -295,7 +295,7 @@ public final class ExcelUtil {
 		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			Workbook workbook = new XSSFWorkbook();
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
 			} else {
@@ -350,7 +350,7 @@ public final class ExcelUtil {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(file);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			Workbook workbook = new XSSFWorkbook();
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(fos, rs, header, workbook);
 			} else {
@@ -612,7 +612,7 @@ public final class ExcelUtil {
 		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			Workbook workbook = new XSSFWorkbook();
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
 			} else {
@@ -667,7 +667,7 @@ public final class ExcelUtil {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(file);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			Workbook workbook = new XSSFWorkbook();
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(fos, rs, header, workbook);
 			} else {
@@ -929,7 +929,7 @@ public final class ExcelUtil {
 		int rowCount = 0;
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			Workbook workbook = new XSSFWorkbook();
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(response.getOutputStream(), mapList, header, workbook);
 			} else {
@@ -984,7 +984,7 @@ public final class ExcelUtil {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(file);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
+			Workbook workbook = new XSSFWorkbook();
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(fos, mapList, header, workbook);
 			} else {
