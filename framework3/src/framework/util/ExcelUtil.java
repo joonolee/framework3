@@ -413,9 +413,9 @@ public final class ExcelUtil {
 			return 0;
 		}
 		int rowCount = 0;
+		SXSSFWorkbook workbook = new SXSSFWorkbook();
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
@@ -430,6 +430,8 @@ public final class ExcelUtil {
 			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
+		} finally {
+			workbook.dispose();
 		}
 		return rowCount;
 	}
@@ -469,9 +471,9 @@ public final class ExcelUtil {
 		}
 		int rowCount = 0;
 		FileOutputStream fos = null;
+		SXSSFWorkbook workbook = new SXSSFWorkbook();
 		try {
 			fos = new FileOutputStream(file);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(fos, rs, header, workbook);
@@ -494,6 +496,7 @@ public final class ExcelUtil {
 					logger.error("", e);
 				}
 			}
+			workbook.dispose();
 		}
 		return rowCount;
 	}
@@ -730,9 +733,9 @@ public final class ExcelUtil {
 			return 0;
 		}
 		int rowCount = 0;
+		SXSSFWorkbook workbook = new SXSSFWorkbook();
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(response.getOutputStream(), rs, header, workbook);
@@ -747,6 +750,8 @@ public final class ExcelUtil {
 			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
+		} finally {
+			workbook.dispose();
 		}
 		return rowCount;
 	}
@@ -786,9 +791,9 @@ public final class ExcelUtil {
 		}
 		int rowCount = 0;
 		FileOutputStream fos = null;
+		SXSSFWorkbook workbook = new SXSSFWorkbook();
 		try {
 			fos = new FileOutputStream(file);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(fos, rs, header, workbook);
@@ -811,6 +816,7 @@ public final class ExcelUtil {
 					logger.error("", e);
 				}
 			}
+			workbook.dispose();
 		}
 		return rowCount;
 	}
@@ -1047,9 +1053,9 @@ public final class ExcelUtil {
 			return 0;
 		}
 		int rowCount = 0;
+		SXSSFWorkbook workbook = new SXSSFWorkbook();
 		try {
 			setResponseHeaders(response, fileName);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(response.getOutputStream(), mapList, header, workbook);
@@ -1064,6 +1070,8 @@ public final class ExcelUtil {
 			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
+		} finally {
+			workbook.dispose();
 		}
 		return rowCount;
 	}
@@ -1103,9 +1111,9 @@ public final class ExcelUtil {
 		}
 		int rowCount = 0;
 		FileOutputStream fos = null;
+		SXSSFWorkbook workbook = new SXSSFWorkbook();
 		try {
 			fos = new FileOutputStream(file);
-			SXSSFWorkbook workbook = new SXSSFWorkbook();
 			workbook.setCompressTempFiles(true);
 			if (password == null || "".equals(password)) {
 				rowCount = writeWorkbook(fos, mapList, header, workbook);
@@ -1128,6 +1136,7 @@ public final class ExcelUtil {
 					logger.error("", e);
 				}
 			}
+			workbook.dispose();
 		}
 		return rowCount;
 	}
